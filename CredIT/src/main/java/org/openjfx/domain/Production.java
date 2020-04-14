@@ -12,7 +12,12 @@ public class Production implements IProduction {
     private ArrayList<Broadcast> broadcasts;
     private String productionCompany;
     private int numberOfSeasons;
-    private int numberOfEpisodes; 
+    private int numberOfEpisodes;
+
+    @Override
+    public boolean saveProduction(Production production) {
+        return false;
+    }
 
     @Override
     public int getId() {
@@ -27,6 +32,11 @@ public class Production implements IProduction {
     @Override
     public int getYear() {
         return 0;
+    }
+
+    @Override
+    public ArrayList<Broadcast> getBroadcasts() {
+        return null;
     }
 
     @Override

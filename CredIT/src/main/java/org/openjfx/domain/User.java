@@ -1,6 +1,7 @@
 package org.openjfx.domain;
 
 import org.openjfx.interfaces.IUser;
+import org.openjfx.interfaces.Role;
 
 import java.util.Date;
 
@@ -11,10 +12,6 @@ public class User implements IUser{
     private String username;
     private Role role;
 
-    private enum Role{
-        SYSADMIN, NETWORK, PRODUCER;
-    }
-
     public User(int id, String name, String password, String username, Role role){
         this.id = id;
         this.name = name;
@@ -22,7 +19,7 @@ public class User implements IUser{
         this.username = username;
         this.role = role;
     }
-    /*
+
     @Override
     public Cast addNewCast(String name, int regDKID) {
         return null;
@@ -39,9 +36,34 @@ public class User implements IUser{
     }
 
     @Override
+    public int getId() {
+        return 0;
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public Role getRole() {
+        return null;
+    }
+
+    @Override
     public Broadcast addNewBroadcast(Production production, String name, int seasonNumber, int episodeNumber, Date airDate) {
         return null;
     }
 
- */
+
 }
