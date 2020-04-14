@@ -1,4 +1,5 @@
 package org.openjfx.interfaces;
+<<<<<<< Updated upstream
 
 public interface ICast {
     //public boolean mergeCastMembers(Cast cast);
@@ -8,4 +9,14 @@ public interface ICast {
     public int getId();
     public String getName();
     public int getRegDKID();
+=======
+
+import org.openjfx.domain.Cast;
+
+public interface ICast {
+    boolean mergeCastMember(Cast cast);
+    Cast updateCast(String name, int regDKID);
+    boolean saveCast(Cast cast);
+    boolean deleteCast(Cast cast);
+>>>>>>> Stashed changes
 }
