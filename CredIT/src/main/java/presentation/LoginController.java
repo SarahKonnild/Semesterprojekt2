@@ -1,4 +1,4 @@
-package org.openjfx.presentation;
+package presentation;
 
 import javafx.fxml.Initializable;
 
