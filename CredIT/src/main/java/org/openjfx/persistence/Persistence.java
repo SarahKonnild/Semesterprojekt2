@@ -101,9 +101,15 @@ public class Persistence implements IPersistence {
 
         return null;
     }
+    @Override
+    public List<String> getBroadcast(int keyword){return null;}
 
     @Override
     public List<String> getCast(String keyword) {
+        return null;
+    }
+    @Override
+    public List<String> getCast(int keyword) {
         return null;
     }
 

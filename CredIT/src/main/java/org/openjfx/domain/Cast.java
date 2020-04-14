@@ -31,7 +31,7 @@ public class Cast implements ICast {
     }
 
     @Override
-    public boolean saveCast(Cast cast) {
+    public boolean saveCast() {
 
         throw new UnsupportedOperationException();
     }

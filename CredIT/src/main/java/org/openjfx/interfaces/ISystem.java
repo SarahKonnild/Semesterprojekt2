@@ -9,11 +9,10 @@ import org.openjfx.persistence.Persistence;
 import java.util.ArrayList;
 
 public interface ISystem {
-    public boolean addNewProductionToDatabase(String name, String year, String productionCompany);
-    public boolean addNewCastToDatabase(String name, int regDKID);
-    public boolean addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate);
     public ArrayList<Cast> searchCast(String keyword);
+    public ArrayList<Cast> searchCast(int broadcastId);
     public ArrayList<Broadcast> searchBroadcast(String keyword);
+    public ArrayList<Broadcast> searchBroadcast(int productionId);
     public ArrayList<Production> searchProduction(String keyword);
     public User getUser();
     public Persistence getPersistenceLayer();
