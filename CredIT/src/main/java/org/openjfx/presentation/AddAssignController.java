@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 
 public class AddAssignController implements Initializable {
     @FXML
@@ -19,7 +20,7 @@ public class AddAssignController implements Initializable {
     @FXML
     private ListView searchResult;
     @FXML
-    private Spinner roleName;
+    private TextField roleName;
     @FXML
     private TextField nameField;
     @FXML
@@ -27,6 +28,21 @@ public class AddAssignController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+    }
+
+    @FXML
+    public void handleSearchButton(MouseEvent event){
+
+    }
+
+    @FXML
+    public void handleAssignButton(MouseEvent event){
+
+    }
+
+    @FXML
+    public void handleSearchResultChosen(MouseEvent event){
 
     }
 }

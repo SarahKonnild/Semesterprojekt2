@@ -9,7 +9,7 @@
    <children>
       <TextField fx:id="username" layoutX="34.0" layoutY="37.0" prefHeight="25.0" prefWidth="184.0" />
       <TextField fx:id="password" layoutX="34.0" layoutY="89.0" prefHeight="25.0" prefWidth="184.0" />
-      <Button fx:id="loginButton" layoutX="98.0" layoutY="122.0" mnemonicParsing="false" onMouseClicked="#handleLoginClicked" text="Log Ind" />
+      <Button fx:id="loginButton" layoutX="99.0" layoutY="127.0" mnemonicParsing="false" onMouseClicked="#handleLoginClicked" text="Log Ind" />
       <Label layoutX="34.0" layoutY="14.0" text="Brugernavn" />
       <Label layoutX="34.0" layoutY="68.0" text="Adgangskode" />
       <Label fx:id="errorMsg" layoutX="87.0" layoutY="165.0" text="Fejlmeddelelse" textFill="#ff1600" />
