@@ -1,10 +1,11 @@
 package org.openjfx.interfaces;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface IPersistence {
 
-    public boolean createUser(IUser user);
+    public boolean createUser(IUser user) throws IOException;
 
     public boolean deleteUser(int id);
 

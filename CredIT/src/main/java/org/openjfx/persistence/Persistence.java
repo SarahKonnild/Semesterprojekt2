@@ -2,9 +2,8 @@ package org.openjfx.persistence;
 
 import org.openjfx.interfaces.*;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,10 +15,13 @@ public class Persistence implements IPersistence {
     private File broadcastFile;
     private File userFile;
     private PrintWriter writer;
+    //private BufferedWriter bw;
+    private FileWriter fw = null;
     private Scanner reader;
 
-    static Persistence instance = null;
+    private static int userId = 0;
 
+    static Persistence instance = null;
 
 
     private Persistence(){
@@ -33,21 +35,27 @@ public class Persistence implements IPersistence {
 
 
     @Override
-    public boolean createUser(IUser user) {
+    public boolean createUser(IUser user) throws IOException {
+        boolean returnBool = false;
         try {
-            writer = new PrintWriter(userFile);
+            fw = new FileWriter(userFile, true);
+            writer = new PrintWriter(fw);
 
-            int i = 2+2;
+            writer.println(userId + "," + user.getName() + "," + user.getPassword() + "," +
+                    user.getUsername() + "," + user.getRole());
 
+            userId++;
+
+            returnBool = true;
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } finally {
             writer.close();
+            fw.close();
         }
 
-
-        return false;
+        return returnBool;
     }
 
     @Override
