@@ -6,17 +6,25 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Menu;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 public class BaseController implements Initializable {
+    @FXML
+    private Button searchButton;
+    @FXML
+    private Label errorMessage;
+    @FXML
+    private Label userInfo;
+    @FXML
+    private ListView searchList;
     @FXML
     private Menu login;
     @FXML
     private Menu help;
     @FXML
-    private ListView searchList;
+    private MenuButton searchTopic;
+    @FXML
+    private TextArea searchString;
     @FXML
     private TextField searchField;
 
