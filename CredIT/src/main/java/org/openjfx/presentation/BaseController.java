@@ -5,11 +5,17 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 public class BaseController implements Initializable {
     @FXML
@@ -25,6 +31,8 @@ public class BaseController implements Initializable {
     @FXML
     private Menu help;
     @FXML
+    private MenuBar menuBar;
+    @FXML
     private MenuButton searchTopic;
     @FXML
     private MenuItem castOption;
@@ -32,6 +40,10 @@ public class BaseController implements Initializable {
     private MenuItem productionOption;
     @FXML
     private MenuItem broadcastOption;
+    @FXML
+    private MenuItem aboutMenu;
+    @FXML
+    private MenuItem loginMenu;
     @FXML
     private TextArea searchString;
     @FXML
@@ -44,12 +56,7 @@ public class BaseController implements Initializable {
     }
 
     @FXML
-    public void handleLogInClicked(MouseEvent event){
-
-    }
-
-    @FXML
-    public void handleHelpClicked(MouseEvent event){
+    public void handleMenuBarClicked(MouseEvent event){
 
     }
 
@@ -59,23 +66,31 @@ public class BaseController implements Initializable {
     }
 
     @FXML
-    public void handleSearchButtonClicked(ActionEvent event){
+    public void handleSearchButtonClicked(MouseEvent event){
 
     }
 
-    @FXML
-    public void handleCastChosen(MouseEvent event){
-        searchTopic.setText("Medvirkende");
-    }
 
     @FXML
-    public void handleProductionChosen(MouseEvent event){
-        searchTopic.setText("Produktion");
-    }
-
-    @FXML
-    public void handleBroadcastChosen(MouseEvent event){
-        searchTopic.setText("Udsendelse");
+    public void handleSearchTopicClicked(MouseEvent event){
+        castOption.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                searchTopic.setText("Medvirkende");
+            }
+        });
+        productionOption.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                searchTopic.setText("Produktion");
+            }
+        });
+        broadcastOption.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                searchTopic.setText("Udsendelse");
+            }
+        });
     }
 
 }

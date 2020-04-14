@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class System implements ISystem {
     private User user;
-    private persistenceLayer;
+    private int persistenceLayer;
 
     public System(User user, int persistenceLayer){
         this.user = user;
@@ -29,13 +29,13 @@ public class System implements ISystem {
         return null;
     }
 
-             @Override
-             public User getUser() {
-                 return null;
-             }
+    @Override
+    public User getUser() {
+        return null;
+    }
 
-             @Override
-             public int getPersistenceLayer() {
-                 return 0;
-             }
-         }
+    @Override
+    public int getPersistenceLayer() {
+        return 0;
+    }
+}

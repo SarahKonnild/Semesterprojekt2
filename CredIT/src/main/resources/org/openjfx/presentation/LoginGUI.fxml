@@ -7,11 +7,11 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="193.0" prefWidth="251.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.presentation.LoginController">
    <children>
-      <TextField layoutX="34.0" layoutY="37.0" prefHeight="25.0" prefWidth="184.0" />
-      <TextField layoutX="34.0" layoutY="89.0" prefHeight="25.0" prefWidth="184.0" />
-      <Button layoutX="98.0" layoutY="122.0" mnemonicParsing="false" text="Log Ind" />
+      <TextField fx:id="username" layoutX="34.0" layoutY="37.0" prefHeight="25.0" prefWidth="184.0" />
+      <TextField fx:id="password" layoutX="34.0" layoutY="89.0" prefHeight="25.0" prefWidth="184.0" />
+      <Button fx:id="loginButton" layoutX="98.0" layoutY="122.0" mnemonicParsing="false" onMouseClicked="#handleLoginClicked" text="Log Ind" />
       <Label layoutX="34.0" layoutY="14.0" text="Brugernavn" />
       <Label layoutX="34.0" layoutY="68.0" text="Adgangskode" />
-      <Label layoutX="87.0" layoutY="165.0" text="Fejlmeddelelse" textFill="#ff1600" />
+      <Label fx:id="errorMsg" layoutX="87.0" layoutY="165.0" text="Fejlmeddelelse" textFill="#ff1600" />
    </children>
 </AnchorPane>

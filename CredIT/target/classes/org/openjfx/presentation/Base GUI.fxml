@@ -20,10 +20,16 @@
 
 <VBox prefHeight="283.0" prefWidth="516.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.presentation.BaseController">
   <children>
-    <MenuBar VBox.vgrow="NEVER">
+    <MenuBar fx:id="menuBar" onMouseClicked="#handleMenuBarClicked" VBox.vgrow="NEVER">
       <menus>
-        <Menu fx:id="login" mnemonicParsing="false" onAction="#handleLogInClicked" text="Log Ind" />
-        <Menu fx:id="help" mnemonicParsing="false" onAction="#handleHelpClicked" text="Hjælp" />
+        <Menu fx:id="login" mnemonicParsing="false" text="Log Ind">
+               <items>
+              <MenuItem fx:id="loginMenu" mnemonicParsing="false" text="System login" />
+               </items></Menu>
+        <Menu fx:id="help" mnemonicParsing="false" text="Hjælp">
+               <items>
+                  <MenuItem fx:id="aboutMenu" mnemonicParsing="false" text="Om CredIT" />
+               </items></Menu>
       </menus>
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="259.0" prefWidth="545.0" VBox.vgrow="ALWAYS">
@@ -31,11 +37,11 @@
             <ListView fx:id="searchList" layoutX="14.0" layoutY="14.0" onMouseClicked="#handleSearchResultClicked" prefHeight="231.0" prefWidth="200.0" />
             <Button fx:id="searchButton" layoutX="438.0" layoutY="57.0" mnemonicParsing="false" onMouseClicked="#handleSearchButtonClicked" prefHeight="27.0" prefWidth="46.0" text="Søg" />
             <TextField fx:id="searchField" layoutX="242.0" layoutY="14.0" prefHeight="25.0" prefWidth="242.0" promptText="Indtast Søgeord (fx Søren Ryge)" />
-            <MenuButton fx:id="searchTopic" layoutX="242.0" layoutY="57.0" mnemonicParsing="false" text="Søgeemne">
+            <MenuButton fx:id="searchTopic" layoutX="242.0" layoutY="57.0" mnemonicParsing="false" onMouseClicked="#handleSearchTopicClicked" text="Søgeemne">
               <items>
-                <MenuItem fx:id="castOption" mnemonicParsing="false" onAction="#handleCastChosen" text="Medvirkende" />
-                <MenuItem fx:id="productionOption" mnemonicParsing="false" onAction="#handleProductionChosen" text="Produktion" />
-                  <MenuItem fx:id="broadcastOption" mnemonicParsing="false" onAction="#handleBroadcastChosen" text="Udsendelse" />
+                <MenuItem fx:id="castOption" mnemonicParsing="false" text="Medvirkende" />
+                <MenuItem fx:id="productionOption" mnemonicParsing="false" text="Produktion" />
+                  <MenuItem fx:id="broadcastOption" mnemonicParsing="false" text="Udsendelse" />
               </items>
             </MenuButton>
             <Label fx:id="errorMessage" alignment="CENTER" layoutX="242.0" layoutY="91.0" prefHeight="17.0" prefWidth="242.0" text="Fejlmeddelelse" textFill="#fc0000" />

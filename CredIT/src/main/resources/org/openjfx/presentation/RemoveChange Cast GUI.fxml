@@ -6,7 +6,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="321.0" prefWidth="381.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.presentation.RemoveChangeController">
    <children>
       <ListView layoutX="215.0" layoutY="34.0" prefHeight="271.0" prefWidth="146.0" />
@@ -18,6 +17,6 @@
       <Label layoutX="26.0" layoutY="199.0" text="Rollenavn" />
       <TextField layoutX="26.0" layoutY="219.0" prefHeight="25.0" prefWidth="171.0" />
       <Button disable="true" layoutX="24.0" layoutY="280.0" mnemonicParsing="false" text="Fjern" />
-      <Button layoutX="107.0" layoutY="280.0" mnemonicParsing="false" text="Gem Ændringer" />
+      <Button layoutX="92.0" layoutY="280.0" mnemonicParsing="false" text="Gem Ændringer" />
    </children>
 </AnchorPane>
