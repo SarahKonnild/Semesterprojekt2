@@ -1,4 +1,4 @@
-package presentation;
+package org.openjfx.presentation;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

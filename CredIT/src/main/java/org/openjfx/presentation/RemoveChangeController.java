@@ -1,4 +1,4 @@
-package presentation;
+package org.openjfx.presentation;
 
 import java.io.IOException;
 import java.net.URL;
