@@ -5,4 +5,7 @@ public interface ICast {
     // public Cast updateCast(String name, int regDKID);
     // public boolean saveCast(Cast cast);
     // public boolean deleteCast(Cast cast);
+    public int getId();
+    public String getName();
+    public int getRegDKID();
 }
