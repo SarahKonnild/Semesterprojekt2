@@ -37,7 +37,7 @@ public class Persistence implements IPersistence {
         try {
             writer = new PrintWriter(userFile);
 
-
+            int i = 2+2;
 
 
         } catch (FileNotFoundException e) {
