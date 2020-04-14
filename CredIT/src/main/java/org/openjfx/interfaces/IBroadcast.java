@@ -10,7 +10,7 @@ import java.util.HashMap;
 public interface IBroadcast {
     public void addCastMembers(Cast cast);
     public void removeCastMember(String role, Cast cast);
-    public boolean saveBroadcast(Broadcast broadcast);
+    public boolean saveBroadcast();
     public void assignCast(Cast cast, Broadcast broadcast, String role);
     public void unassignCast(Cast cast, Broadcast broadcast, String role);
     public int getId();
@@ -18,6 +18,6 @@ public interface IBroadcast {
     public HashMap<String, ArrayList<Cast>> getCastMap();
     public int getSeasonNumber();
     public int getEpisodeNumber();
-    public Date getAirDate();
+    public String getAirDate();
 }
 

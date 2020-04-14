@@ -10,15 +10,21 @@ public class Broadcast implements IBroadcast {
     private HashMap<String, ArrayList<Cast>> castMap;
     private int seasonNumber;
     private int episodeNumber;
-    private Date airDate;
+    private String airDate;
 
-    public Broadcast(int id, String name, int seasonNumber, int episodeNumber, Date airDate) {
+    public Broadcast(String name, int seasonNumber, int episodeNumber, String airDate) {
+        this.name = name;
+        this.seasonNumber = seasonNumber;
+        this.episodeNumber = episodeNumber;
+        this.airDate = airDate;
+    }
+
+    public Broadcast(int id, String name, int seasonNumber, int episodeNumber, String airDate) {
         this.id = id;
         this.name = name;
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.airDate = airDate;
-
     }
 
     @Override
@@ -27,7 +33,7 @@ public class Broadcast implements IBroadcast {
     }
 
     @Override
-    public boolean saveBroadcast(Broadcast broadcast) {
+    public boolean saveBroadcast() {
         return false;
     }
 
@@ -84,11 +90,11 @@ public class Broadcast implements IBroadcast {
         this.episodeNumber = episodeNumber;
     }
 
-    public Date getAirDate() {
+    public String getAirDate() {
         return airDate;
     }
 
-    public void setAirDate(Date airDate) {
+    public void setAirDate(String airDate) {
         this.airDate = airDate;
     }
 }

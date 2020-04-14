@@ -6,7 +6,7 @@ import org.openjfx.domain.Production;
 import java.util.ArrayList;
 
 public interface IProduction {
-    public boolean saveProduction(Production production);
+    public boolean saveProduction();
     public int getId();
     public String getName();
     public int getYear();

@@ -6,6 +6,11 @@ public class Cast implements ICast {
     private String name;
     private int regDKID;
 
+    public Cast(String name, int regDKID) {
+        this.name = name;
+        this.regDKID = regDKID;
+    }
+
     public Cast(int id, String name, int regDKID) {
             this.id = id;
             this.name = name;

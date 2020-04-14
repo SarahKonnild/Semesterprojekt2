@@ -8,14 +8,27 @@ public class Production implements IProduction {
 
     private int id;
     private String name;
-    private int year;
+    private String year;
     private ArrayList<Broadcast> broadcasts;
     private String productionCompany;
     private int numberOfSeasons;
     private int numberOfEpisodes;
 
+    public Production(String name, String year, String productionCompany){
+        this.name = name;
+        this.year = year;
+        this.productionCompany = productionCompany;
+    }
+
+    public Production(int id, String name, String year, String productionCompany){
+        this.id = id;
+        this.name = name;
+        this.year = year;
+        this.productionCompany = productionCompany;
+    }
+
     @Override
-    public boolean saveProduction(Production production) {
+    public boolean saveProduction() {
         return false;
     }
 
