@@ -1,6 +1,6 @@
-package domain;
+package org.openjfx.domain;
 
-import interfaces.IUser;
+import org.openjfx.interfaces.IUser;
 
 import java.util.Date;
 

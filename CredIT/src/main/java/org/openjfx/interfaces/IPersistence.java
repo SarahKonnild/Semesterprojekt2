@@ -1,4 +1,4 @@
-package interfaces;
+package org.openjfx.interfaces;
 
 import java.util.List;
 

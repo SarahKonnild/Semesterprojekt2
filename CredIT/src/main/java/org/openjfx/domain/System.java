@@ -1,6 +1,6 @@
-package domain;
+package org.openjfx.domain;
 
-import interfaces.ISystem;
+import org.openjfx.interfaces.ISystem;
 
 public class System //implements ISystem
          {

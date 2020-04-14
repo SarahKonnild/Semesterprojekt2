@@ -1,6 +1,6 @@
-package Persistence;
+package org.openjfx.persistence;
 
-import interfaces.*;
+import org.openjfx.interfaces.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;

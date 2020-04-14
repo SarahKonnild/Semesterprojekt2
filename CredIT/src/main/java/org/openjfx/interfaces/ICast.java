@@ -1,4 +1,4 @@
-package interfaces;
+package org.openjfx.interfaces;
 
 public interface ICast {
     //public boolean mergeCastMembers(Cast cast);
