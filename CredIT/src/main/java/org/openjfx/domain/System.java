@@ -5,8 +5,7 @@ import org.openjfx.interfaces.Role;
 
 import java.util.ArrayList;
 
-public class System implements ISystem
-         {
+public class System implements ISystem {
     private User user;
     private persistenceLayer;
 

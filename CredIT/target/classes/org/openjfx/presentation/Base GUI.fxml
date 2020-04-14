@@ -22,34 +22,30 @@
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
-        <Menu mnemonicParsing="false" text="Log Ind" />
-        <Menu mnemonicParsing="false" text="Hjælp">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
-        </Menu>
+        <Menu fx:id="login" mnemonicParsing="false" onAction="#handleLogInClicked" text="Log Ind" />
+        <Menu fx:id="help" mnemonicParsing="false" onAction="#handleHelpClicked" text="Hjælp" />
       </menus>
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="259.0" prefWidth="545.0" VBox.vgrow="ALWAYS">
       <children>
-            <ListView layoutX="14.0" layoutY="14.0" prefHeight="231.0" prefWidth="200.0" />
-            <Button layoutX="447.0" layoutY="57.0" mnemonicParsing="false" prefHeight="13.0" prefWidth="37.0" text="Søg" />
-            <TextField layoutX="242.0" layoutY="14.0" prefHeight="25.0" prefWidth="242.0" promptText="Indtast Søgeord (fx Søren Ryge)" />
-            <MenuButton layoutX="242.0" layoutY="57.0" mnemonicParsing="false" text="Søgeemne">
+            <ListView fx:id="searchList" layoutX="14.0" layoutY="14.0" onMouseClicked="#handleSearchResultClicked" prefHeight="231.0" prefWidth="200.0" />
+            <Button fx:id="searchButton" layoutX="438.0" layoutY="57.0" mnemonicParsing="false" onMouseClicked="#handleSearchButtonClicked" prefHeight="27.0" prefWidth="46.0" text="Søg" />
+            <TextField fx:id="searchField" layoutX="242.0" layoutY="14.0" prefHeight="25.0" prefWidth="242.0" promptText="Indtast Søgeord (fx Søren Ryge)" />
+            <MenuButton fx:id="searchTopic" layoutX="242.0" layoutY="57.0" mnemonicParsing="false" text="Søgeemne">
               <items>
-                <MenuItem mnemonicParsing="false" text="Medvirkende" />
-                <MenuItem mnemonicParsing="false" text="Produktion" />
-                  <MenuItem mnemonicParsing="false" text="Udsendelse" />
+                <MenuItem fx:id="castOption" mnemonicParsing="false" onAction="#handleCastChosen" text="Medvirkende" />
+                <MenuItem fx:id="productionOption" mnemonicParsing="false" onAction="#handleProductionChosen" text="Produktion" />
+                  <MenuItem fx:id="broadcastOption" mnemonicParsing="false" onAction="#handleBroadcastChosen" text="Udsendelse" />
               </items>
             </MenuButton>
-            <Label alignment="CENTER" layoutX="242.0" layoutY="91.0" prefHeight="17.0" prefWidth="242.0" text="Fejlmeddelelse" textFill="#fc0000" />
+            <Label fx:id="errorMessage" alignment="CENTER" layoutX="242.0" layoutY="91.0" prefHeight="17.0" prefWidth="242.0" text="Fejlmeddelelse" textFill="#fc0000" />
             <Separator layoutX="231.0" layoutY="112.0" prefHeight="1.0" prefWidth="264.0" />
-            <TextArea layoutX="242.0" layoutY="123.0" prefHeight="123.0" prefWidth="242.0" />
+            <TextArea fx:id="searchString" layoutX="242.0" layoutY="123.0" prefHeight="123.0" prefWidth="242.0" />
       </children>
     </AnchorPane>
       <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0">
          <children>
-            <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Brugernavn" HBox.hgrow="ALWAYS">
+            <Label fx:id="userInfo" maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Brugernavn" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="11.0" fx:id="x3" />
                </font>
