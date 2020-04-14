@@ -1,21 +1,18 @@
 package org.openjfx.domain;
 
 import org.openjfx.interfaces.ISystem;
+import org.openjfx.interfaces.Role;
 
-public class System //implements ISystem
+import java.util.ArrayList;
+
+public class System implements ISystem
          {
     private User user;
-    private int persistenceLayer;
+    private persistenceLayer;
 
     public System(User user, int persistenceLayer){
         this.user = user;
         this.persistenceLayer = persistenceLayer;
-    }
-
-/*
-    @Override
-    public User createUser(int id, String name, String password, String username, String role) {
-        return null;
     }
 
     @Override
@@ -33,5 +30,13 @@ public class System //implements ISystem
         return null;
     }
 
- */
-}
+             @Override
+             public User getUser() {
+                 return null;
+             }
+
+             @Override
+             public int getPersistenceLayer() {
+                 return 0;
+             }
+         }
