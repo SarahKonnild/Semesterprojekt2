@@ -12,18 +12,13 @@ public class Broadcast implements IBroadcast {
     private int episodeNumber;
     private Date airDate;
 
-    public Broadcast(int id, String name, int seasonNumber, int episodeNumber, Date airDate) {
+    public Broadcast(int id, String name, HashMap<String, ArrayList<Cast>> castMap, int seasonNumber, int episodeNumber, Date airDate) {
         this.id = id;
         this.name = name;
+        this.castMap = castMap;
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.airDate = airDate;
-
-    }
-
-    @Override
-    public void removeCastMember(String role, Cast cast) {
-
     }
 
     @Override
@@ -31,22 +26,38 @@ public class Broadcast implements IBroadcast {
         return false;
     }
 
-    @Override
-    public void unassignCast(Cast cast, Broadcast broadcast, String role) {
 
+    /**
+     * Removes a Cast object from the Broadcast object's HashMap.
+     * @param cast the Cast object that is to be removed.
+     * @param role the role of the given cast member.
+     */
+    @Override
+    public void unassignCast(Cast cast, String role) {
+        if (castMap.containsKey(role) && castMap.get(role).contains(cast)){
+            castMap.get(role).remove(cast);
+        }
     }
 
+    /**
+     * Assigns a Cast object to a specified role value in the HashMap of the broadcast.
+     * @param cast the Cast object that is to be assigned.
+     * @param role the role of the given cast member.
+     */
     @Override
-    public void assignCast(Cast cast, Broadcast broadcast, String role) {
-
+    public void assignCast(Cast cast, String role) {
+        if (castMap.containsKey(role)) {
+            castMap.get(role).add(cast);
+        }
+        if (!castMap.containsKey(role)) {
+            castMap.put(role, new ArrayList<Cast>());
+            castMap.get(role).add(cast);
+        }
     }
 
-    @Override
-    public void addCastMembers(Cast cast) {
-
+    public int getId() {
+        return id;
     }
-
-    public int getId() { return id; }
 
     public void setId(int id) {
         this.id = id;
