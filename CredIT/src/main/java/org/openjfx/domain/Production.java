@@ -26,7 +26,7 @@ public class Production implements IProduction {
         this.year = year;
         this.productionCompany = productionCompany;
         loadBroadcastArray();
-        numberOfEpisodes = broadcasts.size() + 1;
+        numberOfEpisodes = broadcasts.size();
     }
     private void loadBroadcastArray(){
         this.broadcasts = System.instance.searchBroadcast(this.id);
