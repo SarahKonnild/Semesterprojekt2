@@ -13,8 +13,9 @@ public class Cast implements ICast {
     }
 
     @Override
-    public boolean mergeCastMember(Cast cast) {
-            throw new UnsupportedOperationException();
+    public boolean mergeCastMembers(Cast cast) {
+
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -26,23 +27,31 @@ public class Cast implements ICast {
 
     @Override
     public boolean saveCast(Cast cast) {
-            throw new UnsupportedOperationException();
+
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean deleteCast(Cast cast) {
-            throw new UnsupportedOperationException();
+
+        throw new UnsupportedOperationException();
     }
-    public int getId() { return id; }
+    public int getId() {
+        return id; }
 
-    public void setId(int id) { this.id = id; }
+    public void setId(int id) {
+        this.id = id; }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name; }
 
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.name = name; }
 
-    public int getRegDKID() { return regDKID; }
+    public int getRegDKID() {
+        return regDKID; }
 
-    public void setRegDKID(int regDKID) { this.regDKID = regDKID; }
+    public void setRegDKID(int regDKID) {
+        this.regDKID = regDKID; }
 
 }
