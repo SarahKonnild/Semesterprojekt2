@@ -19,51 +19,60 @@ public class User implements IUser{
         this.username = username;
         this.role = role;
     }
-
     @Override
-    public Cast addNewCast(String name, int regDKID) {
-        return null;
+    public boolean addNewCastToDatabase(String name, int regDKID) {
+        Cast cast = new Cast(name, regDKID);
+        cast.saveCast();
+        return true;
     }
 
     @Override
-    public boolean checkRole(String role) {
-        return false;
+    public boolean addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate) {
+        Broadcast broadcast = new Broadcast(name, seasonNumber, episodeNumber, airDate);
+        broadcast.saveBroadcast();
+        return true;
+    }
+    @Override
+    public boolean addNewProductionToDatabase(String name, String year, String productionCompany) {
+        Production production = new Production(name, year, productionCompany);
+        production.saveProduction();
+        return true;
     }
 
     @Override
-    public Production addNewProduction(String name, Date year, String productionCompany) {
-        return null;
+    public boolean checkRole(String roleKey)
+    {
+        //Checks if the inputted role is equal to the role of this user. Is case senitive.
+        if(Role.valueOf(roleKey) == this.role){
+            return true;
+        } else return false;
     }
 
     @Override
     public int getId() {
-        return 0;
+        return this.id;
     }
 
     @Override
     public String getName() {
-        return null;
+        return this.name;
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return this.username;
     }
 
     @Override
     public Role getRole() {
-        return null;
+        return this.role;
     }
 
-    @Override
-    public Broadcast addNewBroadcast(Production production, String name, int seasonNumber, int episodeNumber, Date airDate) {
-        return null;
-    }
 
 
 }

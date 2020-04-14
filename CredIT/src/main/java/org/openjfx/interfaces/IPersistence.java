@@ -22,7 +22,11 @@ public interface IPersistence {
 
     public List<String> getBroadcast(String keyword);
 
+    public List<String> getBroadcast(int productionId);
+
     public List<String> getCast(String keyword);
+
+    public List<String> getCast(int broadcastId);
 
     public List<String> getProduction(String keyword);
 

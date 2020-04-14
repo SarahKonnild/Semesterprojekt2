@@ -26,6 +26,12 @@ public class Broadcast implements IBroadcast {
         this.episodeNumber = episodeNumber;
         this.airDate = airDate;
     }
+    private void loadRoles(){
+
+    }
+    private void loadCast(){
+
+    }
 
     @Override
     public void removeCastMember(String role, Cast cast) {

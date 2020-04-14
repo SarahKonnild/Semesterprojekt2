@@ -12,36 +12,30 @@ import java.util.List;
 public class System implements ISystem {
     private User user;
     private Persistence persistenceLayer;
+    static System instance = null;
 
     public System(User user){
         this.user = user;
         this.persistenceLayer = Persistence.getInstance();
+        this.instance = this;
     }
 
-    @Override
-    public boolean addNewCastToDatabase(String name, int regDKID) {
-        Cast cast = new Cast(name, regDKID);
-        return false;
-    }
+    //region search methods goes here
 
-    @Override
-    public boolean addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate) {
-        Broadcast broadcast = new Broadcast(name, seasonNumber, episodeNumber, airDate);
-        broadcast.saveBroadcast();
-        return true;
-    }
-
-             @Override
-    public boolean addNewProductionToDatabase(String name, String year, String productionCompany) {
-        Production production = new Production(name, year, productionCompany);
-        production.saveProduction();
-        return true;
-    }
-
+    //region cast database seach metods here
     @Override
     public ArrayList<Cast> searchCast(String keyword) {
+        return makeCastObjects(persistenceLayer.getCast(keyword));
+    }
+
+    @Override
+    public ArrayList<Cast> searchCast(int broadcastId) {
+        return makeCastObjects(persistenceLayer.getCast(broadcastId));
+    }
+
+    private ArrayList<Cast> makeCastObjects(List<String> cast) {
         ArrayList<Cast> casts = new ArrayList();
-        List<String> list = persistenceLayer.getCast(keyword);
+        List<String> list = cast;
         if(list.size() > 0 ) {
             for (int i = 0; i < list.size(); i++){
                 String[] items = list.get(i).split(",");
@@ -52,10 +46,20 @@ public class System implements ISystem {
         return null;
     }
 
+    //endregion
+
+    //region broadcast database search methods here
     @Override
     public ArrayList<Broadcast> searchBroadcast(String keyword) {
+        return makeBroadcastObjects(persistenceLayer.getBroadcast(keyword));
+    }
+    @Override
+    public ArrayList<Broadcast> searchBroadcast(int productionID) {
+        return makeBroadcastObjects(persistenceLayer.getBroadcast(productionID));
+    }
+    private ArrayList<Broadcast> makeBroadcastObjects(List<String> broadcast) {
         ArrayList<Broadcast> broadcasts = new ArrayList();
-        List<String> list = persistenceLayer.getBroadcast(keyword);
+        List<String> list = broadcast;
         if(list.size() > 0 ) {
             for (int i = 0; i < list.size(); i++){
                 String[] items = list.get(i).split(",");
@@ -66,6 +70,9 @@ public class System implements ISystem {
         return null;
     }
 
+    //endregion
+
+    //region production seach methods here
     @Override
     public ArrayList<Production> searchProduction(String keyword) {
         ArrayList<Production> productions = new ArrayList();
@@ -79,6 +86,11 @@ public class System implements ISystem {
         }
         return null;
     }
+
+    //endregion
+
+    //endregion
+
     @Override
     public User getUser() {
         return this.user;

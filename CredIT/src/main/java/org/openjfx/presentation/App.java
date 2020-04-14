@@ -5,8 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.openjfx.interfaces.*;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * JavaFX App
@@ -19,7 +21,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("Base GUI"));
         stage.setScene(scene);
-        stage.show();
+        stage.show(); 
     }
 
     static void setRoot(String fxml) throws IOException {

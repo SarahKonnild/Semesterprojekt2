@@ -25,6 +25,11 @@ public class Production implements IProduction {
         this.name = name;
         this.year = year;
         this.productionCompany = productionCompany;
+        loadBroadcastArray();
+        numberOfEpisodes = broadcasts.size() + 1;
+    }
+    private void loadBroadcastArray(){
+        this.broadcasts = System.instance.searchBroadcast(this.id);
     }
 
     @Override
@@ -34,36 +39,36 @@ public class Production implements IProduction {
 
     @Override
     public int getId() {
-        return 0;
+        return this.id;
     }
 
     @Override
     public String getName() {
-        return null;
+        return this.name;
     }
 
     @Override
-    public int getYear() {
-        return 0;
+    public String getYear() {
+        return this.year;
     }
 
     @Override
     public ArrayList<Broadcast> getBroadcasts() {
-        return null;
+        return this.broadcasts;
     }
 
     @Override
     public String getProductionCompany() {
-        return null;
+        return this.productionCompany;
     }
 
     @Override
     public int getNumberOfSeasons() {
-        return 0;
+        return this.numberOfSeasons;
     }
 
     @Override
     public int getNumberOfEpisodes() {
-        return 0;
+        return this.numberOfEpisodes;
     }
 }

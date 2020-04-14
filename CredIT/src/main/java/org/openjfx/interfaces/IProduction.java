@@ -9,7 +9,7 @@ public interface IProduction {
     public boolean saveProduction();
     public int getId();
     public String getName();
-    public int getYear();
+    public String getYear();
     public ArrayList<Broadcast> getBroadcasts();
     public String getProductionCompany();
     public int getNumberOfSeasons();
