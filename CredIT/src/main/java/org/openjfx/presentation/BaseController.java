@@ -81,8 +81,16 @@ public class BaseController implements Initializable {
     }
 
     @FXML
-    public void handleHelpClicked(MouseEvent event){
-
+    public void handleHelpClicked(ActionEvent event){
+        try {
+            Parent root;
+            root = FXMLLoader.load(BaseController.class.getResource("HelpGUI.fxml"));
+            loginStage.setScene(new Scene(root));
+            loginStage.setResizable(false);
+            loginStage.show();
+        } catch(IOException ex){
+            ex.printStackTrace();
+        }
     }
 
     @FXML
