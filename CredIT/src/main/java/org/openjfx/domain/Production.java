@@ -28,6 +28,11 @@ public class Production implements IProduction {
         loadBroadcastArray();
         numberOfEpisodes = broadcasts.size();
     }
+
+    /**
+     * Calls the search method in System, to get an arraylist of the broadcasts that this production have associted with it.
+     *
+     */
     private void loadBroadcastArray(){
         this.broadcasts = System.instance.searchBroadcast(this.id);
     }

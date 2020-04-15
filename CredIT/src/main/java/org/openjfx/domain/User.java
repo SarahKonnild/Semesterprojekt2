@@ -12,23 +12,24 @@ public class User implements IUser{
     private String username;
     private Role role;
 
-    public User(int id, String name, String password, String username, Role role){
+    public User(int id, String name, String password, String username){
         this.id = id;
         this.name = name;
         this.password = password;
         this.username = username;
         this.role = role;
     }
+
     @Override
     public boolean addNewCastToDatabase(String name, int regDKID) {
         Cast cast = new Cast(name, regDKID);
         cast.saveCast();
         return true;
     }
-
     @Override
     public boolean addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate) {
         Broadcast broadcast = new Broadcast(name, seasonNumber, episodeNumber, airDate);
+
         broadcast.saveBroadcast();
         return true;
     }
@@ -42,7 +43,7 @@ public class User implements IUser{
     @Override
     public boolean checkRole(String roleKey)
     {
-        //Checks if the inputted role is equal to the role of this user. Is case senitive.
+        //valueOf checks if the inputted role is equal to the role of this user. Is case senitive.
         if(Role.valueOf(roleKey) == this.role){
             return true;
         } else return false;
