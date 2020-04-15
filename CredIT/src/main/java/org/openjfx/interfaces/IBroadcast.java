@@ -8,14 +8,62 @@ import java.util.Date;
 import java.util.HashMap;
 
 public interface IBroadcast {
+
+    /**
+     * Saves the broadcast to the persistence.
+     * @param broadcast
+     * @return {@code true}: if the broadcast successfully saves to the persistence. {@code False} otherwise.
+     */
     public boolean saveBroadcast(Broadcast broadcast);
+
+    /**
+     * Assigns a {@code Cast} object to a specified role value in the HashMap of the broadcast.
+     * @param cast the {@code Cast} object that is to be assigned.
+     * @param role the role of the given cast member, as a {@code String}.
+     */
     public void assignCast(Cast cast,String role);
+
+    /**
+     * Removes a {@code Cast} object from the Broadcast object's HashMap.
+     * @param cast the {@code Cast} object that is to be removed.
+     * @param role the role of the given cast member, as a {@code String}.
+     */
     public void unassignCast(Cast cast, String role);
+
+    /**
+     * Returns the ID of the broadcast. This ID is given by the persistence layer.
+     * @return the ID of the broadcast.
+     */
     public int getId();
+
+    /**
+     * Returns the name of the broadcast.
+     * @return the name of the broadcast.
+     */
     public String getName();
+
+    /**
+     * Returns a map over the roles and their associated cast members on this broadcast.
+     * @return a map over the roles and their associated cast members on this broadcast.
+     */
     public HashMap<String, ArrayList<Cast>> getCastMap();
+
+    /**
+     * Returns the season number of this broadcast.
+     * @return the season number of this broadcast.
+     */
     public int getSeasonNumber();
+
+    /**
+     * Returns the episode number of this broadcast.
+     * @return the episode number of this broadcast.
+     */
     public int getEpisodeNumber();
+
+    /**
+     * Returns the air date of this broadcast.
+     * @return the air date of this broadcast.
+     */
     public Date getAirDate();
 }
 

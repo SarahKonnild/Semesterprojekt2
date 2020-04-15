@@ -23,27 +23,19 @@ public class Broadcast implements IBroadcast {
 
     @Override
     public boolean saveBroadcast(Broadcast broadcast) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
-
-    /**
-     * Removes a Cast object from the Broadcast object's HashMap.
-     * @param cast the Cast object that is to be removed.
-     * @param role the role of the given cast member.
-     */
     @Override
     public void unassignCast(Cast cast, String role) {
         if (castMap.containsKey(role) && castMap.get(role).contains(cast)){
             castMap.get(role).remove(cast);
+            if (castMap.get(role).isEmpty()){
+                castMap.remove(role);
+            }
         }
     }
 
-    /**
-     * Assigns a Cast object to a specified role value in the HashMap of the broadcast.
-     * @param cast the Cast object that is to be assigned.
-     * @param role the role of the given cast member.
-     */
     @Override
     public void assignCast(Cast cast, String role) {
         if (castMap.containsKey(role)) {
