@@ -1,13 +1,12 @@
 package org.openjfx.domain;
 import org.openjfx.interfaces.IBroadcast;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 public class Broadcast implements IBroadcast {
     private int id;
     private String name;
-    private HashMap<String, ArrayList<Cast>> castMap;
+    private HashMap<String, ArrayList<ICast>> castMap;
     private int seasonNumber;
     private int episodeNumber;
     private String airDate;
@@ -34,7 +33,7 @@ public class Broadcast implements IBroadcast {
     }
 
     @Override
-    public void removeCastMember(String role, Cast cast) {
+    public void removeCastMember(String role, ICast cast) {
 
     }
 
@@ -44,17 +43,17 @@ public class Broadcast implements IBroadcast {
     }
 
     @Override
-    public void unassignCast(Cast cast, Broadcast broadcast, String role) {
+    public void unassignCast(ICast cast, Broadcast broadcast, String role) {
 
     }
 
     @Override
-    public void assignCast(Cast cast, Broadcast broadcast, String role) {
+    public void assignCast(ICast cast, Broadcast broadcast, String role) {
 
     }
 
     @Override
-    public void addCastMembers(Cast cast) {
+    public void addCastMembers(ICast cast) {
 
     }
 
@@ -72,11 +71,11 @@ public class Broadcast implements IBroadcast {
         this.name = name;
     }
 
-    public HashMap<String, ArrayList<Cast>> getCastMap() {
+    public HashMap<String, ArrayList<ICast>> getCastMap() {
         return castMap;
     }
 
-    public void setCastMap(HashMap<String, ArrayList<Cast>> castMap) {
+    public void setCastMap(HashMap<String, ArrayList<ICast>> castMap) {
         this.castMap = castMap;
     }
 

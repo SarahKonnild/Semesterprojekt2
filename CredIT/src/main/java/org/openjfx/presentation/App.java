@@ -5,10 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.openjfx.domain.System;
 import org.openjfx.interfaces.*;
+import org.openjfx.domain.System;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +27,14 @@ public class App extends Application {
         scene = new Scene(loadFXML("Base GUI"));
         stage.setScene(scene);
         stage.show();
+        
+        //region This is just for show, delete at some time.
+        ISystem sys = new System();
+        ArrayList<IBroadcast> list;
+        list = sys.searchBroadcast("Something");
+        list.get(1).saveBroadcast();
+
+        //endregion
     }
 
     static void setRoot(String fxml) throws IOException {

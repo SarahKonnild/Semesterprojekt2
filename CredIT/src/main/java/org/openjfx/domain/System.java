@@ -4,13 +4,17 @@ import org.openjfx.interfaces.*;
 import org.openjfx.persistence.Persistence;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class System implements ISystem {
     private User user;
     private Persistence persistenceLayer;
     static System instance = null;
+
+    public System(){
+        this.persistenceLayer = Persistence.getInstance();
+        this.instance = this;
+    }
 
     public System(User user){
         this.user = user;
@@ -30,7 +34,7 @@ public class System implements ISystem {
 
     //region cast database seach metods here
     @Override
-    public ArrayList<Cast> searchCast(String keyword) {
+    public ArrayList<ICast> searchCast(String keyword) {
         IUser user1 = new User(10, "name","password", "username");
         user1.addNewBroadcastToDatabase("name",10,10,"yes");
 
@@ -38,7 +42,7 @@ public class System implements ISystem {
     }
 
     @Override
-    public ArrayList<Cast> searchCast(int broadcastId) {
+    public ArrayList<ICast> searchCast(int broadcastId) {
         return makeCastObjects(persistenceLayer.getCast(broadcastId));
     }
 
@@ -47,12 +51,12 @@ public class System implements ISystem {
      * @param cast
      * @return an arraylist of Cast object
      */
-    private ArrayList<Cast> makeCastObjects(List<String> cast) {
+    private ArrayList<ICast> makeCastObjects(List<String> cast) {
         if(cast.size() > 0 ) {
-            ArrayList<Cast> casts = new ArrayList();
+            ArrayList<ICast> casts = new ArrayList();
             for (int i = 0; i < cast.size(); i++){
                 String[] items = cast.get(i).split(",");
-                casts.add(new Cast((Integer.parseInt(items[0])), items[1], (Integer.parseInt(items[2]))));
+                casts.add(new ICast((Integer.parseInt(items[0])), items[1], (Integer.parseInt(items[2]))));
             }
             return casts;
         }
@@ -63,11 +67,11 @@ public class System implements ISystem {
 
     //region broadcast database search methods here
     @Override
-    public ArrayList<Broadcast> searchBroadcast(String keyword) {
+    public ArrayList<IBroadcast> searchBroadcast(String keyword) {
         return makeBroadcastObjects(persistenceLayer.getBroadcast(keyword));
     }
     @Override
-    public ArrayList<Broadcast> searchBroadcast(int productionID) {
+    public ArrayList<IBroadcast> searchBroadcast(int productionID) {
         return makeBroadcastObjects(persistenceLayer.getBroadcast(productionID));
     }
 
@@ -76,8 +80,8 @@ public class System implements ISystem {
      * @param broadcast
      * @return an arraylist of broadcast objects
      */
-    private ArrayList<Broadcast> makeBroadcastObjects(List<String> broadcast) {
-        ArrayList<Broadcast> broadcasts = new ArrayList();
+    private ArrayList<IBroadcast> makeBroadcastObjects(List<String> broadcast) {
+        ArrayList<IBroadcast> broadcasts = new ArrayList();
         List<String> list = broadcast;
         if(list.size() > 0 ) {
             for (int i = 0; i < list.size(); i++){
@@ -93,8 +97,8 @@ public class System implements ISystem {
 
     //region production seach methods here
     @Override
-    public ArrayList<Production> searchProduction(String keyword) {
-        ArrayList<Production> productions = new ArrayList();
+    public ArrayList<IProduction> searchProduction(String keyword) {
+        ArrayList<IProduction> productions = new ArrayList();
         List<String> list = persistenceLayer.getProduction(keyword);
         if(list.size() > 0 ) {
             for (int i = 0; i < list.size(); i++){

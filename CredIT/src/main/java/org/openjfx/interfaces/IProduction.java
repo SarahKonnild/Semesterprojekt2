@@ -14,7 +14,7 @@ public interface IProduction {
     public int getId();
     public String getName();
     public String getYear();
-    public ArrayList<Broadcast> getBroadcasts();
+    public ArrayList<IBroadcast> getBroadcasts();
     public String getProductionCompany();
     public int getNumberOfSeasons();
     public int getNumberOfEpisodes();

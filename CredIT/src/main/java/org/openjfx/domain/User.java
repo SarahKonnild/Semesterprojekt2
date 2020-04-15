@@ -3,8 +3,6 @@ package org.openjfx.domain;
 import org.openjfx.interfaces.IUser;
 import org.openjfx.interfaces.Role;
 
-import java.util.Date;
-
 public class User implements IUser{
     private int id;
     private String name;
@@ -22,7 +20,7 @@ public class User implements IUser{
 
     @Override
     public boolean addNewCastToDatabase(String name, int regDKID) {
-        Cast cast = new Cast(name, regDKID);
+        ICast cast = new ICast(name, regDKID);
         cast.saveCast();
         return true;
     }

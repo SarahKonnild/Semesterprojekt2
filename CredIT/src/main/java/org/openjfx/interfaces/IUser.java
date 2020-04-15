@@ -1,11 +1,5 @@
 package org.openjfx.interfaces;
 
-import org.openjfx.domain.Broadcast;
-import org.openjfx.domain.Cast;
-import org.openjfx.domain.Production;
-
-import java.util.Date;
-
 public interface IUser {
     /**
      * Gets parameters from the presentation layer to then create a new cast member in the database.

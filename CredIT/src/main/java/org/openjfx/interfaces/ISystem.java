@@ -1,7 +1,7 @@
 package org.openjfx.interfaces;
 
 import org.openjfx.domain.Broadcast;
-import org.openjfx.domain.Cast;
+import org.openjfx.domain.ICast;
 import org.openjfx.domain.Production;
 import org.openjfx.domain.User;
 import org.openjfx.persistence.Persistence;
@@ -14,7 +14,7 @@ public interface ISystem {
      * @param keyword the word that the user wants to search for in the database
      * @return <code>ArrayList</code> with cast objects
      */
-    public ArrayList<Cast> searchCast(String keyword);
+    public ArrayList<ICast> searchCast(String keyword);
 
     /**
      * The method makes a call to the persistence layer and gives it a database ID number to be used in the search in the database.
@@ -22,14 +22,14 @@ public interface ISystem {
      * @param broadcastId the database ID number of the broadcast
      * @return <code>ArrayList</code> with cast objects
      */
-    public ArrayList<Cast> searchCast(int broadcastId);
+    public ArrayList<ICast> searchCast(int broadcastId);
 
     /**
      * The method makes a call to the persistence layer and gives it a keyword to be used in the search in the database.
      * @param keyword the word that the user wants to search for in the database
      * @return <code>ArrayList</code> with broadcast objects
      */
-    public ArrayList<Broadcast> searchBroadcast(String keyword);
+    public ArrayList<IBroadcast> searchBroadcast(String keyword);
 
     /**
      * The method makes a call to the persistence layer and gives it a database ID number to be used in the search in the database.
@@ -37,14 +37,14 @@ public interface ISystem {
      * @param productionId the database ID number of the production
      * @return <code>ArrayList</code> with broadcast objects
      */
-    public ArrayList<Broadcast> searchBroadcast(int productionId);
+    public ArrayList<IBroadcast> searchBroadcast(int productionId);
 
     /**
      * The method makes a call to the persistence layer and gives it a keyword to be used in the search in the database.
      * @param keyword the word that the user wants to search for in the database
      * @return <code>ArrayList</code> with production objects
      */
-    public ArrayList<Production> searchProduction(String keyword);
+    public ArrayList<IProduction> searchProduction(String keyword);
 
     public User getUser();
 
