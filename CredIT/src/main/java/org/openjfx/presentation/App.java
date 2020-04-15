@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.openjfx.domain.System;
 import org.openjfx.interfaces.*;
 
 import java.io.IOException;
@@ -18,12 +19,13 @@ public class App extends Application {
     private static Scene scene;
     private static Stage stage;
 
+
     @Override
     public void start(Stage stage) throws IOException {
         this.stage = stage;
         scene = new Scene(loadFXML("Base GUI"));
         stage.setScene(scene);
-        stage.show(); 
+        stage.show();
     }
 
     static void setRoot(String fxml) throws IOException {
@@ -45,7 +47,10 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+
         launch();
+
+        //Create an instance of System using ISystem (how, Idk)
     }
 
     public static Scene getScene(){

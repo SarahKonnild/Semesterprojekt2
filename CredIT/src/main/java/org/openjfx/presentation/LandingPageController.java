@@ -116,6 +116,7 @@ public class LandingPageController implements Initializable {
 
     @FXML
     public void handleSearchCast(MouseEvent event){
+
         //Clear the ListView.
         //Fetch the information from the persistence layer and show it into the searchResults
         //Listview, one Cast per line.
