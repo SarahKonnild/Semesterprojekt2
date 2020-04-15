@@ -10,6 +10,13 @@ public class User implements IUser{
     private String username;
     private Role role;
 
+    /**
+     * Construtor used to create a <code>User</code> account after login
+     * @param id The ID that the user have in the database.
+     * @param name The personal name of the user
+     * @param password The password to the user account
+     * @param username The name of the user account.
+     */
     public User(int id, String name, String password, String username){
         this.id = id;
         this.name = name;

@@ -6,6 +6,9 @@ import org.openjfx.domain.ICast;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Interface that the Broadcast class should implement. Used to expose methods and data to other layers
+ */
 public interface IBroadcast {
     public void addCastMembers(ICast cast);
     public void removeCastMember(String role, ICast cast);

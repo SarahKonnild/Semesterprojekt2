@@ -27,7 +27,7 @@ public class App extends Application {
         scene = new Scene(loadFXML("Base GUI"));
         stage.setScene(scene);
         stage.show();
-        
+
         //region This is just for show, delete at some time.
         ISystem sys = new System();
         ArrayList<IBroadcast> list;
