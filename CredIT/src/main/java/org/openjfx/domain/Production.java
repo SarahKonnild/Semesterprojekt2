@@ -39,7 +39,16 @@ public class Production implements IProduction {
 
     @Override
     public boolean saveProduction() {
-        return false;
+        boolean saveStatus;
+        //Method call to the persistenceLayer to send this object and save the data in it
+        saveStatus = System.instance.getPersistenceLayer().createProduction(this);
+        if(!saveStatus){
+            //Do some stuff here to deal with the fail maybe?
+            return false;
+        } else {
+            return true;
+        }
+
     }
 
     @Override
