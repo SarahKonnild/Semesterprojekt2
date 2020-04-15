@@ -19,7 +19,11 @@ public class Persistence implements IPersistence {
     private FileWriter fw = null;
     private Scanner reader;
 
+    //ID variables. needed because java cant make a serial like a database.
     private static int userId;
+    private static int broadcastId;
+    private static int productionId;
+    private static int castId;
 
     static Persistence instance = null;
 
@@ -61,7 +65,7 @@ public class Persistence implements IPersistence {
     }
 
     /**
-     * Deletes an user from the persistence/layer(Database).
+     * Deletes a user from the persistence/layer(Database).
      * It reads every line in the file, if the current line not equals the the parsed id, we add it to temperary String, else we just skip that line.
      * Finally we write the new information to the file.
      * @param id
@@ -95,30 +99,6 @@ public class Persistence implements IPersistence {
             writer.close();
         }
         return returnBool;
-    }
-
-    /**
-     * Loops through the userFile and finds the largest userId. The userId on the class is instantiated to one higher than this.
-     */
-    private void initializeUserId(){
-        int id = 0;
-        try {
-            reader = new Scanner(userFile);
-            while(reader.hasNextLine()){
-                String currentLine = reader.nextLine();
-                String[] user = currentLine.split(",");
-                int currentId = Integer.parseInt(user[0]);
-                if(currentId > id) {
-                    id = currentId;
-                }
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            reader.close();
-        }
-
-        userId = id + 1;
     }
 
     @Override
@@ -195,6 +175,42 @@ public class Persistence implements IPersistence {
         }
 
         return instance;
+    }
+
+    /**
+     * Loops through the userFile and finds the largest userId. The userId on the class is instantiated to one higher than this.
+     */
+    private void initializeUserId(){
+        int id = 0;
+        try {
+            reader = new Scanner(userFile);
+            while(reader.hasNextLine()){
+                String currentLine = reader.nextLine();
+                String[] user = currentLine.split(",");
+                int currentId = Integer.parseInt(user[0]);
+                if(currentId > id) {
+                    id = currentId;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            reader.close();
+        }
+
+        userId = id + 1;
+    }
+
+    private void initializeCastId(){
+
+    }
+
+    private void initializeBroadcastId(){
+
+    }
+
+    private void initializeProductionId(){
+        
     }
 
     public static void main(String[] args){
