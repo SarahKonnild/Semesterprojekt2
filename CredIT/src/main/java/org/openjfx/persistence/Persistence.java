@@ -60,7 +60,29 @@ public class Persistence implements IPersistence {
 
     @Override
     public boolean deleteUser(int id) {
-        return false;
+        boolean returnBool = false;
+        String newTxt = "";
+        try {
+            reader = new Scanner(userFile);
+            writer = new PrintWriter(userFile);
+            while(reader.hasNextLine()){
+                String currentline = reader.nextLine();
+                String[] user = currentline.split(",");
+                if(Integer.parseInt(user[0]) != id){
+                    newTxt += currentline + "\n";
+
+                } else{
+                    returnBool = true;
+                }
+            }
+            writer.write(newTxt);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            reader.close();
+            writer.close();
+        }
+        return returnBool;
     }
 
     @Override
