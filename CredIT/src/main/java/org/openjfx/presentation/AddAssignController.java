@@ -6,10 +6,7 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 public class AddAssignController implements Initializable {
@@ -17,6 +14,8 @@ public class AddAssignController implements Initializable {
     private Button searchButton;
     @FXML
     private Button assignButton;
+    @FXML
+    private Label errorMsg;
     @FXML
     private ListView searchResult;
     @FXML
@@ -28,21 +27,27 @@ public class AddAssignController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        //allow only one item from the listView chosen at a time
     }
 
     @FXML
     public void handleSearchButton(MouseEvent event){
+        //Search the database for a cast member specified and show the results in the searchResult ListView
+        //Present the Cast-object's information in the textfields
+        //IF FAIL: update errorMsg.setVisible(true) and errorMsg.setText("Fejl, medvirkende blev ikke fundet")
 
     }
 
     @FXML
     public void handleAssignButton(MouseEvent event){
-
+        //Use the object referenced in the ListView and assign it to the broadcast's list of
+        //cast members
+        //IF FAIL: update errorMsg.setVisible(true) and errorMsg.setText("Fejl, medvirkende blev ikke tilknyttet")
     }
 
+    /*
     @FXML
     public void handleSearchResultChosen(MouseEvent event){
 
-    }
+    }*/
 }
