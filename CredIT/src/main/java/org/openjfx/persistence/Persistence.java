@@ -19,7 +19,7 @@ public class Persistence implements IPersistence {
     private FileWriter fw = null;
     private Scanner reader;
 
-    private static int userId = 0;
+    private static int userId;
 
     static Persistence instance = null;
 
@@ -31,6 +31,8 @@ public class Persistence implements IPersistence {
         this.userFile = new File("PersistenceFiles\\userFile.csv");
         this.writer = null;
         this.reader = null;
+
+        initializeUserId();
     }
 
 
@@ -66,10 +68,10 @@ public class Persistence implements IPersistence {
             reader = new Scanner(userFile);
             writer = new PrintWriter(userFile);
             while(reader.hasNextLine()){
-                String currentline = reader.nextLine();
-                String[] user = currentline.split(",");
+                String currentLine = reader.nextLine();
+                String[] user = currentLine.split(",");
                 if(Integer.parseInt(user[0]) != id){
-                    newTxt += currentline + "\n";
+                    newTxt += currentLine + "\n";
 
                 } else{
                     returnBool = true;
@@ -83,6 +85,30 @@ public class Persistence implements IPersistence {
             writer.close();
         }
         return returnBool;
+    }
+
+    /**
+     * Loops through the userFile and finds the largest userId. The userId on the class is instantiated to one higher than this.
+     */
+    private void initializeUserId(){
+        int id = 0;
+        try {
+            reader = new Scanner(userFile);
+            while(reader.hasNextLine()){
+                String currentLine = reader.nextLine();
+                String[] user = currentLine.split(",");
+                int currentId = Integer.parseInt(user[0]);
+                if(currentId > id) {
+                    id = currentId;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            reader.close();
+        }
+
+        userId = id + 1;
     }
 
     @Override
