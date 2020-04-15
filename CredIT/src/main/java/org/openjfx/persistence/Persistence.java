@@ -58,6 +58,16 @@ public class Persistence implements IPersistence {
         return returnBool;
     }
 
+    /**
+     * Deletes an user from the persistence/layer(Database).
+     * It reads every line in the file, if the current line not equals the the parsed id, we add it to temperary String, else we just skip that line.
+     * Finally we write the new information to the file.
+     * @param id
+     * The ID on the user you want to delete in the persistence layer.
+     * @return
+     * returns the boolean value of the delete run.
+     *
+     */
     @Override
     public boolean deleteUser(int id) {
         boolean returnBool = false;
