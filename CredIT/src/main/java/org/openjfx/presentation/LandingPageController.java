@@ -124,13 +124,15 @@ public class LandingPageController implements Initializable {
     private ObservableList<IProduction> productionObservableList;
     private ObservableList<IBroadcast> broadcastObservableList;
 
-    boolean creationState;
+    private boolean creationState;
 
+    private static IBroadcast broadcastChosen = null;
+
+    private boolean allowOpenNewWindow;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         userInfo.setText("Administrator");
-
     }
 
     //HANDLER FOR THE SEARCH LISTVIEW
@@ -313,6 +315,8 @@ public class LandingPageController implements Initializable {
             assignStage.setScene(new Scene(root));
             assignStage.setResizable(false);
             assignStage.show();
+            Object object = searchResult.getSelectionModel().getSelectedItem();
+            broadcastChosen = (IBroadcast) object;
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -333,6 +337,8 @@ public class LandingPageController implements Initializable {
             unassignStage.setScene(new Scene(root));
             unassignStage.setResizable(false);
             unassignStage.show();
+            Object object = searchResult.getSelectionModel().getSelectedItem();
+            broadcastChosen = (IBroadcast) object;
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -353,6 +359,7 @@ public class LandingPageController implements Initializable {
                 errorMsgBroadcast.setText("Fejl opstået, udsendelsen blev ikke tilføjet");
             }
         }
+        //TODO Insert check if any of the textfields are empty. If so, print errormessage.
     }
 
     //Commented out since it is not part of the initial must-have requirements
@@ -388,6 +395,10 @@ public class LandingPageController implements Initializable {
         productionName.clear();
         producerName.clear();
         productionReleaseYear.clear();
+    }
+
+    public static IBroadcast getChosenBroadcast(){
+        return broadcastChosen;
     }
 
 }

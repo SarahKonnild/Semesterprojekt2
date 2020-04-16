@@ -48,17 +48,18 @@ public class Broadcast implements IBroadcast {
     }
 
     @Override
-    public void unassignCast(ICast cast, String role) {
+    public boolean unassignCast(ICast cast, String role) {
         if (castMap.containsKey(role) && castMap.get(role).contains(cast)){
             castMap.get(role).remove(cast);
             if (castMap.get(role).isEmpty()){
                 castMap.remove(role);
             }
         }
+        return true;
     }
 
     @Override
-    public void assignCast(ICast cast, String role) {
+    public boolean assignCast(ICast cast, String role) {
         if (castMap.containsKey(role)) {
             castMap.get(role).add(cast);
         }
@@ -66,6 +67,7 @@ public class Broadcast implements IBroadcast {
             castMap.put(role, new ArrayList<ICast>());
             castMap.get(role).add(cast);
         }
+        return true;
     }
 
     public int getId() {

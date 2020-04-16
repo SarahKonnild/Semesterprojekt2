@@ -2,12 +2,17 @@ package org.openjfx.presentation;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import org.openjfx.interfaces.IBroadcast;
+import org.openjfx.interfaces.ICast;
 
 public class AddAssignController implements Initializable {
     @FXML
@@ -25,29 +30,59 @@ public class AddAssignController implements Initializable {
     @FXML
     private TextField regDKField;
 
+    private ArrayList<ICast> castSearchResult;
+    private ObservableList<ICast> castObservableList;
+
+    private ICast chosenCast;
+
+    private boolean creationState;
+
+    private IBroadcast chosenBroadcast;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        chosenBroadcast = LandingPageController.getChosenBroadcast();
     }
 
     @FXML
     public void handleSearchButton(MouseEvent event){
-        //Search the database for a cast member specified and show the results in the searchResult ListView
-        //Present the Cast-object's information in the textfields
-        //IF FAIL: update errorMsg.setVisible(true) and errorMsg.setText("Fejl, medvirkende blev ikke fundet")
+        String searchText = nameField.getText();
+        searchResult.getItems().clear();
+        castSearchResult = App.getSystemInstance().searchCast(searchText);
+        if (castSearchResult != null) {
+            castObservableList = FXCollections.observableArrayList(castSearchResult);
+            searchResult.setItems(castObservableList);
+            nameField.clear();
+        } else {
+            errorMsg.setVisible(true);
+            errorMsg.setText("Ingen søgeresultater fundet");
+        }
+    }
 
+    @FXML
+    public void handleSearchResultChosen(MouseEvent event){
+        Object obj = searchResult.getSelectionModel().getSelectedItem();
+        if(obj instanceof ICast){
+            chosenCast = (ICast) obj;
+            nameField.setText(chosenCast.getName());
+            regDKField.setText(String.valueOf(chosenCast.getRegDKID()));
+            roleName.setDisable(false);
+            assignButton.setDisable(false);
+        }
     }
 
     @FXML
     public void handleAssignButton(MouseEvent event){
-        //Use the object referenced in the ListView and assign it to the broadcast's list of
-        //cast members
-        //IF FAIL: update errorMsg.setVisible(true) and errorMsg.setText("Fejl, medvirkende blev ikke tilknyttet")
+        creationState = LandingPageController.getChosenBroadcast().assignCast(chosenCast, roleName.getText());
+        if(creationState){
+            errorMsg.setText("Medvirkende tilknyttet");
+            assignButton.setDisable(true);
+            nameField.clear();
+            regDKField.clear();
+            roleName.clear();
+        } else{
+            errorMsg.setText("Fejl, medvirkende blev ikke tilknyttet");
+        }
     }
 
-    /*
-    @FXML
-    public void handleSearchResultChosen(MouseEvent event){
-
-    }*/
 }

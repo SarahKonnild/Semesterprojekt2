@@ -90,7 +90,7 @@
                                     <Label layoutX="334.0" layoutY="104.0" text="Rolleliste" />
                                     <TextField fx:id="regDKField" layoutX="17.0" layoutY="240.0" prefHeight="25.0" prefWidth="229.0" />
                                     <Label layoutX="15.0" layoutY="217.0" text="Registrering Danmark ID" />
-                                    <Label fx:id="errorMsgCast" alignment="CENTER" layoutX="17.0" layoutY="302.0" prefHeight="17.0" prefWidth="259.0" text="Fejlmeddelelse" textFill="RED" visible="false" />
+                                    <Label fx:id="errorMsgCast" alignment="CENTER" layoutX="17.0" layoutY="302.0" prefHeight="17.0" prefWidth="259.0" textFill="RED" />
                                  </children>
                               </AnchorPane>
                         </content>
@@ -116,7 +116,7 @@
                                     <TextField fx:id="amountOfBroadcasts" disable="true" layoutX="266.0" layoutY="247.0" />
                                     <Label layoutX="14.0" layoutY="228.0" text="Antal Sæsoner" />
                                     <Label layoutX="266.0" layoutY="228.0" text="Antal Udsendelser" />
-                                    <Label fx:id="errorMsgProduction" alignment="CENTER" layoutX="21.0" layoutY="311.0" prefHeight="17.0" prefWidth="402.0" text="Fejlmeddelelse" textFill="RED" visible="false" />
+                                    <Label fx:id="errorMsgProduction" alignment="CENTER" layoutX="21.0" layoutY="311.0" prefHeight="17.0" prefWidth="402.0" textFill="RED" />
                                  </children>
                               </AnchorPane>
                         </content>
@@ -127,7 +127,7 @@
                                  <children>
                                     <TextField fx:id="searchFieldBroadcast" layoutX="14.0" layoutY="25.0" prefHeight="25.0" prefWidth="332.0" />
                                     <Button fx:id="searchBroadcast" layoutX="382.0" layoutY="25.0" mnemonicParsing="false" onMouseClicked="#handleSearchBroadcast" text="Søg" />
-                                    <Button fx:id="createBroadcast" disable="true" layoutX="306.0" layoutY="219.0" mnemonicParsing="false" onMouseClicked="#handleCreateBroadcast" text="Opret Udsendelse" />
+                                    <Button fx:id="createBroadcast" layoutX="306.0" layoutY="219.0" mnemonicParsing="false" onMouseClicked="#handleCreateBroadcast" text="Opret Udsendelse" />
                                     <Label layoutX="15.0" layoutY="92.0" text="Udsendelsesnavn" />
                                     <Label layoutX="15.0" layoutY="145.0" text="Produktion" />
                                     <Label layoutX="15.0" layoutY="199.0" text="Sæsonnummer" />
@@ -135,15 +135,15 @@
                                     <Label layoutX="15.0" layoutY="310.0" text="Dato" />
                                     <Button fx:id="deleteBroadcast" disable="true" layoutX="304.0" layoutY="274.0" mnemonicParsing="false" text="Slet Udsendelse" />
                                     <Button fx:id="saveChangesBroadcast" disable="true" layoutX="305.0" layoutY="329.0" mnemonicParsing="false" text="Gem Ændringer" />
-                                    <Button fx:id="removeCast" layoutX="305.0" layoutY="165.0" mnemonicParsing="false" onMouseClicked="#handleUnassignCast" text="Fjern Medvirkende" />
-                                    <Button fx:id="assignCast" layoutX="305.0" layoutY="111.0" mnemonicParsing="false" onMouseClicked="#handleAssignCast" text="Tilføj Medvirkende" />
+                                    <Button fx:id="removeCast" disable="true" layoutX="305.0" layoutY="165.0" mnemonicParsing="false" onMouseClicked="#handleUnassignCast" text="Fjern Medvirkende" />
+                                    <Button fx:id="assignCast" disable="true" layoutX="305.0" layoutY="111.0" mnemonicParsing="false" onMouseClicked="#handleAssignCast" text="Tilføj Medvirkende" />
                                     <Label fx:id="errorMsgBroadcastSearch" alignment="CENTER" layoutX="14.0" layoutY="61.0" prefHeight="17.0" prefWidth="402.0" text="Fejl opstået, produktionen blev ikke fundetFejl opstået, udsendelsen blev ikke fundet" textFill="RED" visible="false" />
                                     <Separator layoutX="13.0" layoutY="85.0" prefHeight="0.0" prefWidth="400.0" />
                                     <TextField fx:id="broadcastEpisodeNumber" layoutX="15.0" layoutY="274.0" prefHeight="25.0" prefWidth="222.0" />
                                     <TextField fx:id="broadcastSeason" layoutX="15.0" layoutY="219.0" prefHeight="25.0" prefWidth="223.0" />
                                     <TextField fx:id="broadcastProduction" layoutX="15.0" layoutY="165.0" prefHeight="25.0" prefWidth="223.0" />
                                     <TextField fx:id="broadcastName" layoutX="15.0" layoutY="111.0" prefHeight="25.0" prefWidth="223.0" />
-                                    <Label fx:id="errorMsgBroadcast" alignment="CENTER" layoutX="21.0" layoutY="370.0" prefHeight="17.0" prefWidth="402.0" text="Fejlmeddelelse" textFill="RED" visible="false" />
+                                    <Label fx:id="errorMsgBroadcast" alignment="CENTER" layoutX="21.0" layoutY="370.0" prefHeight="17.0" prefWidth="402.0" textFill="RED" />
                                     <TextField layoutX="13.0" layoutY="329.0" prefHeight="25.0" prefWidth="42.0" promptText="dd" />
                                     <TextField layoutX="86.0" layoutY="329.0" prefHeight="25.0" prefWidth="42.0" promptText="mm" />
                                     <TextField layoutX="159.0" layoutY="329.0" prefHeight="25.0" prefWidth="77.0" promptText="yyyy" />

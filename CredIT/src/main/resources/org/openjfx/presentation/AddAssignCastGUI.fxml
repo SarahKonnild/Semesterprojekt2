@@ -13,11 +13,11 @@
       <Button fx:id="assignButton" disable="true" layoutX="24.0" layoutY="280.0" mnemonicParsing="false" onMouseClicked="#handleAssignButton" text="Tilknyt" />
       <TextField fx:id="nameField" layoutX="26.0" layoutY="71.0" prefHeight="25.0" prefWidth="171.0" />
       <Label layoutX="26.0" layoutY="48.0" text="Fulde Navn" />
-      <TextField fx:id="regDKField" layoutX="26.0" layoutY="134.0" prefHeight="25.0" prefWidth="171.0" />
+      <TextField fx:id="regDKField" disable="true" layoutX="26.0" layoutY="134.0" prefHeight="25.0" prefWidth="171.0" />
       <Label layoutX="26.0" layoutY="114.0" text="Registrering Danmark ID" />
       <Label layoutX="26.0" layoutY="176.0" text="Rollenavn" />
       <Button fx:id="searchButton" layoutX="159.0" layoutY="280.0" mnemonicParsing="false" onMouseClicked="#handleSearchButton" text="Søg" />
-      <TextField fx:id="roleName" editable="false" layoutX="26.0" layoutY="197.0" prefHeight="25.0" prefWidth="171.0" />
-      <Label fx:id="errorMsg" alignment="CENTER" layoutX="27.0" layoutY="246.0" prefHeight="17.0" prefWidth="171.0" text="Label" textFill="#ee0303" visible="false" />
+      <TextField fx:id="roleName" disable="true" editable="false" layoutX="26.0" layoutY="197.0" prefHeight="25.0" prefWidth="171.0" />
+      <Label fx:id="errorMsg" alignment="CENTER" layoutX="27.0" layoutY="246.0" prefHeight="17.0" prefWidth="171.0" textFill="#ee0303" />
    </children>
 </AnchorPane>
