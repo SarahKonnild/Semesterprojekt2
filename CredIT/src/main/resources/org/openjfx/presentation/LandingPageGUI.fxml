@@ -66,7 +66,7 @@
       <items>
         <AnchorPane>
                <children>
-                  <ListView fx:id="searchResult" layoutX="-1.0" prefHeight="434.0" prefWidth="202.0" />
+                  <ListView fx:id="searchResult" layoutY="-7.0" onMouseClicked="#handleSearchResultChosen" prefHeight="434.0" prefWidth="202.0" />
                </children>
         </AnchorPane>
         <AnchorPane prefHeight="434.0" prefWidth="474.0">

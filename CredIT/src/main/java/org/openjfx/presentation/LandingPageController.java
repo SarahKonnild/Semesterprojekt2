@@ -129,6 +129,12 @@ public class LandingPageController implements Initializable {
 
     }
 
+    //HANDLER FOR THE SEARCH LISTVIEW
+    @FXML
+    public void handleSearchResultChosen(MouseEvent event){
+
+    }
+
     //FXML HANDLERS FOR "MEDVIRKENDE" TAB
 
     @FXML
@@ -167,6 +173,17 @@ public class LandingPageController implements Initializable {
 
     @FXML
     public void handleDeleteCast(MouseEvent event){
+        if(!castObservableList.isEmpty()) {
+            ICast chosenCast = (ICast)searchResult.getSelectionModel().getSelectedItem();
+            creationState = chosenCast.deleteCast();
+            if(creationState){
+                errorMsgCast.setText("Medvirkende slettet");
+            }else{
+                errorMsgCast.setText("Fejl opstået, medvirkende blev ikke slettet");
+            }
+        } else{
+            errorMsgCast.setText("Ingen medvirkende er valgt");
+        }
         //fetch the information searched for in the persistence layer from the searchResults ListView
         //(by choosing a Cast-object from the ListView) and find and delete that information from
         //the persistence layer
@@ -180,6 +197,23 @@ public class LandingPageController implements Initializable {
 
     @FXML
     public void handleMergeCast(MouseEvent event){
+        if(!castObservableList.isEmpty()) {
+            ObservableList<ICast> chosenCast = searchResult.getSelectionModel().getSelectedItems();
+            if(chosenCast.size() == 2) {
+                creationState = chosenCast.get(0).mergeCastMembers(chosenCast.get(1));
+                if (creationState) {
+                    errorMsgCast.setText("Medvirkende sammenflettet");
+                } else {
+                    errorMsgCast.setText("Fejl opstået, medvirkende blev ikke sammenflettet");
+                }
+            } else if(chosenCast.size() == 1){
+                errorMsgCast.setText("Fejl opstået, for få medvirkende valgt");
+            } else{
+                errorMsgCast.setText("Fejl opstået, for mange medvirkende valgt");
+            }
+        } else{
+            errorMsgCast.setText("Ingen medvirkende er valgt");
+        }
         //IF SUCCESS: update errorMsgCast to text black/green and message:
         //"Medvirkende sammenflettet"
         //IF FAIL: update errorMsgCast to text red and message:
@@ -188,6 +222,18 @@ public class LandingPageController implements Initializable {
 
     @FXML
     public void handleSaveCastChanges(MouseEvent event){
+        if(!castObservableList.isEmpty()) {
+            ICast chosenCast = (ICast)searchResult.getSelectionModel().getSelectedItem();
+            creationState = chosenCast.updateCast(castName.getText(), Integer.parseInt(regDKField.getText()));
+            if(creationState){
+                errorMsgCast.setText("Medvirkende opdateret");
+            }else{
+                errorMsgCast.setText("Fejl opstået, medvirkende blev ikke opdateret");
+            }
+        } else{
+            errorMsgCast.setText("Ingen medvirkende er valgt");
+        }
+        searchResult.getSelectionModel().
         //fetch the information searched for in the persistence layer from the searchResults ListView
         //(by choosing a Cast-object from the ListView). Any changes made to that object's information
         //should be saved to it. it should use the set-methods in the class.
@@ -239,18 +285,19 @@ public class LandingPageController implements Initializable {
         //"Fejl opstået, produktionen blev ikke oprettet"
     }
 
-    @FXML
-    public void handleDeleteProduction(MouseEvent event){
-        //fetch the information searched for in the persistence layer from the searchResults ListView
-        //(by choosing a Production-object from the ListView) and find and delete that information from
-        //the persistence layer
-        //Update the Listview to reflect the change
-        //Potentially: Limit to choosing just one element of the ListView.
-        //IF SUCCESS: update errorMsgProduction to text black/green and message:
-        //"Produktionen slettet"
-        //IF FAIL: update errorMsgProduction to text red and message:
-        //"Fejl opstået, produktionen blev ikke slettet"
-    }
+    //Commented out since it is not part of the initial must-have requirements
+//    @FXML
+//    public void handleDeleteProduction(MouseEvent event){
+//        //fetch the information searched for in the persistence layer from the searchResults ListView
+//        //(by choosing a Production-object from the ListView) and find and delete that information from
+//        //the persistence layer
+//        //Update the Listview to reflect the change
+//        //Potentially: Limit to choosing just one element of the ListView.
+//        //IF SUCCESS: update errorMsgProduction to text black/green and message:
+//        //"Produktionen slettet"
+//        //IF FAIL: update errorMsgProduction to text red and message:
+//        //"Fejl opstået, produktionen blev ikke slettet"
+//    }
 
     //FXML HANDLERS FOR "UDSENDELSE" TAB
 
@@ -327,17 +374,18 @@ public class LandingPageController implements Initializable {
         //"Fejl opstået, udsendelsen blev ikke tilføjet"
     }
 
-    @FXML
-    public void handleDeleteBroadcast(MouseEvent event){
-        //fetch the information searched for in the persistence layer from the searchResults ListView
-        //(by choosing a Broadcast-object from the ListView) and find and delete that information from
-        //the persistence layer
-        //Update the Listview to reflect the change
-        //Potentially: Limit to choosing just one element of the ListView.
-        //IF SUCCESS: update errorMsgBroadcast to text black/green and message:
-        //"Udsendelsen slettet"
-        //IF FAIL: update errorMsgBroadcast to text red and message:
-        //"Fejl opstået, udsendelsen blev ikke slettet"
-    }
+    //Commented out since it is not part of the initial must-have requirements
+//    @FXML
+//    public void handleDeleteBroadcast(MouseEvent event){
+//        //fetch the information searched for in the persistence layer from the searchResults ListView
+//        //(by choosing a Broadcast-object from the ListView) and find and delete that information from
+//        //the persistence layer
+//        //Update the Listview to reflect the change
+//        //Potentially: Limit to choosing just one element of the ListView.
+//        //IF SUCCESS: update errorMsgBroadcast to text black/green and message:
+//        //"Udsendelsen slettet"
+//        //IF FAIL: update errorMsgBroadcast to text red and message:
+//        //"Fejl opstået, udsendelsen blev ikke slettet"
+//    }
 
 }
