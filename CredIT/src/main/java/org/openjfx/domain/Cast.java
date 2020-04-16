@@ -11,6 +11,7 @@ public class Cast implements ICast {
     private int id;
     private String name;
     private int regDKID;
+    private String role;
 
     public Cast(String name, int regDKID) {
         this.name = name;
@@ -51,6 +52,13 @@ public class Cast implements ICast {
     @Override
     public boolean deleteCast() {
             return persistence.removeCastFromDatabase(this.id);
+    }
+
+    public void setRole(String role){
+        this.role = role;
+    }
+    public String getRole(){
+        return this.role;
     }
 
     public int getId() {
