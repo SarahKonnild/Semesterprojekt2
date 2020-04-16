@@ -18,6 +18,6 @@ public interface IBroadcast {
     public HashMap<String, ArrayList<Cast>> getCastMap();
     public int getSeasonNumber();
     public int getEpisodeNumber();
-    public Date getAirDate();
+    public String getAirDate();
 }
 

@@ -10,9 +10,9 @@ public class Broadcast implements IBroadcast {
     private HashMap<String, ArrayList<Cast>> castMap;
     private int seasonNumber;
     private int episodeNumber;
-    private Date airDate;
+    private String airDate;
 
-    public Broadcast(int id, String name, int seasonNumber, int episodeNumber, Date airDate) {
+    public Broadcast(int id, String name, int seasonNumber, int episodeNumber, String airDate) {
         this.id = id;
         this.name = name;
         this.seasonNumber = seasonNumber;
@@ -84,11 +84,11 @@ public class Broadcast implements IBroadcast {
         this.episodeNumber = episodeNumber;
     }
 
-    public Date getAirDate() {
+    public String getAirDate() {
         return airDate;
     }
 
-    public void setAirDate(Date airDate) {
+    public void setAirDate(String airDate) {
         this.airDate = airDate;
     }
 }
