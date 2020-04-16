@@ -10,7 +10,7 @@ public interface ICast {
      * @return {@code True}: if the cast successfully merges in the persistence.
      * {@code false}: it wasn't possible to merge.
      */
-    public boolean mergeCastMembers(Cast cast);
+    public boolean mergeCastMembers(ICast cast);
 
     /**
      * Updates a {@code Cast} object to a specified regDKID value in the persistence layer.
@@ -18,7 +18,7 @@ public interface ICast {
      * @param regDKID the regDKID of the given cast member, created as a {@code integer}.
      * @return the {@code name} object and the {@code regDKID} object.
      */
-    public Cast updateCast(String name, int regDKID);
+    public ICast updateCast(String name, int regDKID);
 
     /**
      * Saves a {@code Cast} object in the persistence layer.
@@ -26,7 +26,7 @@ public interface ICast {
      * @return {@code True}: if the cast member successfully saves in the persistence.
      * {@code False}: it wasn't possible to save.
      */
-    public boolean saveCast(Cast cast);
+    public boolean saveCast(ICast cast);
 
     /**
      * Removes a {@code Cast} object from the persistence layer.
@@ -34,7 +34,7 @@ public interface ICast {
      * @return {@code True}: if the cast member successfully removes in the persistence.
      * {@code False}: it wasn't possible to remove.
      */
-    public boolean deleteCast(Cast cast);
+    public boolean deleteCast(ICast cast);
 
     /**
      * Returns the ID of the cast member. This ID is given by the persistence layer.

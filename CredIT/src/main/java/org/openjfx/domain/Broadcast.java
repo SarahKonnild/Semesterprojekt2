@@ -27,7 +27,6 @@ public class Broadcast implements IBroadcast {
 
     @Override
     public boolean saveBroadcast(IBroadcast broadcast) {
-        persistence.createBroadcast(broadcast);
         return persistence.createBroadcast(broadcast);
     }
 
@@ -56,47 +55,23 @@ public class Broadcast implements IBroadcast {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public HashMap<String, ArrayList<ICast>> getCastMap() {
         return castMap;
     }
 
-    public void setCastMap(HashMap<String, ArrayList<ICast>> castMap) {
-        this.castMap = castMap;
-    }
-
     public int getSeasonNumber() {
         return seasonNumber;
-    }
-
-    public void setSeasonNumber(int seasonNumber) {
-        this.seasonNumber = seasonNumber;
     }
 
     public int getEpisodeNumber() {
         return episodeNumber;
     }
 
-    public void setEpisodeNumber(int episodeNumber) {
-        this.episodeNumber = episodeNumber;
-    }
-
     public String getAirDate() {
         return airDate;
-    }
-
-    public void setAirDate(String airDate) {
-        this.airDate = airDate;
     }
 }

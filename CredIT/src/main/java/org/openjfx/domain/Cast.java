@@ -18,8 +18,8 @@ public class Cast implements ICast {
 
     @Override
     public boolean mergeCastMembers(ICast cast) {
-        persistence.mergeCastInDatabase(this, cast);
-        return persistence.mergeCastInDatabase(this, cast);
+        ICast tempCast = this;
+        return persistence.mergeCastInDatabase(tempCast, cast);
     }
 
     @Override
@@ -32,31 +32,22 @@ public class Cast implements ICast {
 
     @Override
     public boolean saveCast(ICast cast) {
-        persistence.createNewCastInDatabase(cast);
         return persistence.createNewCastInDatabase(cast);
     }
 
     @Override
     public boolean deleteCast(ICast cast) {
-        persistence.removeCastFromDatabase(cast.getId());
         return persistence.removeCastFromDatabase(cast.getId());
     }
+
     public int getId() {
         return id; }
-
-    public void setId(int id) {
-        this.id = id; }
 
     public String getName() {
         return name; }
 
-    public void setName(String name) {
-        this.name = name; }
-
     public int getRegDKID() {
         return regDKID; }
 
-    public void setRegDKID(int regDKID) {
-        this.regDKID = regDKID; }
 
 }
