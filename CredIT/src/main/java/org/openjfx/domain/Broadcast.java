@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class Broadcast implements IBroadcast {
     private int id;
     private String name;
-    private HashMap<String, ArrayList<ICast>> castMap;
+    private HashMap<String, ArrayList<Cast>> castMap;
     private int seasonNumber;
     private int episodeNumber;
     private String airDate;
@@ -33,7 +33,7 @@ public class Broadcast implements IBroadcast {
     }
 
     @Override
-    public void removeCastMember(String role, ICast cast) {
+    public void removeCastMember(String role, Cast cast) {
 
     }
 
@@ -43,17 +43,17 @@ public class Broadcast implements IBroadcast {
     }
 
     @Override
-    public void unassignCast(ICast cast, Broadcast broadcast, String role) {
+    public void unassignCast(Cast cast, Broadcast broadcast, String role) {
 
     }
 
     @Override
-    public void assignCast(ICast cast, Broadcast broadcast, String role) {
+    public void assignCast(Cast cast, Broadcast broadcast, String role) {
 
     }
 
     @Override
-    public void addCastMembers(ICast cast) {
+    public void addCastMembers(Cast cast) {
 
     }
 
@@ -71,11 +71,11 @@ public class Broadcast implements IBroadcast {
         this.name = name;
     }
 
-    public HashMap<String, ArrayList<ICast>> getCastMap() {
+    public HashMap<String, ArrayList<Cast>> getCastMap() {
         return castMap;
     }
 
-    public void setCastMap(HashMap<String, ArrayList<ICast>> castMap) {
+    public void setCastMap(HashMap<String, ArrayList<Cast>> castMap) {
         this.castMap = castMap;
     }
 

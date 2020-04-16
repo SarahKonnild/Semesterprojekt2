@@ -1,29 +1,29 @@
 package org.openjfx.domain;
 
-public class ICast implements org.openjfx.interfaces.ICast {
+public class Cast implements org.openjfx.interfaces.ICast {
     private int id;
     private String name;
     private int regDKID;
 
-    public ICast(String name, int regDKID) {
+    public Cast(String name, int regDKID) {
         this.name = name;
         this.regDKID = regDKID;
     }
 
-    public ICast(int id, String name, int regDKID) {
+    public Cast(int id, String name, int regDKID) {
             this.id = id;
             this.name = name;
             this.regDKID = regDKID;
     }
 
     @Override
-    public boolean mergeCastMembers(ICast cast) {
+    public boolean mergeCastMembers(Cast cast) {
 
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public ICast updateCast(String name, int regDKID) {
+    public Cast updateCast(String name, int regDKID) {
             this.name = name;
             this.regDKID = regDKID;
             return this;
@@ -36,7 +36,7 @@ public class ICast implements org.openjfx.interfaces.ICast {
     }
 
     @Override
-    public boolean deleteCast(ICast cast) {
+    public boolean deleteCast(Cast cast) {
 
         throw new UnsupportedOperationException();
     }

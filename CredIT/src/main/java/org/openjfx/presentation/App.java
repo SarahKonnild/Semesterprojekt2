@@ -33,7 +33,6 @@ public class App extends Application {
         ArrayList<IBroadcast> list;
         list = sys.searchBroadcast("Something");
         list.get(1).saveBroadcast();
-
         //endregion
     }
 

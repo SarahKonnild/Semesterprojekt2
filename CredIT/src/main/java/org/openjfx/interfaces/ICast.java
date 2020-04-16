@@ -1,10 +1,12 @@
 package org.openjfx.interfaces;
 
+import org.openjfx.domain.Cast;
+
 public interface ICast {
-    public boolean mergeCastMembers(org.openjfx.domain.ICast cast);
-    public org.openjfx.domain.ICast updateCast(String name, int regDKID);
+    public boolean mergeCastMembers(Cast cast);
+    public Cast updateCast(String name, int regDKID);
     public boolean saveCast();
-    public boolean deleteCast(org.openjfx.domain.ICast cast);
+    public boolean deleteCast(Cast cast);
     public int getId();
     public String getName();
     public int getRegDKID();

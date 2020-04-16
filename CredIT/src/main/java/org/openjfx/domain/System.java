@@ -34,7 +34,7 @@ public class System implements ISystem {
 
     //region cast database seach metods here
     @Override
-    public ArrayList<ICast> searchCast(String keyword) {
+    public ArrayList<Cast> searchCast(String keyword) {
         IUser user1 = new User(10, "name","password", "username");
         user1.addNewBroadcastToDatabase("name",10,10,"yes");
 
@@ -42,7 +42,7 @@ public class System implements ISystem {
     }
 
     @Override
-    public ArrayList<ICast> searchCast(int broadcastId) {
+    public ArrayList<Cast> searchCast(int broadcastId) {
         return makeCastObjects(persistenceLayer.getCast(broadcastId));
     }
 
@@ -51,12 +51,12 @@ public class System implements ISystem {
      * @param cast
      * @return an arraylist of Cast object
      */
-    private ArrayList<ICast> makeCastObjects(List<String> cast) {
+    private ArrayList<Cast> makeCastObjects(List<String> cast) {
         if(cast.size() > 0 ) {
-            ArrayList<ICast> casts = new ArrayList();
+            ArrayList<Cast> casts = new ArrayList();
             for (int i = 0; i < cast.size(); i++){
                 String[] items = cast.get(i).split(",");
-                casts.add(new ICast((Integer.parseInt(items[0])), items[1], (Integer.parseInt(items[2]))));
+                casts.add(new Cast((Integer.parseInt(items[0])), items[1], (Integer.parseInt(items[2]))));
             }
             return casts;
         }

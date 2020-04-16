@@ -27,7 +27,7 @@ public class User implements IUser{
 
     @Override
     public boolean addNewCastToDatabase(String name, int regDKID) {
-        ICast cast = new ICast(name, regDKID);
+        Cast cast = new Cast(name, regDKID);
         cast.saveCast();
         return true;
     }
