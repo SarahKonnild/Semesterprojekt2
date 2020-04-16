@@ -1,5 +1,7 @@
 package org.openjfx.domain;
 import org.openjfx.interfaces.IBroadcast;
+import org.openjfx.interfaces.ICast;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,7 +9,7 @@ import java.util.HashMap;
 public class Broadcast implements IBroadcast {
     private int id;
     private String name;
-    private HashMap<String, ArrayList<Cast>> castMap;
+    private HashMap<String, ArrayList<ICast>> castMap;
     private int seasonNumber;
     private int episodeNumber;
     private String airDate;
@@ -60,11 +62,11 @@ public class Broadcast implements IBroadcast {
         this.name = name;
     }
 
-    public HashMap<String, ArrayList<Cast>> getCastMap() {
+    public HashMap<String, ArrayList<ICast>> getCastMap() {
         return castMap;
     }
 
-    public void setCastMap(HashMap<String, ArrayList<Cast>> castMap) {
+    public void setCastMap(HashMap<String, ArrayList<ICast>> castMap) {
         this.castMap = castMap;
     }
 

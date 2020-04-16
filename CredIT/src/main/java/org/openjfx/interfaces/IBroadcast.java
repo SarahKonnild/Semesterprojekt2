@@ -15,7 +15,7 @@ public interface IBroadcast {
     public void unassignCast(Cast cast, Broadcast broadcast, String role);
     public int getId();
     public String getName();
-    public HashMap<String, ArrayList<Cast>> getCastMap();
+    public HashMap<String, ArrayList<ICast>> getCastMap();
     public int getSeasonNumber();
     public int getEpisodeNumber();
     public String getAirDate();

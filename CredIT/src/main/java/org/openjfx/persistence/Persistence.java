@@ -3,32 +3,31 @@ package org.openjfx.persistence;
 import org.openjfx.interfaces.*;
 
 import java.io.*;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
 public class Persistence implements IPersistence {
 
 
-    private File castFile;
-    private File productionFile;
-    private File broadcastFile;
-    private File userFile;
-    private PrintWriter writer;
-    //private BufferedWriter bw;
-    private FileWriter fw = null;
-    private Scanner reader;
-
+    static Persistence instance = null;
     //ID variables. needed because java cant make a serial like a database.
     private static int userId;
     private static int broadcastId;
     private static int productionId;
     private static int castId;
+    private final File castFile;
+    private final File productionFile;
+    private final File broadcastFile;
+    private final File userFile;
+    private PrintWriter writer;
+    //private BufferedWriter bw;
+    private FileWriter fw = null;
+    private Scanner reader;
 
-    static Persistence instance = null;
 
-
-    private Persistence(){
+    private Persistence() {
         this.castFile = new File("PersistenceFiles\\castFile.csv");
         this.broadcastFile = new File("PersistenceFiles\\broadcastFile.csv");
         this.productionFile = new File("PersistenceFiles\\productionFile.csv");
@@ -39,6 +38,18 @@ public class Persistence implements IPersistence {
         initializeUserId();
     }
 
+    public static Persistence getInstance() {
+        if (instance == null) {
+            instance = new Persistence();
+        }
+
+        return instance;
+    }
+
+    public static void main(String[] args) {
+        Persistence persistence = Persistence.getInstance();
+        persistence.removeProductionFromDatabase(19);
+    }
 
     @Override
     public boolean createNewUserInDatabase(IUser user) throws IOException {
@@ -68,11 +79,9 @@ public class Persistence implements IPersistence {
      * Deletes a user from the persistence/layer(Database).
      * It reads every line in the file, if the current line not equals the the parsed id, we add it to temperary String, else we just skip that line.
      * Finally we write the new information to the file.
-     * @param id
-     * The ID on the user you want to delete in the persistence layer.
-     * @return
-     * returns the boolean value of the delete run.
      *
+     * @param id The ID on the user you want to delete in the persistence layer.
+     * @return returns the boolean value of the delete run.
      */
     @Override
     public boolean removeUserFromDatabase(int id) {
@@ -81,13 +90,13 @@ public class Persistence implements IPersistence {
         try {
             reader = new Scanner(userFile);
             writer = new PrintWriter(userFile);
-            while(reader.hasNextLine()){
+            while (reader.hasNextLine()) {
                 String currentLine = reader.nextLine();
                 String[] user = currentLine.split(",");
-                if(Integer.parseInt(user[0]) != id){
+                if (Integer.parseInt(user[0]) != id) {
                     newTxt += currentLine + "\n";
 
-                } else{
+                } else {
                     returnBool = true;
                 }
             }
@@ -102,41 +111,206 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public boolean createNewBroadcastInDatabase(IBroadcast broadcast) {
-        return false;
+    public boolean createNewBroadcastInDatabase(IBroadcast broadcast) throws IOException {
+        boolean returnBool = false;
+        try {
+            fw = new FileWriter(broadcastFile, true);
+            writer = new PrintWriter(fw);
+
+            String temp = broadcastId + "," + broadcast.getName() + ",";
+            HashMap<String, ArrayList<ICast>> test = broadcast.getCastMap();
+            int k = 0;
+            int i = 0;
+            for (String s : test.keySet()) {
+                if (test.keySet().size() - 1 != k) {
+                    temp += s + ";";
+                    for (ICast cast : test.get(s)) {
+                        if (i == test.get(s).size() - 1) {
+                            temp += cast.getId() + "_";
+                        } else {
+                            temp += cast.getId() + ":";
+                            i++;
+                        }
+                    }
+
+
+                } else {
+                    temp += s + ";";
+                    for (ICast cast : test.get(s)) {
+                        if (i == test.get(s).size() - 1) {
+                            temp += cast.getId() + ",";
+                        } else {
+                            temp += cast.getId() + ":";
+                            i++;
+                        }
+                    }
+                }
+                k++;
+            }
+            temp += broadcast.getSeasonNumber() + "," + broadcast.getEpisodeNumber() + "," + broadcast.getAirDate();
+            writer.println(temp);
+            broadcastId++;
+            returnBool = true;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            writer.close();
+            fw.close();
+        }
+
+        return returnBool;
     }
 
     @Override
     public boolean removeBroadcastFromDatabase(int id) {
-        return false;
+        boolean returnBool = false;
+        String newTxt = "";
+        try {
+            reader = new Scanner(broadcastFile);
+            writer = new PrintWriter(broadcastFile);
+            while (reader.hasNextLine()) {
+                String currentLine = reader.nextLine();
+                String[] broadcast = currentLine.split(",");
+                if (Integer.parseInt(broadcast[0]) != id) {
+                    newTxt += currentLine + "\n";
+
+                } else {
+                    returnBool = true;
+                }
+            }
+            writer.write(newTxt);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            reader.close();
+            writer.close();
+        }
+        return returnBool;
     }
 
     @Override
-    public boolean createNewProductionInDatabase(IProduction production) {
-        return false;
+    public boolean createNewProductionInDatabase(IProduction production) throws IOException {
+        boolean returnBool = false;
+        try {
+            fw = new FileWriter(productionFile, true);
+            writer = new PrintWriter(fw);
+
+            String temp = productionId + "," + production.getName() + ",";
+            int i = 0;
+            for (IBroadcast b : production.getBroadcasts()) {
+                if (production.getBroadcasts().size() - 1 != i) {
+                    temp += b.getId() + ";";
+                } else {
+                    temp += b.getId() + ",";
+                }
+                i++;
+
+            }
+            writer.println(temp);
+            productionId++;
+            returnBool = true;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            writer.close();
+            fw.close();
+        }
+
+        return returnBool;
     }
 
     @Override
     public boolean removeProductionFromDatabase(int id) {
-        return false;
+        boolean returnBool = false;
+        String newTxt = "";
+        try {
+            reader = new Scanner(productionFile);
+            writer = new PrintWriter(productionFile);
+            while (reader.hasNextLine()) {
+                String currentLine = reader.nextLine();
+                String[] production = currentLine.split(",");
+                if (Integer.parseInt(production[0]) != id) {
+                    newTxt += currentLine + "\n";
+
+                } else {
+                    returnBool = true;
+                }
+            }
+            writer.write(newTxt);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            reader.close();
+            writer.close();
+        }
+        return returnBool;
     }
 
     @Override
-    public boolean createNewCastInDatabase(ICast cast) {
-        return false;
+    public boolean createNewCastInDatabase(ICast cast) throws IOException {
+        boolean returnBool = false;
+        try {
+            fw = new FileWriter(castFile, true);
+            writer = new PrintWriter(fw);
+
+            writer.println(castId + "," + cast.getName() + "," + cast.getRegDKID());
+
+            castId++;
+
+            returnBool = true;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            writer.close();
+            fw.close();
+        }
+
+        return returnBool;
     }
 
     @Override
     public boolean removeCastFromDatabase(int id) {
-        return false;
+        boolean returnBool = false;
+        String newTxt = "";
+        try {
+            reader = new Scanner(castFile);
+            writer = new PrintWriter(castFile);
+            while (reader.hasNextLine()) {
+                String currentLine = reader.nextLine();
+                String[] user = currentLine.split(",");
+                if (Integer.parseInt(user[0]) != id) {
+                    newTxt += currentLine + "\n";
+
+                } else {
+                    returnBool = true;
+                }
+            }
+            writer.write(newTxt);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            reader.close();
+            writer.close();
+        }
+        return returnBool;
     }
 
     @Override
     public List<String> getBroadcastFromDatabase(String keyword) {
+        keyword = keyword.toLowerCase();
+        List<String> output = new ArrayList<String>();
         try {
             reader = new Scanner(broadcastFile);
-
-
+            String line = reader.nextLine();
+            while (reader.hasNextLine()) {
+                String[] info = line.split(",");
+                if (keyword.contains(info[1].toLowerCase()) || keyword.contains(info[0].toLowerCase())) {
+                    output.add(line);
+                }
+            }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -145,17 +319,55 @@ public class Persistence implements IPersistence {
         }
 
 
-        return null;
+        return output;
     }
 
     @Override
     public List<String> getCastFromDatabase(String keyword) {
-        return null;
+        keyword = keyword.toLowerCase();
+        List<String> output = new ArrayList<String>();
+        try {
+            reader = new Scanner(castFile);
+            String line = reader.nextLine();
+            while (reader.hasNextLine()) {
+                String[] info = line.split(",");
+                if (keyword.contains(info[1].toLowerCase()) || keyword.contains(info[0].toLowerCase())) {
+                    output.add(line);
+                }
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            reader.close();
+        }
+
+
+        return output;
     }
 
     @Override
     public List<String> getProductionFromDatabase(String keyword) {
-        return null;
+        keyword = keyword.toLowerCase();
+        List<String> output = new ArrayList<String>();
+        try {
+            reader = new Scanner(productionFile);
+            String line = reader.nextLine();
+            while (reader.hasNextLine()) {
+                String[] info = line.split(",");
+                if (keyword.contains(info[1].toLowerCase()) || keyword.contains(info[0].toLowerCase())) {
+                    output.add(line);
+                }
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            reader.close();
+        }
+
+
+        return output;
     }
 
     @Override
@@ -168,27 +380,18 @@ public class Persistence implements IPersistence {
         return false;
     }
 
-
-    public static Persistence getInstance() {
-        if(instance == null){
-            instance = new Persistence();
-        }
-
-        return instance;
-    }
-
     /**
      * Loops through the userFile and finds the largest userId. The userId on the class is instantiated to one higher than this.
      */
-    private void initializeUserId(){
+    private void initializeUserId() {
         int id = 0;
         try {
             reader = new Scanner(userFile);
-            while(reader.hasNextLine()){
+            while (reader.hasNextLine()) {
                 String currentLine = reader.nextLine();
                 String[] user = currentLine.split(",");
                 int currentId = Integer.parseInt(user[0]);
-                if(currentId > id) {
+                if (currentId > id) {
                     id = currentId;
                 }
             }
@@ -201,21 +404,16 @@ public class Persistence implements IPersistence {
         userId = id + 1;
     }
 
-    private void initializeCastId(){
+    private void initializeCastId() {
 
     }
 
-    private void initializeBroadcastId(){
+    private void initializeBroadcastId() {
 
     }
 
-    private void initializeProductionId(){
-        
-    }
+    private void initializeProductionId() {
 
-    public static void main(String[] args){
-        Persistence persistence = Persistence.getInstance();
-        persistence.removeProductionFromDatabase(19);
     }
 
 }

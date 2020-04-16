@@ -31,7 +31,7 @@ public interface IPersistence {
      * @return
      * A boolean that is true if the broadcast was succesfully written to the persistence layer
      */
-    public boolean createNewBroadcastInDatabase(IBroadcast broadcast);
+    public boolean createNewBroadcastInDatabase(IBroadcast broadcast) throws IOException;
 
     /**
      * Deletes a broadcast from the persistence/layer(Database).
@@ -50,7 +50,7 @@ public interface IPersistence {
      * @return
      * A boolean that is true if the production was succesfully written to the persistence layer
      */
-    public boolean createNewProductionInDatabase(IProduction production);
+    public boolean createNewProductionInDatabase(IProduction production) throws IOException;
 
     /**
      * Deletes a production from the persistence/layer(Database).
@@ -69,7 +69,7 @@ public interface IPersistence {
      * @return
      * A boolean that is true if the cast was succesfully written to the persistence layer
      */
-    public boolean createNewCastInDatabase(ICast cast);
+    public boolean createNewCastInDatabase(ICast cast) throws IOException;
 
     /**
      * Deletes a cast from the persistence/layer(Database).
