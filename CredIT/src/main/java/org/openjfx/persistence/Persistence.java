@@ -36,6 +36,9 @@ public class Persistence implements IPersistence {
         this.reader = null;
 
         initializeUserId();
+        initializeBroadcastId();
+        initializeCastId();
+        initializeProductionId();
     }
 
     public static Persistence getInstance() {
@@ -372,12 +375,115 @@ public class Persistence implements IPersistence {
 
     @Override
     public boolean mergeCastInDatabase(ICast cast1, ICast cast2) {
-        return false;
+        boolean returnBool = false;
+
+        String newTxt = "";
+        try {
+            reader = new Scanner(broadcastFile);
+            writer = new PrintWriter(broadcastFile);
+            while (reader.hasNextLine()) {
+
+                String output = "";
+                String currentLine = reader.nextLine();
+                int i = 0;
+                int k = 0;
+
+                if (currentLine.contains(String.valueOf(cast2.getId()))) {
+
+                    String[] broadcast = currentLine.split(",");
+
+                    String[] keyValuePairs = broadcast[3].split("_");
+
+                    output = broadcast[0] + "," + broadcast[1] + ",";
+
+                    for (String keyValue : keyValuePairs) {
+                        String[] keyValueSplit = keyValue.split(";");
+
+                        String[] values = keyValueSplit[1].split(":");
+
+                        if (i != keyValuePairs.length - 1) {
+                            output += keyValueSplit[0] + ";";
+
+                            for (String value : values) {
+                                if (k != values.length - 1) {
+                                    if (value.equals(String.valueOf(cast2.getId()))) {
+                                        value = String.valueOf(cast1.getId());
+                                    }
+
+                                    output += value + ":";
+                                } else {
+                                    if (value.equals(String.valueOf(cast2.getId()))) {
+                                        value = String.valueOf(cast1.getId());
+                                    }
+
+                                    output += value + "_";
+                                }
+                                k++;
+                            }
+                        } else {
+                            output += keyValueSplit[0] + ";";
+
+                            for (String value : values) {
+                                if (k != values.length - 1) {
+                                    if (value.equals(String.valueOf(cast2.getId()))) {
+                                        value = String.valueOf(cast1.getId());
+                                    }
+
+                                    output += value + ":";
+                                } else {
+                                    if (value.equals(String.valueOf(cast2.getId()))) {
+                                        value = String.valueOf(cast1.getId());
+                                    }
+
+                                    output += value + ",";
+                                }
+                                k++;
+                            }
+                        }
+                        i++;
+                    }
+                }
+                newTxt += output + "\n";
+            }
+            writer.write(newTxt);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            reader.close();
+            writer.close();
+        }
+
+        return returnBool;
     }
 
     @Override
     public boolean updateCastInDatabase(int id, String name, int regDKID) {
-        return false;
+        boolean returnBool = false;
+        String newTxt = "";
+
+        try {
+            reader = new Scanner(castFile);
+            writer = new PrintWriter(castFile);
+            while (reader.hasNextLine()) {
+                String currentLine = reader.nextLine();
+                String[] user = currentLine.split(",");
+
+                if (!String.valueOf(id).equals(user[0])) {
+                    newTxt += currentLine + "\n";
+                } else {
+                    newTxt += user[0] + "," + name + "," + regDKID + "\n";
+                }
+            }
+
+            writer.write(newTxt);
+            returnBool = true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            reader.close();
+            writer.close();
+        }
+        return returnBool;
     }
 
     /**
@@ -405,15 +511,66 @@ public class Persistence implements IPersistence {
     }
 
     private void initializeCastId() {
+        int id = 0;
+        try {
+            reader = new Scanner(castFile);
+            while (reader.hasNextLine()) {
+                String currentLine = reader.nextLine();
+                String[] cast = currentLine.split(",");
+                int currentId = Integer.parseInt(cast[0]);
+                if (currentId > id) {
+                    id = currentId;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            reader.close();
+        }
 
+        castId = id + 1;
     }
 
     private void initializeBroadcastId() {
+        int id = 0;
+        try {
+            reader = new Scanner(broadcastFile);
+            while (reader.hasNextLine()) {
+                String currentLine = reader.nextLine();
+                String[] broadcast = currentLine.split(",");
+                int currentId = Integer.parseInt(broadcast[0]);
+                if (currentId > id) {
+                    id = currentId;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            reader.close();
+        }
 
+        broadcastId = id + 1;
     }
 
     private void initializeProductionId() {
+        int id = 0;
+        try {
+            reader = new Scanner(productionFile);
+            while (reader.hasNextLine()) {
+                String currentLine = reader.nextLine();
+                String[] production = currentLine.split(",");
+                int currentId = Integer.parseInt(production[0]);
+                if (currentId > id) {
+                    id = currentId;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            reader.close();
+        }
 
+        productionId = id + 1;
     }
 
 }
