@@ -25,6 +25,11 @@ public class User implements IUser{
         this.role = role;
     }
 
+    /**
+     * This constructor makes a <code>User</code> object that should be created when a user login.
+     * @param username
+     * @param password
+     */
     public User(String username, String password){
         this.username = username;
         this.password = password;

@@ -46,6 +46,7 @@ public class LoginController implements Initializable {
     @FXML
     public void handleLoginClicked(MouseEvent event){
         if(username.getText().equals("admin") && password.getText().equals("admin")){
+            //TODO Take a decission on whatever the user should be created here, or if it should be system that creates the class and then returns IUser
             adminUser = App.getSystemInstance().createNewUser(username.getText(), password.getText());
             try {
                 Parent value = FXMLLoader.load(LoginController.class.getResource("LandingPageGUI.fxml"));

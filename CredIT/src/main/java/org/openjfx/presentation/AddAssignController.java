@@ -43,7 +43,13 @@ public class AddAssignController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         chosenBroadcast = LandingPageController.getChosenBroadcast();
     }
-
+    //TODO Add some comments for the methods to explain what they do
+    /**
+     * Method acts when the search button is pressed. It will take the name in the <code>nameField</code> and pass it to the search
+     * method in <code>System</code> that then will return an ArrayList over the castMembers. This method will pass it to an <code>ObservableList</code>
+     * and show it in the listView.
+     * @param event
+     */
     @FXML
     public void handleSearchButton(MouseEvent event){
         String searchText = nameField.getText();

@@ -13,11 +13,22 @@ public class Cast implements ICast {
     private int regDKID;
     private String role;
 
+    /**
+     * Constructor used for first time creation of a new cast member that needs to be saved to the database
+     * @param name The name of the cast member
+     * @param regDKID The Registerings Danmark ID that the cast member has
+     */
     public Cast(String name, int regDKID) {
         this.name = name;
         this.regDKID = regDKID;
     }
 
+    /**
+     * Constructor used when creating instances of <code>Cast</code> based on data from the persistence layer
+     * @param id The ID that the cast member has in the database
+     * @param name The name of the cast member
+     * @param regDKID The Registerings Danmark ID that the cast member has
+     */
     public Cast(int id, String name, int regDKID) {
             this.id = id;
             this.name = name;

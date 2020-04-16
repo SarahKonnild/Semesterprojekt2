@@ -135,6 +135,7 @@ public class LandingPageController implements Initializable {
         userInfo.setText("Administrator");
     }
 
+    //TODO Add comments to the methods to explain what they do
     //HANDLER FOR THE SEARCH LISTVIEW
     @FXML
     public void handleSearchResultChosen(MouseEvent event) {
