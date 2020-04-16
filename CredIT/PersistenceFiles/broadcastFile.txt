@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 1,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
 2,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
 3,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
 4,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+=======
+1,klovn,Assistenter;67:6766_kameramand;1:6:189203,1,1,01-05-2003
+2,klovn,Assistenter;67:6766_kameramand;1:6:189203,1,1,01-05-2003
+3,klovn,Assistenter;67:6766_kameramand;1:6:189203,1,1,01-05-2003
+>>>>>>> NichlasTeis_Persistence
