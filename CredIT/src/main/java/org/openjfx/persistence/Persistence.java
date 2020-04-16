@@ -387,18 +387,19 @@ public class Persistence implements IPersistence {
 
                 String output = "";
                 String currentLine = reader.nextLine();
-                int i = 0;
-                int k = 0;
+
+
 
                 if (currentLine.contains(String.valueOf(cast2.getId()))) {
 
                     String[] broadcast = currentLine.split(",");
 
-                    String[] keyValuePairs = broadcast[3].split("_");
+                    String[] keyValuePairs = broadcast[2].split("_");
 
                     output = broadcast[0] + "," + broadcast[1] + ",";
-
+                    int i = 0;
                     for (String keyValue : keyValuePairs) {
+                        int k = 0;
                         String[] keyValueSplit = keyValue.split(";");
 
                         String[] values = keyValueSplit[1].split(":");
@@ -407,6 +408,7 @@ public class Persistence implements IPersistence {
                             output += keyValueSplit[0] + ";";
 
                             for (String value : values) {
+
                                 if (k != values.length - 1) {
                                     if (value.equals(String.valueOf(cast2.getId()))) {
                                         value = String.valueOf(cast1.getId());
@@ -444,14 +446,16 @@ public class Persistence implements IPersistence {
                         }
                         i++;
                     }
+                    output += broadcast[3] + "," + broadcast[4] + "," + broadcast[5];
+                }else{
+                    output = currentLine;
                 }
                 newTxt += output + "\n";
             }
-            writer = new PrintWriter(broadcastFile);
-            writer.write(newTxt);
+            newTxt = newTxt.trim();
             removeCastFromDatabase(cast2.getId());
-
-
+            writer = new PrintWriter(broadcastFile);
+            writer.println(newTxt);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } finally {
@@ -469,7 +473,6 @@ public class Persistence implements IPersistence {
 
         try {
             reader = new Scanner(castFile);
-            writer = new PrintWriter(castFile);
             while (reader.hasNextLine()) {
                 String currentLine = reader.nextLine();
                 String[] user = currentLine.split(",");
@@ -480,7 +483,7 @@ public class Persistence implements IPersistence {
                     newTxt += user[0] + "," + name + "," + regDKID + "\n";
                 }
             }
-
+            writer = new PrintWriter(castFile);
             writer.write(newTxt);
             returnBool = true;
         } catch (FileNotFoundException e) {
@@ -584,30 +587,57 @@ public class Persistence implements IPersistence {
         Persistence persistence = Persistence.getInstance();
 
         try {
-            persistence.createNewCastInDatabase(new Cast(0, "Teis", 1));
-            Broadcast test = new Broadcast(0, "klovn",1,1,"01-05-2003");
-            ArrayList <ICast>cast = new ArrayList<>();
-            cast.add((ICast) new Cast(1, "Sarah", 5));
-            cast.add((ICast)new Cast(6, "Simon", 58));
-            ArrayList<ICast> cast2 = new ArrayList<>();
-            cast2.add((ICast)new Cast(67, "Laust", 65));
-            cast2.add((ICast)new Cast(6766, "Lise", 67));
-            cast.add((ICast) new Cast(189203, "Teis2", 2173));
-            HashMap<String, ArrayList<ICast>> map = new HashMap<>();
-            map.put("kameramand", cast);
-            map.put("Assistenter", cast2);
-            test.setCastMap(map);
-            persistence.createNewCastInDatabase(new Cast(1, "Nichlas", 2));
-            persistence.createNewBroadcastInDatabase(test);
-          //  persistence.removeBroadcastFromDatabase(1);
-          //  persistence.removeCastFromDatabase(4);
-            ArrayList<IBroadcast> array = new ArrayList<>();
-            array.add(test);
-            array.add(test);
-            Production p = new Production(1, "Zeop", array, "4040", "TV2");
-            persistence.createNewProductionInDatabase(p);
-           // persistence.removeProductionFromDatabase(1);
-          persistence.mergeCastInDatabase(new Cast(1, "Sarah", 5), new Cast(67, "Simon",9999));
+            Cast cast = new Cast(1, "Sarah", 1);
+            Cast cast1 = new Cast(2, "Laust", 2);
+            Cast cast2 = new Cast(3, "Teis", 3);
+            Cast cast3 = new Cast(4, "Nichlas",4);
+            Cast cast4 = new Cast(5,"Lise",5);
+            Cast cast5 = new Cast(6,"Simon",6);
+
+            persistence.createNewCastInDatabase(cast);
+            persistence.createNewCastInDatabase(cast1);
+            persistence.createNewCastInDatabase(cast2);
+            persistence.createNewCastInDatabase(cast3);
+            persistence.createNewCastInDatabase(cast4);
+            persistence.createNewCastInDatabase(cast5);
+            persistence.createNewCastInDatabase(cast);
+
+            Broadcast b = new Broadcast(1, "hej i stuen",1,2,"02-02-2020");
+            HashMap<String,ArrayList<ICast>> castMap= new HashMap<>();
+            ArrayList<ICast> cameraList = new ArrayList<>();
+            cameraList.add(cast);
+            cameraList.add(cast1);
+            ArrayList<ICast> producerList = new ArrayList<>();
+            producerList.add(cast1);
+            producerList.add(cast2);
+
+            castMap.put("kameramand", cameraList);
+            castMap.put("Producer", producerList);
+
+            b.setCastMap(castMap);
+
+            Broadcast b1 = new Broadcast(2, "hej i stuen 2",1,2,"02-02-2020");
+            HashMap<String,ArrayList<ICast>> castMap1= new HashMap<>();
+            ArrayList<ICast> cameraList1 = new ArrayList<>();
+            cameraList1.add(new Cast(7,"Sarah",1));
+            cameraList1.add(cast1);
+            ArrayList<ICast> producerList1 = new ArrayList<>();
+            producerList1.add(cast1);
+            producerList1.add(cast2);
+
+            castMap1.put("kameramand", cameraList1);
+            castMap1.put("Producer", producerList1);
+
+            b1.setCastMap(castMap1);
+
+            persistence.createNewBroadcastInDatabase(b);
+            persistence.createNewBroadcastInDatabase(b1);
+
+
+            persistence.mergeCastInDatabase(cast, new Cast(7,"Sarah", 7));
+
+            persistence.updateCastInDatabase(1, "Søren", 78);
+
 
 
         } catch (IOException e) {
