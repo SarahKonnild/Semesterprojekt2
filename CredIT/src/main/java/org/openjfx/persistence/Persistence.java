@@ -86,7 +86,7 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public List<String> getBroadcast(String keyword) {
+    public List<String> getBroadcastFromDatabase(String keyword) {
         try {
             reader = new Scanner(broadcastFile);
 
@@ -102,19 +102,19 @@ public class Persistence implements IPersistence {
         return null;
     }
     @Override
-    public List<String> getBroadcast(int keyword){return null;}
+    public List<String> getBroadcastFromDatabase(int keyword){return null;}
 
     @Override
-    public List<String> getCast(String keyword) {
+    public List<String> getCastFromDatabase(String keyword) {
         return null;
     }
     @Override
-    public List<String> getCast(int keyword) {
+    public List<String> getCastFromDatabase(int keyword) {
         return null;
     }
 
     @Override
-    public List<String> getProduction(String keyword) {
+    public List<String> getProductionFromDatabase(String keyword) {
         return null;
     }
 

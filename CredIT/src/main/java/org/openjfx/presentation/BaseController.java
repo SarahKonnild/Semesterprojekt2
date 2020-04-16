@@ -1,12 +1,10 @@
 package org.openjfx.presentation;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +12,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.openjfx.persistence.Persistence;
@@ -108,17 +105,16 @@ public class BaseController implements Initializable {
     public void handleSearchButtonClicked(MouseEvent event){
         String searchString = searchField.getText();
         if(searchTopicChosen == "cast"){
-            Persistence.getInstance().getCast(searchString);
+            Persistence.getInstance().getCastFromDatabase(searchString);
             //code to print the result into the ListView.
         } else if(searchTopicChosen == "production"){
-            Persistence.getInstance().getProduction(searchString);
+            Persistence.getInstance().getProductionFromDatabase(searchString);
             //code to print the result into the ListView.
         } else if(searchTopicChosen == "broadcast"){
-            Persistence.getInstance().getBroadcast(searchString);
+            Persistence.getInstance().getBroadcastFromDatabase(searchString);
             //code to print the result into the ListView.
         }
     }
-
 
     /**
      * Handles the triggering of different search-topics, which enables the searchbutton
@@ -150,10 +146,6 @@ public class BaseController implements Initializable {
                 searchTopicChosen = "broadcast";
             }
         });
-    }
-
-    public Stage getLoginStage(){
-        return loginStage;
     }
 
 }

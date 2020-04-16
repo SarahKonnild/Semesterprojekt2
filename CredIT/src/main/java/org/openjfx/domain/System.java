@@ -38,12 +38,12 @@ public class System implements ISystem {
         IUser user1 = new User(10, "name","password", "username");
         user1.addNewBroadcastToDatabase("name",10,10,"yes");
 
-        return makeCastObjects(persistenceLayer.getCast(keyword));
+        return makeCastObjects(persistenceLayer.getCastFromDatabase(keyword));
     }
 
     @Override
     public ArrayList<Cast> searchCast(int broadcastId) {
-        return makeCastObjects(persistenceLayer.getCast(broadcastId));
+        return makeCastObjects(persistenceLayer.getCastFromDatabase(broadcastId));
     }
 
     /**
@@ -68,11 +68,11 @@ public class System implements ISystem {
     //region broadcast database search methods here
     @Override
     public ArrayList<IBroadcast> searchBroadcast(String keyword) {
-        return makeBroadcastObjects(persistenceLayer.getBroadcast(keyword));
+        return makeBroadcastObjects(persistenceLayer.getBroadcastFromDatabase(keyword));
     }
     @Override
     public ArrayList<IBroadcast> searchBroadcast(int productionID) {
-        return makeBroadcastObjects(persistenceLayer.getBroadcast(productionID));
+        return makeBroadcastObjects(persistenceLayer.getBroadcastFromDatabase(productionID));
     }
 
     /**
@@ -99,7 +99,7 @@ public class System implements ISystem {
     @Override
     public ArrayList<IProduction> searchProduction(String keyword) {
         ArrayList<IProduction> productions = new ArrayList();
-        List<String> list = persistenceLayer.getProduction(keyword);
+        List<String> list = persistenceLayer.getProductionFromDatabase(keyword);
         if(list.size() > 0 ) {
             for (int i = 0; i < list.size(); i++){
                 String[] items = list.get(i).split(",");

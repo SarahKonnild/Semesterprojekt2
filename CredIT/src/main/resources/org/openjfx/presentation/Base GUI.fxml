@@ -35,7 +35,7 @@
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="259.0" prefWidth="545.0" VBox.vgrow="ALWAYS">
       <children>
             <ListView fx:id="searchList" layoutX="14.0" layoutY="14.0" onMouseClicked="#handleSearchResultClicked" prefHeight="231.0" prefWidth="200.0" />
-            <Button fx:id="searchButton" layoutX="438.0" layoutY="57.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="46.0" text="Søg" />
+            <Button fx:id="searchButton" layoutX="438.0" layoutY="57.0" mnemonicParsing="false" onMouseClicked="#handleSearchButtonClicked" prefHeight="27.0" prefWidth="46.0" text="Søg" />
             <TextField fx:id="searchField" layoutX="242.0" layoutY="14.0" prefHeight="25.0" prefWidth="242.0" promptText="Indtast Søgeord (fx Søren Ryge)" />
             <MenuButton fx:id="searchTopic" layoutX="242.0" layoutY="57.0" mnemonicParsing="false" onMouseClicked="#handleSearchTopicClicked" text="Søgeemne">
               <items>
