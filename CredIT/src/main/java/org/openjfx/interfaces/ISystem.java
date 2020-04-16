@@ -44,7 +44,9 @@ public interface ISystem {
      */
     public ArrayList<IProduction> searchProduction(String keyword);
 
-    public User getUser();
+    public IUser createNewUser(String username, String password);
+
+    public IUser getUser();
 
     public Persistence getPersistenceLayer();
 }

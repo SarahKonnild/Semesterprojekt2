@@ -12,6 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.openjfx.interfaces.ISystem;
+import org.openjfx.interfaces.IUser;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,6 +28,8 @@ public class LoginController implements Initializable {
     private TextField username;
     @FXML
     private TextField password;
+
+    private static IUser adminUser;
 
 
     @Override
@@ -42,6 +46,7 @@ public class LoginController implements Initializable {
     @FXML
     public void handleLoginClicked(MouseEvent event){
         if(username.getText().equals("admin") && password.getText().equals("admin")){
+            adminUser = App.getSystemInstance().createNewUser(username.getText(), password.getText());
             try {
                 Parent value = FXMLLoader.load(LoginController.class.getResource("LandingPageGUI.fxml"));
                 App.getScene().setRoot(value);
@@ -51,7 +56,7 @@ public class LoginController implements Initializable {
             } catch(IOException ex){
                 ex.printStackTrace();
             }finally{
-                //implement code to close the login window upon having changed the root scene
+                //TODO implement code to close the login window upon having changed the root scene
             }
             //errorMsg.setText("Login Succesfuldt");
             //errorMsg.setVisible(true);
@@ -60,6 +65,10 @@ public class LoginController implements Initializable {
             errorMsg.setVisible(true);
         }
 
+    }
+
+    public static IUser getAdminUser(){
+        return adminUser;
     }
 
 }

@@ -2,8 +2,11 @@ package org.openjfx.presentation;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -14,6 +17,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.openjfx.interfaces.IBroadcast;
+import org.openjfx.interfaces.ICast;
+import org.openjfx.interfaces.IProduction;
 import org.openjfx.persistence.Persistence;
 
 public class BaseController implements Initializable {
@@ -44,12 +50,20 @@ public class BaseController implements Initializable {
     @FXML
     private MenuItem loginMenu;
     @FXML
-    private TextArea searchString;
+    private TextArea searchResultArea;
     @FXML
     private TextField searchField;
 
     private String searchTopicChosen;
     private Stage loginStage = new Stage();
+
+    private ArrayList<IProduction> productionSearchResult;
+    private ArrayList<ICast> castSearchResult;
+    private ArrayList<IBroadcast> broadcastSearchResult;
+
+    private ObservableList<ICast> castObservableList;
+    private ObservableList<IProduction> productionObservableList;
+    private ObservableList<IBroadcast> broadcastObservableList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -90,9 +104,13 @@ public class BaseController implements Initializable {
         }
     }
 
+    /**
+     * En eller anden dag bliver der en tekst her
+     * @param event
+     */
     @FXML
     public void handleSearchResultClicked(MouseEvent event){
-
+        searchResultArea.setText(searchList.getSelectionModel().getSelectedItems().toString());
     }
 
     /**
@@ -105,14 +123,17 @@ public class BaseController implements Initializable {
     public void handleSearchButtonClicked(MouseEvent event){
         String searchString = searchField.getText();
         if(searchTopicChosen == "cast"){
-            Persistence.getInstance().getCastFromDatabase(searchString);
-            //code to print the result into the ListView.
+            castSearchResult = App.getSystemInstance().searchCast(searchString);
+            castObservableList = FXCollections.observableArrayList(castSearchResult);
+            searchList.setItems(castObservableList);
         } else if(searchTopicChosen == "production"){
-            Persistence.getInstance().getProductionFromDatabase(searchString);
-            //code to print the result into the ListView.
+            productionSearchResult = App.getSystemInstance().searchProduction(searchString);
+            productionObservableList = FXCollections.observableArrayList(productionSearchResult);
+            searchList.setItems(productionObservableList);
         } else if(searchTopicChosen == "broadcast"){
-            Persistence.getInstance().getBroadcastFromDatabase(searchString);
-            //code to print the result into the ListView.
+            broadcastSearchResult = App.getSystemInstance().searchBroadcast(searchString);
+            broadcastObservableList = FXCollections.observableArrayList(broadcastSearchResult);
+            searchList.setItems(broadcastObservableList);
         }
     }
 

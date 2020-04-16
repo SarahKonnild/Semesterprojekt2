@@ -2,8 +2,12 @@ package org.openjfx.presentation;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +17,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.openjfx.interfaces.IBroadcast;
+import org.openjfx.interfaces.ICast;
+import org.openjfx.interfaces.IProduction;
 
 public class LandingPageController implements Initializable {
     @FXML
@@ -105,6 +112,16 @@ public class LandingPageController implements Initializable {
     private Stage assignStage = new Stage();
     private Stage unassignStage = new Stage();
 
+    private ArrayList<IProduction> productionSearchResult;
+    private ArrayList<ICast> castSearchResult;
+    private ArrayList<IBroadcast> broadcastSearchResult;
+
+    private ObservableList<ICast> castObservableList;
+    private ObservableList<IProduction> productionObservableList;
+    private ObservableList<IBroadcast> broadcastObservableList;
+
+    boolean creationState;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -116,7 +133,15 @@ public class LandingPageController implements Initializable {
 
     @FXML
     public void handleSearchCast(MouseEvent event){
-
+        String searchText = searchFieldCast.getText();
+        searchResult.getItems().clear();
+        castSearchResult = App.getSystemInstance().searchCast(searchText);
+        if(castSearchResult != null) {
+            castObservableList = FXCollections.observableArrayList(castSearchResult);
+            searchResult.setItems(castObservableList);
+        } else{
+            errorMsgCastSearch.setVisible(true);
+        }
         //Clear the ListView.
         //Fetch the information from the persistence layer and show it into the searchResults
         //Listview, one Cast per line.
@@ -125,6 +150,12 @@ public class LandingPageController implements Initializable {
 
     @FXML
     public void handleCreateNewCast(MouseEvent event){
+        creationState = LoginController.getAdminUser().addNewCastToDatabase(castName.getText(), Integer.parseInt(regDKField.getText()));
+        if(creationState){
+            errorMsgCast.setText("Medvirkende oprettet");
+        } else{
+            errorMsgCast.setText("Fejl opstået, medvirkende blev ikke oprettet");
+        }
         //fetch the information from textfields:
         //castName and regDKField
         //and set them to be the values of the Cast-constructor's parameters.
@@ -172,6 +203,16 @@ public class LandingPageController implements Initializable {
 
     @FXML
     public void handleSearchProduction(MouseEvent event){
+        String searchText = searchFieldProduction.getText();
+        searchResult.getItems().clear();
+        productionSearchResult = App.getSystemInstance().searchProduction(searchText);
+        if(productionSearchResult != null) {
+            productionObservableList = FXCollections.observableArrayList(productionSearchResult);
+            searchResult.setItems(productionObservableList);
+        } else{
+            errorMsgProductionSearch.setVisible(true);
+        }
+
         //Clear the ListView.
         //Fetch the information from the persistence layer and show it into the searchResults
         //Listview, one production per line.
@@ -180,15 +221,22 @@ public class LandingPageController implements Initializable {
 
     @FXML
     public void handleCreateNewProduction(MouseEvent event){
+        creationState = LoginController.getAdminUser().addNewProductionToDatabase(productionName.getText(), productionReleaseYear.getText(), producerName.getText());
+        if(creationState){
+            errorMsgProduction.setText("Produktionen oprettet");
+        } else {
+            errorMsgProduction.setText("Fejl opstået, produktionen blev ikke oprettet");
+        }
+
         //fetch the information from textfields:
         // productionName, productionReleaseYear, producerName
         // and set them to be the values of the Production-constructor's parameters.
         //In addition, set the values of the text fields amountOfSeasons and amountOfBroadcasts
         //to zero. Will update as broadcasts are added to that production.
         //IF SUCCESS: update errorMsgProduction to text black/green and message:
-        //"Produktionen slettet"
+        //"Produktionen oprettet"
         //IF FAIL: update errorMsgProduction to text red and message:
-        //"Fejl opstået, produktionen blev ikke slettet"
+        //"Fejl opstået, produktionen blev ikke oprettet"
     }
 
     @FXML
@@ -208,6 +256,15 @@ public class LandingPageController implements Initializable {
 
     @FXML
     public void handleSearchBroadcast(MouseEvent event){
+        String searchText = searchFieldBroadcast.getText();
+        searchResult.getItems().clear();
+        broadcastSearchResult = App.getSystemInstance().searchBroadcast(searchText);
+        if(broadcastSearchResult != null) {
+            broadcastObservableList = FXCollections.observableArrayList(broadcastSearchResult);
+            searchResult.setItems(broadcastObservableList);
+        } else{
+            errorMsgBroadcastSearch.setVisible(true);
+        }
         //Clear the ListView.
         //Fetch the information from the persistence layer and show it into the searchResults
         //Listview, one broadcast per line.
@@ -253,6 +310,13 @@ public class LandingPageController implements Initializable {
 
     @FXML
     public void handleCreateBroadcast(MouseEvent event){
+        creationState = LoginController.getAdminUser().addNewBroadcastToDatabase(broadcastName.getText(),Integer.parseInt(broadcastSeason.getText()),
+                Integer.parseInt(broadcastEpisodeNumber.getText()), broadcastAirDate.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+        if(creationState){
+            errorMsgBroadcast.setText("Udsendelsen tilføjet");
+        } else{
+            errorMsgBroadcast.setText("Fejl opstået, udsendelsen blev ikke tilføjet");
+        }
         //fetch the information from textfields:
         // broadcastName, broadcastProduction, broadcastSeason, broadcastEpisodeNumber & broadcastAirDate
         // and set them to be the values of the Broadcast-constructor's parameters.

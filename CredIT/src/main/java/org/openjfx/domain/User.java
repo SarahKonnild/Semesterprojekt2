@@ -25,6 +25,12 @@ public class User implements IUser{
         this.role = role;
     }
 
+    public User(String username, String password){
+        this.username = username;
+        this.password = password;
+        this.role = Role.SYSADMIN;
+    }
+
     @Override
     public boolean addNewCastToDatabase(String name, int regDKID) {
         Cast cast = new Cast(name, regDKID);

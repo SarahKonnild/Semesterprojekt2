@@ -19,6 +19,7 @@ public class App extends Application {
 
     private static Scene scene;
     private static Stage stage;
+    private static ISystem sys;
 
 
     @Override
@@ -28,12 +29,6 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
 
-        //region This is just for show, delete at some time.
-        ISystem sys = new System();
-        ArrayList<IBroadcast> list;
-        list = sys.searchBroadcast("Something");
-        list.get(1).saveBroadcast();
-        //endregion
     }
 
     static void setRoot(String fxml) throws IOException {
@@ -55,6 +50,7 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+        sys = new System(); //creates a new object of system
 
         launch();
 
@@ -67,5 +63,9 @@ public class App extends Application {
 
     public static Stage getStage(){
         return stage;
+    }
+
+    public static ISystem getSystemInstance(){
+        return sys;
     }
 }

@@ -25,7 +25,7 @@ public class System implements ISystem {
 
     /*
      * The following search methods are based on 3 different return types. Each of them have 1 overloaded method that just takes another parameter
-     * Every seach method makes a call to the persistencelayer that then will supply a list based on the result.
+     * Every search method makes a call to the persistencelayer that then will supply a list based on the result.
      * The search method will then call a private method in the system class, pass the list as a parameter.
      * It will then create objects based on the information in the list and return an arrayList of the objects.
      */
@@ -146,9 +146,17 @@ public class System implements ISystem {
     //endregion
 
     @Override
-    public User getUser() {
+    public IUser createNewUser(String username, String password) {
+        IUser userAccount = new User(username, password);
+        return userAccount;
+    }
+
+    @Override
+    public IUser getUser() {
+
         return this.user;
     }
+
     @Override
     public Persistence getPersistenceLayer() {
         return this.persistenceLayer;
