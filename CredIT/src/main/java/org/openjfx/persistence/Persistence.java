@@ -1,8 +1,12 @@
 package org.openjfx.persistence;
 
+import org.openjfx.domain.Broadcast;
+import org.openjfx.domain.Cast;
+import org.openjfx.domain.Production;
 import org.openjfx.interfaces.*;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,10 +32,10 @@ public class Persistence implements IPersistence {
 
 
     private Persistence() {
-        this.castFile = new File("PersistenceFiles\\castFile.csv");
-        this.broadcastFile = new File("PersistenceFiles\\broadcastFile.csv");
-        this.productionFile = new File("PersistenceFiles\\productionFile.csv");
-        this.userFile = new File("PersistenceFiles\\userFile.csv");
+        this.castFile = new File("PersistenceFiles\\castFile.txt");
+        this.broadcastFile = new File("PersistenceFiles\\broadcastFile.txt");
+        this.productionFile = new File("PersistenceFiles\\productionFile.txt");
+        this.userFile = new File("PersistenceFiles\\userFile.txt");
         this.writer = null;
         this.reader = null;
 
@@ -88,7 +92,6 @@ public class Persistence implements IPersistence {
         String newTxt = "";
         try {
             reader = new Scanner(userFile);
-            writer = new PrintWriter(userFile);
             while (reader.hasNextLine()) {
                 String currentLine = reader.nextLine();
                 String[] user = currentLine.split(",");
@@ -99,6 +102,7 @@ public class Persistence implements IPersistence {
                     returnBool = true;
                 }
             }
+            writer = new PrintWriter(userFile);
             writer.write(newTxt);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -119,29 +123,31 @@ public class Persistence implements IPersistence {
             String temp = broadcastId + "," + broadcast.getName() + ",";
             HashMap<String, ArrayList<ICast>> test = broadcast.getCastMap();
             int k = 0;
-            int i = 0;
             for (String s : test.keySet()) {
-                if (test.keySet().size() - 1 != k) {
+                int i = 0;
+                if (test.keySet().size()-1 != k) {
                     temp += s + ";";
                     for (ICast cast : test.get(s)) {
-                        if (i == test.get(s).size() - 1) {
+                        if (i == test.get(s).size()-1) {
                             temp += cast.getId() + "_";
                         } else {
                             temp += cast.getId() + ":";
-                            i++;
+
                         }
+                        i++;
                     }
 
 
                 } else {
                     temp += s + ";";
                     for (ICast cast : test.get(s)) {
-                        if (i == test.get(s).size() - 1) {
+                        if (i == test.get(s).size()-1) {
                             temp += cast.getId() + ",";
                         } else {
                             temp += cast.getId() + ":";
-                            i++;
+
                         }
+                        i++;
                     }
                 }
                 k++;
@@ -167,7 +173,6 @@ public class Persistence implements IPersistence {
         String newTxt = "";
         try {
             reader = new Scanner(broadcastFile);
-            writer = new PrintWriter(broadcastFile);
             while (reader.hasNextLine()) {
                 String currentLine = reader.nextLine();
                 String[] broadcast = currentLine.split(",");
@@ -178,7 +183,8 @@ public class Persistence implements IPersistence {
                     returnBool = true;
                 }
             }
-            writer.write(newTxt);
+            writer = new PrintWriter(broadcastFile);
+            writer.print(newTxt);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } finally {
@@ -206,6 +212,7 @@ public class Persistence implements IPersistence {
                 i++;
 
             }
+            temp += production.getProductionCompany() + "," + production.getNumberOfSeasons() + "," + production.getNumberOfEpisodes();
             writer.println(temp);
             productionId++;
             returnBool = true;
@@ -226,7 +233,6 @@ public class Persistence implements IPersistence {
         String newTxt = "";
         try {
             reader = new Scanner(productionFile);
-            writer = new PrintWriter(productionFile);
             while (reader.hasNextLine()) {
                 String currentLine = reader.nextLine();
                 String[] production = currentLine.split(",");
@@ -237,6 +243,7 @@ public class Persistence implements IPersistence {
                     returnBool = true;
                 }
             }
+            writer = new PrintWriter(productionFile);
             writer.write(newTxt);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -276,7 +283,6 @@ public class Persistence implements IPersistence {
         String newTxt = "";
         try {
             reader = new Scanner(castFile);
-            writer = new PrintWriter(castFile);
             while (reader.hasNextLine()) {
                 String currentLine = reader.nextLine();
                 String[] user = currentLine.split(",");
@@ -287,6 +293,7 @@ public class Persistence implements IPersistence {
                     returnBool = true;
                 }
             }
+            writer = new PrintWriter(castFile);
             writer.write(newTxt);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -376,7 +383,6 @@ public class Persistence implements IPersistence {
         String newTxt = "";
         try {
             reader = new Scanner(broadcastFile);
-            writer = new PrintWriter(broadcastFile);
             while (reader.hasNextLine()) {
 
                 String output = "";
@@ -441,7 +447,11 @@ public class Persistence implements IPersistence {
                 }
                 newTxt += output + "\n";
             }
+            writer = new PrintWriter(broadcastFile);
             writer.write(newTxt);
+            removeCastFromDatabase(cast2.getId());
+
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } finally {
@@ -572,7 +582,37 @@ public class Persistence implements IPersistence {
 
     public static void main(String[] args) {
         Persistence persistence = Persistence.getInstance();
-        persistence.removeProductionFromDatabase(19);
+
+        try {
+            persistence.createNewCastInDatabase(new Cast(0, "Teis", 1));
+            Broadcast test = new Broadcast(0, "klovn",1,1,"01-05-2003");
+            ArrayList <ICast>cast = new ArrayList<>();
+            cast.add((ICast) new Cast(1, "Sarah", 5));
+            cast.add((ICast)new Cast(6, "Simon", 58));
+            ArrayList<ICast> cast2 = new ArrayList<>();
+            cast2.add((ICast)new Cast(67, "Laust", 65));
+            cast2.add((ICast)new Cast(6766, "Lise", 67));
+            cast.add((ICast) new Cast(189203, "Teis2", 2173));
+            HashMap<String, ArrayList<ICast>> map = new HashMap<>();
+            map.put("kameramand", cast);
+            map.put("Assistenter", cast2);
+            test.setCastMap(map);
+            persistence.createNewCastInDatabase(new Cast(1, "Nichlas", 2));
+            persistence.createNewBroadcastInDatabase(test);
+          //  persistence.removeBroadcastFromDatabase(1);
+          //  persistence.removeCastFromDatabase(4);
+            ArrayList<IBroadcast> array = new ArrayList<>();
+            array.add(test);
+            array.add(test);
+            Production p = new Production(1, "Zeop", array, "4040", "TV2");
+            persistence.createNewProductionInDatabase(p);
+           // persistence.removeProductionFromDatabase(1);
+          persistence.mergeCastInDatabase(new Cast(1, "Sarah", 5), new Cast(67, "Simon",9999));
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
