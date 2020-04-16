@@ -51,4 +51,8 @@ public interface ICast {
      * @return the RegDKID of the cast member.
      */
     public int getRegDKID();
+
+    public void setRole(String role);
+
+    public String getRole();
 }

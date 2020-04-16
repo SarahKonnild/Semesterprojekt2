@@ -54,9 +54,11 @@ public class Cast implements ICast {
             return persistence.removeCastFromDatabase(this.id);
     }
 
+    @Override
     public void setRole(String role){
         this.role = role;
     }
+    @Override
     public String getRole(){
         return this.role;
     }
