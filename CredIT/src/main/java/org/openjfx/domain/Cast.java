@@ -4,6 +4,8 @@ import org.openjfx.interfaces.ICast;
 import org.openjfx.interfaces.IPersistence;
 import org.openjfx.persistence.Persistence;
 
+import java.io.IOException;
+
 public class Cast implements ICast {
     private final IPersistence persistence = Persistence.getInstance();
     private int id;
@@ -29,21 +31,26 @@ public class Cast implements ICast {
     }
 
     @Override
-    public ICast updateCast(String name, int regDKID) {
+    public boolean updateCast(String name, int regDKID) {
         this.name = name;
         this.regDKID = regDKID;
         persistence.updateCastInDatabase(this.id, name, regDKID);
-        return this;
+        return true;
     }
 
     @Override
-    public boolean saveCast(ICast cast) {
-        return persistence.createNewCastInDatabase(cast);
+    public boolean saveCast() {
+        try {
+            return persistence.createNewCastInDatabase(this);
+        } catch(IOException ex){
+            ex.printStackTrace();
+        }
+        return true;
     }
 
     @Override
-    public boolean deleteCast(ICast cast) {
-        return persistence.removeCastFromDatabase(cast.getId());
+    public boolean deleteCast() {
+            return persistence.removeCastFromDatabase(this.id);
     }
 
     public int getId() {

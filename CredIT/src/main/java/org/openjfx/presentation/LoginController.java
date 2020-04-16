@@ -52,7 +52,7 @@ public class LoginController implements Initializable {
                 App.getScene().setRoot(value);
                 App.getStage().setHeight(505);
                 App.getStage().setWidth(655);
-                App.getStage().setResizable(true);
+                App.getStage().setResizable(false);
             } catch(IOException ex){
                 ex.printStackTrace();
             }finally{

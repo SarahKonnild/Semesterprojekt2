@@ -43,7 +43,7 @@ public class Production implements IProduction {
     public boolean saveProduction() {
         boolean saveStatus;
         //Method call to the persistenceLayer to send this object and save the data in it
-        saveStatus = System.instance.getPersistenceLayer().createProduction(this);
+        saveStatus = System.instance.getPersistenceLayer().createNewProductionInDatabase(this);
         if(!saveStatus){
             //Do some stuff here to deal with the fail maybe?
             return false;

@@ -33,13 +33,9 @@ public class Persistence implements IPersistence {
 
 
     @Override
-    public boolean createUser(IUser user) {
+    public boolean createNewUserInDatabase(IUser user) {
         try {
             writer = new PrintWriter(userFile);
-
-
-
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } finally {
@@ -51,37 +47,37 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public boolean deleteUser(int id) {
+    public boolean removeUserFromDatabase(int id) {
         return false;
     }
 
     @Override
-    public boolean createBroadcast(IBroadcast broadcast) {
+    public boolean createNewBroadcastInDatabase(IBroadcast broadcast) {
         return false;
     }
 
     @Override
-    public boolean deleteBroadcast(int id) {
+    public boolean removeBroadcastFromDatabase(int id) {
         return false;
     }
 
     @Override
-    public boolean createProduction(IProduction production) {
+    public boolean createNewProductionInDatabase(IProduction production) {
         return false;
     }
 
     @Override
-    public boolean removeProduction(int id) {
+    public boolean removeProductionFromDatabase(int id) {
         return false;
     }
 
     @Override
-    public boolean createCast(ICast cast) {
+    public boolean createNewCastInDatabase(ICast cast) {
         return false;
     }
 
     @Override
-    public boolean removeCast(int id) {
+    public boolean removeCastFromDatabase(int id) {
         return false;
     }
 
@@ -101,17 +97,19 @@ public class Persistence implements IPersistence {
 
         return null;
     }
-    @Override
-    public List<String> getBroadcastFromDatabase(int keyword){return null;}
+
+//    @Override
+//    public List<String> getBroadcastFromDatabase(int keyword){return null;}
 
     @Override
     public List<String> getCastFromDatabase(String keyword) {
         return null;
     }
-    @Override
-    public List<String> getCastFromDatabase(int keyword) {
-        return null;
-    }
+
+//    @Override
+//    public List<String> getCastFromDatabase(int keyword) {
+//        return null;
+//    }
 
     @Override
     public List<String> getProductionFromDatabase(String keyword) {
@@ -119,12 +117,12 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public boolean mergeCast(ICast cast1, ICast cast2) {
+    public boolean mergeCastInDatabase(ICast cast1, ICast cast2) {
         return false;
     }
 
     @Override
-    public boolean update(int id, String name, int regDKID) {
+    public boolean updateCastInDatabase(int id, String name, int regDKID) {
         return false;
     }
 
@@ -133,13 +131,12 @@ public class Persistence implements IPersistence {
         if(instance == null){
             instance = new Persistence();
         }
-
         return instance;
     }
 
     public static void main(String[] args){
         Persistence persistence = Persistence.getInstance();
-        persistence.deleteBroadcast(19);
+        //persistence.deleteBroadcast(19);
     }
 
 }

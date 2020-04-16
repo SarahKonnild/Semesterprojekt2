@@ -27,7 +27,7 @@ public class AddAssignController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //allow only one item from the listView chosen at a time
+
     }
 
     @FXML

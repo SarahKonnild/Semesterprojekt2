@@ -44,7 +44,7 @@ public class System implements ISystem {
 
     @Override
     public ArrayList<ICast> searchCast(int broadcastId) {
-        return makeCastObjects(persistenceLayer.getCastFromDatabase(broadcastId));
+        return makeCastObjects(persistenceLayer.getCastFromDatabase(String.valueOf(broadcastId)));
     }
 
     /**
@@ -73,7 +73,7 @@ public class System implements ISystem {
     }
     @Override
     public ArrayList<IBroadcast> searchBroadcast(int broadcastID) {
-        return makeBroadcastObjects(persistenceLayer.getBroadcastFromDatabase(broadcastID));
+        return makeBroadcastObjects(persistenceLayer.getBroadcastFromDatabase(String.valueOf((broadcastID))));
     }
 
     /**
@@ -109,7 +109,7 @@ public class System implements ISystem {
                     }
                 }
                 //Need to update this to take the hashmap instead
-                broadcasts.add(new Broadcast((Integer.parseInt(items[0])), items[1], (Integer.parseInt(items[2])), (Integer.parseInt(items[3])), (items[4])));
+                broadcasts.add(new Broadcast(Integer.parseInt(items[0]), items[1], castRolesMap, Integer.parseInt(items[3]), Integer.parseInt(items[4]), items[5]));
             }
             return broadcasts;
         }
@@ -118,7 +118,7 @@ public class System implements ISystem {
 
     //endregion
 
-    //region production seach methods here
+    //region production search methods here
     @Override
     public ArrayList<IProduction> searchProduction(String keyword) {
         ArrayList<IProduction> productions = new ArrayList<>();

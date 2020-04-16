@@ -10,10 +10,9 @@ public interface IBroadcast {
 
     /**
      * Saves the broadcast to the persistence.
-     * @param broadcast
      * @return
      */
-    public boolean saveBroadcast(IBroadcast broadcast);
+    public boolean saveBroadcast();
 
     /**
      * Assigns a {@code Cast} object to a specified role value in the HashMap of the broadcast.
@@ -63,6 +62,9 @@ public interface IBroadcast {
      * Returns the air date of this broadcast.
      * @return the air date of this broadcast.
      */
-    public String getAirDate();
+
+    public String[] getAirDate();
+
+    public void setAirDate(String[] airDate);
 }
 

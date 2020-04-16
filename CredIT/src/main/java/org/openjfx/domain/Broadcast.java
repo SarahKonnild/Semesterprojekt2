@@ -4,6 +4,7 @@ import org.openjfx.interfaces.ICast;
 import org.openjfx.interfaces.IPersistence;
 import org.openjfx.persistence.Persistence;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -14,7 +15,7 @@ public class Broadcast implements IBroadcast {
     private HashMap<String, ArrayList<ICast>> castMap;
     private int seasonNumber;
     private int episodeNumber;
-    private String airDate;
+    private String[] airDate;
 
     public Broadcast(int id, String name, HashMap<String, ArrayList<ICast>> castMap, int seasonNumber, int episodeNumber, String airDate) {
         this.id = id;
@@ -22,16 +23,28 @@ public class Broadcast implements IBroadcast {
         this.castMap = castMap;
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
-        this.airDate = airDate;
-
+        this.airDate = airDate.split("-");
     }
-    private void loadCast(){
 
+    public Broadcast(String name, int seasonNumber, int episodeNumber, String airDate){
+        this.name = name;
+        this.seasonNumber = seasonNumber;
+        this.episodeNumber = episodeNumber;
+        this.airDate = airDate.split("-");
     }
+
+//    private void loadCast(){
+//
+//    }
 
     @Override
-    public boolean saveBroadcast(IBroadcast broadcast) {
-        return persistence.createBroadcast(broadcast);
+    public boolean saveBroadcast() {
+        try {
+            return persistence.createNewBroadcastInDatabase(this);
+        }catch(IOException ex){
+            ex.printStackTrace();
+        }
+        return true;
     }
 
     @Override
@@ -79,11 +92,11 @@ public class Broadcast implements IBroadcast {
         this.episodeNumber = episodeNumber;
     }
 
-    public String getAirDate() {
+    public String[] getAirDate() {
         return airDate;
     }
 
-    public void setAirDate(String airDate) {
+    public void setAirDate(String[] airDate) {
         this.airDate = airDate;
     }
 }
