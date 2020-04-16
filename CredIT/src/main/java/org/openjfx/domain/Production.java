@@ -1,6 +1,6 @@
 package org.openjfx.domain;
 
-import org.openjfx.interfaces.IProduction;
+import org.openjfx.interfaces.*;
 
 import java.util.ArrayList;
 
@@ -9,7 +9,7 @@ public class Production implements IProduction {
     private int id;
     private String name;
     private String year;
-    private ArrayList<Broadcast> broadcasts;
+    private ArrayList<IBroadcast> broadcasts;
     private String productionCompany;
     private int numberOfSeasons;
     private int numberOfEpisodes;
@@ -67,7 +67,7 @@ public class Production implements IProduction {
     }
 
     @Override
-    public ArrayList<Broadcast> getBroadcasts() {
+    public ArrayList<IBroadcast> getBroadcasts() {
         return this.broadcasts;
     }
 

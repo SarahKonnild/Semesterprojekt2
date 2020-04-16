@@ -71,8 +71,8 @@ public class System implements ISystem {
         return makeBroadcastObjects(persistenceLayer.getBroadcastFromDatabase(keyword));
     }
     @Override
-    public ArrayList<IBroadcast> searchBroadcast(int productionID) {
-        return makeBroadcastObjects(persistenceLayer.getBroadcastFromDatabase(productionID));
+    public ArrayList<IBroadcast> searchBroadcast(int broadcastID) {
+        return makeBroadcastObjects(persistenceLayer.getBroadcast(broadcastID));
     }
 
     /**
@@ -103,7 +103,7 @@ public class System implements ISystem {
         if(list.size() > 0 ) {
             for (int i = 0; i < list.size(); i++){
                 String[] items = list.get(i).split(",");
-                productions.add(new Production(Integer.parseInt(items[0]), items[1], items[2],items[3]));
+                productions.add(new Production(Integer.parseInt(items[0]), items[1], "ændrer",items[3]));
             }
             return productions;
         }
