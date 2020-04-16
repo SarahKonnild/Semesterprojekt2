@@ -1,7 +1,11 @@
 package org.openjfx.domain;
 
 import org.openjfx.interfaces.ICast;
+import org.openjfx.interfaces.IPersistence;
+import org.openjfx.persistence.Persistence;
+
 public class Cast implements ICast {
+    private final IPersistence persistence = Persistence.getInstance();
     private int id;
     private String name;
     private int regDKID;
@@ -13,28 +17,29 @@ public class Cast implements ICast {
     }
 
     @Override
-    public boolean mergeCastMembers(Cast cast) {
-
-        throw new UnsupportedOperationException();
+    public boolean mergeCastMembers(ICast cast) {
+        persistence.mergeCastInDatabase(this, cast);
+        return persistence.mergeCastInDatabase(this, cast);
     }
 
     @Override
-    public Cast updateCast(String name, int regDKID) {
-            this.name = name;
-            this.regDKID = regDKID;
-            return this;
+    public ICast updateCast(String name, int regDKID) {
+        this.name = name;
+        this.regDKID = regDKID;
+        persistence.updateCastInDatabase(this.id, name, regDKID);
+        return this;
     }
 
     @Override
-    public boolean saveCast(Cast cast) {
-
-        throw new UnsupportedOperationException();
+    public boolean saveCast(ICast cast) {
+        persistence.createNewCastInDatabase(cast);
+        return persistence.createNewCastInDatabase(cast);
     }
 
     @Override
-    public boolean deleteCast(Cast cast) {
-
-        throw new UnsupportedOperationException();
+    public boolean deleteCast(ICast cast) {
+        persistence.removeCastFromDatabase(cast.getId());
+        return persistence.removeCastFromDatabase(cast.getId());
     }
     public int getId() {
         return id; }

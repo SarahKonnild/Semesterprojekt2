@@ -1,10 +1,6 @@
 package org.openjfx.interfaces;
 
-import org.openjfx.domain.Broadcast;
-import org.openjfx.domain.Cast;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 public interface IBroadcast {
@@ -12,23 +8,23 @@ public interface IBroadcast {
     /**
      * Saves the broadcast to the persistence.
      * @param broadcast
-     * @return {@code true}: if the broadcast successfully saves to the persistence. {@code False} otherwise.
+     * @return
      */
-    public boolean saveBroadcast(Broadcast broadcast);
+    public boolean saveBroadcast(IBroadcast broadcast);
 
     /**
      * Assigns a {@code Cast} object to a specified role value in the HashMap of the broadcast.
      * @param cast the {@code Cast} object that is to be assigned.
      * @param role the role of the given cast member, as a {@code String}.
      */
-    public void assignCast(Cast cast,String role);
+    public void assignCast(ICast cast,String role);
 
     /**
      * Removes a {@code Cast} object from the Broadcast object's HashMap.
      * @param cast the {@code Cast} object that is to be removed.
      * @param role the role of the given cast member, as a {@code String}.
      */
-    public void unassignCast(Cast cast, String role);
+    public void unassignCast(ICast cast, String role);
 
     /**
      * Returns the ID of the broadcast. This ID is given by the persistence layer.
@@ -46,7 +42,7 @@ public interface IBroadcast {
      * Returns a map over the roles and their associated cast members on this broadcast.
      * @return a map over the roles and their associated cast members on this broadcast.
      */
-    public HashMap<String, ArrayList<Cast>> getCastMap();
+    public HashMap<String, ArrayList<ICast>> getCastMap();
 
     /**
      * Returns the season number of this broadcast.
@@ -64,6 +60,6 @@ public interface IBroadcast {
      * Returns the air date of this broadcast.
      * @return the air date of this broadcast.
      */
-    public Date getAirDate();
+    public String getAirDate();
 }
 
