@@ -13,7 +13,7 @@ public interface IPersistence {
      * A boolean that is true if the user was succesfully written to the persistence layer
      * @throws IOException
      */
-    public boolean createUser(IUser user) throws IOException;
+    public boolean createNewUserInDatabase(IUser user) throws IOException;
 
     /**
      * Deletes a user from the persistence/layer(Database).
@@ -21,9 +21,8 @@ public interface IPersistence {
      * The ID on the user you want to delete in the persistence layer.
      * @return
      * returns the boolean value of the delete run.
-     *
      */
-    public boolean deleteUser(int id);
+    public boolean removeUserFromDatabase(int id);
 
     /**
      * Saves a new broadcast to the persistence layer.
@@ -32,7 +31,7 @@ public interface IPersistence {
      * @return
      * A boolean that is true if the broadcast was succesfully written to the persistence layer
      */
-    public boolean createBroadcast(IBroadcast broadcast);
+    public boolean createNewBroadcastInDatabase(IBroadcast broadcast);
 
     /**
      * Deletes a broadcast from the persistence/layer(Database).
@@ -42,7 +41,7 @@ public interface IPersistence {
      * returns the boolean value of the delete run.
      *
      */
-    public boolean deleteBroadcast(int id);
+    public boolean removeBroadcastFromDatabase(int id);
 
     /**
      * Saves a new production to the persistence layer.
@@ -51,7 +50,7 @@ public interface IPersistence {
      * @return
      * A boolean that is true if the production was succesfully written to the persistence layer
      */
-    public boolean createProduction(IProduction production);
+    public boolean createNewProductionInDatabase(IProduction production);
 
     /**
      * Deletes a production from the persistence/layer(Database).
@@ -61,7 +60,7 @@ public interface IPersistence {
      * returns the boolean value of the delete run.
      *
      */
-    public boolean removeProduction(int id);
+    public boolean removeProductionFromDatabase(int id);
 
     /**
      * Saves a new cast to the persistence layer.
@@ -70,7 +69,7 @@ public interface IPersistence {
      * @return
      * A boolean that is true if the cast was succesfully written to the persistence layer
      */
-    public boolean createCast(ICast cast);
+    public boolean createNewCastInDatabase(ICast cast);
 
     /**
      * Deletes a cast from the persistence/layer(Database).
@@ -80,7 +79,7 @@ public interface IPersistence {
      * returns the boolean value of the delete run.
      *
      */
-    public boolean removeCast(int id);
+    public boolean removeCastFromDatabase(int id);
 
     /**
      * Finds the broadcasts that matches the keyword and returns them in a list
@@ -89,7 +88,7 @@ public interface IPersistence {
      * @return
      * The list of broadcasts that matched the keyword
      */
-    public List<String> getBroadcast(String keyword);
+    public List<String> getBroadcastFromDatabase(String keyword);
 
     /**
      * Finds the casts that matches the keyword and returns them in a list
@@ -98,7 +97,7 @@ public interface IPersistence {
      * @return
      * The list of casts that matched the keyword
      */
-    public List<String> getCast(String keyword);
+    public List<String> getCastFromDatabase(String keyword);
 
     /**
      * Finds the production that matches the keyword and returns them in a list
@@ -107,7 +106,7 @@ public interface IPersistence {
      * @return
      * The list of production that matched the keyword
      */
-    public List<String> getProduction(String keyword);
+    public List<String> getProductionFromDatabase(String keyword);
 
     /**
      * Merges the two casts in the persistence layer, going through and finding all the references and making sure that the merge is completed correctly
@@ -116,17 +115,21 @@ public interface IPersistence {
      * @param cast2
      * The second cast member that needs merging
      * @return
+     * The boolean value of the merge
      */
-    public boolean mergeCast(ICast cast1, ICast cast2);
+    public boolean mergeCastInDatabase(ICast cast1, ICast cast2);
 
     /**
-     *
+     * Update a cast members values to new name and regDKID
      * @param id
+     * The id of the cast member
      * @param name
+     * The new name of the cast member
      * @param regDKID
+     * The new regDKID of the cast member
      * @return
      */
-    public boolean update(int id, String name, int regDKID);
+    public boolean updateCastInDatabase(int id, String name, int regDKID);
 
 
 }
