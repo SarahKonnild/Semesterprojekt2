@@ -94,9 +94,6 @@ public class System implements ISystem {
         ArrayList<ICast> castObjects = new ArrayList<>();
         HashMap<String, ArrayList<ICast>> castRolesMap = new HashMap<>();
         //TODO Take a decission on whatever we use a hashmap with the ICast as the key and a single string with all the roles for that cast member.
-        //Code is already written, just needs to get updated on Cast and Addasigncontroller
-        //This hashmap is prototype code
-        //HashMap<ICast, String> castMemberRoles = new HashMap<>();
 
         List<String> list = broadcast;
         if (list.size() > 0) {
@@ -116,16 +113,6 @@ public class System implements ISystem {
                         for (int k = 0; k < values.length; k++) {
                             //Calls the search method for casts where is gives the cast ID.
                             castObjects = searchCast(Integer.parseInt(values[k]));
-
-                            //region this is for testing another solution where the hashmap is a Icast/Roles pair.
-//                            if (castMemberRoles.containsKey(castObjects.get(0))) {
-//                                //Checks if the map already has the key(Cast object) and if it does it will add the role to the string.
-//                                String temp = castMemberRoles.get(castObjects.get(0)) + "," + pair[0];
-//                                castMemberRoles.put(castObjects.get(0), temp);
-//                            } else {
-//                                castMemberRoles.put(castObjects.get(0), pair[0]);
-//                            }
-                            //endregion
                         }
                         castRolesMap.put(pair[0], castObjects);
                     }
