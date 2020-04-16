@@ -4,6 +4,7 @@ import org.openjfx.interfaces.*;
 import org.openjfx.persistence.Persistence;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class System implements ISystem {
@@ -34,7 +35,7 @@ public class System implements ISystem {
 
     //region cast database seach metods here
     @Override
-    public ArrayList<Cast> searchCast(String keyword) {
+    public ArrayList<ICast> searchCast(String keyword) {
         IUser user1 = new User(10, "name","password", "username");
         user1.addNewBroadcastToDatabase("name",10,10,"yes");
 
@@ -42,7 +43,7 @@ public class System implements ISystem {
     }
 
     @Override
-    public ArrayList<Cast> searchCast(int broadcastId) {
+    public ArrayList<ICast> searchCast(int broadcastId) {
         return makeCastObjects(persistenceLayer.getCastFromDatabase(broadcastId));
     }
 
@@ -51,9 +52,9 @@ public class System implements ISystem {
      * @param cast
      * @return an arraylist of Cast object
      */
-    private ArrayList<Cast> makeCastObjects(List<String> cast) {
+    private ArrayList<ICast> makeCastObjects(List<String> cast) {
         if(cast.size() > 0 ) {
-            ArrayList<Cast> casts = new ArrayList();
+            ArrayList<ICast> casts = new ArrayList();
             for (int i = 0; i < cast.size(); i++){
                 String[] items = cast.get(i).split(",");
                 casts.add(new Cast((Integer.parseInt(items[0])), items[1], (Integer.parseInt(items[2]))));
@@ -72,7 +73,7 @@ public class System implements ISystem {
     }
     @Override
     public ArrayList<IBroadcast> searchBroadcast(int broadcastID) {
-        return makeBroadcastObjects(persistenceLayer.getBroadcast(broadcastID));
+        return makeBroadcastObjects(persistenceLayer.getBroadcastFromDatabase(broadcastID));
     }
 
     /**
@@ -81,11 +82,33 @@ public class System implements ISystem {
      * @return an arraylist of broadcast objects
      */
     private ArrayList<IBroadcast> makeBroadcastObjects(List<String> broadcast) {
-        ArrayList<IBroadcast> broadcasts = new ArrayList();
+        ArrayList<IBroadcast> broadcasts = new ArrayList<>();
+        ArrayList<ICast> castObjects = new ArrayList<>();
+        HashMap<String, ArrayList<ICast>> castRolesMap = new HashMap<>();
+
         List<String> list = broadcast;
         if(list.size() > 0 ) {
             for (int i = 0; i < list.size(); i++){
+                //Runs though all the elements in the recived list and splits to a String Array where each string represent a broadcast
                 String[] items = list.get(i).split(",");
+                if(items[2].length() > 0){
+                    //Takes the 3rd element in the string array and splits it to its diffrent key. 3rd element represent the hashmap over roles and cast members
+                    //The string Items looks like this = key;value:value:value_key;value:value:value_key;value:value:value_
+                    String[] key = items[2].split("_");
+                    for(int j = 0; j < key.length;j++){
+                        //Splits each string of keys out to the values aka the role and the following
+                        //a string in the key array looks like this = key;value:value:value
+                        String[] pair = key[j].split(";");
+                        //The pair array has 2 elements. First is key and the 2nd is value:value:value
+                        String[] values = pair[1].split(":");
+                        for(int k = 0; k < values.length;k++){
+                            //Calls the search method for casts where is gives the cast ID.
+                            castObjects = searchCast(Integer.parseInt(values[k]));
+                        }
+                        castRolesMap.put(pair[0],castObjects);
+                    }
+                }
+                //Need to update this to take the hashmap instead
                 broadcasts.add(new Broadcast((Integer.parseInt(items[0])), items[1], (Integer.parseInt(items[2])), (Integer.parseInt(items[3])), (items[4])));
             }
             return broadcasts;
@@ -98,12 +121,20 @@ public class System implements ISystem {
     //region production seach methods here
     @Override
     public ArrayList<IProduction> searchProduction(String keyword) {
-        ArrayList<IProduction> productions = new ArrayList();
+        ArrayList<IProduction> productions = new ArrayList<>();
+        ArrayList<IBroadcast> broadcastObjects = new ArrayList<>();
+
         List<String> list = persistenceLayer.getProductionFromDatabase(keyword);
         if(list.size() > 0 ) {
             for (int i = 0; i < list.size(); i++){
                 String[] items = list.get(i).split(",");
-                productions.add(new Production(Integer.parseInt(items[0]), items[1], "ændrer",items[3]));
+                if(items[2].length() > 0){
+                    String[] broadcastIds = items[2].split(";");
+                    for(int j = 0; j < broadcastIds.length; j++ ){
+                        broadcastObjects = searchBroadcast(Integer.parseInt(broadcastIds[j]));
+                    }
+                }
+                productions.add(new Production(Integer.parseInt(items[0]), items[1], broadcastObjects,items[3], items[4]));
             }
             return productions;
         }

@@ -20,12 +20,12 @@ public class Production implements IProduction {
         this.productionCompany = productionCompany;
     }
 
-    public Production(int id, String name, String year, String productionCompany){
+    public Production(int id, String name, ArrayList<IBroadcast> broadcasts, String year, String productionCompany){
         this.id = id;
         this.name = name;
         this.year = year;
         this.productionCompany = productionCompany;
-        loadBroadcastArray();
+        this.broadcasts = broadcasts;
         numberOfEpisodes = broadcasts.size();
     }
 
@@ -33,9 +33,11 @@ public class Production implements IProduction {
      * Calls the search method in System, to get an arraylist of the broadcasts that this production have associted with it.
      *
      */
-    private void loadBroadcastArray(){
-        this.broadcasts = System.instance.searchBroadcast(this.id);
-    }
+//
+//    private void loadBroadcastArray(){
+//        this.broadcasts = System.instance.searchBroadcast(this.id);
+//    }
+//
 
     @Override
     public boolean saveProduction() {
