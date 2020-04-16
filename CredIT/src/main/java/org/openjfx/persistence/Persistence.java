@@ -49,10 +49,6 @@ public class Persistence implements IPersistence {
         return instance;
     }
 
-    public static void main(String[] args) {
-        Persistence persistence = Persistence.getInstance();
-        persistence.removeProductionFromDatabase(19);
-    }
 
     @Override
     public boolean createNewUserInDatabase(IUser user) throws IOException {
@@ -571,6 +567,12 @@ public class Persistence implements IPersistence {
         }
 
         productionId = id + 1;
+    }
+
+
+    public static void main(String[] args) {
+        Persistence persistence = Persistence.getInstance();
+        persistence.removeProductionFromDatabase(19);
     }
 
 }
