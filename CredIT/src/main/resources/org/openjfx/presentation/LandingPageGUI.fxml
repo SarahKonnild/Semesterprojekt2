@@ -80,10 +80,10 @@
                                     <Button fx:id="searchCast" layoutX="378.0" layoutY="25.0" mnemonicParsing="false" onMouseClicked="#handleSearchCast" text="Søg" />
                                     <Label fx:id="errorMsgCastSearch" alignment="CENTER" layoutX="14.0" layoutY="61.0" prefHeight="17.0" prefWidth="402.0" text="Fejl opstået, produktionen blev ikke fundetFejl opstået, medvirkende blev ikke fundet" textFill="RED" visible="false" />
                                     <Separator layoutX="13.0" layoutY="85.0" prefHeight="7.0" prefWidth="409.0" />
-                                    <Button fx:id="createNewCast" disable="true" layoutX="14.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#handleCreateNewCast" text="Opret Ny" />
-                                    <Button fx:id="deleteCast" disable="true" layoutX="128.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#handleDeleteCast" text="Slet" />
-                                    <Button fx:id="mergeCast" disable="true" layoutX="215.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#handleMergeCast" text="Sammenflet" />
-                                    <Button fx:id="saveChangesCast" disable="true" layoutX="328.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#handleSaveCastChanges" text="Gem Ændringer" />
+                                    <Button fx:id="createNewCast" layoutX="14.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#handleCreateNewCast" text="Opret Ny" />
+                                    <Button fx:id="deleteCast" layoutX="128.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#handleDeleteCast" text="Slet" />
+                                    <Button fx:id="mergeCast" layoutX="215.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#handleMergeCast" text="Sammenflet" />
+                                    <Button fx:id="saveChangesCast" layoutX="328.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#handleSaveCastChanges" text="Gem Ændringer" />
                                     <TextField fx:id="castName" layoutX="16.0" layoutY="174.0" prefHeight="25.0" prefWidth="230.0" />
                                     <Label layoutX="17.0" layoutY="148.0" text="Fulde Navn" />
                                     <ListView fx:id="roleList" layoutX="288.0" layoutY="125.0" prefHeight="217.0" prefWidth="140.0" />
@@ -105,7 +105,7 @@
                                     <Separator layoutX="13.0" layoutY="85.0" prefHeight="3.0" prefWidth="418.0" />
                                     <TextField fx:id="productionName" layoutX="14.0" layoutY="118.0" prefHeight="25.0" prefWidth="405.0" />
                                     <TextField fx:id="productionReleaseYear" layoutX="14.0" layoutY="178.0" prefHeight="25.0" prefWidth="143.0" />
-                                    <Button fx:id="createNewProduction" disable="true" layoutX="14.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#handleCreateNewProduction" text="Opret Ny" />
+                                    <Button fx:id="createNewProduction" layoutX="14.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#handleCreateNewProduction" text="Opret Ny" />
                                     <Button fx:id="deleteProduction" disable="true" layoutX="190.0" layoutY="366.0" mnemonicParsing="false" text="Slet" />
                                     <Button fx:id="saveChangesProduction" disable="true" layoutX="328.0" layoutY="366.0" mnemonicParsing="false" text="Gem Ændringer" />
                                     <Label layoutX="14.0" layoutY="99.0" text="Produktionsnavn" />
@@ -135,8 +135,8 @@
                                     <Label layoutX="15.0" layoutY="310.0" text="Dato" />
                                     <Button fx:id="deleteBroadcast" disable="true" layoutX="304.0" layoutY="274.0" mnemonicParsing="false" text="Slet Udsendelse" />
                                     <Button fx:id="saveChangesBroadcast" disable="true" layoutX="305.0" layoutY="329.0" mnemonicParsing="false" text="Gem Ændringer" />
-                                    <Button fx:id="removeCast" disable="true" layoutX="305.0" layoutY="165.0" mnemonicParsing="false" onMouseClicked="#handleUnassignCast" text="Fjern Medvirkende" />
-                                    <Button fx:id="assignCast" disable="true" layoutX="305.0" layoutY="111.0" mnemonicParsing="false" onMouseClicked="#handleAssignCast" text="Tilføj Medvirkende" />
+                                    <Button fx:id="removeCast" layoutX="305.0" layoutY="165.0" mnemonicParsing="false" onMouseClicked="#handleUnassignCast" text="Fjern Medvirkende" />
+                                    <Button fx:id="assignCast" layoutX="305.0" layoutY="111.0" mnemonicParsing="false" onMouseClicked="#handleAssignCast" text="Tilføj Medvirkende" />
                                     <Label fx:id="errorMsgBroadcastSearch" alignment="CENTER" layoutX="14.0" layoutY="61.0" prefHeight="17.0" prefWidth="402.0" text="Fejl opstået, produktionen blev ikke fundetFejl opstået, udsendelsen blev ikke fundet" textFill="RED" visible="false" />
                                     <Separator layoutX="13.0" layoutY="85.0" prefHeight="0.0" prefWidth="400.0" />
                                     <TextField fx:id="broadcastEpisodeNumber" layoutX="15.0" layoutY="274.0" prefHeight="25.0" prefWidth="222.0" />
@@ -144,9 +144,9 @@
                                     <TextField fx:id="broadcastProduction" layoutX="15.0" layoutY="165.0" prefHeight="25.0" prefWidth="223.0" />
                                     <TextField fx:id="broadcastName" layoutX="15.0" layoutY="111.0" prefHeight="25.0" prefWidth="223.0" />
                                     <Label fx:id="errorMsgBroadcast" alignment="CENTER" layoutX="21.0" layoutY="370.0" prefHeight="17.0" prefWidth="402.0" textFill="RED" />
-                                    <TextField layoutX="13.0" layoutY="329.0" prefHeight="25.0" prefWidth="42.0" promptText="dd" />
-                                    <TextField layoutX="86.0" layoutY="329.0" prefHeight="25.0" prefWidth="42.0" promptText="mm" />
-                                    <TextField layoutX="159.0" layoutY="329.0" prefHeight="25.0" prefWidth="77.0" promptText="yyyy" />
+                                    <TextField fx:id="broadcastAirDateDay" layoutX="13.0" layoutY="329.0" prefHeight="25.0" prefWidth="42.0" promptText="dd" />
+                                    <TextField fx:id="broadcastAirDateMonth" layoutX="86.0" layoutY="329.0" prefHeight="25.0" prefWidth="42.0" promptText="mm" />
+                                    <TextField fx:id="broadcastAirDateYear" layoutX="159.0" layoutY="329.0" prefHeight="25.0" prefWidth="77.0" promptText="yyyy" />
                                  </children>
                               </AnchorPane>
                            </content>

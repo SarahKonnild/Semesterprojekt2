@@ -6,11 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.openjfx.interfaces.*;
-import org.openjfx.domain.System;
+import org.openjfx.domain.CredITSystem;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * JavaFX App
@@ -50,7 +48,7 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        sys = new System(); //creates a new object of system
+        sys = new CredITSystem(); //creates a new object of system
 
         launch();
 

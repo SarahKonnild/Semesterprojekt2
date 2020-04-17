@@ -1,4 +1,4 @@
-1,Søren,78
+1,Søren,123
 2,Laust,2
 3,Teis,3
 4,Nichlas,4
@@ -262,3 +262,4 @@
 263,Lise,5
 264,Simon,6
 265,Sarah,1
+267,Søren,1234

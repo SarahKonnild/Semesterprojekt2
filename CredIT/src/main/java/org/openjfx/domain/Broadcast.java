@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Broadcast implements IBroadcast {
-    private final IPersistence persistence = Persistence.getInstance();
+    private final IPersistence persistence = CredITSystem.getPersistence();
     private int id;
     private String name;
     private HashMap<String, ArrayList<ICast>> castMap;

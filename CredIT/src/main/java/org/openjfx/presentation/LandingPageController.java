@@ -173,12 +173,12 @@ public class LandingPageController implements Initializable {
             broadcastEpisodeNumber.setText(String.valueOf(chosenBroadcast.getEpisodeNumber()));
             broadcastSeason.setText(String.valueOf(chosenBroadcast.getSeasonNumber()));
             String[] airDateInput = chosenBroadcast.getAirDate();
+            broadcastAirDateDay.setDisable(true);
             broadcastAirDateDay.setText(airDateInput[0]);
-            broadcastAirDateYear.setDisable(true);
-            broadcastAirDateMonth.setText(airDateInput[1]);
             broadcastAirDateMonth.setDisable(true);
-            broadcastAirDateYear.setText(airDateInput[2]);
+            broadcastAirDateMonth.setText(airDateInput[1]);
             broadcastAirDateYear.setDisable(true);
+            broadcastAirDateYear.setText(airDateInput[2]);
 
             assignCast.setDisable(false);
             removeCast.setDisable(false);
@@ -370,7 +370,7 @@ public class LandingPageController implements Initializable {
         if (broadcastSearchResult != null) {
             broadcastObservableList = FXCollections.observableArrayList(broadcastSearchResult);
             searchResult.setItems(broadcastObservableList);
-            clearBroadcastFields();
+            //clearBroadcastFields();
         } else {
             errorMsgBroadcastSearch.setVisible(true);
         }

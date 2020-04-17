@@ -74,3 +74,4 @@
 74,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
 75,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
 76,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+77,Søren Ryge,,1,1,12-12-1212

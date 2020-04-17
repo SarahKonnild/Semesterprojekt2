@@ -1,13 +1,8 @@
 package org.openjfx.persistence;
 
-import org.openjfx.domain.Broadcast;
-import org.openjfx.domain.Cast;
-import org.openjfx.domain.Production;
-import org.openjfx.domain.User;
 import org.openjfx.interfaces.*;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -124,36 +119,40 @@ public class Persistence implements IPersistence {
             String temp = broadcastId + "," + broadcast.getName() + ",";
             HashMap<String, ArrayList<ICast>> test = broadcast.getCastMap();
             int k = 0;
-            for (String s : test.keySet()) {
-                int i = 0;
-                if (test.keySet().size()-1 != k) {
-                    temp += s + ";";
-                    for (ICast cast : test.get(s)) {
-                        if (i == test.get(s).size()-1) {
-                            temp += cast.getId() + "_";
-                        } else {
-                            temp += cast.getId() + ":";
+            if (test != null) {
+                for (String s : test.keySet()) {
+                    int i = 0;
+                    if (test.keySet().size() - 1 != k) {
+                        temp += s + ";";
+                        for (ICast cast : test.get(s)) {
+                            if (i == test.get(s).size() - 1) {
+                                temp += cast.getId() + "_";
+                            } else {
+                                temp += cast.getId() + ":";
 
+                            }
+                            i++;
                         }
-                        i++;
-                    }
 
 
-                } else {
-                    temp += s + ";";
-                    for (ICast cast : test.get(s)) {
-                        if (i == test.get(s).size()-1) {
-                            temp += cast.getId() + ",";
-                        } else {
-                            temp += cast.getId() + ":";
+                    } else {
+                        temp += s + ";";
+                        for (ICast cast : test.get(s)) {
+                            if (i == test.get(s).size() - 1) {
+                                temp += cast.getId() + ",";
+                            } else {
+                                temp += cast.getId() + ":";
 
+                            }
+                            i++;
                         }
-                        i++;
                     }
+                    k++;
                 }
-                k++;
+            }else{
+                temp += ",";
             }
-            temp += broadcast.getSeasonNumber() + "," + broadcast.getEpisodeNumber() + "," + broadcast.getAirDate();
+            temp += broadcast.getSeasonNumber() + "," + broadcast.getEpisodeNumber() + "," + broadcast.getAirDate()[0] + "-" + broadcast.getAirDate()[1] + "-" + broadcast.getAirDate()[2];
             writer.println(temp);
             broadcastId++;
             returnBool = true;
@@ -204,14 +203,18 @@ public class Persistence implements IPersistence {
 
             String temp = productionId + "," + production.getName() + ",";
             int i = 0;
-            for (IBroadcast b : production.getBroadcasts()) {
-                if (production.getBroadcasts().size() - 1 != i) {
-                    temp += b.getId() + ";";
-                } else {
-                    temp += b.getId() + ",";
-                }
-                i++;
+            if (production.getBroadcasts() != null) {
+                for (IBroadcast b : production.getBroadcasts()) {
+                    if (production.getBroadcasts().size() - 1 != i) {
+                        temp += b.getId() + ";";
+                    } else {
+                        temp += b.getId() + ",";
+                    }
+                    i++;
 
+                }
+            } else {
+                temp += ",";
             }
             temp += production.getProductionCompany() + "," + production.getNumberOfSeasons() + "," + production.getNumberOfEpisodes();
             writer.println(temp);
@@ -355,7 +358,6 @@ public class Persistence implements IPersistence {
     }
 
 
-
     @Override
     public List<String> getCastFromDatabase(String keyword) {
         keyword = keyword.toLowerCase();
@@ -394,7 +396,7 @@ public class Persistence implements IPersistence {
                 String[] info = line.split(",");
                 if (id == Integer.parseInt(info[0])) {
                     output.add(line);
-                } else{
+                } else {
                     continue;
                 }
             }
@@ -407,7 +409,6 @@ public class Persistence implements IPersistence {
         } finally {
             reader.close();
         }
-
 
 
     }
@@ -452,7 +453,7 @@ public class Persistence implements IPersistence {
                 String[] info = line.split(",");
                 if (id == Integer.parseInt(info[0])) {
                     output.add(line);
-                } else{
+                } else {
                     continue;
                 }
             }
@@ -479,7 +480,6 @@ public class Persistence implements IPersistence {
 
                 String output = "";
                 String currentLine = reader.nextLine();
-
 
 
                 if (currentLine.contains(String.valueOf(cast2.getId()))) {
@@ -539,7 +539,7 @@ public class Persistence implements IPersistence {
                         i++;
                     }
                     output += broadcast[3] + "," + broadcast[4] + "," + broadcast[5];
-                }else{
+                } else {
                     output = currentLine;
                 }
                 newTxt += output + "\n";
@@ -672,83 +672,6 @@ public class Persistence implements IPersistence {
         }
 
         productionId = id + 1;
-    }
-
-
-    public static void main(String[] args) {
-        Persistence persistence = Persistence.getInstance();
-
-        try {
-            Cast cast = new Cast(1, "Sarah", 1);
-            Cast cast1 = new Cast(2, "Laust", 2);
-            Cast cast2 = new Cast(3, "Teis", 3);
-            Cast cast3 = new Cast(4, "Nichlas",4);
-            Cast cast4 = new Cast(5,"Lise",5);
-            Cast cast5 = new Cast(6,"Simon",6);
-
-            persistence.createNewCastInDatabase(cast);
-            persistence.createNewCastInDatabase(cast1);
-            persistence.createNewCastInDatabase(cast2);
-            persistence.createNewCastInDatabase(cast3);
-            persistence.createNewCastInDatabase(cast4);
-            persistence.createNewCastInDatabase(cast5);
-            persistence.createNewCastInDatabase(cast);
-
-            Broadcast b = new Broadcast(1, "hej i stuen",1,2,"02-02-2020");
-            HashMap<String,ArrayList<ICast>> castMap= new HashMap<>();
-            ArrayList<ICast> cameraList = new ArrayList<>();
-            cameraList.add(cast);
-            cameraList.add(cast1);
-            ArrayList<ICast> producerList = new ArrayList<>();
-            producerList.add(cast1);
-            producerList.add(cast2);
-
-            castMap.put("kameramand", cameraList);
-            castMap.put("Producer", producerList);
-
-            b.setCastMap(castMap);
-
-            Broadcast b1 = new Broadcast(2, "hej i stuen 2",1,2,"02-02-2020");
-            HashMap<String,ArrayList<ICast>> castMap1= new HashMap<>();
-            ArrayList<ICast> cameraList1 = new ArrayList<>();
-            cameraList1.add(new Cast(7,"Sarah",1));
-            cameraList1.add(cast1);
-            ArrayList<ICast> producerList1 = new ArrayList<>();
-            producerList1.add(cast1);
-            producerList1.add(cast2);
-
-            castMap1.put("kameramand", cameraList1);
-            castMap1.put("Producer", producerList1);
-
-            b1.setCastMap(castMap1);
-
-            persistence.createNewBroadcastInDatabase(b);
-            persistence.createNewBroadcastInDatabase(b1);
-
-
-            persistence.mergeCastInDatabase(cast, new Cast(7,"Sarah", 7));
-
-            persistence.updateCastInDatabase(1, "Søren", 78);
-
-            User u = new User(1, "Teis","password", "username", Role.SYSADMIN);
-
-            persistence.createNewUserInDatabase(u);
-            persistence.removeUserFromDatabase(2);
-
-            ArrayList<IBroadcast> bcs = new ArrayList<>();
-            bcs.add(b);
-            bcs.add(b1);
-
-            Production p = new Production(1, "Hejsa", bcs, "2020", "Teis Productions");
-
-            persistence.createNewProductionInDatabase(p);
-            
-            System.out.println(persistence.getProductionFromDatabase(1));
-            System.out.println(persistence.getProductionFromDatabase("hej"));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 }

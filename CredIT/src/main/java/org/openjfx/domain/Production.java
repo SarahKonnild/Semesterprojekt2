@@ -2,6 +2,7 @@ package org.openjfx.domain;
 
 import org.openjfx.interfaces.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Production implements IProduction {
@@ -43,14 +44,18 @@ public class Production implements IProduction {
     public boolean saveProduction() {
         boolean saveStatus;
         //Method call to the persistenceLayer to send this object and save the data in it
-        saveStatus = System.instance.getPersistenceLayer().createNewProductionInDatabase(this);
+        try{
+        saveStatus = CredITSystem.getPersistence().createNewProductionInDatabase(this);
         if(!saveStatus){
             //Do some stuff here to deal with the fail maybe?
             return false;
         } else {
             return true;
         }
-
+        } catch(IOException ex){
+            ex.printStackTrace();
+        }
+        return false;
     }
 
     @Override

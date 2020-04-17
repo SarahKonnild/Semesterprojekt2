@@ -2,12 +2,11 @@ package org.openjfx.domain;
 
 import org.openjfx.interfaces.ICast;
 import org.openjfx.interfaces.IPersistence;
-import org.openjfx.persistence.Persistence;
 
 import java.io.IOException;
 
 public class Cast implements ICast {
-    private final IPersistence persistence = Persistence.getInstance();
+    private final IPersistence persistence = CredITSystem.getPersistence();
     private int id;
     private String name;
     private int regDKID;
