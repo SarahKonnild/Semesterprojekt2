@@ -39,15 +39,20 @@ public class AddAssignController implements Initializable {
 
     private IBroadcast chosenBroadcast;
 
+    /**
+     * Fetches the broadcast object that was chosen in the LandingPageController/broadcast selection screen, and loads that into the page.
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         chosenBroadcast = LandingPageController.getChosenBroadcast();
     }
-    //TODO Add some comments for the methods to explain what they do
+
     /**
-     * Method acts when the search button is pressed. It will take the name in the <code>nameField</code> and pass it to the search
-     * method in <code>System</code> that then will return an ArrayList over the castMembers. This method will pass it to an <code>ObservableList</code>
-     * and show it in the listView.
+     * Uses the name that the user has entered into the "nameField", and searches the persistence layer for information corresponding to that
+     * field's contents. Proceeds to save the list-result into an observable list, which can be printed into the ListView, and clears the textfield.
+     * If there are no results from the persistence layer, it will instead print an errormessage to the user.
      * @param event
      */
     @FXML
@@ -65,6 +70,12 @@ public class AddAssignController implements Initializable {
         }
     }
 
+    /**
+     * When the user clicks an option within the ListView, a new Object, which may be cast to the type of the object listed in the ObservableList,
+     * is created. This object is then used to ensure, that the correct information from the ObservableList's object is printed into the appropriate
+     * TextFields.
+     * @param event
+     */
     @FXML
     public void handleSearchResultChosen(MouseEvent event){
         Object obj = searchResult.getSelectionModel().getSelectedItem();
@@ -77,6 +88,13 @@ public class AddAssignController implements Initializable {
         }
     }
 
+    /**
+     * Uses the information that was provided, when the user selected a searchresult from the ListView. This information on the object can
+     * then be used to call the static method in the LandingPageController/broadcast selection screen, to then run the assignCast method,
+     * which allows the chosen cast-object to be assigned the given broadcast. If the action is completed, the fields are cleared, and the
+     * user receives a success-message.
+     * @param event
+     */
     @FXML
     public void handleAssignButton(MouseEvent event){
         creationState = LandingPageController.getChosenBroadcast().assignCast(chosenCast, roleName.getText());

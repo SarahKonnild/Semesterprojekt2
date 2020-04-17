@@ -55,7 +55,7 @@ public class BaseController implements Initializable {
     private TextField searchField;
 
     private String searchTopicChosen;
-    private Stage loginStage = new Stage();
+    private static Stage loginStage = new Stage();
 
     private ArrayList<IProduction> productionSearchResult;
     private ArrayList<ICast> castSearchResult;
@@ -74,8 +74,8 @@ public class BaseController implements Initializable {
     //THIS MOTHERFUCKER TOOK 2 HOURS TO MAKE WORK BECAUSE OF THE root = FXMLLoader.... LINE NOT WORKING. IDK HOW IT WORKS
     //BUT IT DOES, SO LEAVE HER ALONE :'(
     /**
-     * This method creates a pop-up window that refers the user into the login scene, which allows them to log into the system
-     * if they are some kind of administrating unit.
+     * Opens a new stage, which contains a scene that uses a username and a password to log the user into the actual program. It is however not a high priority
+     * assignment to implement a proper login system, why it is a pseudo-login system that just takes a specific string username and password.
      * @param event
      */
     @FXML
@@ -91,6 +91,12 @@ public class BaseController implements Initializable {
         }
     }
 
+
+    /**
+     * Opens a new Stage, which contains a scene that could provide the user information on how to use the program. It is very low priority to properly implement
+     * that controller.
+     * @param event
+     */
     @FXML
     public void handleHelpClicked(ActionEvent event){
         try {
@@ -105,7 +111,7 @@ public class BaseController implements Initializable {
     }
 
     /**
-     * En eller anden dag bliver der en tekst her
+     * Registers the object that has been selected in the ListView and prints its information/toString to the textarea.
      * @param event
      */
     @FXML
@@ -114,9 +120,10 @@ public class BaseController implements Initializable {
     }
 
     /**
-     * Handles the search methods, ensuring that the correct method for searching
-     * the persistence is triggered by the searchTopicChosen-attribute.
-     * Creates a temporary String to store the searchfield's text into.
+     * Uses the information about the chosen topic from the MenuButton to specify which method in the domain that should be used
+     * to search the persistence layer. It uses the text that has been entered into the searchfield to specify the keyword that is passed
+     * into the method.
+     * It will then create an observablelist with the results, which is then printed to the ListView.
      * @param event
      */
     @FXML
@@ -134,14 +141,17 @@ public class BaseController implements Initializable {
             broadcastSearchResult = App.getSystemInstance().searchBroadcast(searchString);
             broadcastObservableList = FXCollections.observableArrayList(broadcastSearchResult);
             searchList.setItems(broadcastObservableList);
+        }else{
+            errorMessage.setVisible(true);
+            errorMessage.setText("Intet søgeemne valgt");
         }
     }
 
     /**
-     * Handles the triggering of different search-topics, which enables the searchbutton
-     * to perform different search-methods for the given topic.
-     * Changes the value of attribute searchTopicChosen to a String value, which is checked
-     * in the searchButton-handler, to ensure the correct method is chosen.
+     * Upon having clicked the MenuButton on the screen, the user will be presented with 3 options which can be chosen (not encoded here but in the FXML).
+     * For each of the options, a new handler is created in this method, where the text in the MenuButton is changed to the search topic that has been chosen,
+     * and changes the value of a String object that can be used in the searchHandler to specify the topic that is chosen, and thus which search-method in the domain,
+     * that must be used to fetch the information.
      * @param event
      */
     @FXML
@@ -167,6 +177,10 @@ public class BaseController implements Initializable {
                 searchTopicChosen = "broadcast";
             }
         });
+    }
+
+    public static Stage getLoginStage(){
+        return loginStage;
     }
 
 }

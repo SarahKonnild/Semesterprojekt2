@@ -130,25 +130,43 @@ public class LandingPageController implements Initializable {
 
     private boolean allowOpenNewWindow;
 
+    private ICast chosenCast;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         userInfo.setText("Administrator");
     }
 
-    //TODO Add comments to the methods to explain what they do
     //HANDLER FOR THE SEARCH LISTVIEW
+
+    /**
+     * Creates a new Object to which the chosen object in the ListView gets saved to. This object is then checked for its actual type, using the InstanceOf
+     * and based on which object type it is, the chosen object in the ListView gets cast into the appropriate type, from which its attribute values can then be
+     * printed into the relevant textfields.
+     * @param event
+     */
     @FXML
     public void handleSearchResultChosen(MouseEvent event) {
         Object obj = searchResult.getSelectionModel().getSelectedItem();
         if (obj instanceof ICast) {
-            ICast chosenCast = (ICast) obj;
+            chosenCast = (ICast) obj;
             castName.setText(chosenCast.getName());
             regDKField.setText(String.valueOf(chosenCast.getRegDKID()));
+
+            createNewCast.setDisable(false);
+            deleteCast.setDisable(false);
+            mergeCast.setDisable(false);
+            saveChangesCast.setDisable(false);
+
         } else if (obj instanceof IProduction) {
             IProduction chosenProduction = (IProduction) obj;
             productionName.setText(chosenProduction.getName());
             producerName.setText(chosenProduction.getProductionCompany());
             productionReleaseYear.setText(chosenProduction.getYear());
+
+            createNewProduction.setDisable(false);
+
         } else if (obj instanceof IBroadcast) {
             IBroadcast chosenBroadcast = (IBroadcast) obj;
             broadcastName.setText(chosenBroadcast.getName());
@@ -161,11 +179,23 @@ public class LandingPageController implements Initializable {
             broadcastAirDateMonth.setDisable(true);
             broadcastAirDateYear.setText(airDateInput[2]);
             broadcastAirDateYear.setDisable(true);
+
+            assignCast.setDisable(false);
+            removeCast.setDisable(false);
+            createBroadcast.setDisable(false);
+
         }
     }
 
     //FXML HANDLERS FOR "MEDVIRKENDE" TAB
 
+    /**
+     * Clears the ListView for items.
+     * Uses the information written in the castSearchField as the keyword in the searchmethod that is run to search through the persistence layer
+     * for matching results. This result, if there is any, will be written to an ObservableList, which can then be printed to the ListView.
+     * If there are no matching results, the user is presented with an error message.
+     * @param event
+     */
     @FXML
     public void handleSearchCast(MouseEvent event) {
         String searchText = searchFieldCast.getText();
@@ -180,6 +210,12 @@ public class LandingPageController implements Initializable {
         }
     }
 
+    /**
+     * Uses the information that is provided in the textfields in the cast-tab, to create a new cast object in the database. If the cast member is
+     * created, the user is informed of the succesful creation and clears the fields that the text/information was received from. If not, the user
+     * is presented with an error message.
+     * @param event
+     */
     @FXML
     public void handleCreateNewCast(MouseEvent event) {
         creationState = LoginController.getAdminUser().addNewCastToDatabase(castName.getText(), Integer.parseInt(regDKField.getText()));
@@ -191,10 +227,16 @@ public class LandingPageController implements Initializable {
         }
     }
 
+    /**
+     * Checks if the observablelist that is printed to the ListView contains elements and is the correct observable list used for the cast members.
+     * If correct, the chosen cast member from the list will be selected, and the method deleteCast is run on the cast object that has been chosen.
+     * If the run is succesful, the user is presented with a success message. If not, an error message is printed.
+     * @param event
+     */
     @FXML
     public void handleDeleteCast(MouseEvent event) {
         if (!castObservableList.isEmpty()) {
-            ICast chosenCast = (ICast) searchResult.getSelectionModel().getSelectedItem();
+            chosenCast = (ICast) searchResult.getSelectionModel().getSelectedItem();
             creationState = chosenCast.deleteCast();
             if (creationState) {
                 errorMsgCast.setText("Medvirkende slettet");
@@ -207,19 +249,25 @@ public class LandingPageController implements Initializable {
         }
     }
 
+    /**
+     * Checks the elements that have been chosen in the ListView, and if there are exactly 2 elements chosen, the merge-method is run on the object,
+     * which combines the second element into the first element chosen. If successful, a success message is written.
+     * If there are less or more cast members chosen, the user will be presented with an appropriate error message.
+     * @param event
+     */
     @FXML
     public void handleMergeCast(MouseEvent event) {
         if (!castObservableList.isEmpty()) {
-            ObservableList<ICast> chosenCast = searchResult.getSelectionModel().getSelectedItems();
-            if (chosenCast.size() == 2) {
-                creationState = chosenCast.get(0).mergeCastMembers(chosenCast.get(1));
+            ObservableList<ICast> chosenCastList = searchResult.getSelectionModel().getSelectedItems();
+            if (chosenCastList.size() == 2) {
+                creationState = chosenCastList.get(0).mergeCastMembers(chosenCastList.get(1));
                 if (creationState) {
                     errorMsgCast.setText("Medvirkende sammenflettet");
                     clearCastFields();
                 } else {
                     errorMsgCast.setText("Fejl opstået, medvirkende blev ikke sammenflettet");
                 }
-            } else if (chosenCast.size() == 1) {
+            } else if (chosenCastList.size() == 1) {
                 errorMsgCast.setText("Fejl opstået, for få medvirkende valgt");
             } else {
                 errorMsgCast.setText("Fejl opstået, for mange medvirkende valgt");
@@ -229,10 +277,17 @@ public class LandingPageController implements Initializable {
         }
     }
 
+    /**
+     * Checks if the observablelist with casts is empty. If not, the chosen element will be updated to overwrite the past information it was given,
+     * receiving the new input from the textfields.
+     * If the method is succesfully run, the user will be presented with a success message. If not, the user is presented with an error message.
+     * Same applies, if no cast member has been chosen.
+     * @param event
+     */
     @FXML
     public void handleSaveCastChanges(MouseEvent event) {
         if (!castObservableList.isEmpty()) {
-            ICast chosenCast = (ICast) searchResult.getSelectionModel().getSelectedItem();
+            chosenCast = (ICast) searchResult.getSelectionModel().getSelectedItem();
             creationState = chosenCast.updateCast(castName.getText(), Integer.parseInt(regDKField.getText()));
             if (creationState) {
                 errorMsgCast.setText("Medvirkende opdateret");
@@ -247,6 +302,13 @@ public class LandingPageController implements Initializable {
 
     //FXML HANDLERS FOR "PRODUKTION" TAB
 
+    /**
+     * Clears the ListView for items.
+     * Fetches the information that is written to the searchField in the production tab, and uses that String to search the persistence layer for information
+     * that corresponds to the input. If it successfully fetched the information, the results are printed to an observable list, which is then printed to the
+     * ListView. The searchfield is cleared.
+     * @param event
+     */
     @FXML
     public void handleSearchProduction(MouseEvent event) {
         String searchText = searchFieldProduction.getText();
@@ -261,6 +323,11 @@ public class LandingPageController implements Initializable {
         }
     }
 
+    /**
+     * Uses the information that is written in the three relevant production textfields, and uses them to create a new production object in the persistence layer.
+     * If successful, a success message is printed to the user, and the fields are cleared. If not, an error message is printed.
+     * @param event
+     */
     @FXML
     public void handleCreateNewProduction(MouseEvent event) {
         creationState = LoginController.getAdminUser().addNewProductionToDatabase(productionName.getText(), productionReleaseYear.getText(), producerName.getText());
@@ -288,6 +355,13 @@ public class LandingPageController implements Initializable {
 
     //FXML HANDLERS FOR "UDSENDELSE" TAB
 
+    /**
+     * Clears the ListView for items.
+     * Fetches the information that is written to the searchField in the broadcast tab, and uses that String to search the persistence layer for information
+     * that corresponds to the input. If it successfully fetched the information, the results are printed to an observable list, which is then printed to the
+     * ListView. The searchfield is cleared.
+     * @param event
+     */
     @FXML
     public void handleSearchBroadcast(MouseEvent event) {
         String searchText = searchFieldBroadcast.getText();
@@ -303,48 +377,63 @@ public class LandingPageController implements Initializable {
     }
 
     /**
-     * Opens the AddAssignCastGUI.fxml scene in a new window, from which they can search for
-     * a cast member in the database and assign them to the broadcast.
-     *
+     * Upon pressing this button, a new Stage is opened, which contains the scene from the AddAssignCastGUI.fxml. Along with this stage,
+     * a static object is created for the broadcast that is selected in the ListView, provided that the broadcastChosen attribute does not
+     * reference null.
      * @param event
      */
     @FXML
     public void handleAssignCast(MouseEvent event) {
-        try {
-            Parent root;
-            root = FXMLLoader.load(BaseController.class.getResource("AddAssignCastGUI.fxml"));
-            assignStage.setScene(new Scene(root));
-            assignStage.setResizable(false);
-            assignStage.show();
-            Object object = searchResult.getSelectionModel().getSelectedItem();
-            broadcastChosen = (IBroadcast) object;
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        Object object = searchResult.getSelectionModel().getSelectedItem();
+        broadcastChosen = (IBroadcast) object;
+        if(broadcastChosen != null) {
+            try {
+                Parent root;
+                root = FXMLLoader.load(BaseController.class.getResource("AddAssignCastGUI.fxml"));
+                assignStage.setScene(new Scene(root));
+                assignStage.setResizable(false);
+                assignStage.show();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        } else{
+            errorMsgBroadcast.setText("Fejl, ingen udsendelse valgt");
         }
     }
 
     /**
-     * Opens the RemoveChangeCastGUI.fxml scene in a new window, from which they can see all the
-     * cast members assigned to a broadcast in a listview, and then either make changes to their
-     * role or unassign them from the broadcast
-     *
+     * Upon pressing this button, a new Stage is opened, which contains the scene from the RemoveChangeCastGUI.fxml. Along with this stage,
+     * a static object is created for the broadcast that is selected in the ListView, provided that the broadcastChosen attribute does not
+     * reference null.
      * @param event
      */
     @FXML
     public void handleUnassignCast(MouseEvent event) {
-        try {
-            Parent root;
-            root = FXMLLoader.load(BaseController.class.getResource("RemoveChangeCastGUI.fxml"));
-            unassignStage.setScene(new Scene(root));
-            unassignStage.setResizable(false);
-            unassignStage.show();
-            Object object = searchResult.getSelectionModel().getSelectedItem();
-            broadcastChosen = (IBroadcast) object;
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        Object object = searchResult.getSelectionModel().getSelectedItem();
+        broadcastChosen = (IBroadcast) object;
+        if(broadcastChosen != null) {
+            try {
+                Parent root;
+                root = FXMLLoader.load(BaseController.class.getResource("RemoveChangeCastGUI.fxml"));
+                assignStage.setScene(new Scene(root));
+                assignStage.setResizable(false);
+                assignStage.show();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        } else{
+            errorMsgBroadcast.setText("Fejl, ingen udsendelse valgt");
         }
     }
 
+    /**
+     * A temporary variable containing a String with all the text that is entered to represent the date in the relevant textfields is created.
+     * Along with this variable, the other textfields are also used to create a new broadcast object in the database, provided that the user
+     * has written exactly 2 chars (atm it doesn't have to be numbers...) into the date and month fields, and exactly 4 chars into the year-
+     * textfield.
+     * If successful, the user is presented with a success message. If not, the user is given an error message.
+     * @param event
+     */
     @FXML
     public void handleCreateBroadcast(MouseEvent event) {
         String dateVariable = broadcastAirDateDay.getText() + "-" + broadcastAirDateMonth.getText() + "-" + broadcastAirDateYear.getText();
@@ -360,7 +449,7 @@ public class LandingPageController implements Initializable {
                 errorMsgBroadcast.setText("Fejl opstået, udsendelsen blev ikke tilføjet");
             }
         }
-        //TODO Insert check if any of the textfields are empty. If so, print errormessage.
+        //TODO LOW PRIORITY Insert check if any of the textfields are empty. If so, print errormessage.
     }
 
     //Commented out since it is not part of the initial must-have requirements
@@ -377,6 +466,9 @@ public class LandingPageController implements Initializable {
 //        //"Fejl opstået, udsendelsen blev ikke slettet"
 //    }
 
+    /**
+     * A collection of methods which are just used to more easily clear the relevant fields for each tab.
+     */
     public void clearCastFields(){
         castName.clear();
         regDKField.clear();
