@@ -314,7 +314,7 @@ public class Persistence implements IPersistence {
             while (reader.hasNextLine()) {
                 String line = reader.nextLine();
                 String[] info = line.split(",");
-                if (keyword.contains(info[1].toLowerCase())) {
+                if (info[1].toLowerCase().contains(keyword)) {
                     output.add(line);
                 }
             }
@@ -365,7 +365,7 @@ public class Persistence implements IPersistence {
             while (reader.hasNextLine()) {
                 String line = reader.nextLine();
                 String[] info = line.split(",");
-                if (keyword.contains(info[1].toLowerCase())) {
+                if (info[1].toLowerCase().contains(keyword)) {
                     output.add(line);
                 }
             }
@@ -418,7 +418,7 @@ public class Persistence implements IPersistence {
             while (reader.hasNextLine()) {
                 String line = reader.nextLine();
                 String[] info = line.split(",");
-                if (keyword.contains(info[1].toLowerCase())) {
+                if (info[1].toLowerCase().contains(keyword)) {
                     output.add(line);
                 }
             }
@@ -727,8 +727,16 @@ public class Persistence implements IPersistence {
             persistence.createNewUserInDatabase(u);
             persistence.removeUserFromDatabase(2);
 
-            System.out.println(persistence.getBroadcastFromDatabase(1));
-            System.out.println(persistence.getBroadcastFromDatabase("hej"));
+            ArrayList<IBroadcast> bcs = new ArrayList<>();
+            bcs.add(b);
+            bcs.add(b1);
+
+            Production p = new Production(1, "Hejsa", bcs, "2020", "Teis Productions");
+
+            persistence.createNewProductionInDatabase(p);
+            
+            System.out.println(persistence.getProductionFromDatabase(1));
+            System.out.println(persistence.getProductionFromDatabase("hej"));
 
         } catch (IOException e) {
             e.printStackTrace();
