@@ -2,7 +2,6 @@ package org.openjfx.domain;
 import org.openjfx.interfaces.IBroadcast;
 import org.openjfx.interfaces.ICast;
 import org.openjfx.interfaces.IPersistence;
-import org.openjfx.persistence.Persistence;
 
 import java.io.IOException;
 import java.util.ArrayList;

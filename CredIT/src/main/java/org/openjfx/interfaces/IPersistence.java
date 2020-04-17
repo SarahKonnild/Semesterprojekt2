@@ -91,6 +91,15 @@ public interface IPersistence {
     public List<String> getBroadcastFromDatabase(String keyword);
 
     /**
+     * Finds the broadcasts that matches the keyword and returns them in a list
+     * @param id
+     * The keyword that the broadcasts are selected on
+     * @return
+     * The list of broadcasts that matched the keyword
+     */
+    public List<String> getBroadcastFromDatabase(int id);
+
+    /**
      * Finds the casts that matches the keyword and returns them in a list
      * @param keyword
      * The keyword that the casts are selected on
@@ -100,6 +109,17 @@ public interface IPersistence {
     public List<String> getCastFromDatabase(String keyword);
 
     /**
+     * Finds the casts that matches the keyword and returns them in a list
+     * @param id
+     * The keyword that the casts are selected on
+     * @return
+     * The list of casts that matched the keyword
+     */
+    public List<String> getCastFromDatabase(int id);
+
+
+
+    /**
      * Finds the production that matches the keyword and returns them in a list
      * @param keyword
      * The keyword that the production are selected on
@@ -107,6 +127,16 @@ public interface IPersistence {
      * The list of production that matched the keyword
      */
     public List<String> getProductionFromDatabase(String keyword);
+
+
+    /**
+     * Finds the production that matches the keyword and returns them in a list
+     * @param id
+     * The keyword that the production are selected on
+     * @return
+     * The list of production that matched the keyword
+     */
+    public List<String> getProductionFromDatabase(int id);
 
     /**
      * Merges the two casts in the persistence layer, going through and finding all the references and making sure that the merge is completed correctly
