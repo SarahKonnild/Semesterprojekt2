@@ -555,7 +555,7 @@ public class Persistence implements IPersistence {
             writer.close();
         }
 
-        return returnBool;
+        return true;
     }
 
     @Override

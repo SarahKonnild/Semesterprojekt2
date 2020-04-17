@@ -131,6 +131,10 @@ public class LandingPageController implements Initializable {
     private boolean allowOpenNewWindow;
 
     private ICast chosenCast;
+    private ArrayList<ICast> chosenCastList;
+    private Object obj;
+    private ArrayList<Object> chosenObjectsList;
+    private String searchText;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -148,26 +152,27 @@ public class LandingPageController implements Initializable {
      */
     @FXML
     public void handleSearchResultChosen(MouseEvent event) {
-        Object obj = searchResult.getSelectionModel().getSelectedItem();
+        obj = searchResult.getSelectionModel().getSelectedItem();
         if (obj instanceof ICast) {
+            searchText = searchFieldCast.getText();
+            searchResult.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
             chosenCast = (ICast) obj;
             castName.setText(chosenCast.getName());
             regDKField.setText(String.valueOf(chosenCast.getRegDKID()));
-
             createNewCast.setDisable(false);
             deleteCast.setDisable(false);
             mergeCast.setDisable(false);
             saveChangesCast.setDisable(false);
-
         } else if (obj instanceof IProduction) {
+            searchText = searchFieldProduction.getText();
             IProduction chosenProduction = (IProduction) obj;
             productionName.setText(chosenProduction.getName());
             producerName.setText(chosenProduction.getProductionCompany());
             productionReleaseYear.setText(chosenProduction.getYear());
-
             createNewProduction.setDisable(false);
-
         } else if (obj instanceof IBroadcast) {
+            searchText = searchFieldBroadcast.getText();
+            obj = searchResult.getSelectionModel().getSelectedItem();
             IBroadcast chosenBroadcast = (IBroadcast) obj;
             broadcastName.setText(chosenBroadcast.getName());
             broadcastEpisodeNumber.setText(String.valueOf(chosenBroadcast.getEpisodeNumber()));
@@ -179,7 +184,6 @@ public class LandingPageController implements Initializable {
             broadcastAirDateMonth.setText(airDateInput[1]);
             broadcastAirDateYear.setDisable(true);
             broadcastAirDateYear.setText(airDateInput[2]);
-
             assignCast.setDisable(false);
             removeCast.setDisable(false);
             createBroadcast.setDisable(false);
@@ -221,10 +225,13 @@ public class LandingPageController implements Initializable {
         creationState = LoginController.getAdminUser().addNewCastToDatabase(castName.getText(), Integer.parseInt(regDKField.getText()));
         if (creationState) {
             errorMsgCast.setText("Medvirkende oprettet");
+            castSearchResult = App.getSystemInstance().searchCast(searchText);
+            searchResult.setItems(FXCollections.observableArrayList(castSearchResult));
             clearCastFields();
         } else {
             errorMsgCast.setText("Fejl opstået, medvirkende blev ikke oprettet");
         }
+        searchResult.refresh();
     }
 
     /**
@@ -240,6 +247,8 @@ public class LandingPageController implements Initializable {
             creationState = chosenCast.deleteCast();
             if (creationState) {
                 errorMsgCast.setText("Medvirkende slettet");
+                castSearchResult = App.getSystemInstance().searchCast(searchText);
+                searchResult.setItems(FXCollections.observableArrayList(castSearchResult));
                 clearCastFields();
             } else {
                 errorMsgCast.setText("Fejl opstået, medvirkende blev ikke slettet");
@@ -247,6 +256,7 @@ public class LandingPageController implements Initializable {
         } else {
             errorMsgCast.setText("Ingen medvirkende er valgt");
         }
+        searchResult.refresh();
     }
 
     /**
@@ -264,6 +274,9 @@ public class LandingPageController implements Initializable {
                 if (creationState) {
                     errorMsgCast.setText("Medvirkende sammenflettet");
                     clearCastFields();
+//                    castSearchResult = App.getSystemInstance().searchCast(searchText);
+//                    searchResult.setItems(FXCollections.observableArrayList(castSearchResult));
+                    searchResult.refresh();
                 } else {
                     errorMsgCast.setText("Fejl opstået, medvirkende blev ikke sammenflettet");
                 }
@@ -298,6 +311,7 @@ public class LandingPageController implements Initializable {
         } else {
             errorMsgCast.setText("Ingen medvirkende er valgt");
         }
+        searchResult.refresh();
     }
 
     //FXML HANDLERS FOR "PRODUKTION" TAB
@@ -315,8 +329,8 @@ public class LandingPageController implements Initializable {
         searchResult.getItems().clear();
         productionSearchResult = App.getSystemInstance().searchProduction(searchText);
         if (productionSearchResult != null && !searchFieldProduction.getText().isEmpty()) {
-            productionObservableList = FXCollections.observableArrayList(productionSearchResult);
-            searchResult.setItems(productionObservableList);
+//            productionObservableList = FXCollections.observableArrayList(productionSearchResult);
+//            searchResult.setItems(productionObservableList);
             searchFieldProduction.clear();
         } else {
             errorMsgProductionSearch.setVisible(true);
@@ -333,10 +347,13 @@ public class LandingPageController implements Initializable {
         creationState = LoginController.getAdminUser().addNewProductionToDatabase(productionName.getText(), productionReleaseYear.getText(), producerName.getText());
         if (creationState) {
             errorMsgProduction.setText("Produktionen oprettet");
+//            productionSearchResult = App.getSystemInstance().searchProduction(searchText);
+//            searchResult.setItems(FXCollections.observableArrayList(productionSearchResult));
             clearProductionFields();
         } else {
             errorMsgProduction.setText("Fejl opstået, produktionen blev ikke oprettet");
         }
+        searchResult.refresh();
     }
 
     //Commented out since it is not part of the initial must-have requirements
@@ -368,8 +385,8 @@ public class LandingPageController implements Initializable {
         searchResult.getItems().clear();
         broadcastSearchResult = App.getSystemInstance().searchBroadcast(searchText);
         if (broadcastSearchResult != null && !searchFieldBroadcast.getText().isEmpty()) {
-            broadcastObservableList = FXCollections.observableArrayList(broadcastSearchResult);
-            searchResult.setItems(broadcastObservableList);
+//            broadcastObservableList = FXCollections.observableArrayList(broadcastSearchResult);
+//            searchResult.setItems(broadcastObservableList);
             //clearBroadcastFields();
         } else {
             errorMsgBroadcastSearch.setVisible(true);
@@ -445,10 +462,13 @@ public class LandingPageController implements Initializable {
             clearBroadcastFields();
             if (creationState) {
                 errorMsgBroadcast.setText("Udsendelsen tilføjet");
+//                broadcastSearchResult = App.getSystemInstance().searchBroadcast(searchText);
+//                searchResult.setItems(FXCollections.observableArrayList(broadcastSearchResult));
             } else {
                 errorMsgBroadcast.setText("Fejl opstået, udsendelsen blev ikke tilføjet");
             }
         }
+        searchResult.refresh();
         //TODO LOW PRIORITY Insert check if any of the textfields are empty. If so, print errormessage.
     }
 

@@ -54,7 +54,6 @@
 55,Sarah,1
 56,Sarah,1
 57,Laust,2
-58,Teis,3
 59,Nichlas,4
 60,Lise,5
 61,Simon,6
@@ -173,14 +172,13 @@
 174,Sarah,1
 175,Sarah,1
 176,Laust,2
-177,Teis,3
+177,Teis,4
 178,Nichlas,4
 179,Lise,5
 180,Simon,6
 181,Sarah,1
 182,Sarah,1
 183,Laust,2
-184,Teis,3
 185,Nichlas,4
 186,Lise,5
 187,Simon,6
@@ -262,4 +260,3 @@
 263,Lise,5
 264,Simon,6
 265,Sarah,1
-267,Søren,1234
