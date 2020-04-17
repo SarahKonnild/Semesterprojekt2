@@ -3,6 +3,7 @@ package org.openjfx.persistence;
 import org.openjfx.domain.Broadcast;
 import org.openjfx.domain.Cast;
 import org.openjfx.domain.Production;
+import org.openjfx.domain.User;
 import org.openjfx.interfaces.*;
 
 import java.io.*;
@@ -310,16 +311,17 @@ public class Persistence implements IPersistence {
         List<String> output = new ArrayList<String>();
         try {
             reader = new Scanner(broadcastFile);
-            String line = reader.nextLine();
             while (reader.hasNextLine()) {
+                String line = reader.nextLine();
                 String[] info = line.split(",");
-                if (keyword.contains(info[1].toLowerCase()) || keyword.contains(info[0].toLowerCase())) {
+                if (keyword.contains(info[1].toLowerCase())) {
                     output.add(line);
                 }
             }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            return null;
         } finally {
             reader.close();
         }
@@ -329,27 +331,82 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public List<String> getCastFromDatabase(String keyword) {
-        keyword = keyword.toLowerCase();
+    public List<String> getBroadcastFromDatabase(int id) {
         List<String> output = new ArrayList<String>();
         try {
-            reader = new Scanner(castFile);
-            String line = reader.nextLine();
+            reader = new Scanner(broadcastFile);
             while (reader.hasNextLine()) {
+                String line = reader.nextLine();
                 String[] info = line.split(",");
-                if (keyword.contains(info[1].toLowerCase()) || keyword.contains(info[0].toLowerCase())) {
+                if (id == Integer.parseInt(info[0])) {
                     output.add(line);
                 }
             }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            return null;
         } finally {
             reader.close();
         }
 
 
         return output;
+    }
+
+
+
+    @Override
+    public List<String> getCastFromDatabase(String keyword) {
+        keyword = keyword.toLowerCase();
+        List<String> output = new ArrayList<String>();
+        try {
+            reader = new Scanner(castFile);
+            while (reader.hasNextLine()) {
+                String line = reader.nextLine();
+                String[] info = line.split(",");
+                if (keyword.contains(info[1].toLowerCase())) {
+                    output.add(line);
+                }
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            reader.close();
+        }
+
+
+        return output;
+    }
+
+    @Override
+    public List<String> getCastFromDatabase(int id) {
+        List<String> output = new ArrayList<String>();
+        try {
+            reader = new Scanner(castFile);
+            while (reader.hasNextLine()) {
+                String line = reader.nextLine();
+                String[] info = line.split(",");
+                if (id == Integer.parseInt(info[0])) {
+                    output.add(line);
+                } else{
+                    continue;
+                }
+            }
+
+            return output;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            reader.close();
+        }
+
+
+
     }
 
     @Override
@@ -358,16 +415,43 @@ public class Persistence implements IPersistence {
         List<String> output = new ArrayList<String>();
         try {
             reader = new Scanner(productionFile);
-            String line = reader.nextLine();
             while (reader.hasNextLine()) {
+                String line = reader.nextLine();
                 String[] info = line.split(",");
-                if (keyword.contains(info[1].toLowerCase()) || keyword.contains(info[0].toLowerCase())) {
+                if (keyword.contains(info[1].toLowerCase())) {
                     output.add(line);
                 }
             }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            return null;
+        } finally {
+            reader.close();
+        }
+
+
+        return output;
+    }
+
+    @Override
+    public List<String> getProductionFromDatabase(int id) {
+        List<String> output = new ArrayList<String>();
+        try {
+            reader = new Scanner(productionFile);
+            while (reader.hasNextLine()) {
+                String line = reader.nextLine();
+                String[] info = line.split(",");
+                if (id == Integer.parseInt(info[0])) {
+                    output.add(line);
+                } else{
+                    continue;
+                }
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
         } finally {
             reader.close();
         }
@@ -638,7 +722,13 @@ public class Persistence implements IPersistence {
 
             persistence.updateCastInDatabase(1, "Søren", 78);
 
+            User u = new User(1, "Teis","password", "username", Role.SYSADMIN);
 
+            persistence.createNewUserInDatabase(u);
+            persistence.removeUserFromDatabase(2);
+
+            System.out.println(persistence.getBroadcastFromDatabase(1));
+            System.out.println(persistence.getBroadcastFromDatabase("hej"));
 
         } catch (IOException e) {
             e.printStackTrace();

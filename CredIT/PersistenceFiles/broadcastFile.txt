@@ -1,10 +1,54 @@
-<<<<<<< HEAD
 1,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
 2,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
 3,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
 4,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
-=======
-1,klovn,Assistenter;67:6766_kameramand;1:6:189203,1,1,01-05-2003
-2,klovn,Assistenter;67:6766_kameramand;1:6:189203,1,1,01-05-2003
-3,klovn,Assistenter;67:6766_kameramand;1:6:189203,1,1,01-05-2003
->>>>>>> NichlasTeis_Persistence
+5,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+6,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+7,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+8,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+9,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+10,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+11,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+12,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+13,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+14,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+15,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+16,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+17,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+18,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+19,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+20,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+21,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+22,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+23,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+24,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+25,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+26,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+27,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+28,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+29,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+30,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+31,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+32,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+33,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+34,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+35,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+36,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+37,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+38,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+39,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+40,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+41,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+42,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+43,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+44,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+45,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+46,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+47,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+48,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+49,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+50,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+51,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+52,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+53,hej i stuen,Producer;2:3_kameramand;1:2,1,2,02-02-2020
+54,hej i stuen 2,Producer;2:3_kameramand;1:2,1,2,02-02-2020
