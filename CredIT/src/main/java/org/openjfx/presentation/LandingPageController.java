@@ -201,12 +201,12 @@ public class LandingPageController implements Initializable {
         String searchText = searchFieldCast.getText();
         searchResult.getItems().clear();
         castSearchResult = App.getSystemInstance().searchCast(searchText);
-        if (castSearchResult != null) {
+        if (castSearchResult != null && !searchFieldCast.getText().isEmpty()) {
             castObservableList = FXCollections.observableArrayList(castSearchResult);
             searchResult.setItems(castObservableList);
             searchFieldCast.clear();
         } else {
-            errorMsgCastSearch.setVisible(true);
+            errorMsgCastSearch.setText("Fejl opstået, medvirkende ikke fundet");
         }
     }
 
@@ -314,7 +314,7 @@ public class LandingPageController implements Initializable {
         String searchText = searchFieldProduction.getText();
         searchResult.getItems().clear();
         productionSearchResult = App.getSystemInstance().searchProduction(searchText);
-        if (productionSearchResult != null) {
+        if (productionSearchResult != null && !searchFieldProduction.getText().isEmpty()) {
             productionObservableList = FXCollections.observableArrayList(productionSearchResult);
             searchResult.setItems(productionObservableList);
             searchFieldProduction.clear();
@@ -367,7 +367,7 @@ public class LandingPageController implements Initializable {
         String searchText = searchFieldBroadcast.getText();
         searchResult.getItems().clear();
         broadcastSearchResult = App.getSystemInstance().searchBroadcast(searchText);
-        if (broadcastSearchResult != null) {
+        if (broadcastSearchResult != null && !searchFieldBroadcast.getText().isEmpty()) {
             broadcastObservableList = FXCollections.observableArrayList(broadcastSearchResult);
             searchResult.setItems(broadcastObservableList);
             //clearBroadcastFields();
