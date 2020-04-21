@@ -178,11 +178,11 @@ public class LandingPageController implements Initializable {
             broadcastEpisodeNumber.setText(String.valueOf(chosenBroadcast.getEpisodeNumber()));
             broadcastSeason.setText(String.valueOf(chosenBroadcast.getSeasonNumber()));
             String[] airDateInput = chosenBroadcast.getAirDate();
-            broadcastAirDateDay.setDisable(true);
+//            broadcastAirDateDay.setDisable(true);
             broadcastAirDateDay.setText(airDateInput[0]);
-            broadcastAirDateMonth.setDisable(true);
+//            broadcastAirDateMonth.setDisable(true);
             broadcastAirDateMonth.setText(airDateInput[1]);
-            broadcastAirDateYear.setDisable(true);
+//            broadcastAirDateYear.setDisable(true);
             broadcastAirDateYear.setText(airDateInput[2]);
             assignCast.setDisable(false);
             removeCast.setDisable(false);
@@ -225,8 +225,8 @@ public class LandingPageController implements Initializable {
         creationState = LoginController.getAdminUser().addNewCastToDatabase(castName.getText(), Integer.parseInt(regDKField.getText()));
         if (creationState) {
             errorMsgCast.setText("Medvirkende oprettet");
-            castSearchResult = App.getSystemInstance().searchCast(searchText);
-            searchResult.setItems(FXCollections.observableArrayList(castSearchResult));
+//            castSearchResult = App.getSystemInstance().searchCast(searchText);
+//            searchResult.setItems(FXCollections.observableArrayList(castSearchResult));
             clearCastFields();
         } else {
             errorMsgCast.setText("Fejl opstået, medvirkende blev ikke oprettet");
@@ -247,8 +247,8 @@ public class LandingPageController implements Initializable {
             creationState = chosenCast.deleteCast();
             if (creationState) {
                 errorMsgCast.setText("Medvirkende slettet");
-                castSearchResult = App.getSystemInstance().searchCast(searchText);
-                searchResult.setItems(FXCollections.observableArrayList(castSearchResult));
+//                castSearchResult = App.getSystemInstance().searchCast(searchText);
+//                searchResult.setItems(FXCollections.observableArrayList(castSearchResult));
                 clearCastFields();
             } else {
                 errorMsgCast.setText("Fejl opstået, medvirkende blev ikke slettet");
@@ -274,8 +274,8 @@ public class LandingPageController implements Initializable {
                 if (creationState) {
                     errorMsgCast.setText("Medvirkende sammenflettet");
                     clearCastFields();
-                    castSearchResult = App.getSystemInstance().searchCast(searchText);
-                    searchResult.setItems(FXCollections.observableArrayList(castSearchResult));
+//                    castSearchResult = App.getSystemInstance().searchCast(searchText);
+//                    searchResult.setItems(FXCollections.observableArrayList(castSearchResult));
                     searchResult.refresh();
                 } else {
                     errorMsgCast.setText("Fejl opstået, medvirkende blev ikke sammenflettet");
@@ -347,8 +347,8 @@ public class LandingPageController implements Initializable {
         creationState = LoginController.getAdminUser().addNewProductionToDatabase(productionName.getText(), productionReleaseYear.getText(), producerName.getText());
         if (creationState) {
             errorMsgProduction.setText("Produktionen oprettet");
-            productionSearchResult = App.getSystemInstance().searchProduction(searchText);
-            searchResult.setItems(FXCollections.observableArrayList(productionSearchResult));
+//            productionSearchResult = App.getSystemInstance().searchProduction(searchText);
+//            searchResult.setItems(FXCollections.observableArrayList(productionSearchResult));
             clearProductionFields();
         } else {
             errorMsgProduction.setText("Fejl opstået, produktionen blev ikke oprettet");
@@ -462,8 +462,8 @@ public class LandingPageController implements Initializable {
             clearBroadcastFields();
             if (creationState) {
                 errorMsgBroadcast.setText("Udsendelsen tilføjet");
-                broadcastSearchResult = App.getSystemInstance().searchBroadcast(searchText);
-                searchResult.setItems(FXCollections.observableArrayList(broadcastSearchResult));
+//                broadcastSearchResult = App.getSystemInstance().searchBroadcast(searchText);
+//                searchResult.setItems(FXCollections.observableArrayList(broadcastSearchResult));
             } else {
                 errorMsgBroadcast.setText("Fejl opstået, udsendelsen blev ikke tilføjet");
             }
