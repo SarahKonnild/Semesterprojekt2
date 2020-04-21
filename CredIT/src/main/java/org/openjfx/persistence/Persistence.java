@@ -152,7 +152,8 @@ public class Persistence implements IPersistence {
             }else{
                 temp += ",";
             }
-            temp += broadcast.getSeasonNumber() + "," + broadcast.getEpisodeNumber() + "," + broadcast.getAirDate()[0] + "-" + broadcast.getAirDate()[1] + "-" + broadcast.getAirDate()[2];
+            temp += broadcast.getSeasonNumber() + "," + broadcast.getEpisodeNumber() + "," + broadcast.getAirDate()[0] +
+                    "-" + broadcast.getAirDate()[1] + "-" + broadcast.getAirDate()[2] + "," + broadcast.getProduction();
             writer.println(temp);
             broadcastId++;
             returnBool = true;
