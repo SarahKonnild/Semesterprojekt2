@@ -66,5 +66,8 @@ public interface IBroadcast {
     public String[] getAirDate();
 
     public void setAirDate(String[] airDate);
+
+    @Override
+    public String toString();
 }
 

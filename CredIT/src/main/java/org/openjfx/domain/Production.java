@@ -60,7 +60,8 @@ public class Production implements IProduction {
 
     @Override
     public String toString() {
-        return name + ": " + year;
+
+        return this.name + ": " + this.year;
     }
 
     @Override

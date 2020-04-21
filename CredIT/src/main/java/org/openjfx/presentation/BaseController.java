@@ -116,7 +116,23 @@ public class BaseController implements Initializable {
      */
     @FXML
     public void handleSearchResultClicked(MouseEvent event){
-        searchResultArea.setText(searchList.getSelectionModel().getSelectedItems().toString());
+        Object obj;
+        if(searchTopicChosen == "cast"){
+            obj =  searchList.getSelectionModel().getSelectedItem();
+            ICast chosenCast = (ICast) obj;
+            searchResultArea.setText(chosenCast.toString());
+        } else if(searchTopicChosen == "production"){
+            obj =  searchList.getSelectionModel().getSelectedItem();
+            IProduction chosenProduction = (IProduction) obj;
+            searchResultArea.setText(chosenProduction.toString());
+        } else if(searchTopicChosen == "broadcast"){
+            obj =  searchList.getSelectionModel().getSelectedItem();
+            IBroadcast chosenBroadcast = (IBroadcast) obj;
+            searchResultArea.setText(chosenBroadcast.toString());
+        }else{
+            errorMessage.setVisible(true);
+            errorMessage.setText("Intet søgeresultat");
+        }
     }
 
     /**

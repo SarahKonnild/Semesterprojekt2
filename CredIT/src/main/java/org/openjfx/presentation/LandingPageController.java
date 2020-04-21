@@ -274,8 +274,8 @@ public class LandingPageController implements Initializable {
                 if (creationState) {
                     errorMsgCast.setText("Medvirkende sammenflettet");
                     clearCastFields();
-//                    castSearchResult = App.getSystemInstance().searchCast(searchText);
-//                    searchResult.setItems(FXCollections.observableArrayList(castSearchResult));
+                    castSearchResult = App.getSystemInstance().searchCast(searchText);
+                    searchResult.setItems(FXCollections.observableArrayList(castSearchResult));
                     searchResult.refresh();
                 } else {
                     errorMsgCast.setText("Fejl opstået, medvirkende blev ikke sammenflettet");
@@ -329,8 +329,8 @@ public class LandingPageController implements Initializable {
         searchResult.getItems().clear();
         productionSearchResult = App.getSystemInstance().searchProduction(searchText);
         if (productionSearchResult != null && !searchFieldProduction.getText().isEmpty()) {
-//            productionObservableList = FXCollections.observableArrayList(productionSearchResult);
-//            searchResult.setItems(productionObservableList);
+            productionObservableList = FXCollections.observableArrayList(productionSearchResult);
+            searchResult.setItems(productionObservableList);
             searchFieldProduction.clear();
         } else {
             errorMsgProductionSearch.setVisible(true);
@@ -347,8 +347,8 @@ public class LandingPageController implements Initializable {
         creationState = LoginController.getAdminUser().addNewProductionToDatabase(productionName.getText(), productionReleaseYear.getText(), producerName.getText());
         if (creationState) {
             errorMsgProduction.setText("Produktionen oprettet");
-//            productionSearchResult = App.getSystemInstance().searchProduction(searchText);
-//            searchResult.setItems(FXCollections.observableArrayList(productionSearchResult));
+            productionSearchResult = App.getSystemInstance().searchProduction(searchText);
+            searchResult.setItems(FXCollections.observableArrayList(productionSearchResult));
             clearProductionFields();
         } else {
             errorMsgProduction.setText("Fejl opstået, produktionen blev ikke oprettet");
@@ -385,9 +385,9 @@ public class LandingPageController implements Initializable {
         searchResult.getItems().clear();
         broadcastSearchResult = App.getSystemInstance().searchBroadcast(searchText);
         if (broadcastSearchResult != null && !searchFieldBroadcast.getText().isEmpty()) {
-//            broadcastObservableList = FXCollections.observableArrayList(broadcastSearchResult);
-//            searchResult.setItems(broadcastObservableList);
-            //clearBroadcastFields();
+            broadcastObservableList = FXCollections.observableArrayList(broadcastSearchResult);
+            searchResult.setItems(broadcastObservableList);
+            clearBroadcastFields();
         } else {
             errorMsgBroadcastSearch.setVisible(true);
         }
@@ -462,8 +462,8 @@ public class LandingPageController implements Initializable {
             clearBroadcastFields();
             if (creationState) {
                 errorMsgBroadcast.setText("Udsendelsen tilføjet");
-//                broadcastSearchResult = App.getSystemInstance().searchBroadcast(searchText);
-//                searchResult.setItems(FXCollections.observableArrayList(broadcastSearchResult));
+                broadcastSearchResult = App.getSystemInstance().searchBroadcast(searchText);
+                searchResult.setItems(FXCollections.observableArrayList(broadcastSearchResult));
             } else {
                 errorMsgBroadcast.setText("Fejl opstået, udsendelsen blev ikke tilføjet");
             }

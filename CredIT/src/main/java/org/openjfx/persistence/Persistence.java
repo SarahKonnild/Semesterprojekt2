@@ -28,10 +28,10 @@ public class Persistence implements IPersistence {
 
 
     private Persistence() {
-        this.castFile = new File("PersistenceFiles\\castFile.txt");
-        this.broadcastFile = new File("PersistenceFiles\\broadcastFile.txt");
-        this.productionFile = new File("PersistenceFiles\\productionFile.txt");
-        this.userFile = new File("PersistenceFiles\\userFile.txt");
+        this.castFile = new File("PersistenceFiles/castFile.txt");
+        this.broadcastFile = new File("PersistenceFiles/broadcastFile.txt");
+        this.productionFile = new File("PersistenceFiles/productionFile.txt");
+        this.userFile = new File("PersistenceFiles/userFile.txt");
         this.writer = null;
         this.reader = null;
 

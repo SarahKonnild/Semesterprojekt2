@@ -18,4 +18,7 @@ public interface IProduction {
     public String getProductionCompany();
     public int getNumberOfSeasons();
     public int getNumberOfEpisodes();
+
+    @Override
+    public String toString();
 }

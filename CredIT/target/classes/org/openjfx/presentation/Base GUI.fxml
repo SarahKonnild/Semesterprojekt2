@@ -46,7 +46,7 @@
             </MenuButton>
             <Label fx:id="errorMessage" alignment="CENTER" layoutX="242.0" layoutY="91.0" prefHeight="17.0" prefWidth="242.0" text="Fejlmeddelelse" textFill="#fc0000" />
             <Separator layoutX="231.0" layoutY="112.0" prefHeight="1.0" prefWidth="264.0" />
-            <TextArea fx:id="searchString" layoutX="242.0" layoutY="123.0" prefHeight="123.0" prefWidth="242.0" />
+            <TextArea fx:id="searchResultArea" layoutX="242.0" layoutY="123.0" prefHeight="123.0" prefWidth="242.0" />
       </children>
     </AnchorPane>
       <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0">

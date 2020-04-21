@@ -55,4 +55,7 @@ public interface ICast {
     public void setRole(String role);
 
     public String getRole();
+
+    @Override
+    public String toString();
 }
