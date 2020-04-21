@@ -58,11 +58,12 @@ public interface IBroadcast {
      */
     public int getEpisodeNumber();
 
+    public String getProductionName();
+
     /**
      * Returns the air date of this broadcast.
      * @return the air date of this broadcast.
      */
-
     public String[] getAirDate();
 
     public void setAirDate(String[] airDate);

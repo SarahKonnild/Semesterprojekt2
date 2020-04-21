@@ -75,7 +75,6 @@ public class CredITSystem implements ISystem {
 
     @Override
     public ArrayList<IBroadcast> searchBroadcast(int broadcastID) {
-        //FIXME Remove String.valueOf when the Persistence interface has this method
         return makeBroadcastObjects(persistenceLayer.getBroadcastFromDatabase((broadcastID)));
     }
 
@@ -115,7 +114,7 @@ public class CredITSystem implements ISystem {
                     }
                 }
                 //Need to update this to take the hashmap instead
-                broadcasts.add(new Broadcast(Integer.parseInt(items[0]), items[1], castRolesMap, Integer.parseInt(items[3]), Integer.parseInt(items[4]), items[5]));
+                broadcasts.add(new Broadcast(Integer.parseInt(items[0]), items[1], castRolesMap, Integer.parseInt(items[3]), Integer.parseInt(items[4]), items[5], items[6]));
             }
             return broadcasts;
         }

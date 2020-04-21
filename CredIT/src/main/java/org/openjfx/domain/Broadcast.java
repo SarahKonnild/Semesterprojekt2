@@ -13,17 +13,19 @@ public class Broadcast implements IBroadcast {
     private int id;
     private String name;
     private HashMap<String, ArrayList<ICast>> castMap;
+    private String produtionName;
     private int seasonNumber;
     private int episodeNumber;
     private String[] airDate;
 
-    public Broadcast(int id, String name, HashMap<String, ArrayList<ICast>> castMap, int seasonNumber, int episodeNumber, String airDate) {
+    public Broadcast(int id, String name, HashMap<String, ArrayList<ICast>> castMap, int seasonNumber, int episodeNumber, String airDate, String productionName) {
         this.id = id;
         this.name = name;
         this.castMap = castMap;
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.airDate = airDate.split("-");
+        this.produtionName = productionName;
     }
 
     public Broadcast(String name, int seasonNumber, int episodeNumber, String airDate){
@@ -73,7 +75,7 @@ public class Broadcast implements IBroadcast {
     @Override
     public String toString() {
         return
-                name + ": " + airDate[0] + "-" + airDate[1] + "-" + airDate[2];
+                this.name + ": " + this.airDate[0] + "-" + this.airDate[1] + "-" + this.airDate[2] + " : " + this.produtionName;
     }
 
     public int getId() {
@@ -87,6 +89,10 @@ public class Broadcast implements IBroadcast {
     public HashMap<String, ArrayList<ICast>> getCastMap() {
         return castMap;
     }
+
+    public String getProdutionName(){
+        return this.produtionName;
+    };
 
     public int getSeasonNumber() {
         return seasonNumber;
