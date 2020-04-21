@@ -223,11 +223,11 @@ public class LandingPageController implements Initializable {
      */
     @FXML
     public void handleCreateNewCast(MouseEvent event) {
-        creationState = LoginController.getAdminUser().addNewCastToDatabase(castName.getText(), Integer.parseInt(regDKField.getText()));
-        if (creationState) {
+        ICast cast = LoginController.getAdminUser().addNewCastToDatabase(castName.getText(), Integer.parseInt(regDKField.getText()));
+        if (cast != null) {
             errorMsgCast.setText("Medvirkende oprettet");
-//            castSearchResult = App.getSystemInstance().searchCast(searchText);
-//            searchResult.setItems(FXCollections.observableArrayList(castSearchResult));
+            castSearchResult.add(cast);
+            searchResult.setItems(FXCollections.observableArrayList(castSearchResult));
             clearCastFields();
         } else {
             errorMsgCast.setText("Fejl opstået, medvirkende blev ikke oprettet");
@@ -245,11 +245,17 @@ public class LandingPageController implements Initializable {
     public void handleDeleteCast(MouseEvent event) {
         if (!castObservableList.isEmpty()) {
             chosenCast = (ICast) searchResult.getSelectionModel().getSelectedItem();
+            castSearchResult.remove(chosenCast);
             creationState = chosenCast.deleteCast();
             if (creationState) {
                 errorMsgCast.setText("Medvirkende slettet");
-//                castSearchResult = App.getSystemInstance().searchCast(searchText);
-//                searchResult.setItems(FXCollections.observableArrayList(castSearchResult));
+                //updates the list view so it no longers shows the deleted cast
+                if(castSearchResult.isEmpty()) {
+                    searchResult.getItems().clear();
+                }else{
+                    searchResult.setItems(FXCollections.observableArrayList(castSearchResult));
+                }
+
                 clearCastFields();
             } else {
                 errorMsgCast.setText("Fejl opstået, medvirkende blev ikke slettet");
@@ -345,11 +351,11 @@ public class LandingPageController implements Initializable {
      */
     @FXML
     public void handleCreateNewProduction(MouseEvent event) {
-        creationState = LoginController.getAdminUser().addNewProductionToDatabase(productionName.getText(), productionReleaseYear.getText(), producerName.getText());
-        if (creationState) {
+        IProduction production = (IProduction)LoginController.getAdminUser().addNewProductionToDatabase(productionName.getText(), productionReleaseYear.getText(), producerName.getText());
+        if (production != null) {
             errorMsgProduction.setText("Produktionen oprettet");
-//            productionSearchResult = App.getSystemInstance().searchProduction(searchText);
-//            searchResult.setItems(FXCollections.observableArrayList(productionSearchResult));
+            productionSearchResult.add(production);
+            searchResult.setItems(FXCollections.observableArrayList(productionSearchResult));
             clearProductionFields();
         } else {
             errorMsgProduction.setText("Fejl opstået, produktionen blev ikke oprettet");
@@ -454,17 +460,20 @@ public class LandingPageController implements Initializable {
      */
     @FXML
     public void handleCreateBroadcast(MouseEvent event) {
+
         String dateVariable = broadcastAirDateDay.getText() + "-" + broadcastAirDateMonth.getText() + "-" + broadcastAirDateYear.getText();
         if (broadcastAirDateDay.getText().length() != 2 && broadcastAirDateMonth.getText().length() != 2 && broadcastAirDateYear.getText().length() != 4) {
             errorMsgBroadcast.setText("Fejl opstået, ugyldig datoindtastning");
         } else {
-            creationState = LoginController.getAdminUser().addNewBroadcastToDatabase(broadcastName.getText(), Integer.parseInt(broadcastSeason.getText()),
+            IBroadcast broadcast = LoginController.getAdminUser().addNewBroadcastToDatabase(broadcastName.getText(), Integer.parseInt(broadcastSeason.getText()),
                     Integer.parseInt(broadcastEpisodeNumber.getText()), dateVariable);
             clearBroadcastFields();
-            if (creationState) {
+            if (broadcast != null) {
                 errorMsgBroadcast.setText("Udsendelsen tilføjet");
-//                broadcastSearchResult = App.getSystemInstance().searchBroadcast(searchText);
-//                searchResult.setItems(FXCollections.observableArrayList(broadcastSearchResult));
+                if(!broadcastSearchResult.isEmpty()) {
+                    broadcastSearchResult.add(broadcast);
+                    searchResult.setItems(FXCollections.observableArrayList(broadcastSearchResult));
+                }
             } else {
                 errorMsgBroadcast.setText("Fejl opstået, udsendelsen blev ikke tilføjet");
             }
