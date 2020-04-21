@@ -110,8 +110,8 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public boolean createNewBroadcastInDatabase(IBroadcast broadcast) throws IOException {
-        boolean returnBool = false;
+    public int createNewBroadcastInDatabase(IBroadcast broadcast) throws IOException {
+        int returnNumber = -1;
         try {
             fw = new FileWriter(broadcastFile, true);
             writer = new PrintWriter(fw);
@@ -155,8 +155,8 @@ public class Persistence implements IPersistence {
             temp += broadcast.getSeasonNumber() + "," + broadcast.getEpisodeNumber() + "," + broadcast.getAirDate()[0] +
                     "-" + broadcast.getAirDate()[1] + "-" + broadcast.getAirDate()[2] + "," + broadcast.getProductionName();
             writer.println(temp);
+            returnNumber = broadcastId;
             broadcastId++;
-            returnBool = true;
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -165,7 +165,7 @@ public class Persistence implements IPersistence {
             fw.close();
         }
 
-        return returnBool;
+        return returnNumber;
     }
 
     @Override
@@ -196,8 +196,8 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public boolean createNewProductionInDatabase(IProduction production) throws IOException {
-        boolean returnBool = false;
+    public int createNewProductionInDatabase(IProduction production) throws IOException {
+        int returnNumber = -1;
         try {
             fw = new FileWriter(productionFile, true);
             writer = new PrintWriter(fw);
@@ -219,8 +219,8 @@ public class Persistence implements IPersistence {
             }
             temp += production.getProductionCompany() + "," + production.getNumberOfSeasons() + "," + production.getNumberOfEpisodes();
             writer.println(temp);
+            returnNumber = productionId;
             productionId++;
-            returnBool = true;
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -229,7 +229,7 @@ public class Persistence implements IPersistence {
             fw.close();
         }
 
-        return returnBool;
+        return returnNumber;
     }
 
     @Override
@@ -260,17 +260,15 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public boolean createNewCastInDatabase(ICast cast) throws IOException {
-        boolean returnBool = false;
+    public int createNewCastInDatabase(ICast cast) throws IOException {
+        int returnNumber = -1;
         try {
             fw = new FileWriter(castFile, true);
             writer = new PrintWriter(fw);
 
             writer.println(castId + "," + cast.getName() + "," + cast.getRegDKID());
-
+            returnNumber = castId;
             castId++;
-
-            returnBool = true;
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -279,7 +277,7 @@ public class Persistence implements IPersistence {
             fw.close();
         }
 
-        return returnBool;
+        return returnNumber;
     }
 
     @Override
@@ -290,8 +288,8 @@ public class Persistence implements IPersistence {
             reader = new Scanner(castFile);
             while (reader.hasNextLine()) {
                 String currentLine = reader.nextLine();
-                String[] user = currentLine.split(",");
-                if (Integer.parseInt(user[0]) != id) {
+                String[] cast = currentLine.split(",");
+                if (Integer.parseInt(cast[0]) != id) {
                     newTxt += currentLine + "\n";
 
                 } else {
@@ -592,9 +590,24 @@ public class Persistence implements IPersistence {
      * Loops through the userFile and finds the largest userId. The userId on the class is instantiated to one higher than this.
      */
     private void initializeUserId() {
+        userId = initializeReadFile(userFile) + 1;
+    }
+
+    private void initializeBroadcastId() {
+        broadcastId = initializeReadFile(broadcastFile) + 1;
+    }
+
+    private void initializeProductionId() {
+        productionId = initializeReadFile(productionFile) + 1;
+    }
+    private void initializeCastId() {
+        castId = initializeReadFile(castFile) + 1;
+    }
+
+    private int initializeReadFile(File file){
         int id = 0;
         try {
-            reader = new Scanner(userFile);
+            reader = new Scanner(file);
             while (reader.hasNextLine()) {
                 String currentLine = reader.nextLine();
                 String[] user = currentLine.split(",");
@@ -608,71 +621,7 @@ public class Persistence implements IPersistence {
         } finally {
             reader.close();
         }
-
-        userId = id + 1;
-    }
-
-    private void initializeCastId() {
-        int id = 0;
-        try {
-            reader = new Scanner(castFile);
-            while (reader.hasNextLine()) {
-                String currentLine = reader.nextLine();
-                String[] cast = currentLine.split(",");
-                int currentId = Integer.parseInt(cast[0]);
-                if (currentId > id) {
-                    id = currentId;
-                }
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            reader.close();
-        }
-
-        castId = id + 1;
-    }
-
-    private void initializeBroadcastId() {
-        int id = 0;
-        try {
-            reader = new Scanner(broadcastFile);
-            while (reader.hasNextLine()) {
-                String currentLine = reader.nextLine();
-                String[] broadcast = currentLine.split(",");
-                int currentId = Integer.parseInt(broadcast[0]);
-                if (currentId > id) {
-                    id = currentId;
-                }
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            reader.close();
-        }
-
-        broadcastId = id + 1;
-    }
-
-    private void initializeProductionId() {
-        int id = 0;
-        try {
-            reader = new Scanner(productionFile);
-            while (reader.hasNextLine()) {
-                String currentLine = reader.nextLine();
-                String[] production = currentLine.split(",");
-                int currentId = Integer.parseInt(production[0]);
-                if (currentId > id) {
-                    id = currentId;
-                }
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            reader.close();
-        }
-
-        productionId = id + 1;
+        return id;
     }
 
 }

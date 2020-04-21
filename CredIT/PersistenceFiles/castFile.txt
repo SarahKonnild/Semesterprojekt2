@@ -12,7 +12,12 @@
 16,Daniel Vejman,1014
 17,Mads Fyn,1015
 19,Teis Ulfelt,1017
-20,Marie Anker,101821,Hans,1040
+20,Marie Anker,1018
+21,Hans,1040
 23,Jens jensen,2022
 24,Hans Hans,2020
 25,Jens jensen,2020
+27,Hans Jakobsen,2222
+28,Hans Borgsen,2223
+29,Hans Jonansen,2026
+30,Hans Mikkelsen,2029

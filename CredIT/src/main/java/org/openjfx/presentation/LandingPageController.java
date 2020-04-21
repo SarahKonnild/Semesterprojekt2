@@ -227,7 +227,9 @@ public class LandingPageController implements Initializable {
         if (cast != null) {
             errorMsgCast.setText("Medvirkende oprettet");
             castSearchResult.add(cast);
+            //Todo Decide if we wanna do a filtered update. Does it show up if the user have searched for Hans, but creates a new Cast named Sarah? 
             searchResult.setItems(FXCollections.observableArrayList(castSearchResult));
+            searchResult.refresh();
             clearCastFields();
         } else {
             errorMsgCast.setText("Fejl opstået, medvirkende blev ikke oprettet");
@@ -244,7 +246,7 @@ public class LandingPageController implements Initializable {
     @FXML
     public void handleDeleteCast(MouseEvent event) {
         if (!castObservableList.isEmpty()) {
-            chosenCast = (ICast) searchResult.getSelectionModel().getSelectedItem();
+            chosenCast = (ICast)searchResult.getSelectionModel().getSelectedItem();
             castSearchResult.remove(chosenCast);
             creationState = chosenCast.deleteCast();
             if (creationState) {
