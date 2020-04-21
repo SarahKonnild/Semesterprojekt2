@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -39,6 +40,11 @@ public class HelpController implements Initializable {
 
         //Setting the children of the different roots
         rootItem.getChildren().add(search);
+
+    }
+
+    @FXML
+    public void handleClose(MouseEvent event){
 
     }
 

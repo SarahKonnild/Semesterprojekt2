@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="271.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.presentation.AdministratorPageController">
+   <children>
+      <AnchorPane prefHeight="27.0" prefWidth="601.0" style="-fx-background-color: #3b6978;">
+         <children>
+            <ImageView fitHeight="17.0" fitWidth="43.0" layoutX="13.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Images/Danish_TV_2_logo.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="help" layoutX="538.0" layoutY="5.0" onMouseClicked="#handleHelp" text="Hjælp" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="27.0" prefHeight="244.0" prefWidth="321.0" style="-fx-background-color: #84a9ac;">
+         <children>
+            <Label layoutX="50.0" layoutY="29.0" text="Hvad vil du gerne foretage dig?" textFill="WHITE">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="administrateUsers" layoutX="66.0" layoutY="77.0" onMouseClicked="#handleAdministrateUsers" prefHeight="27.0" prefWidth="109.0" text="Administrér Brugere" textFill="WHITE" />
+            <Label fx:id="administrateCast" layoutX="66.0" layoutY="104.0" onMouseClicked="#handleAdministrateCast" prefHeight="27.0" prefWidth="137.0" text="Administrér Medvirkende" textFill="WHITE" />
+            <Label fx:id="administrateProduction" layoutX="66.0" layoutY="131.0" onMouseClicked="#handleAdministrateProduction" prefHeight="27.0" prefWidth="137.0" text="Administrér Produktioner" textFill="WHITE" />
+            <Label fx:id="administrateBroadcast" layoutX="66.0" layoutY="158.0" onMouseClicked="#handleAdministrateBroadcast" prefHeight="27.0" prefWidth="137.0" text="Administrér Udsendelser" textFill="WHITE" />
+            <Label fx:id="administrateMovie" layoutX="66.0" layoutY="185.0" onMouseClicked="#handleAdministrateMovie" prefHeight="27.0" prefWidth="137.0" text="Administrér Film" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+      <Label layoutX="371.0" layoutY="149.0" text="Velkommen til CredIT" textFill="#84a9ac">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <Label fx:id="username" alignment="CENTER" layoutX="377.0" layoutY="117.0" prefHeight="19.0" prefWidth="189.0" text="Brugernavn">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
