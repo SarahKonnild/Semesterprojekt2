@@ -90,7 +90,7 @@ public class Broadcast implements IBroadcast {
         return castMap;
     }
 
-    public String getProdutionName(){
+    public String getProductionName(){
         return this.produtionName;
     };
 
