@@ -84,6 +84,7 @@ public class AddAssignController implements Initializable {
             nameField.setText(chosenCast.getName());
             regDKField.setText(String.valueOf(chosenCast.getRegDKID()));
             roleName.setDisable(false);
+            roleName.setEditable(true);
             assignButton.setDisable(false);
         }
     }
