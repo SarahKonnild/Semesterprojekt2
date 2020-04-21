@@ -90,16 +90,17 @@ public class Broadcast implements IBroadcast {
         return castMap;
     }
 
-    public String getProdutionName(){
-        return this.produtionName;
-    };
-
     public int getSeasonNumber() {
         return seasonNumber;
     }
 
     public int getEpisodeNumber() {
         return episodeNumber;
+    }
+
+    @Override
+    public String getProductionName() {
+        return this.produtionName;
     }
 
     public void setEpisodeNumber(int episodeNumber) {

@@ -184,6 +184,7 @@ public class LandingPageController implements Initializable {
             broadcastAirDateMonth.setText(airDateInput[1]);
 //            broadcastAirDateYear.setDisable(true);
             broadcastAirDateYear.setText(airDateInput[2]);
+            broadcastProduction.setText(chosenBroadcast.getProductionName());
             assignCast.setDisable(false);
             removeCast.setDisable(false);
             createBroadcast.setDisable(false);
