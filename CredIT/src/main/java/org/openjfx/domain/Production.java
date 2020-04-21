@@ -59,6 +59,11 @@ public class Production implements IProduction {
     }
 
     @Override
+    public String toString() {
+        return name + ": " + year;
+    }
+
+    @Override
     public int getId() {
         return this.id;
     }

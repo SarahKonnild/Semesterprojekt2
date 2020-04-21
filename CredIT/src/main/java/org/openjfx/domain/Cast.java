@@ -65,6 +65,11 @@ public class Cast implements ICast {
     }
 
     @Override
+    public String toString() {
+        return  name;
+    }
+
+    @Override
     public void setRole(String role){
         this.role = role;
     }

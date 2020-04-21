@@ -5,6 +5,7 @@ import org.openjfx.interfaces.IPersistence;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Broadcast implements IBroadcast {
@@ -67,6 +68,12 @@ public class Broadcast implements IBroadcast {
             castMap.get(role).add(cast);
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return
+                name + ": " + airDate[0] + "-" + airDate[1] + "-" + airDate[2];
     }
 
     public int getId() {
