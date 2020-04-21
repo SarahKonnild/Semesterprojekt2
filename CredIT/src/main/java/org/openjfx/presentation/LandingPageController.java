@@ -227,7 +227,7 @@ public class LandingPageController implements Initializable {
         if (cast != null) {
             errorMsgCast.setText("Medvirkende oprettet");
             castSearchResult.add(cast);
-            //Todo Decide if we wanna do a filtered update. Does it show up if the user have searched for Hans, but creates a new Cast named Sarah? 
+            //Todo Decide if we wanna do a filtered update. Does it show up if the user have searched for Hans, but creates a new Cast named Sarah?
             searchResult.setItems(FXCollections.observableArrayList(castSearchResult));
             searchResult.refresh();
             clearCastFields();
