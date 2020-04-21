@@ -1,4 +1,3 @@
-1,Hejsa,1;2,Teis Productions,5,1
-2,Hejsa,1;2,Teis Productions,5,1
-3,Søren Ryge,;,TV2,0,0
-4,Haveshow,,TV2,0,0
+1,Badehotellet,,TV2,0,0
+2,Søren Ryge,,DR1,0,0
+3,Paradise Hotel,,TV3,0,0
