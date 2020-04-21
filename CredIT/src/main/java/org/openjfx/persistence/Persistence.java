@@ -49,6 +49,65 @@ public class Persistence implements IPersistence {
         return instance;
     }
 
+    //region create new stuff in database methods here
+
+    @Override
+    public int createNewProductionInDatabase(IProduction production) throws IOException {
+        int returnNumber = -1;
+        try {
+            fw = new FileWriter(productionFile, true);
+            writer = new PrintWriter(fw);
+
+            String temp = productionId + "," + production.getName() + ",";
+            int i = 0;
+            if (production.getBroadcasts() != null) {
+                for (IBroadcast b : production.getBroadcasts()) {
+                    if (production.getBroadcasts().size() - 1 != i) {
+                        temp += b.getId() + ";";
+                    } else {
+                        temp += b.getId() + ",";
+                    }
+                    i++;
+
+                }
+            } else {
+                temp += ",";
+            }
+            temp += production.getProductionCompany() + "," + production.getNumberOfSeasons() + "," + production.getNumberOfEpisodes();
+            writer.println(temp);
+            returnNumber = productionId;
+            productionId++;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            writer.close();
+            fw.close();
+        }
+
+        return returnNumber;
+    }
+
+    @Override
+    public int createNewCastInDatabase(ICast cast) throws IOException {
+        int returnNumber = -1;
+        try {
+            fw = new FileWriter(castFile, true);
+            writer = new PrintWriter(fw);
+
+            writer.println(castId + "," + cast.getName() + "," + cast.getRegDKID());
+            returnNumber = castId;
+            castId++;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            writer.close();
+            fw.close();
+        }
+
+        return returnNumber;
+    }
 
     @Override
     public boolean createNewUserInDatabase(IUser user) throws IOException {
@@ -73,6 +132,9 @@ public class Persistence implements IPersistence {
 
         return returnBool;
     }
+    //endregion
+    
+    //region remove from database methods goes here
 
     /**
      * Deletes a user from the persistence/layer(Database).
@@ -84,34 +146,12 @@ public class Persistence implements IPersistence {
      */
     @Override
     public boolean removeUserFromDatabase(int id) {
-        boolean returnBool = false;
-        String newTxt = "";
-        try {
-            reader = new Scanner(userFile);
-            while (reader.hasNextLine()) {
-                String currentLine = reader.nextLine();
-                String[] user = currentLine.split(",");
-                if (Integer.parseInt(user[0]) != id) {
-                    newTxt += currentLine + "\n";
-
-                } else {
-                    returnBool = true;
-                }
-            }
-            writer = new PrintWriter(userFile);
-            writer.write(newTxt);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            reader.close();
-            writer.close();
-        }
-        return returnBool;
+        return removeDataFromDatabase(id, userFile);
     }
 
     @Override
-    public boolean createNewBroadcastInDatabase(IBroadcast broadcast) throws IOException {
-        boolean returnBool = false;
+    public int createNewBroadcastInDatabase(IBroadcast broadcast) throws IOException {
+        int returnNumber = -1;
         try {
             fw = new FileWriter(broadcastFile, true);
             writer = new PrintWriter(fw);
@@ -155,8 +195,8 @@ public class Persistence implements IPersistence {
             temp += broadcast.getSeasonNumber() + "," + broadcast.getEpisodeNumber() + "," + broadcast.getAirDate()[0] +
                     "-" + broadcast.getAirDate()[1] + "-" + broadcast.getAirDate()[2] + "," + broadcast.getProductionName();
             writer.println(temp);
+            returnNumber = broadcastId;
             broadcastId++;
-            returnBool = true;
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -165,90 +205,39 @@ public class Persistence implements IPersistence {
             fw.close();
         }
 
-        return returnBool;
+        return returnNumber;
     }
 
     @Override
     public boolean removeBroadcastFromDatabase(int id) {
-        boolean returnBool = false;
-        String newTxt = "";
-        try {
-            reader = new Scanner(broadcastFile);
-            while (reader.hasNextLine()) {
-                String currentLine = reader.nextLine();
-                String[] broadcast = currentLine.split(",");
-                if (Integer.parseInt(broadcast[0]) != id) {
-                    newTxt += currentLine + "\n";
-
-                } else {
-                    returnBool = true;
-                }
-            }
-            writer = new PrintWriter(broadcastFile);
-            writer.print(newTxt);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            reader.close();
-            writer.close();
-        }
-        return returnBool;
-    }
-
-    @Override
-    public boolean createNewProductionInDatabase(IProduction production) throws IOException {
-        boolean returnBool = false;
-        try {
-            fw = new FileWriter(productionFile, true);
-            writer = new PrintWriter(fw);
-
-            String temp = productionId + "," + production.getName() + ",";
-            int i = 0;
-            if (production.getBroadcasts() != null) {
-                for (IBroadcast b : production.getBroadcasts()) {
-                    if (production.getBroadcasts().size() - 1 != i) {
-                        temp += b.getId() + ";";
-                    } else {
-                        temp += b.getId() + ",";
-                    }
-                    i++;
-
-                }
-            } else {
-                temp += ",";
-            }
-            temp += production.getProductionCompany() + "," + production.getNumberOfSeasons() + "," + production.getNumberOfEpisodes();
-            writer.println(temp);
-            productionId++;
-            returnBool = true;
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            writer.close();
-            fw.close();
-        }
-
-        return returnBool;
+        return removeDataFromDatabase(id, broadcastFile);
     }
 
     @Override
     public boolean removeProductionFromDatabase(int id) {
+        return removeDataFromDatabase(id, productionFile);
+    }
+
+    @Override
+    public boolean removeCastFromDatabase(int id) {
+        return removeDataFromDatabase(id, castFile);
+    }
+
+    private boolean removeDataFromDatabase(int id, File file) {
         boolean returnBool = false;
         String newTxt = "";
         try {
-            reader = new Scanner(productionFile);
+            reader = new Scanner(file);
             while (reader.hasNextLine()) {
                 String currentLine = reader.nextLine();
                 String[] production = currentLine.split(",");
                 if (Integer.parseInt(production[0]) != id) {
                     newTxt += currentLine + "\n";
-
                 } else {
                     returnBool = true;
                 }
             }
-            writer = new PrintWriter(productionFile);
+            writer = new PrintWriter(file);
             writer.write(newTxt);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -259,196 +248,66 @@ public class Persistence implements IPersistence {
         return returnBool;
     }
 
-    @Override
-    public boolean createNewCastInDatabase(ICast cast) throws IOException {
-        boolean returnBool = false;
-        try {
-            fw = new FileWriter(castFile, true);
-            writer = new PrintWriter(fw);
+    //endregion
 
-            writer.println(castId + "," + cast.getName() + "," + cast.getRegDKID());
-
-            castId++;
-
-            returnBool = true;
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            writer.close();
-            fw.close();
-        }
-
-        return returnBool;
-    }
-
-    @Override
-    public boolean removeCastFromDatabase(int id) {
-        boolean returnBool = false;
-        String newTxt = "";
-        try {
-            reader = new Scanner(castFile);
-            while (reader.hasNextLine()) {
-                String currentLine = reader.nextLine();
-                String[] user = currentLine.split(",");
-                if (Integer.parseInt(user[0]) != id) {
-                    newTxt += currentLine + "\n";
-
-                } else {
-                    returnBool = true;
-                }
-            }
-            writer = new PrintWriter(castFile);
-            writer.write(newTxt);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            reader.close();
-            writer.close();
-        }
-        return returnBool;
-    }
-
+    //region get data from database methods here
     @Override
     public List<String> getBroadcastFromDatabase(String keyword) {
-        keyword = keyword.toLowerCase();
-        List<String> output = new ArrayList<String>();
-        try {
-            reader = new Scanner(broadcastFile);
-            while (reader.hasNextLine()) {
-                String line = reader.nextLine();
-                String[] info = line.split(",");
-                if (info[1].toLowerCase().contains(keyword)) {
-                    output.add(line);
-                }
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            reader.close();
-        }
-
-
-        return output;
+        return getDataFromDataBaseReadFile(broadcastFile, keyword);
     }
 
     @Override
     public List<String> getBroadcastFromDatabase(int id) {
-        List<String> output = new ArrayList<String>();
-        try {
-            reader = new Scanner(broadcastFile);
-            while (reader.hasNextLine()) {
-                String line = reader.nextLine();
-                String[] info = line.split(",");
-                if (id == Integer.parseInt(info[0])) {
-                    output.add(line);
-                }
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            reader.close();
-        }
-
-
-        return output;
+        return getDataFromDataBaseReadFile(broadcastFile, id);
     }
-
 
     @Override
     public List<String> getCastFromDatabase(String keyword) {
-        keyword = keyword.toLowerCase();
-        List<String> output = new ArrayList<String>();
-        try {
-            reader = new Scanner(castFile);
-            while (reader.hasNextLine()) {
-                String line = reader.nextLine();
-                String[] info = line.split(",");
-                if (info[1].toLowerCase().contains(keyword)) {
-                    output.add(line);
-                }
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            reader.close();
-        }
-
-
-        return output;
+        return getDataFromDataBaseReadFile(castFile, keyword);
     }
-
-//    @Override
-//    public List<String> getBroadcastFromDatabase(int keyword){return null;}
 
     @Override
     public List<String> getCastFromDatabase(int id) {
-        List<String> output = new ArrayList<String>();
-        try {
-            reader = new Scanner(castFile);
-            while (reader.hasNextLine()) {
-                String line = reader.nextLine();
-                String[] info = line.split(",");
-                if (id == Integer.parseInt(info[0])) {
-                    output.add(line);
-                } else {
-                    continue;
-                }
-            }
-
-            return output;
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            reader.close();
-        }
-
-
+        return getDataFromDataBaseReadFile(castFile, id);
     }
-
-//    @Override
-//    public List<String> getCastFromDatabase(int keyword) {
-//        return null;
-//    }
 
     @Override
     public List<String> getProductionFromDatabase(String keyword) {
-        keyword = keyword.toLowerCase();
-        List<String> output = new ArrayList<String>();
-        try {
-            reader = new Scanner(productionFile);
-            while (reader.hasNextLine()) {
-                String line = reader.nextLine();
-                String[] info = line.split(",");
-                if (info[1].toLowerCase().contains(keyword)) {
-                    output.add(line);
-                }
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            reader.close();
-        }
-
-
-        return output;
+        return getDataFromDataBaseReadFile(productionFile, keyword);
     }
 
     @Override
     public List<String> getProductionFromDatabase(int id) {
+        return getDataFromDataBaseReadFile(productionFile, id);
+    }
+    private List<String> getDataFromDataBaseReadFile(File file, String keyword){
+        keyword = keyword.toLowerCase();
         List<String> output = new ArrayList<String>();
         try {
-            reader = new Scanner(productionFile);
+            reader = new Scanner(file);
+            while (reader.hasNextLine()) {
+                String line = reader.nextLine();
+                String[] info = line.split(",");
+                if (info[1].toLowerCase().contains(keyword)) {
+                    output.add(line);
+                }
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            reader.close();
+        }
+
+
+        return output;
+    }
+
+    private List<String> getDataFromDataBaseReadFile(File file, int id){
+        List<String> output = new ArrayList<String>();
+        try {
+            reader = new Scanner(file);
             while (reader.hasNextLine()) {
                 String line = reader.nextLine();
                 String[] info = line.split(",");
@@ -465,10 +324,10 @@ public class Persistence implements IPersistence {
         } finally {
             reader.close();
         }
-
-
         return output;
     }
+
+    //endregion
 
     @Override
     public boolean mergeCastInDatabase(ICast cast1, ICast cast2) {
@@ -588,13 +447,29 @@ public class Persistence implements IPersistence {
         return returnBool;
     }
 
+    //region initialize ID methods here.
     /**
      * Loops through the userFile and finds the largest userId. The userId on the class is instantiated to one higher than this.
      */
     private void initializeUserId() {
+        userId = initializeReadFile(userFile);
+    }
+
+    private void initializeBroadcastId() {
+        broadcastId = initializeReadFile(broadcastFile);
+    }
+
+    private void initializeProductionId() {
+        productionId = initializeReadFile(productionFile);
+    }
+    private void initializeCastId() {
+        castId = initializeReadFile(castFile);
+    }
+
+    private int initializeReadFile(File file){
         int id = 0;
         try {
-            reader = new Scanner(userFile);
+            reader = new Scanner(file);
             while (reader.hasNextLine()) {
                 String currentLine = reader.nextLine();
                 String[] user = currentLine.split(",");
@@ -608,74 +483,8 @@ public class Persistence implements IPersistence {
         } finally {
             reader.close();
         }
-
-        userId = id + 1;
+        return id+1;
     }
-
-    private void initializeCastId() {
-        int id = 0;
-        try {
-            reader = new Scanner(castFile);
-            while (reader.hasNextLine()) {
-                String currentLine = reader.nextLine();
-                String[] cast = currentLine.split(",");
-                int currentId = Integer.parseInt(cast[0]);
-                if (currentId > id) {
-                    id = currentId;
-                }
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            reader.close();
-        }
-
-        castId = id + 1;
-    }
-
-    private void initializeBroadcastId() {
-        int id = 0;
-        try {
-            reader = new Scanner(broadcastFile);
-            while (reader.hasNextLine()) {
-                String currentLine = reader.nextLine();
-                String[] broadcast = currentLine.split(",");
-                int currentId = Integer.parseInt(broadcast[0]);
-                if (currentId > id) {
-                    id = currentId;
-                }
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            reader.close();
-        }
-
-        broadcastId = id + 1;
-    }
-
-    private void initializeProductionId() {
-        int id = 0;
-        try {
-            reader = new Scanner(productionFile);
-            while (reader.hasNextLine()) {
-                String currentLine = reader.nextLine();
-                String[] production = currentLine.split(",");
-                int currentId = Integer.parseInt(production[0]);
-                if (currentId > id) {
-                    id = currentId;
-                }
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            reader.close();
-        }
-
-        productionId = id + 1;
-    }
+    //endregion
 
 }
-
-
-

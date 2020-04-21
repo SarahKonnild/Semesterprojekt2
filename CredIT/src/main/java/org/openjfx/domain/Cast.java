@@ -51,12 +51,19 @@ public class Cast implements ICast {
 
     @Override
     public boolean saveCast() {
+        int idNumber = -1;
         try {
-            return persistence.createNewCastInDatabase(this);
-        } catch(IOException ex){
-            ex.printStackTrace();
+            idNumber = persistence.createNewCastInDatabase(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if(idNumber != -1)
+            {
+                this.id = idNumber;
+                return true;
+            } else
+                return false;
         }
-        return true;
     }
 
     @Override
