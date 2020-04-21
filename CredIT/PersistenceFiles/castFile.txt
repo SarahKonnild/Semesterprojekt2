@@ -16,4 +16,4 @@
 17,Mads Fyn,1015
 18,Hans Rosengaard,1016
 19,Teis Ulfelt,1017
-20,Marie Anker,1018
+20,Marie Anker,101821,Hans,1040
