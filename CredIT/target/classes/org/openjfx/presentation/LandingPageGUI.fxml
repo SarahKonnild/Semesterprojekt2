@@ -139,10 +139,10 @@
                                     <Button fx:id="assignCast" layoutX="305.0" layoutY="111.0" mnemonicParsing="false" onMouseClicked="#handleAssignCast" text="Tilføj Medvirkende" />
                                     <Label fx:id="errorMsgBroadcastSearch" alignment="CENTER" layoutX="14.0" layoutY="61.0" prefHeight="17.0" prefWidth="402.0" text="Fejl opstået, produktionen blev ikke fundetFejl opstået, udsendelsen blev ikke fundet" textFill="RED" visible="false" />
                                     <Separator layoutX="13.0" layoutY="85.0" prefHeight="0.0" prefWidth="400.0" />
-                                    <TextField fx:id="broadcastEpisodeNumber" layoutX="15.0" layoutY="274.0" prefHeight="25.0" prefWidth="222.0" />
-                                    <TextField fx:id="broadcastSeason" layoutX="15.0" layoutY="219.0" prefHeight="25.0" prefWidth="223.0" />
-                                    <TextField fx:id="broadcastProduction" layoutX="15.0" layoutY="165.0" prefHeight="25.0" prefWidth="223.0" />
                                     <TextField fx:id="broadcastName" layoutX="15.0" layoutY="111.0" prefHeight="25.0" prefWidth="223.0" />
+                                    <TextField fx:id="broadcastProduction" layoutX="15.0" layoutY="165.0" prefHeight="25.0" prefWidth="223.0" />
+                                    <TextField fx:id="broadcastSeason" layoutX="15.0" layoutY="219.0" prefHeight="25.0" prefWidth="223.0" />
+                                    <TextField fx:id="broadcastEpisodeNumber" layoutX="15.0" layoutY="274.0" prefHeight="25.0" prefWidth="222.0" />
                                     <Label fx:id="errorMsgBroadcast" alignment="CENTER" layoutX="21.0" layoutY="370.0" prefHeight="17.0" prefWidth="402.0" textFill="RED" />
                                     <TextField fx:id="broadcastAirDateDay" layoutX="13.0" layoutY="329.0" prefHeight="25.0" prefWidth="42.0" promptText="dd" />
                                     <TextField fx:id="broadcastAirDateMonth" layoutX="86.0" layoutY="329.0" prefHeight="25.0" prefWidth="42.0" promptText="mm" />
