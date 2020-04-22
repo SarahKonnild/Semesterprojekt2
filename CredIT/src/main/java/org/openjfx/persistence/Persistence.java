@@ -300,6 +300,15 @@ public class Persistence implements IPersistence {
         return getDataFromDataBaseReadFile(productionFile, id);
     }
 
+    /**
+     * Searches the selected datafile for the keyword. Returns a list with the matching results
+     * @param file
+     * The file you want to search through
+     * @param keyword
+     * The keyword you want to search on
+     * @return
+     * A list containing the search results that match the keyword
+     */
     private List<String> getDataFromDataBaseReadFile(File file, String keyword){
         keyword = keyword.toLowerCase();
         List<String> output = new ArrayList<String>();
@@ -308,6 +317,7 @@ public class Persistence implements IPersistence {
             while (reader.hasNextLine()) {
                 String line = reader.nextLine();
                 String[] info = line.split(",");
+
                 if (info[1].toLowerCase().contains(keyword)) {
                     output.add(line);
                 }
@@ -324,6 +334,15 @@ public class Persistence implements IPersistence {
         return output;
     }
 
+    /**
+     * Searches the selected datafile for the id. Returns a list with the matching results
+     * @param file
+     * The file you want to search through
+     * @param id
+     * The id you want to search on
+     * @return
+     * A list containing the search results that match the id
+     */
     private List<String> getDataFromDataBaseReadFile(File file, int id){
         List<String> output = new ArrayList<String>();
         try {
@@ -331,6 +350,7 @@ public class Persistence implements IPersistence {
             while (reader.hasNextLine()) {
                 String line = reader.nextLine();
                 String[] info = line.split(",");
+
                 if (id == Integer.parseInt(info[0])) {
                     output.add(line);
                 } else {
@@ -452,6 +472,19 @@ public class Persistence implements IPersistence {
         return true;
     }
 
+    /**
+     * Updates the cast with the id to the new name and regDKID.
+     * Loops through the file and finds the person with the id, while reading all the others into a seperate string.
+     * When the person is found it changes it's values and writes it to the string. Then it writes the full string to the file.
+     * @param id
+     * The id of the cast member
+     * @param name
+     * The new name of the cast member
+     * @param regDKID
+     * The new regDKID of the cast member
+     * @return
+     * a boolean that tells if the operation was successful
+     */
     @Override
     public boolean updateCastInDatabase(int id, String name, int regDKID) {
         boolean returnBool = false;
@@ -469,6 +502,7 @@ public class Persistence implements IPersistence {
                     newTxt += user[0] + "," + name + "," + regDKID + "\n";
                 }
             }
+
             writer = new PrintWriter(castFile);
             writer.write(newTxt);
             returnBool = true;
@@ -483,24 +517,41 @@ public class Persistence implements IPersistence {
 
     //region initialize ID methods here.
     /**
-     * Loops through the userFile and finds the largest userId. The userId on the class is instantiated to one higher than this.
+     * Initializes the userId. Needed as we dont have an SQL serial
      */
     private void initializeUserId() {
         userId = initializeReadFile(userFile);
     }
 
+    /**
+     * Initializes the broadcastId. Needed as we dont have an SQL serial
+     */
     private void initializeBroadcastId() {
         broadcastId = initializeReadFile(broadcastFile);
     }
 
+    /**
+     * Initializes the productionId. Needed as we dont have an SQL serial
+     */
     private void initializeProductionId() {
         productionId = initializeReadFile(productionFile);
     }
 
+    /**
+     * Initializes the castId. Needed as we dont have an SQL serial
+     */
     private void initializeCastId() {
         castId = initializeReadFile(castFile);
     }
 
+    /**
+     * Initializes the id associated to the file.
+     * It loops through all the lines in the file and finds the largest id and returns one higher than that
+     * @param file
+     * The file you want to initialize the value based on.
+     * @return
+     * The highest ID in the file +1
+     */
     private int initializeReadFile(File file){
         int id = 0;
         try {
