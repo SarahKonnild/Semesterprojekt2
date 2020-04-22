@@ -95,18 +95,7 @@ public class AdministratorPageController implements Initializable {
 
     @FXML
     public void handleHelp(MouseEvent event){
-        Parent root;
-        try {
-            root = FXMLLoader.load(LoginSystemController.class.getResource("Help.fxml"));
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setHeight(400);
-            stage.setWidth(600);
-            stage.setResizable(false);
-            stage.show();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        App.handleHelpStage();
     }
 
 }

@@ -18,6 +18,8 @@ public class App extends Application {
     private static Scene scene;
     private static Stage stage;
     private static ISystem sys;
+    private static Stage helpStage;
+    private static String assignCastModifier;
 
 
     @Override
@@ -66,5 +68,44 @@ public class App extends Application {
 
     public static ISystem getSystemInstance(){
         return sys;
+    }
+
+    public static void handleAdminPage(){
+        try {
+            Parent value = FXMLLoader.load(LoginSystemController.class.getResource("AdministratorPage.fxml"));
+            App.getScene().setRoot(value);
+            App.getStage().setHeight(271);
+            App.getStage().setWidth(601);
+            App.getStage().setResizable(false);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void handleHelpStage(){
+        Parent root;
+        try {
+            root = FXMLLoader.load(LoginSystemController.class.getResource("Help.fxml"));
+            helpStage = new Stage();
+            helpStage.setScene(new Scene(root));
+            helpStage.setHeight(400);
+            helpStage.setWidth(600);
+            helpStage.setResizable(false);
+            helpStage.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static Stage getHelpStage(){
+        return helpStage;
+    }
+
+    public static String getAssignCastModifier(){
+        return assignCastModifier;
+    }
+
+    public static void setAssignCastModifier(String newAssignCastModifier){
+        assignCastModifier = newAssignCastModifier;
     }
 }

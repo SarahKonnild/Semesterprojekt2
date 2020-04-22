@@ -45,7 +45,7 @@ public class HelpController implements Initializable {
 
     @FXML
     public void handleClose(MouseEvent event){
-
+        App.getHelpStage().close();
     }
 
 }

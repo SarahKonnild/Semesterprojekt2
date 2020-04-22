@@ -46,6 +46,8 @@ public class ModifyProductionController implements Initializable {
     @FXML
     private TextField amountOfEpisodes;
 
+    private static Stage helpStage;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -78,31 +80,12 @@ public class ModifyProductionController implements Initializable {
 
     @FXML
     public void handleHelp(MouseEvent event){
-        Parent root;
-        try {
-            root = FXMLLoader.load(LoginSystemController.class.getResource("Help.fxml"));
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setHeight(400);
-            stage.setWidth(600);
-            stage.setResizable(false);
-            stage.show();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        App.handleHelpStage();
     }
 
     @FXML
     public void handleBack(MouseEvent event){
-        try {
-            Parent value = FXMLLoader.load(LoginSystemController.class.getResource("AdministratorPage.fxml"));
-            App.getScene().setRoot(value);
-            App.getStage().setHeight(271);
-            App.getStage().setWidth(601);
-            App.getStage().setResizable(false);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        App.handleHelpStage();
     }
 
 }
