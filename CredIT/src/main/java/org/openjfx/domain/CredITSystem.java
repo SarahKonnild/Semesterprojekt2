@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CredITSystem implements ISystem {
-    private User user;
-    private static Persistence persistenceLayer;
     static CredITSystem instance = null;
+    private static Persistence persistenceLayer;
+    private User user;
 
     /**
      * To use for creating an instance of the System class that can then be used mainly in Presentation.
@@ -19,6 +19,7 @@ public class CredITSystem implements ISystem {
         this.persistenceLayer = Persistence.getInstance();
         this.instance = this;
     }
+
     //FIXME I do not think we need this constructor.
     public CredITSystem(User user) {
         this.user = user;
@@ -35,6 +36,9 @@ public class CredITSystem implements ISystem {
 
     //region search methods goes here
 
+    public static IPersistence getPersistence() {
+        return persistenceLayer;
+    }
 
     //region cast database seach metods here
     @Override
@@ -46,6 +50,8 @@ public class CredITSystem implements ISystem {
     public ArrayList<ICast> searchCast(int broadcastId) {
         return makeCastObjects(persistenceLayer.getCastFromDatabase(broadcastId));
     }
+
+    //endregion
 
     /**
      * This method takes the list returned from the search in the database and creates cast objects from that list.
@@ -65,8 +71,6 @@ public class CredITSystem implements ISystem {
         return null;
     }
 
-    //endregion
-
     //region broadcast database search methods here
     @Override
     public ArrayList<IBroadcast> searchBroadcast(String keyword) {
@@ -77,6 +81,8 @@ public class CredITSystem implements ISystem {
     public ArrayList<IBroadcast> searchBroadcast(int broadcastID) {
         return makeBroadcastObjects(persistenceLayer.getBroadcastFromDatabase((broadcastID)));
     }
+
+    //endregion
 
     /**
      * This method takes the list returned from the search in the database and creates broadcast objects from that list.
@@ -124,6 +130,8 @@ public class CredITSystem implements ISystem {
 
     //endregion
 
+    //endregion
+
     //region production search methods here
     @Override
     public ArrayList<IProduction> searchProduction(String keyword) {
@@ -145,14 +153,6 @@ public class CredITSystem implements ISystem {
             return productions;
         }
         return null;
-    }
-
-    //endregion
-
-    //endregion
-
-    public static IPersistence getPersistence(){
-        return persistenceLayer;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package org.openjfx.domain;
 
-import org.openjfx.interfaces.*;
+import org.openjfx.interfaces.IBroadcast;
+import org.openjfx.interfaces.IProduction;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,13 +16,13 @@ public class Production implements IProduction {
     private int numberOfSeasons;
     private int numberOfEpisodes;
 
-    public Production(String name, String year, String productionCompany){
+    public Production(String name, String year, String productionCompany) {
         this.name = name;
         this.year = year;
         this.productionCompany = productionCompany;
     }
 
-    public Production(int id, String name, ArrayList<IBroadcast> broadcasts, String productionCompany, String year){
+    public Production(int id, String name, ArrayList<IBroadcast> broadcasts, String productionCompany, String year) {
         this.id = id;
         this.name = name;
         this.year = year;
@@ -32,14 +33,12 @@ public class Production implements IProduction {
 
     /**
      * Calls the search method in System, to get an arraylist of the broadcasts that this production have associted with it.
-     *
      */
 //
 //    private void loadBroadcastArray(){
 //        this.broadcasts = System.instance.searchBroadcast(this.id);
 //    }
 //
-
     @Override
     public boolean save() {
         int idNumber = -1;
@@ -47,9 +46,8 @@ public class Production implements IProduction {
             idNumber = CredITSystem.getPersistence().createNewProductionInDatabase(this);
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
-            if(idNumber != -1)
-            {
+        } finally {
+            if (idNumber != -1) {
                 this.id = idNumber;
                 return true;
             } else

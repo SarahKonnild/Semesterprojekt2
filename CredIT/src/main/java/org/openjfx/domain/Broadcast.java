@@ -1,11 +1,11 @@
 package org.openjfx.domain;
+
 import org.openjfx.interfaces.IBroadcast;
 import org.openjfx.interfaces.ICast;
 import org.openjfx.interfaces.IPersistence;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class Broadcast implements IBroadcast {
@@ -28,7 +28,7 @@ public class Broadcast implements IBroadcast {
         this.produtionName = productionName;
     }
 
-    public Broadcast(String name, int seasonNumber, int episodeNumber, String airDate){
+    public Broadcast(String name, int seasonNumber, int episodeNumber, String airDate) {
         this.name = name;
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
@@ -46,9 +46,8 @@ public class Broadcast implements IBroadcast {
             idNumber = persistence.createNewBroadcastInDatabase(this);
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
-            if(idNumber != -1)
-            {
+        } finally {
+            if (idNumber != -1) {
                 this.id = idNumber;
                 return true;
             } else
@@ -59,9 +58,9 @@ public class Broadcast implements IBroadcast {
 
     @Override
     public boolean unassignCast(ICast cast, String role) {
-        if (castMap.containsKey(role) && castMap.get(role).contains(cast)){
+        if (castMap.containsKey(role) && castMap.get(role).contains(cast)) {
             castMap.get(role).remove(cast);
-            if (castMap.get(role).isEmpty()){
+            if (castMap.get(role).isEmpty()) {
                 castMap.remove(role);
             }
         }
@@ -106,13 +105,13 @@ public class Broadcast implements IBroadcast {
         return episodeNumber;
     }
 
+    public void setEpisodeNumber(int episodeNumber) {
+        this.episodeNumber = episodeNumber;
+    }
+
     @Override
     public String getProductionName() {
         return this.produtionName;
-    }
-
-    public void setEpisodeNumber(int episodeNumber) {
-        this.episodeNumber = episodeNumber;
     }
 
     public String[] getAirDate() {

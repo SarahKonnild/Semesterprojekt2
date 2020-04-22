@@ -14,7 +14,8 @@ public class Cast implements ICast {
 
     /**
      * Constructor used for first time creation of a new cast member that needs to be saved to the database
-     * @param name The name of the cast member
+     *
+     * @param name    The name of the cast member
      * @param regDKID The Registerings Danmark ID that the cast member has
      */
     public Cast(String name, int regDKID) {
@@ -24,14 +25,15 @@ public class Cast implements ICast {
 
     /**
      * Constructor used when creating instances of <code>Cast</code> based on data from the persistence layer
-     * @param id The ID that the cast member has in the database
-     * @param name The name of the cast member
+     *
+     * @param id      The ID that the cast member has in the database
+     * @param name    The name of the cast member
      * @param regDKID The Registerings Danmark ID that the cast member has
      */
     public Cast(int id, String name, int regDKID) {
-            this.id = id;
-            this.name = name;
-            this.regDKID = regDKID;
+        this.id = id;
+        this.name = name;
+        this.regDKID = regDKID;
     }
 
 
@@ -56,9 +58,8 @@ public class Cast implements ICast {
             idNumber = CredITSystem.getPersistence().createNewCastInDatabase(this);
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
-            if(idNumber != -1)
-            {
+        } finally {
+            if (idNumber != -1) {
                 this.id = idNumber;
                 return true;
             } else
@@ -68,32 +69,36 @@ public class Cast implements ICast {
 
     @Override
     public boolean deleteCast() {
-            return persistence.removeCastFromDatabase(this.id);
+        return persistence.removeCastFromDatabase(this.id);
     }
 
     @Override
     public String toString() {
 
-        return  name;
+        return name;
     }
 
     @Override
-    public void setRole(String role){
-        this.role = role;
-    }
-    @Override
-    public String getRole(){
+    public String getRole() {
         return this.role;
     }
 
+    @Override
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public int getId() {
-        return id; }
+        return id;
+    }
 
     public String getName() {
-        return name; }
+        return name;
+    }
 
     public int getRegDKID() {
-        return regDKID; }
+        return regDKID;
+    }
 
 
 }
