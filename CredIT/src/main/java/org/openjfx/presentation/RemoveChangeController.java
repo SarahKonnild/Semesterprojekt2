@@ -83,6 +83,8 @@ public class RemoveChangeController implements Initializable {
     public void handleRemoveCast(MouseEvent event){
         creationState = chosenBroadcast.unassignCast(chosenCast, roleNameField.getText());
         if(creationState){
+            broadcastCastObsList.remove(chosenCast);
+            castList.setItems(broadcastCastObsList);
             errorMsg.setText("Medvirkende fjernet");
         } else{
             errorMsg.setText("Fejl opstået, medvirkende ikke fjernet");

@@ -226,10 +226,10 @@ public class LandingPageController implements Initializable {
         ICast cast = LoginController.getAdminUser().addNewCastToDatabase(castName.getText(), Integer.parseInt(regDKField.getText()));
         if (cast != null) {
             errorMsgCast.setText("Medvirkende oprettet");
+            castSearchResult = new ArrayList<>();
             castSearchResult.add(cast);
             //Todo Decide if we wanna do a filtered update. Does it show up if the user have searched for Hans, but creates a new Cast named Sarah?
             searchResult.setItems(FXCollections.observableArrayList(castSearchResult));
-            searchResult.refresh();
             clearCastFields();
         } else {
             errorMsgCast.setText("Fejl opstået, medvirkende blev ikke oprettet");
@@ -356,6 +356,7 @@ public class LandingPageController implements Initializable {
         IProduction production = (IProduction)LoginController.getAdminUser().addNewProductionToDatabase(productionName.getText(), productionReleaseYear.getText(), producerName.getText());
         if (production != null) {
             errorMsgProduction.setText("Produktionen oprettet");
+            productionSearchResult = new ArrayList<>();
             productionSearchResult.add(production);
             searchResult.setItems(FXCollections.observableArrayList(productionSearchResult));
             clearProductionFields();
@@ -436,7 +437,7 @@ public class LandingPageController implements Initializable {
     @FXML
     public void handleUnassignCast(MouseEvent event) {
         Object object = searchResult.getSelectionModel().getSelectedItem();
-        broadcastChosen = (IBroadcast) object;
+        broadcastChosen = (IBroadcast)object;
         if(broadcastChosen != null) {
             try {
                 Parent root;
@@ -473,6 +474,7 @@ public class LandingPageController implements Initializable {
             if (broadcast != null) {
                 errorMsgBroadcast.setText("Udsendelsen tilføjet");
                 if(!broadcastSearchResult.isEmpty()) {
+                    broadcastSearchResult = new ArrayList<>();
                     broadcastSearchResult.add(broadcast);
                     searchResult.setItems(FXCollections.observableArrayList(broadcastSearchResult));
                 }
