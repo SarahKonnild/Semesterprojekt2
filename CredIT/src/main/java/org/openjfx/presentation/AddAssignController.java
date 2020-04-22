@@ -1,18 +1,20 @@
 package org.openjfx.presentation;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import org.openjfx.interfaces.IBroadcast;
 import org.openjfx.interfaces.ICast;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 public class AddAssignController implements Initializable {
     @FXML
@@ -41,6 +43,7 @@ public class AddAssignController implements Initializable {
 
     /**
      * Fetches the broadcast object that was chosen in the LandingPageController/broadcast selection screen, and loads that into the page.
+     *
      * @param location
      * @param resources
      */
@@ -53,10 +56,11 @@ public class AddAssignController implements Initializable {
      * Uses the name that the user has entered into the "nameField", and searches the persistence layer for information corresponding to that
      * field's contents. Proceeds to save the list-result into an observable list, which can be printed into the ListView, and clears the textfield.
      * If there are no results from the persistence layer, it will instead print an errormessage to the user.
+     *
      * @param event
      */
     @FXML
-    public void handleSearchButton(MouseEvent event){
+    public void handleSearchButton(MouseEvent event) {
         String searchText = nameField.getText();
         searchResult.getItems().clear();
         castSearchResult = App.getSystemInstance().searchCast(searchText);
@@ -74,12 +78,13 @@ public class AddAssignController implements Initializable {
      * When the user clicks an option within the ListView, a new Object, which may be cast to the type of the object listed in the ObservableList,
      * is created. This object is then used to ensure, that the correct information from the ObservableList's object is printed into the appropriate
      * TextFields.
+     *
      * @param event
      */
     @FXML
-    public void handleSearchResultChosen(MouseEvent event){
+    public void handleSearchResultChosen(MouseEvent event) {
         Object obj = searchResult.getSelectionModel().getSelectedItem();
-        if(obj instanceof ICast){
+        if (obj instanceof ICast) {
             chosenCast = (ICast) obj;
             nameField.setText(chosenCast.getName());
             regDKField.setText(String.valueOf(chosenCast.getRegDKID()));
@@ -94,18 +99,19 @@ public class AddAssignController implements Initializable {
      * then be used to call the static method in the LandingPageController/broadcast selection screen, to then run the assignCast method,
      * which allows the chosen cast-object to be assigned the given broadcast. If the action is completed, the fields are cleared, and the
      * user receives a success-message.
+     *
      * @param event
      */
     @FXML
-    public void handleAssignButton(MouseEvent event){
+    public void handleAssignButton(MouseEvent event) {
         creationState = LandingPageController.getChosenBroadcast().assignCast(chosenCast, roleName.getText());
-        if(creationState){
+        if (creationState) {
             errorMsg.setText("Medvirkende tilknyttet");
             assignButton.setDisable(true);
             nameField.clear();
             regDKField.clear();
             roleName.clear();
-        } else{
+        } else {
             errorMsg.setText("Fejl, medvirkende blev ikke tilknyttet");
         }
     }
