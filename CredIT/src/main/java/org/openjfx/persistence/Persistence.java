@@ -10,19 +10,23 @@ import java.util.Scanner;
 
 public class Persistence implements IPersistence {
 
-
+    //Instance of the singleton class Persistence
     static Persistence instance = null;
+
     //ID variables. needed because java cant make a serial like a database.
     private static int userId;
     private static int broadcastId;
     private static int productionId;
     private static int castId;
+
+    //References to the files we write to and read from
     private final File castFile;
     private final File productionFile;
     private final File broadcastFile;
     private final File userFile;
+
+    //The readers and writers needed to read and write to the file
     private PrintWriter writer;
-    //private BufferedWriter bw;
     private FileWriter fw = null;
     private Scanner reader;
 
@@ -42,15 +46,16 @@ public class Persistence implements IPersistence {
     }
 
     public static Persistence getInstance() {
+        //If there is no instance of the Persistence class, make one
         if (instance == null) {
             instance = new Persistence();
         }
 
+        //Return the singleton instance of Persistence
         return instance;
     }
 
     //region create new stuff in database methods here
-
     @Override
     public int createNewProductionInDatabase(IProduction production) throws IOException {
         int returnNumber = -1;
@@ -132,6 +137,62 @@ public class Persistence implements IPersistence {
 
         return returnBool;
     }
+
+    @Override
+    public int createNewBroadcastInDatabase(IBroadcast broadcast) throws IOException {
+        int returnNumber = -1;
+        try {
+            fw = new FileWriter(broadcastFile, true);
+            writer = new PrintWriter(fw);
+
+            String outputString = broadcastId + "," + broadcast.getName() + ",";
+            HashMap<String, ArrayList<ICast>> castMap = broadcast.getCastMap();
+            int k = 0;
+            if (castMap != null) {
+                for (String s : castMap.keySet()) {
+                    int i = 0;
+                    if (castMap.keySet().size() - 1 != k) {
+                        outputString += s + ";";
+                        for (ICast cast : castMap.get(s)) {
+                            if (i == castMap.get(s).size() - 1) {
+                                outputString += cast.getId() + "_";
+                            } else {
+                                outputString += cast.getId() + ":";
+                            }
+                            i++;
+                        }
+                    } else {
+                        outputString += s + ";";
+                        for (ICast cast : castMap.get(s)) {
+                            if (i == castMap.get(s).size() - 1) {
+                                outputString += cast.getId() + ",";
+                            } else {
+                                outputString += cast.getId() + ":";
+                            }
+                            i++;
+                        }
+                    }
+                    k++;
+                }
+            }else{
+                outputString += ",";
+            }
+            outputString += broadcast.getSeasonNumber() + "," + broadcast.getEpisodeNumber() + "," + broadcast.getAirDate()[0] +
+                    "-" + broadcast.getAirDate()[1] + "-" + broadcast.getAirDate()[2] + "," + broadcast.getProductionName();
+            writer.println(outputString);
+            returnNumber = broadcastId;
+            broadcastId++;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            writer.close();
+            fw.close();
+        }
+
+        return returnNumber;
+    }
+
     //endregion
     
     //region remove from database methods goes here
@@ -147,65 +208,6 @@ public class Persistence implements IPersistence {
     @Override
     public boolean removeUserFromDatabase(int id) {
         return removeDataFromDatabase(id, userFile);
-    }
-
-    @Override
-    public int createNewBroadcastInDatabase(IBroadcast broadcast) throws IOException {
-        int returnNumber = -1;
-        try {
-            fw = new FileWriter(broadcastFile, true);
-            writer = new PrintWriter(fw);
-
-            String temp = broadcastId + "," + broadcast.getName() + ",";
-            HashMap<String, ArrayList<ICast>> test = broadcast.getCastMap();
-            int k = 0;
-            if (test != null) {
-                for (String s : test.keySet()) {
-                    int i = 0;
-                    if (test.keySet().size() - 1 != k) {
-                        temp += s + ";";
-                        for (ICast cast : test.get(s)) {
-                            if (i == test.get(s).size() - 1) {
-                                temp += cast.getId() + "_";
-                            } else {
-                                temp += cast.getId() + ":";
-
-                            }
-                            i++;
-                        }
-
-
-                    } else {
-                        temp += s + ";";
-                        for (ICast cast : test.get(s)) {
-                            if (i == test.get(s).size() - 1) {
-                                temp += cast.getId() + ",";
-                            } else {
-                                temp += cast.getId() + ":";
-
-                            }
-                            i++;
-                        }
-                    }
-                    k++;
-                }
-            }else{
-                temp += ",";
-            }
-            temp += broadcast.getSeasonNumber() + "," + broadcast.getEpisodeNumber() + "," + broadcast.getAirDate()[0] +
-                    "-" + broadcast.getAirDate()[1] + "-" + broadcast.getAirDate()[2] + "," + broadcast.getProductionName();
-            writer.println(temp);
-            returnNumber = broadcastId;
-            broadcastId++;
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            writer.close();
-            fw.close();
-        }
-
-        return returnNumber;
     }
 
     @Override
@@ -280,6 +282,7 @@ public class Persistence implements IPersistence {
     public List<String> getProductionFromDatabase(int id) {
         return getDataFromDataBaseReadFile(productionFile, id);
     }
+
     private List<String> getDataFromDataBaseReadFile(File file, String keyword){
         keyword = keyword.toLowerCase();
         List<String> output = new ArrayList<String>();
@@ -462,6 +465,7 @@ public class Persistence implements IPersistence {
     private void initializeProductionId() {
         productionId = initializeReadFile(productionFile);
     }
+
     private void initializeCastId() {
         castId = initializeReadFile(castFile);
     }
