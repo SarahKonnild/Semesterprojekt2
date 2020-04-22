@@ -203,14 +203,7 @@ public class Persistence implements IPersistence {
     
     //region remove from database methods goes here
 
-    /**
-     * Deletes a user from the persistence/layer(Database).
-     * It reads every line in the file, if the current line not equals the the parsed id, we add it to temperary String, else we just skip that line.
-     * Finally we write the new information to the file.
-     *
-     * @param id The ID on the user you want to delete in the persistence layer.
-     * @return returns the boolean value of the delete run.
-     */
+
     @Override
     public boolean removeUserFromDatabase(int id) {
         return removeDataFromDatabase(id, userFile);
@@ -230,7 +223,15 @@ public class Persistence implements IPersistence {
     public boolean removeCastFromDatabase(int id) {
         return removeDataFromDatabase(id, castFile);
     }
-
+    /**
+     * Deletes data from the persistence/layer(Database).
+     * It reads every line in the file, if the current line not equals the the parsed id, we add it to temperary String, else we just skip that line.
+     * Finally we write the new information to the file.
+     *
+     * @param id The ID on the data you want to delete in the persistence layer.
+     * @return returns the boolean value of the delete run.
+     * @param file
+     */
     private boolean removeDataFromDatabase(int id, File file) {
         boolean returnBool = false;
         String newTxt = "";
@@ -350,15 +351,20 @@ public class Persistence implements IPersistence {
                 String output = "";
                 String currentLine = reader.nextLine();
 
+                //first check is run with contains method, to check if the line contains the ID of cast2.
 
                 if (currentLine.contains(String.valueOf(cast2.getId()))) {
-
+                    //splitting the line by "," - gives us the broadcast.
                     String[] broadcast = currentLine.split(",");
+
+                    //splitting the string at index 2 in broadcast to get keyValuePairs of roles and the assigned casts.
 
                     String[] keyValuePairs = broadcast[2].split("_");
 
+
                     output = broadcast[0] + "," + broadcast[1] + ",";
                     int i = 0;
+                    
                     for (String keyValue : keyValuePairs) {
                         int k = 0;
                         String[] keyValueSplit = keyValue.split(";");
