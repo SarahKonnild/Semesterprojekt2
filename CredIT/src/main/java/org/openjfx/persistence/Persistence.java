@@ -10,19 +10,23 @@ import java.util.Scanner;
 
 public class Persistence implements IPersistence {
 
-
+    //Instance of the singleton class Persistence
     static Persistence instance = null;
+
     //ID variables. needed because java cant make a serial like a database.
     private static int userId;
     private static int broadcastId;
     private static int productionId;
     private static int castId;
+
+    //References to the files we write to and read from
     private final File castFile;
     private final File productionFile;
     private final File broadcastFile;
     private final File userFile;
+
+    //The readers and writers needed to read and write to the file
     private PrintWriter writer;
-    //private BufferedWriter bw;
     private FileWriter fw = null;
     private Scanner reader;
 
@@ -42,15 +46,16 @@ public class Persistence implements IPersistence {
     }
 
     public static Persistence getInstance() {
+        //If there is no instance of the Persistence class, make one
         if (instance == null) {
             instance = new Persistence();
         }
 
+        //Return the singleton instance of Persistence
         return instance;
     }
 
     //region create new stuff in database methods here
-
     @Override
     public int createNewProductionInDatabase(IProduction production) throws IOException {
         int returnNumber = -1;
@@ -60,8 +65,13 @@ public class Persistence implements IPersistence {
 
             String temp = productionId + "," + production.getName() + ",";
             int i = 0;
+
+            //If the broadcast list is null, add a , and move on. Otherwise add the broadcasts.
             if (production.getBroadcasts() != null) {
+                //Loops through the broadcasts
                 for (IBroadcast b : production.getBroadcasts()) {
+                    //If it's the last broadcast, add the broadcast and , to the file
+                    //If it's not the last broadcast, add the broadcast and ; to the file
                     if (production.getBroadcasts().size() - 1 != i) {
                         temp += b.getId() + ";";
                     } else {
@@ -73,8 +83,11 @@ public class Persistence implements IPersistence {
             } else {
                 temp += ",";
             }
+            //add the rest of the attributes
             temp += production.getProductionCompany() + "," + production.getNumberOfSeasons() + "," + production.getNumberOfEpisodes();
+
             writer.println(temp);
+
             returnNumber = productionId;
             productionId++;
 
@@ -95,6 +108,7 @@ public class Persistence implements IPersistence {
             fw = new FileWriter(castFile, true);
             writer = new PrintWriter(fw);
 
+            //Write the cast attributes to the file
             writer.println(castId + "," + cast.getName() + "," + cast.getRegDKID());
             returnNumber = castId;
             castId++;
@@ -116,6 +130,7 @@ public class Persistence implements IPersistence {
             fw = new FileWriter(userFile, true);
             writer = new PrintWriter(fw);
 
+            //Write the user attributes to the file
             writer.println(userId + "," + user.getName() + "," + user.getPassword() + "," +
                     user.getUsername() + "," + user.getRole());
 
@@ -132,22 +147,6 @@ public class Persistence implements IPersistence {
 
         return returnBool;
     }
-    //endregion
-    
-    //region remove from database methods goes here
-
-    /**
-     * Deletes a user from the persistence/layer(Database).
-     * It reads every line in the file, if the current line not equals the the parsed id, we add it to temperary String, else we just skip that line.
-     * Finally we write the new information to the file.
-     *
-     * @param id The ID on the user you want to delete in the persistence layer.
-     * @return returns the boolean value of the delete run.
-     */
-    @Override
-    public boolean removeUserFromDatabase(int id) {
-        return removeDataFromDatabase(id, userFile);
-    }
 
     @Override
     public int createNewBroadcastInDatabase(IBroadcast broadcast) throws IOException {
@@ -156,33 +155,35 @@ public class Persistence implements IPersistence {
             fw = new FileWriter(broadcastFile, true);
             writer = new PrintWriter(fw);
 
-            String temp = broadcastId + "," + broadcast.getName() + ",";
-            HashMap<String, ArrayList<ICast>> test = broadcast.getCastMap();
+            String outputString = broadcastId + "," + broadcast.getName() + ",";
+            HashMap<String, ArrayList<ICast>> castMap = broadcast.getCastMap();
             int k = 0;
-            if (test != null) {
-                for (String s : test.keySet()) {
+            // First check is run on castMap to see if it's not null.
+            if (castMap != null) {
+                for (String s : castMap.keySet()) {
                     int i = 0;
-                    if (test.keySet().size() - 1 != k) {
-                        temp += s + ";";
-                        for (ICast cast : test.get(s)) {
-                            if (i == test.get(s).size() - 1) {
-                                temp += cast.getId() + "_";
-                            } else {
-                                temp += cast.getId() + ":";
 
+                    // Second check is run on the size of the keySet from castMap, to determine if we're on the last entry or not.
+                    if (castMap.keySet().size() - 1 != k) {
+                        outputString += s + ";";
+
+                        //get the values from castMap and add it to outputString.
+                        for (ICast cast : castMap.get(s)) {
+                            //Third check is run on the size again to determine wether were on the last item or not in the returned value(ArrayList).
+                            if (i == castMap.get(s).size() - 1) {
+                                outputString += cast.getId() + "_";
+                            } else {
+                                outputString += cast.getId() + ":";
                             }
                             i++;
                         }
-
-
                     } else {
-                        temp += s + ";";
-                        for (ICast cast : test.get(s)) {
-                            if (i == test.get(s).size() - 1) {
-                                temp += cast.getId() + ",";
+                        outputString += s + ";";
+                        for (ICast cast : castMap.get(s)) {
+                            if (i == castMap.get(s).size() - 1) {
+                                outputString += cast.getId() + ",";
                             } else {
-                                temp += cast.getId() + ":";
-
+                                outputString += cast.getId() + ":";
                             }
                             i++;
                         }
@@ -190,11 +191,11 @@ public class Persistence implements IPersistence {
                     k++;
                 }
             }else{
-                temp += ",";
+                outputString += ",";
             }
-            temp += broadcast.getSeasonNumber() + "," + broadcast.getEpisodeNumber() + "," + broadcast.getAirDate()[0] +
+            outputString += broadcast.getSeasonNumber() + "," + broadcast.getEpisodeNumber() + "," + broadcast.getAirDate()[0] +
                     "-" + broadcast.getAirDate()[1] + "-" + broadcast.getAirDate()[2] + "," + broadcast.getProductionName();
-            writer.println(temp);
+            writer.println(outputString);
             returnNumber = broadcastId;
             broadcastId++;
 
@@ -206,6 +207,16 @@ public class Persistence implements IPersistence {
         }
 
         return returnNumber;
+    }
+
+    //endregion
+    
+    //region remove from database methods goes here
+
+
+    @Override
+    public boolean removeUserFromDatabase(int id) {
+        return removeDataFromDatabase(id, userFile);
     }
 
     @Override
@@ -222,7 +233,15 @@ public class Persistence implements IPersistence {
     public boolean removeCastFromDatabase(int id) {
         return removeDataFromDatabase(id, castFile);
     }
-
+    /**
+     * Deletes data from the persistence/layer(Database).
+     * It reads every line in the file, if the current line not equals the the parsed id, we add it to temperary String, else we just skip that line.
+     * Finally we write the new information to the file.
+     *
+     * @param id The ID on the data you want to delete in the persistence layer.
+     * @return returns the boolean value of the delete run.
+     * @param file
+     */
     private boolean removeDataFromDatabase(int id, File file) {
         boolean returnBool = false;
         String newTxt = "";
@@ -280,6 +299,16 @@ public class Persistence implements IPersistence {
     public List<String> getProductionFromDatabase(int id) {
         return getDataFromDataBaseReadFile(productionFile, id);
     }
+
+    /**
+     * Searches the selected datafile for the keyword. Returns a list with the matching results
+     * @param file
+     * The file you want to search through
+     * @param keyword
+     * The keyword you want to search on
+     * @return
+     * A list containing the search results that match the keyword
+     */
     private List<String> getDataFromDataBaseReadFile(File file, String keyword){
         keyword = keyword.toLowerCase();
         List<String> output = new ArrayList<String>();
@@ -288,6 +317,7 @@ public class Persistence implements IPersistence {
             while (reader.hasNextLine()) {
                 String line = reader.nextLine();
                 String[] info = line.split(",");
+
                 if (info[1].toLowerCase().contains(keyword)) {
                     output.add(line);
                 }
@@ -304,6 +334,15 @@ public class Persistence implements IPersistence {
         return output;
     }
 
+    /**
+     * Searches the selected datafile for the id. Returns a list with the matching results
+     * @param file
+     * The file you want to search through
+     * @param id
+     * The id you want to search on
+     * @return
+     * A list containing the search results that match the id
+     */
     private List<String> getDataFromDataBaseReadFile(File file, int id){
         List<String> output = new ArrayList<String>();
         try {
@@ -311,6 +350,7 @@ public class Persistence implements IPersistence {
             while (reader.hasNextLine()) {
                 String line = reader.nextLine();
                 String[] info = line.split(",");
+
                 if (id == Integer.parseInt(info[0])) {
                     output.add(line);
                 } else {
@@ -341,32 +381,43 @@ public class Persistence implements IPersistence {
                 String output = "";
                 String currentLine = reader.nextLine();
 
+                //first check is run with contains method, to check if the line contains the ID of cast2.
 
                 if (currentLine.contains(String.valueOf(cast2.getId()))) {
-
+                    //splitting the line by "," - gives us the broadcast.
                     String[] broadcast = currentLine.split(",");
+
+                    //splitting the string at index 2 in broadcast to get keyValuePairs of roles and the assigned casts.
 
                     String[] keyValuePairs = broadcast[2].split("_");
 
+
                     output = broadcast[0] + "," + broadcast[1] + ",";
                     int i = 0;
+                    //iterating through all the keyValuePairs in that broadcast.
                     for (String keyValue : keyValuePairs) {
                         int k = 0;
+                        //Splitting keys from values.
                         String[] keyValueSplit = keyValue.split(";");
-
+                        //Splitting the values.
                         String[] values = keyValueSplit[1].split(":");
 
+
+                        //this checks if we're not on the last key.
                         if (i != keyValuePairs.length - 1) {
                             output += keyValueSplit[0] + ";";
-
+                            //Iterating through the values of that key.
                             for (String value : values) {
-
+                                //Checks if we're not on the last value of that key.
                                 if (k != values.length - 1) {
+                                    //Checks if the id of that cast is equal to the id of cast2.
                                     if (value.equals(String.valueOf(cast2.getId()))) {
+                                        //Sets the value to the id of cast1.
                                         value = String.valueOf(cast1.getId());
                                     }
 
                                     output += value + ":";
+                                    //Basicly the same, but with other seperators.
                                 } else {
                                     if (value.equals(String.valueOf(cast2.getId()))) {
                                         value = String.valueOf(cast1.getId());
@@ -376,6 +427,7 @@ public class Persistence implements IPersistence {
                                 }
                                 k++;
                             }
+                            //Basicly the same, but with other seperators.
                         } else {
                             output += keyValueSplit[0] + ";";
 
@@ -399,12 +451,14 @@ public class Persistence implements IPersistence {
                         i++;
                     }
                     output += broadcast[3] + "," + broadcast[4] + "," + broadcast[5];
+                    //Skips the currentLine.
                 } else {
                     output = currentLine;
                 }
                 newTxt += output + "\n";
             }
             newTxt = newTxt.trim();
+            //remove all cast2 data in database.
             removeCastFromDatabase(cast2.getId());
             writer = new PrintWriter(broadcastFile);
             writer.println(newTxt);
@@ -418,6 +472,19 @@ public class Persistence implements IPersistence {
         return true;
     }
 
+    /**
+     * Updates the cast with the id to the new name and regDKID.
+     * Loops through the file and finds the person with the id, while reading all the others into a seperate string.
+     * When the person is found it changes it's values and writes it to the string. Then it writes the full string to the file.
+     * @param id
+     * The id of the cast member
+     * @param name
+     * The new name of the cast member
+     * @param regDKID
+     * The new regDKID of the cast member
+     * @return
+     * a boolean that tells if the operation was successful
+     */
     @Override
     public boolean updateCastInDatabase(int id, String name, int regDKID) {
         boolean returnBool = false;
@@ -435,6 +502,7 @@ public class Persistence implements IPersistence {
                     newTxt += user[0] + "," + name + "," + regDKID + "\n";
                 }
             }
+
             writer = new PrintWriter(castFile);
             writer.write(newTxt);
             returnBool = true;
@@ -449,23 +517,41 @@ public class Persistence implements IPersistence {
 
     //region initialize ID methods here.
     /**
-     * Loops through the userFile and finds the largest userId. The userId on the class is instantiated to one higher than this.
+     * Initializes the userId. Needed as we dont have an SQL serial
      */
     private void initializeUserId() {
         userId = initializeReadFile(userFile);
     }
 
+    /**
+     * Initializes the broadcastId. Needed as we dont have an SQL serial
+     */
     private void initializeBroadcastId() {
         broadcastId = initializeReadFile(broadcastFile);
     }
 
+    /**
+     * Initializes the productionId. Needed as we dont have an SQL serial
+     */
     private void initializeProductionId() {
         productionId = initializeReadFile(productionFile);
     }
+
+    /**
+     * Initializes the castId. Needed as we dont have an SQL serial
+     */
     private void initializeCastId() {
         castId = initializeReadFile(castFile);
     }
 
+    /**
+     * Initializes the id associated to the file.
+     * It loops through all the lines in the file and finds the largest id and returns one higher than that
+     * @param file
+     * The file you want to initialize the value based on.
+     * @return
+     * The highest ID in the file +1
+     */
     private int initializeReadFile(File file){
         int id = 0;
         try {
