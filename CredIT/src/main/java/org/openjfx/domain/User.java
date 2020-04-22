@@ -1,6 +1,6 @@
 package org.openjfx.domain;
 
-import org.openjfx.interfaces.IUser;
+import org.openjfx.interfaces.*;
 import org.openjfx.interfaces.Role;
 
 public class User implements IUser{
@@ -37,23 +37,23 @@ public class User implements IUser{
     }
 
     @Override
-    public boolean addNewCastToDatabase(String name, int regDKID) {
-        Cast cast = new Cast(name, regDKID);
+    public ICast addNewCastToDatabase(String name, int regDKID) {
+        ICast cast = new Cast(name, regDKID);
         cast.saveCast();
-        return true;
+        System.out.println("hej2");
+        return cast;
     }
     @Override
-    public boolean addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate) {
-        Broadcast broadcast = new Broadcast(name, seasonNumber, episodeNumber, airDate);
-
+    public IBroadcast addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate) {
+        IBroadcast broadcast = new Broadcast(name, seasonNumber, episodeNumber, airDate);
         broadcast.saveBroadcast();
-        return true;
+        return broadcast;
     }
     @Override
-    public boolean addNewProductionToDatabase(String name, String year, String productionCompany) {
-        Production production = new Production(name, year, productionCompany);
+    public IProduction addNewProductionToDatabase(String name, String year, String productionCompany) {
+        IProduction production = new Production(name, year, productionCompany);
         production.saveProduction();
-        return true;
+        return production;
     }
 
     @Override

@@ -8,7 +8,7 @@ public interface IUser {
      * @param regDKID the persons registerings Danmark ID number
      * @return if it succeed creating and saving a new cast returns <code>true</code> else <code>false</code>
      */
-    public boolean addNewCastToDatabase(String name, int regDKID);
+    public ICast addNewCastToDatabase(String name, int regDKID);
     /**
      * Gets parameters from the presentation layer to then create a new broadcast in the database.
      * Creates a new object of the <code>Broadcast</code> class and calls <code>saveBroadcast()</code> on the object
@@ -18,7 +18,7 @@ public interface IUser {
      * @param airDate the date of which the broadcast aired
      * @return if it succeed creating and saving a new broadcast returns <code>true</code> else <code>false</code>
      */
-    public boolean addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate);
+    public IBroadcast addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate);
     /**
      * Gets parameters from the presentation layer to then create a new cast member in the database.
      * Creates a new object of the <code>Cast</code> class and calls <code>saveCast()</code> on the object
@@ -27,7 +27,7 @@ public interface IUser {
      * @param productionCompany the name of the company that produces this production
      * @return if it succeed creating and saving a new cast returns <code>true</code> else <code>false</code>
      */
-    public boolean addNewProductionToDatabase(String name, String year, String productionCompany);
+    public IProduction addNewProductionToDatabase(String name, String year, String productionCompany);
     /**
      * The method is used to see if the user that is currently logged in has the ability to do certain things.
      * @param roleKey the role of the user thats logged in.

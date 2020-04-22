@@ -90,6 +90,7 @@ public class LoginSystemController implements Initializable {
             //TODO make a decision on whether the user should be created here, or if it should be system that creates the class and then returns IUser
             usernameString = "admin";
             adminUser = App.getSystemInstance().createNewUser(username.getText(), password.getText());
+            System.out.println("hej3");
             App.handleAdminPage();
     } else{
             errorMessage.setVisible(true);

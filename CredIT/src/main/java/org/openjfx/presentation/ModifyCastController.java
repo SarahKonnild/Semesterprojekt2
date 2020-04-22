@@ -81,11 +81,17 @@ public class ModifyCastController implements Initializable {
 
     @FXML
     public void handleCreateNew(ActionEvent event){
-        creationState = LoginSystemController.getAdminUser().addNewCastToDatabase(castName.getText(), Integer.parseInt(regDKID.getText()));
-        if(creationState){
+        System.out.println("hej4");
+        ICast cast = LoginSystemController.getAdminUser().addNewCastToDatabase(castName.getText(),Integer.parseInt(regDKID.getText()));
+        if(cast != null){
             //TODO errormessage.setText("Medvirkende Oprettet");
+            castSearchResult = new ArrayList<>();
+            castSearchResult.add(cast);
+            //TODO perhaps implement filtered update, i.e. if user searched for Hans but made a new person named Jens, it will clear the Listview and add the new element. If another Hans is made, append.
+            resultList.setItems(FXCollections.observableArrayList(castSearchResult));
             clearFields();
         }else{
+            searchField.setText("WRONG");
             //TODO errormessage.setText("Fejl, medvirkende blev ikke oprettet");
         }
         resultList.refresh();

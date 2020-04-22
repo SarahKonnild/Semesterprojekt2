@@ -42,20 +42,19 @@ public class Production implements IProduction {
 
     @Override
     public boolean saveProduction() {
-        boolean saveStatus;
-        //Method call to the persistenceLayer to send this object and save the data in it
-        try{
-        saveStatus = CredITSystem.getPersistence().createNewProductionInDatabase(this);
-        if(!saveStatus){
-            //Do some stuff here to deal with the fail maybe?
-            return false;
-        } else {
-            return true;
+        int idNumber = -1;
+        try {
+            idNumber = CredITSystem.getPersistence().createNewProductionInDatabase(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if(idNumber != -1)
+            {
+                this.id = idNumber;
+                return true;
+            } else
+                return false;
         }
-        } catch(IOException ex){
-            ex.printStackTrace();
-        }
-        return false;
     }
 
     @Override
