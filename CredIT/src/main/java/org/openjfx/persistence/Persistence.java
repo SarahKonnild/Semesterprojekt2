@@ -374,24 +374,30 @@ public class Persistence implements IPersistence {
 
                     output = broadcast[0] + "," + broadcast[1] + ",";
                     int i = 0;
-                    
+                    //iterating through all the keyValuePairs in that broadcast.
                     for (String keyValue : keyValuePairs) {
                         int k = 0;
+                        //Splitting keys from values.
                         String[] keyValueSplit = keyValue.split(";");
-
+                        //Splitting the values.
                         String[] values = keyValueSplit[1].split(":");
 
+
+                        //this checks if we're not on the last key.
                         if (i != keyValuePairs.length - 1) {
                             output += keyValueSplit[0] + ";";
-
+                            //Iterating through the values of that key.
                             for (String value : values) {
-
+                                //Checks if we're not on the last value of that key.
                                 if (k != values.length - 1) {
+                                    //Checks if the id of that cast is equal to the id of cast2.
                                     if (value.equals(String.valueOf(cast2.getId()))) {
+                                        //Sets the value to the id of cast1.
                                         value = String.valueOf(cast1.getId());
                                     }
 
                                     output += value + ":";
+                                    //Basicly the same, but with other seperators.
                                 } else {
                                     if (value.equals(String.valueOf(cast2.getId()))) {
                                         value = String.valueOf(cast1.getId());
@@ -401,6 +407,7 @@ public class Persistence implements IPersistence {
                                 }
                                 k++;
                             }
+                            //Basicly the same, but with other seperators.
                         } else {
                             output += keyValueSplit[0] + ";";
 
@@ -424,12 +431,14 @@ public class Persistence implements IPersistence {
                         i++;
                     }
                     output += broadcast[3] + "," + broadcast[4] + "," + broadcast[5];
+                    //Skips the currentLine.
                 } else {
                     output = currentLine;
                 }
                 newTxt += output + "\n";
             }
             newTxt = newTxt.trim();
+            //remove all cast2 data in database.
             removeCastFromDatabase(cast2.getId());
             writer = new PrintWriter(broadcastFile);
             writer.println(newTxt);
