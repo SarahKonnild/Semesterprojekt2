@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.openjfx.interfaces.*;
+import org.openjfx.domain.CredITSystem;
 
 import java.io.IOException;
 
@@ -14,12 +16,18 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
+    private static Stage stage;
+    private static ISystem sys;
+
 
     @Override
     public void start(Stage stage) throws IOException {
+        this.stage = stage;
         scene = new Scene(loadFXML("Base GUI"));
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
+
     }
 
     static void setRoot(String fxml) throws IOException {
@@ -31,8 +39,32 @@ public class App extends Application {
         return fxmlLoader.load();
     }
 
-    public static void main(String[] args) {
-        launch();
+    public void changeScene(String fxml){
+        try {
+            Parent parent = FXMLLoader.load(getClass().getResource(fxml));
+            scene.setRoot(parent);
+        }catch(IOException ex){
+            ex.printStackTrace();
+        }
     }
 
+    public static void main(String[] args) {
+        sys = new CredITSystem(); //creates a new object of system
+
+        launch();
+
+        //Create an instance of System using ISystem (how, Idk)
+    }
+
+    public static Scene getScene(){
+        return scene;
+    }
+
+    public static Stage getStage(){
+        return stage;
+    }
+
+    public static ISystem getSystemInstance(){
+        return sys;
+    }
 }

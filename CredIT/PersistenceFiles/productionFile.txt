@@ -1,0 +1,4 @@
+1,Badehotellet,,TV2,0,0
+2,Søren Ryge,,DR1,0,0
+3,Paradise Hotel,,TV3,0,0
+4,Badehotellet2,,TV2,0,0
