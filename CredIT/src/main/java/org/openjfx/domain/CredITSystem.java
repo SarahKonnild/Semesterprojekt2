@@ -111,6 +111,7 @@ public class CredITSystem implements ISystem {
                             castObjects.add(searchCast(Integer.parseInt(values[k])).get(0));
                         }
                         castRolesMap.put(pair[0], castObjects);
+                        castObjects.clear();
                     }
                 }
                 //Need to update this to take the hashmap instead
