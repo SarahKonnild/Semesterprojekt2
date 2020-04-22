@@ -43,54 +43,22 @@ public class AdministratorPageController implements Initializable {
 
     @FXML
     private void handleAdministrateCast(MouseEvent event){
-        try {
-            Parent value = FXMLLoader.load(LoginSystemController.class.getResource("ModifyCast.fxml"));
-            App.getScene().setRoot(value);
-            App.getStage().setHeight(420);
-            App.getStage().setWidth(600);
-            App.getStage().setResizable(false);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        App.handleModifyCastPage();
     }
 
     @FXML
     private void handleAdministrateProduction(MouseEvent event){
-        try {
-            Parent value = FXMLLoader.load(LoginSystemController.class.getResource("ModifyProduction.fxml"));
-            App.getScene().setRoot(value);
-            App.getStage().setHeight(420);
-            App.getStage().setWidth(600);
-            App.getStage().setResizable(false);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        App.handleModifyProductionPage();
     }
 
     @FXML
     private void handleAdministrateBroadcast(MouseEvent event){
-        try {
-            Parent value = FXMLLoader.load(LoginSystemController.class.getResource("ModifyBroadcast.fxml"));
-            App.getScene().setRoot(value);
-            App.getStage().setHeight(540);
-            App.getStage().setWidth(602);
-            App.getStage().setResizable(false);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        App.handleModifyBroadcastPage();
     }
 
     @FXML
     private void handleAdministrateMovie(MouseEvent event){
-        try {
-            Parent value = FXMLLoader.load(LoginSystemController.class.getResource("ModifyMovie.fxml"));
-            App.getScene().setRoot(value);
-            App.getStage().setHeight(420);
-            App.getStage().setWidth(600);
-            App.getStage().setResizable(false);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        App.handleModifyMoviePage();
     }
 
     @FXML

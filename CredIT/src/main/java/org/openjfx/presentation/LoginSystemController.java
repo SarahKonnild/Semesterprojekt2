@@ -48,6 +48,19 @@ public class LoginSystemController implements Initializable {
     }
 
     @FXML
+    public void handleBypassLogin(MouseEvent event){
+        try {
+            Parent value = FXMLLoader.load(LoginSystemController.class.getResource("AdministratorPage.fxml"));
+            App.getScene().setRoot(value);
+            App.getStage().setHeight(271);
+            App.getStage().setWidth(601);
+            App.getStage().setResizable(false);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @FXML
     public void handleUserLogin(MouseEvent event) {
         try {
             Parent value = FXMLLoader.load(LoginSystemController.class.getResource("GuestUserPage.fxml"));
@@ -77,15 +90,7 @@ public class LoginSystemController implements Initializable {
             //TODO make a decision on whether the user should be created here, or if it should be system that creates the class and then returns IUser
             usernameString = "admin";
             adminUser = App.getSystemInstance().createNewUser(username.getText(), password.getText());
-        try {
-            Parent value = FXMLLoader.load(LoginSystemController.class.getResource("AdministratorPage.fxml"));
-            App.getScene().setRoot(value);
-            App.getStage().setHeight(271);
-            App.getStage().setWidth(601);
-            App.getStage().setResizable(false);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+            App.handleAdminPage();
     } else{
             errorMessage.setVisible(true);
        }
@@ -95,5 +100,8 @@ public class LoginSystemController implements Initializable {
         return usernameString;
     }
 
+    public static IUser getAdminUser(){
+        return adminUser;
+    }
 
 }

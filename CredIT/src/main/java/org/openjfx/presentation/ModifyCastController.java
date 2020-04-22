@@ -1,20 +1,19 @@
 package org.openjfx.presentation;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
+import org.openjfx.interfaces.ICast;
 
-import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ModifyCastController implements Initializable {
@@ -43,8 +42,16 @@ public class ModifyCastController implements Initializable {
     private TextField castName;
     @FXML
     private TextField regDKID;
-    
-    private static Stage helpStage;
+
+    private boolean creationState;
+
+    private ObservableList<ICast> castObservableList;
+    private ObservableList<ICast> chosenCastObservable;
+    private ICast chosenCast;
+    private ArrayList<ICast> chosenCastArray;
+    private ArrayList<ICast> castSearchResult;
+    private Object obj;
+    private ArrayList<Object> chosenObjectsList;
 
 
     @Override
@@ -54,37 +61,100 @@ public class ModifyCastController implements Initializable {
 
     @FXML
     public void handleSearch(ActionEvent event){
-
+        String searchText = searchField.getText();
+        resultList.getItems().clear();
+        castSearchResult = App.getSystemInstance().searchCast(searchText);
+        if(castSearchResult != null && !searchField.getText().isEmpty()){
+            castObservableList = FXCollections.observableArrayList(castSearchResult);
+            resultList.setItems(castObservableList);
+            searchField.clear();
+        }
+        //else{
+//            //TODO errorMessage.setVisible(true)
+//        }
     }
 
     @FXML
     public void handleSeeRolelist(ActionEvent event){
-
+        searchField.setText("You gon' goofed");
     }
 
     @FXML
     public void handleCreateNew(ActionEvent event){
-
+        creationState = LoginSystemController.getAdminUser().addNewCastToDatabase(castName.getText(), Integer.parseInt(regDKID.getText()));
+        if(creationState){
+            //TODO errormessage.setText("Medvirkende Oprettet");
+            clearFields();
+        }else{
+            //TODO errormessage.setText("Fejl, medvirkende blev ikke oprettet");
+        }
+        resultList.refresh();
     }
 
     @FXML
     public void handleDelete(ActionEvent event){
-
+        if(!castObservableList.isEmpty()){
+            chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
+            creationState = chosenCast.deleteCast();
+            if(creationState){
+                //TODO errormessage.setText("Medvirkende slettet");
+                clearFields();
+            }else{
+                //TODO errormessage.setText("Fejl, medvirkende blev ikke slettet");
+            }
+        }else{
+            //TODO errormessage.setText("Fejl, ingen medvirkende valgt");
+        }
+        resultList.refresh();
     }
 
     @FXML
     public void handleMerge(ActionEvent event){
+        if(!castObservableList.isEmpty()){
+            chosenCastObservable = resultList.getSelectionModel().getSelectedItems();
+            if(chosenCastObservable.size() == 2){
+                creationState = chosenCastObservable.get(0).mergeCastMembers(chosenCastObservable.get(1));
+                if(creationState){
+                    //TODO errormessage.setText("Medvirkende sammenflettet");
+                    clearFields();
+                    resultList.refresh();
+                }else{
+                    //TODO errormessage.setText("Fejl, medvirkende blev ikke sammenflettet");
+                }
+            }else if(chosenCastObservable.size() <= 1){
+                //TODO errormessage.setText("Fejl, for få medvirkende valgt");
+            } else{
+                //TODO errormessage.setText("Fejl, for mange medvirkende valgt);
+            }
+        } else{
+            //TODO errormessage.setText("Fejl, ingen medvirkende valgt");
+        }
 
     }
 
     @FXML
     public void handleSave(ActionEvent event){
-
+        if(!castObservableList.isEmpty()){
+            chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
+            creationState = chosenCast.updateCast(castName.getText(), Integer.parseInt(regDKID.getText()));
+            if(creationState){
+                //TODO errormessage.setText("Medvirkende opdateret");
+                clearFields();
+            }else{
+                //TODO errormessage.setText("Fejl, medvirkende blev ikke opdateret");
+            }
+        }else{
+            //TODO errormessage.setText("Fejl, ingen medvirkende valgt");
+        }
+        resultList.refresh();
     }
 
     @FXML
-    public void handleResultChosen(ActionEvent event){
-
+    public void handleResultChosen(MouseEvent event){
+        chosenCastObservable = resultList.getSelectionModel().getSelectedItems();
+        chosenCast = chosenCastObservable.get(0);
+        castName.setText(chosenCast.getName());
+        regDKID.setText(String.valueOf(chosenCast.getRegDKID()));
     }
 
     @FXML
@@ -97,8 +167,9 @@ public class ModifyCastController implements Initializable {
         App.handleAdminPage();
     }
 
-    public static Stage getStage(){
-        return helpStage;
+    private void clearFields(){
+        castName.clear();
+        regDKID.clear();
     }
     
 }

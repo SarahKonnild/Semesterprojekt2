@@ -54,7 +54,7 @@ public class AssignUnassignCastController implements Initializable {
     @FXML
     private TextField rolenameField;
 
-    private static Stage stage;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -94,25 +94,9 @@ public class AssignUnassignCastController implements Initializable {
     @FXML
     public void handleBack(MouseEvent event){
         if(App.getAssignCastModifier().equals("movie")) {
-            try {
-                Parent value = FXMLLoader.load(LoginSystemController.class.getResource("ModifyMovie.fxml"));
-                App.getScene().setRoot(value);
-                App.getStage().setHeight(430);
-                App.getStage().setWidth(600);
-                App.getStage().setResizable(false);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            App.handleModifyMoviePage();
         } else if(App.getAssignCastModifier().equals("broadcast")){
-            try {
-                Parent value = FXMLLoader.load(LoginSystemController.class.getResource("ModifyBroadcast.fxml"));
-                App.getScene().setRoot(value);
-                App.getStage().setHeight(540);
-                App.getStage().setWidth(600);
-                App.getStage().setResizable(false);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            App.handleModifyBroadcastPage();
         }
     }
 
@@ -120,6 +104,8 @@ public class AssignUnassignCastController implements Initializable {
     public void handleAssignCastOption(MouseEvent event){
         setFieldsAndLabelsVisible();
         assignButton.setVisible(true);
+        unassignButton.setVisible(false);
+        save.setVisible(false);
     }
 
     @FXML
@@ -127,6 +113,7 @@ public class AssignUnassignCastController implements Initializable {
         setFieldsAndLabelsVisible();
         unassignButton.setVisible(true);
         save.setVisible(true);
+        assignButton.setVisible(false);
     }
 
     public void setFieldsAndLabelsVisible(){
@@ -139,9 +126,5 @@ public class AssignUnassignCastController implements Initializable {
         regDKField.setVisible(true);
         role.setVisible(true);
         rolenameField.setVisible(true);
-    }
-
-    public static Stage getStage(){
-        return stage;
     }
 }

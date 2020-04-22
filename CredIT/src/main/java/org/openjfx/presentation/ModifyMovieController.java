@@ -2,18 +2,13 @@ package org.openjfx.presentation;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -57,15 +52,7 @@ public class ModifyMovieController implements Initializable {
     @FXML
     public void handleChangeCast(ActionEvent event){
         App.setAssignCastModifier("movie");
-        try {
-            Parent value = FXMLLoader.load(LoginSystemController.class.getResource("AssignUnassignCast.fxml"));
-            App.getScene().setRoot(value);
-            App.getStage().setHeight(411);
-            App.getStage().setWidth(602);
-            App.getStage().setResizable(false);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        App.handleUnassignAssignStage();
     }
 
     @FXML

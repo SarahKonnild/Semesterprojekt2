@@ -55,24 +55,60 @@ public class App extends Application {
         launch();
     }
 
-    public static Scene getScene(){
-        return scene;
-    }
-
-    public static Stage getStage(){
-        return stage;
-    }
-
-    public static ISystem getSystemInstance(){
-        return sys;
-    }
-
     public static void handleAdminPage(){
         try {
             Parent value = FXMLLoader.load(LoginSystemController.class.getResource("AdministratorPage.fxml"));
             App.getScene().setRoot(value);
             App.getStage().setHeight(271);
             App.getStage().setWidth(601);
+            App.getStage().setResizable(false);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void handleModifyCastPage(){
+        try {
+            Parent value = FXMLLoader.load(LoginSystemController.class.getResource("ModifyCast.fxml"));
+            App.getScene().setRoot(value);
+            App.getStage().setHeight(420);
+            App.getStage().setWidth(600);
+            App.getStage().setResizable(false);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void handleModifyBroadcastPage(){
+        try {
+            Parent value = FXMLLoader.load(LoginSystemController.class.getResource("ModifyBroadcast.fxml"));
+            App.getScene().setRoot(value);
+            App.getStage().setHeight(540);
+            App.getStage().setWidth(602);
+            App.getStage().setResizable(false);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void handleModifyProductionPage(){
+        try {
+            Parent value = FXMLLoader.load(LoginSystemController.class.getResource("ModifyProduction.fxml"));
+            App.getScene().setRoot(value);
+            App.getStage().setHeight(420);
+            App.getStage().setWidth(600);
+            App.getStage().setResizable(false);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void handleModifyMoviePage(){
+        try {
+            Parent value = FXMLLoader.load(LoginSystemController.class.getResource("ModifyMovie.fxml"));
+            App.getScene().setRoot(value);
+            App.getStage().setHeight(420);
+            App.getStage().setWidth(600);
             App.getStage().setResizable(false);
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -92,6 +128,30 @@ public class App extends Application {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public static void handleUnassignAssignStage(){
+        try{
+            Parent value = FXMLLoader.load(LoginSystemController.class.getResource("AssignUnassignCast.fxml"));
+            App.getScene().setRoot(value);
+            App.getStage().setHeight(431);
+            App.getStage().setWidth(615);
+            App.getStage().setResizable(false);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static Scene getScene(){
+        return scene;
+    }
+
+    public static Stage getStage(){
+        return stage;
+    }
+
+    public static ISystem getSystemInstance(){
+        return sys;
     }
 
     public static Stage getHelpStage(){

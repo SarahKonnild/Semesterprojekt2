@@ -23,16 +23,16 @@
       <AnchorPane layoutX="285.0" layoutY="27.0" prefHeight="373.0" prefWidth="315.0" style="-fx-background-color: #84a9ac #84a9ac;">
          <children>
             <TextField fx:id="searchField" layoutX="14.0" layoutY="25.0" prefHeight="27.0" prefWidth="205.0" promptText="Indtast søgetekst" style="-fx-background-color: FFFFFF;" />
-            <Button fx:id="search" layoutX="261.0" layoutY="25.0" mnemonicParsing="false" onMouseClicked="#handleSearch" style="-fx-background-color: FFFFFF;" text="Søg" />
+            <Button fx:id="search" layoutX="261.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleSearch" style="-fx-background-color: FFFFFF;" text="Søg" />
             <TextField fx:id="castName" layoutX="15.0" layoutY="141.0" prefHeight="27.0" prefWidth="285.0" style="-fx-background-color: FFFFFF;" />
             <TextField fx:id="regDKID" layoutX="14.0" layoutY="232.0" prefHeight="27.0" prefWidth="148.0" style="-fx-background-color: FFFFFF;" />
             <Label layoutX="14.0" layoutY="121.0" text="Medvirkendes Navn" textFill="WHITE" />
             <Label layoutX="15.0" layoutY="211.0" text="Registrering Danmark ID" textFill="WHITE" />
-            <Button fx:id="createNew" layoutX="14.0" layoutY="318.0" mnemonicParsing="false" onMouseClicked="#handleCreateNew" style="-fx-background-color: FFFFFF;" text="Opret Ny" />
-            <Button fx:id="delete" layoutX="104.0" layoutY="318.0" mnemonicParsing="false" onMouseClicked="#handleDelete" style="-fx-background-color: FFFFFF;" text="Slet" />
-            <Button fx:id="merge" layoutX="160.0" layoutY="318.0" mnemonicParsing="false" onMouseClicked="#handleMerge" style="-fx-background-color: FFFFFF;" text="Sammenflet" />
-            <Button fx:id="seeRoleList" layoutX="215.0" layoutY="232.0" mnemonicParsing="false" onMouseClicked="#handleSeeRolelist" style="-fx-background-color: FFFFFF;" text="Se Rolleliste" />
-            <Button fx:id="save" layoutX="259.0" layoutY="318.0" mnemonicParsing="false" onMouseClicked="#handleSave" style="-fx-background-color: FFFFFF;" text="Gem" />
+            <Button fx:id="createNew" layoutX="14.0" layoutY="318.0" mnemonicParsing="false" onAction="#handleCreateNew" style="-fx-background-color: FFFFFF;" text="Opret Ny" />
+            <Button fx:id="delete" layoutX="104.0" layoutY="318.0" mnemonicParsing="false" onAction="#handleDelete" style="-fx-background-color: FFFFFF;" text="Slet" />
+            <Button fx:id="merge" layoutX="160.0" layoutY="318.0" mnemonicParsing="false" onAction="#handleMerge" style="-fx-background-color: FFFFFF;" text="Sammenflet" />
+            <Button fx:id="seeRoleList" layoutX="215.0" layoutY="232.0" mnemonicParsing="false" onAction="#handleSeeRolelist" style="-fx-background-color: FFFFFF;" text="Se Rolleliste" />
+            <Button fx:id="save" layoutX="259.0" layoutY="318.0" mnemonicParsing="false" onAction="#handleSave" style="-fx-background-color: FFFFFF;" text="Gem" />
          </children>
       </AnchorPane>
       <ListView fx:id="resultList" layoutY="27.0" onMouseClicked="#handleResultChosen" prefHeight="373.0" prefWidth="285.0" style="-fx-background-color: FFFFFF;" />
