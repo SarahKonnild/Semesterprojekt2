@@ -52,7 +52,7 @@ public class LoginSystemController implements Initializable {
         try {
             Parent value = FXMLLoader.load(LoginSystemController.class.getResource("GuestUserPage.fxml"));
             App.getScene().setRoot(value);
-            App.getStage().setHeight(415);
+            App.getStage().setHeight(430);
             App.getStage().setWidth(607);
             App.getStage().setResizable(false);
         } catch (IOException ex) {
