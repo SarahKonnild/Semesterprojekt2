@@ -153,13 +153,13 @@ public class Persistence implements IPersistence {
                 for (String s : castMap.keySet()) {
                     int i = 0;
 
-                    // Second check is run on the size of the keySet from castMap.
+                    // Second check is run on the size of the keySet from castMap, to determine if we're on the last entry or not.
                     if (castMap.keySet().size() - 1 != k) {
                         outputString += s + ";";
 
                         //get the values from castMap and add it to outputString.
                         for (ICast cast : castMap.get(s)) {
-                            //Third check is run on the size again to determine wether were on the last item or not.
+                            //Third check is run on the size again to determine wether were on the last item or not in the returned value(ArrayList).
                             if (i == castMap.get(s).size() - 1) {
                                 outputString += cast.getId() + "_";
                             } else {
