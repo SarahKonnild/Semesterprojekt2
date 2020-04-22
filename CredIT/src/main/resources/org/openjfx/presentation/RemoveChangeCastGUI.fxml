@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="321.0" prefWidth="381.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.presentation.RemoveChangeController">
+   <children>
+      <ListView fx:id="castList" layoutX="215.0" layoutY="34.0" onMouseClicked="#handleSearchResultChosen" prefHeight="271.0" prefWidth="146.0" />
+      <Label layoutX="226.0" layoutY="17.0" text="Liste over Medvirkende" />
+      <Label layoutX="26.0" layoutY="48.0" text="Fulde Navn" />
+      <TextField fx:id="castName" disable="true" layoutX="26.0" layoutY="71.0" prefHeight="25.0" prefWidth="171.0" />
+      <Label layoutX="26.0" layoutY="114.0" text="Registrering Danmark ID" />
+      <TextField fx:id="regDKField" disable="true" layoutX="26.0" layoutY="134.0" prefHeight="25.0" prefWidth="171.0" />
+      <Label layoutX="26.0" layoutY="178.0" text="Rollenavn" />
+      <TextField fx:id="roleNameField" layoutX="26.0" layoutY="199.0" prefHeight="25.0" prefWidth="171.0" />
+      <Button fx:id="removeCast" layoutX="24.0" layoutY="280.0" mnemonicParsing="false" onMouseClicked="#handleRemoveCast" text="Fjern" />
+      <Button fx:id="saveChanges" layoutX="92.0" layoutY="280.0" mnemonicParsing="false" onMouseClicked="#handleSaveChanges" text="Gem Ændringer" />
+      <Label fx:id="errorMsg" alignment="CENTER" layoutX="28.0" layoutY="245.0" prefHeight="17.0" prefWidth="171.0" textFill="#f80303" />
+   </children>
+</AnchorPane>
