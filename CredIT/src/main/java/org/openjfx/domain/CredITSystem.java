@@ -150,7 +150,7 @@ public class CredITSystem implements ISystem {
 
     //endregion
 
-    public static Persistence getPersistence(){
+    public static IPersistence getPersistence(){
         return persistenceLayer;
     }
 

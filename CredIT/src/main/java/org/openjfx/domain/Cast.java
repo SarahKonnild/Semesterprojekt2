@@ -53,7 +53,7 @@ public class Cast implements ICast {
     public boolean saveCast() {
         int idNumber = -1;
         try {
-            idNumber = persistence.createNewCastInDatabase(this);
+            idNumber = CredITSystem.getPersistence().createNewCastInDatabase(this);
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
