@@ -95,6 +95,7 @@ public class AdministratorPageController implements Initializable {
 
     @FXML
     public void handleHelp(MouseEvent event){
+
         App.handleHelpStage();
     }
 

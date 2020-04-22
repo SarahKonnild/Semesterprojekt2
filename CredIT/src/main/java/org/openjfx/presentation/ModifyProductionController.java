@@ -85,7 +85,7 @@ public class ModifyProductionController implements Initializable {
 
     @FXML
     public void handleBack(MouseEvent event){
-        App.handleHelpStage();
+        App.handleAdminPage();
     }
 
 }
