@@ -65,8 +65,13 @@ public class Persistence implements IPersistence {
 
             String temp = productionId + "," + production.getName() + ",";
             int i = 0;
+
+            //If the broadcast list is null, add a , and move on. Otherwise add the broadcasts.
             if (production.getBroadcasts() != null) {
+                //Loops through the broadcasts
                 for (IBroadcast b : production.getBroadcasts()) {
+                    //If it's the last broadcast, add the broadcast and , to the file
+                    //If it's not the last broadcast, add the broadcast and ; to the file
                     if (production.getBroadcasts().size() - 1 != i) {
                         temp += b.getId() + ";";
                     } else {
@@ -78,8 +83,11 @@ public class Persistence implements IPersistence {
             } else {
                 temp += ",";
             }
+            //add the rest of the attributes
             temp += production.getProductionCompany() + "," + production.getNumberOfSeasons() + "," + production.getNumberOfEpisodes();
+
             writer.println(temp);
+
             returnNumber = productionId;
             productionId++;
 
@@ -100,6 +108,7 @@ public class Persistence implements IPersistence {
             fw = new FileWriter(castFile, true);
             writer = new PrintWriter(fw);
 
+            //Write the cast attributes to the file
             writer.println(castId + "," + cast.getName() + "," + cast.getRegDKID());
             returnNumber = castId;
             castId++;
@@ -121,6 +130,7 @@ public class Persistence implements IPersistence {
             fw = new FileWriter(userFile, true);
             writer = new PrintWriter(fw);
 
+            //Write the user attributes to the file
             writer.println(userId + "," + user.getName() + "," + user.getPassword() + "," +
                     user.getUsername() + "," + user.getRole());
 
