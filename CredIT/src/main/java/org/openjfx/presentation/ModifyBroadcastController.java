@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 
@@ -16,6 +17,8 @@ import java.util.ResourceBundle;
 
 public class ModifyBroadcastController implements Initializable {
 
+    @FXML
+    private AnchorPane basePane;
     @FXML
     private Button search;
     @FXML
@@ -27,9 +30,15 @@ public class ModifyBroadcastController implements Initializable {
     @FXML
     private Button save;
     @FXML
+    private Label close;
+    @FXML
     private Label help;
     @FXML
     private Label back;
+    @FXML
+    private Label errorMessageSearch;
+    @FXML
+    private Label errorMessage;
     @FXML
     private ListView searchResultList;
     @FXML
@@ -57,6 +66,8 @@ public class ModifyBroadcastController implements Initializable {
         delete.setVisible(true);
         save.setVisible(true);
         modifyCast.setVisible(true);
+
+        App.handleMoveWindow(basePane);
     }
 
 
@@ -101,8 +112,6 @@ public class ModifyBroadcastController implements Initializable {
         App.handleHelpStage();
     }
 
-    public static Stage getHelpStage(){
-        return helpStage;
-    }
-
+    @FXML
+    public void handleClose(MouseEvent event){App.closeWindow();}
 }

@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -14,6 +15,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AdministratorPageController implements Initializable {
+    @FXML
+    private AnchorPane basePane;
     @FXML
     private Label administrateUsers;
     @FXML
@@ -34,12 +37,12 @@ public class AdministratorPageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         username.setText(LoginSystemController.getUsernameString());
         administrateUsers.setVisible(false); //set invisible due to low importance of use case.
+
+        App.handleMoveWindow(basePane);
     }
 
     @FXML
-    public void handleAdministrateUsers(MouseEvent event){
-
-    }
+    public void handleAdministrateUsers(MouseEvent event){    }
 
     @FXML
     private void handleAdministrateCast(MouseEvent event){
@@ -62,9 +65,9 @@ public class AdministratorPageController implements Initializable {
     }
 
     @FXML
-    public void handleHelp(MouseEvent event){
+    public void handleHelp(MouseEvent event){ App.handleHelpStage();}
 
-        App.handleHelpStage();
-    }
+    @FXML
+    public void handleClose(MouseEvent event){ App.closeWindow();}
 
 }

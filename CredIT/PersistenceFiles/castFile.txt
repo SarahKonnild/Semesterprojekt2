@@ -15,5 +15,5 @@
 16,Daniel Vejman,1014
 17,Mads Fyn,1015
 18,Hans Rosengaard,1016
-19,Teis Ulfelt,1017
-20,Marie Anker,1018
+20,Marie Anker,101821,Lone Borgersen,666
+21,Lone Borgersen,666

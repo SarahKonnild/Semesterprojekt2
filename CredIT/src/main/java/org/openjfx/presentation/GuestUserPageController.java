@@ -6,7 +6,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.openjfx.interfaces.IBroadcast;
 import org.openjfx.interfaces.ICast;
@@ -18,6 +20,8 @@ import java.util.ResourceBundle;
 
 public class GuestUserPageController implements Initializable {
 
+    @FXML
+    private AnchorPane basePane;
     @FXML
     private Button search;
     @FXML
@@ -111,12 +115,7 @@ public class GuestUserPageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-    }
-
-    @FXML
-    public void handleHelp(MouseEvent event){
-        App.getHelpStage();
+        App.handleMoveWindow(basePane);
     }
 
     @FXML
@@ -171,6 +170,17 @@ public class GuestUserPageController implements Initializable {
             }
         });
     }
+
+    @FXML
+    public void handleClose(MouseEvent event){App.closeWindow();}
+
+    @FXML
+    public void handleHelp(MouseEvent event){
+        App.handleHelpStage();
+    }
+
+    @FXML
+    public void handleBack(MouseEvent event){App.handleLoginSystemPage();}
 
     private void setCastFieldsVisible(){
         castName.setVisible(true);

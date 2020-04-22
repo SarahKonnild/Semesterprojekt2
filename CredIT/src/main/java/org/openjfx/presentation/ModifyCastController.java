@@ -5,11 +5,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import org.openjfx.interfaces.ICast;
 
 import java.net.URL;
@@ -18,6 +16,8 @@ import java.util.ResourceBundle;
 
 public class ModifyCastController implements Initializable {
 
+    @FXML
+    private AnchorPane basePane;
     @FXML
     private Button search;
     @FXML
@@ -31,9 +31,15 @@ public class ModifyCastController implements Initializable {
     @FXML
     private Button save;
     @FXML
+    private Label close;
+    @FXML
     private Label help;
     @FXML
     private Label back;
+    @FXML
+    private Label errorMessageSearch;
+    @FXML
+    private Label errorMessage;
     @FXML
     private ListView resultList;
     @FXML
@@ -56,7 +62,7 @@ public class ModifyCastController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        App.handleMoveWindow(basePane);
     }
 
     @FXML
@@ -69,9 +75,9 @@ public class ModifyCastController implements Initializable {
             resultList.setItems(castObservableList);
             searchField.clear();
         }
-        //else{
-//            //TODO errorMessage.setVisible(true)
-//        }
+        else{
+            errorMessageSearch.setVisible(true);
+        }
     }
 
     @FXML
@@ -81,10 +87,9 @@ public class ModifyCastController implements Initializable {
 
     @FXML
     public void handleCreateNew(ActionEvent event){
-        System.out.println("hej4");
         ICast cast = LoginSystemController.getAdminUser().addNewCastToDatabase(castName.getText(),Integer.parseInt(regDKID.getText()));
         if(cast != null){
-            //TODO errormessage.setText("Medvirkende Oprettet");
+            errorMessage.setText("Medvirkende oprettet");
             castSearchResult = new ArrayList<>();
             castSearchResult.add(cast);
             //TODO perhaps implement filtered update, i.e. if user searched for Hans but made a new person named Jens, it will clear the Listview and add the new element. If another Hans is made, append.
@@ -92,7 +97,7 @@ public class ModifyCastController implements Initializable {
             clearFields();
         }else{
             searchField.setText("WRONG");
-            //TODO errormessage.setText("Fejl, medvirkende blev ikke oprettet");
+            errorMessage.setText("Medvirkende blev ikke oprettet");
         }
         resultList.refresh();
     }
@@ -103,13 +108,13 @@ public class ModifyCastController implements Initializable {
             chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
             creationState = chosenCast.deleteCast();
             if(creationState){
-                //TODO errormessage.setText("Medvirkende slettet");
+                errorMessage.setText("Medvirkende slettet");
                 clearFields();
             }else{
-                //TODO errormessage.setText("Fejl, medvirkende blev ikke slettet");
+                errorMessage.setText("Fejl, medvirkende blev ikke slettet");
             }
         }else{
-            //TODO errormessage.setText("Fejl, ingen medvirkende valgt");
+            errorMessage.setText("Fejl, ingen medvirkende valgt");
         }
         resultList.refresh();
     }
@@ -121,19 +126,19 @@ public class ModifyCastController implements Initializable {
             if(chosenCastObservable.size() == 2){
                 creationState = chosenCastObservable.get(0).mergeCastMembers(chosenCastObservable.get(1));
                 if(creationState){
-                    //TODO errormessage.setText("Medvirkende sammenflettet");
+                    errorMessage.setText("Medvirkende sammenflettet");
                     clearFields();
                     resultList.refresh();
                 }else{
-                    //TODO errormessage.setText("Fejl, medvirkende blev ikke sammenflettet");
+                    errorMessage.setText("Fejl, medvirkende blev ikke sammenflettet");
                 }
             }else if(chosenCastObservable.size() <= 1){
-                //TODO errormessage.setText("Fejl, for få medvirkende valgt");
+                errorMessage.setText("Fejl, for få medvirkende valgt");
             } else{
-                //TODO errormessage.setText("Fejl, for mange medvirkende valgt);
+                errorMessage.setText("Fejl, for mange medvirkende valgt");
             }
         } else{
-            //TODO errormessage.setText("Fejl, ingen medvirkende valgt");
+            errorMessage.setText("Fejl, ingen medvirkende valgt");
         }
 
     }
@@ -144,21 +149,22 @@ public class ModifyCastController implements Initializable {
             chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
             creationState = chosenCast.updateCast(castName.getText(), Integer.parseInt(regDKID.getText()));
             if(creationState){
-                //TODO errormessage.setText("Medvirkende opdateret");
+                errorMessage.setText("Medvirkende opdateret");
                 clearFields();
             }else{
-                //TODO errormessage.setText("Fejl, medvirkende blev ikke opdateret");
+                errorMessage.setText("Fejl, medvirkende blev ikke opdateret");
             }
         }else{
-            //TODO errormessage.setText("Fejl, ingen medvirkende valgt");
+            errorMessage.setText("Fejl, ingen medvirkende valgt");
         }
         resultList.refresh();
     }
 
     @FXML
     public void handleResultChosen(MouseEvent event){
+        resultList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         chosenCastObservable = resultList.getSelectionModel().getSelectedItems();
-        chosenCast = chosenCastObservable.get(0);
+        chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
         castName.setText(chosenCast.getName());
         regDKID.setText(String.valueOf(chosenCast.getRegDKID()));
     }
@@ -172,6 +178,9 @@ public class ModifyCastController implements Initializable {
     public void handleBack(MouseEvent event){
         App.handleAdminPage();
     }
+
+    @FXML
+    public void handleClose(MouseEvent event){App.closeWindow();}
 
     private void clearFields(){
         castName.clear();

@@ -1,6 +1,9 @@
 package org.openjfx.presentation;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,7 +13,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import org.openjfx.interfaces.IUser;
 
 import java.io.IOException;
@@ -20,9 +27,13 @@ import java.util.ResourceBundle;
 public class LoginSystemController implements Initializable {
 
     @FXML
+    private AnchorPane basePane;
+    @FXML
     private Button login;
     @FXML
     private ImageView tv2Logo;
+    @FXML
+    private Label close;
     @FXML
     private Label guestUserLogin;
     @FXML
@@ -40,20 +51,22 @@ public class LoginSystemController implements Initializable {
 
     private static IUser adminUser;
     private static String usernameString;
+    private double dragX;
+    private double dragY;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-
+        App.handleMoveWindow(basePane);
     }
 
     @FXML
     public void handleBypassLogin(MouseEvent event){
+        usernameString = "admin";
+        adminUser = App.getSystemInstance().createNewUser(username.getText(), password.getText());
         try {
             Parent value = FXMLLoader.load(LoginSystemController.class.getResource("AdministratorPage.fxml"));
             App.getScene().setRoot(value);
-            App.getStage().setHeight(271);
-            App.getStage().setWidth(601);
+            App.getStage().sizeToScene();
             App.getStage().setResizable(false);
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -65,8 +78,7 @@ public class LoginSystemController implements Initializable {
         try {
             Parent value = FXMLLoader.load(LoginSystemController.class.getResource("GuestUserPage.fxml"));
             App.getScene().setRoot(value);
-            App.getStage().setHeight(430);
-            App.getStage().setWidth(607);
+            App.getStage().sizeToScene();
             App.getStage().setResizable(false);
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -97,6 +109,12 @@ public class LoginSystemController implements Initializable {
        }
     }
 
+    @FXML
+    public void handleClose(MouseEvent event){
+        App.closeWindow();
+    }
+
+
     public static String getUsernameString(){
         return usernameString;
     }
@@ -104,5 +122,4 @@ public class LoginSystemController implements Initializable {
     public static IUser getAdminUser(){
         return adminUser;
     }
-
 }

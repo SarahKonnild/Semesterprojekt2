@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.image.Image?>
@@ -9,14 +10,17 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.presentation.HelpController">
    <children>
-      <AnchorPane prefHeight="27.0" prefWidth="600.0" style="-fx-background-color: #3b6978 #3b6978 #3b6978 #3b6978 #3b6978 #3b6978 #3b6978 #3b6978;">
+      <AnchorPane fx:id="basePane" prefHeight="27.0" prefWidth="600.0" style="-fx-background-color: #3b6978 #3b6978 #3b6978 #3b6978 #3b6978 #3b6978 #3b6978 #3b6978;">
          <children>
             <ImageView fitHeight="17.0" fitWidth="43.0" layoutX="13.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../Images/Danish_TV_2_logo.png" />
                </image>
             </ImageView>
-            <Label layoutX="560.0" layoutY="5.0" onMouseClicked="#handleClose" text="Luk" textFill="WHITE" />
+            <Label fx:id="close" layoutX="568.0" layoutY="5.0" onMouseClicked="#handleClose" text="Luk" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor></Label>
          </children>
       </AnchorPane>
       <TreeView fx:id="helpOptionsList" layoutY="27.0" prefHeight="373.0" prefWidth="258.0" style="-fx-background-color: FFFFFF;" />

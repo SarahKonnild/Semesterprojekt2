@@ -1,10 +1,16 @@
 package org.openjfx.presentation;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.openjfx.interfaces.*;
 import org.openjfx.domain.CredITSystem;
 
@@ -26,10 +32,10 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         this.stage = stage;
         scene = new Scene(loadFXML("LoginSystem"));
+        App.getStage().initStyle(StageStyle.TRANSPARENT);
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
-
     }
 
     static void setRoot(String fxml) throws IOException {
@@ -58,10 +64,9 @@ public class App extends Application {
     public static void handleAdminPage(){
         try {
             Parent value = FXMLLoader.load(LoginSystemController.class.getResource("AdministratorPage.fxml"));
-            App.getScene().setRoot(value);
-            App.getStage().setHeight(271);
-            App.getStage().setWidth(601);
-            App.getStage().setResizable(false);
+            scene.setRoot(value);
+            stage.sizeToScene();
+            stage.setResizable(false);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -70,10 +75,9 @@ public class App extends Application {
     public static void handleModifyCastPage(){
         try {
             Parent value = FXMLLoader.load(LoginSystemController.class.getResource("ModifyCast.fxml"));
-            App.getScene().setRoot(value);
-            App.getStage().setHeight(420);
-            App.getStage().setWidth(600);
-            App.getStage().setResizable(false);
+            scene.setRoot(value);
+            stage.sizeToScene();
+            stage.setResizable(false);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -82,10 +86,9 @@ public class App extends Application {
     public static void handleModifyBroadcastPage(){
         try {
             Parent value = FXMLLoader.load(LoginSystemController.class.getResource("ModifyBroadcast.fxml"));
-            App.getScene().setRoot(value);
-            App.getStage().setHeight(540);
-            App.getStage().setWidth(602);
-            App.getStage().setResizable(false);
+            scene.setRoot(value);
+            stage.sizeToScene();
+            stage.setResizable(false);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -94,10 +97,9 @@ public class App extends Application {
     public static void handleModifyProductionPage(){
         try {
             Parent value = FXMLLoader.load(LoginSystemController.class.getResource("ModifyProduction.fxml"));
-            App.getScene().setRoot(value);
-            App.getStage().setHeight(420);
-            App.getStage().setWidth(600);
-            App.getStage().setResizable(false);
+            scene.setRoot(value);
+            stage.sizeToScene();
+            stage.setResizable(false);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -106,10 +108,9 @@ public class App extends Application {
     public static void handleModifyMoviePage(){
         try {
             Parent value = FXMLLoader.load(LoginSystemController.class.getResource("ModifyMovie.fxml"));
-            App.getScene().setRoot(value);
-            App.getStage().setHeight(420);
-            App.getStage().setWidth(600);
-            App.getStage().setResizable(false);
+            scene.setRoot(value);
+            stage.sizeToScene();
+            stage.setResizable(false);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -120,9 +121,9 @@ public class App extends Application {
         try {
             root = FXMLLoader.load(LoginSystemController.class.getResource("Help.fxml"));
             helpStage = new Stage();
+            helpStage.initStyle(StageStyle.TRANSPARENT);
             helpStage.setScene(new Scene(root));
-            helpStage.setHeight(400);
-            helpStage.setWidth(600);
+            App.getStage().sizeToScene();
             helpStage.setResizable(false);
             helpStage.show();
         } catch (IOException ex) {
@@ -133,10 +134,20 @@ public class App extends Application {
     public static void handleUnassignAssignStage(){
         try{
             Parent value = FXMLLoader.load(LoginSystemController.class.getResource("AssignUnassignCast.fxml"));
-            App.getScene().setRoot(value);
-            App.getStage().setHeight(431);
-            App.getStage().setWidth(615);
-            App.getStage().setResizable(false);
+            scene.setRoot(value);
+            stage.sizeToScene();
+            stage.setResizable(false);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void handleLoginSystemPage(){
+        try{
+            Parent value = FXMLLoader.load(App.class.getResource("LoginSystem.fxml"));
+            scene.setRoot(value);
+            stage.sizeToScene();
+            stage.setResizable(false);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -164,5 +175,32 @@ public class App extends Application {
 
     public static void setAssignCastModifier(String newAssignCastModifier){
         assignCastModifier = newAssignCastModifier;
+    }
+
+    public static void handleMoveWindow(AnchorPane basePane){
+        final double[] dragX = new double[1];
+        final double[] dragY = new double[1];
+        basePane.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getButton() == MouseButton.PRIMARY){
+                    dragX[0] = mouseEvent.getSceneX();
+                    dragY[0] = mouseEvent.getSceneY();
+                }
+            }
+        });
+        basePane.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getButton() == MouseButton.PRIMARY){
+                    App.getScene().getWindow().setX(mouseEvent.getScreenX() - dragX[0]);
+                    App.getScene().getWindow().setY(mouseEvent.getScreenY() - dragY[0]);
+                }
+            }
+        });
+    }
+
+    public static void closeWindow(){
+        App.getStage().close();
     }
 }
