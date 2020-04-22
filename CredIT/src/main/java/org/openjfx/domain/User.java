@@ -45,13 +45,13 @@ public class User implements IUser{
     @Override
     public IBroadcast addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate) {
         IBroadcast broadcast = new Broadcast(name, seasonNumber, episodeNumber, airDate);
-        broadcast.saveBroadcast();
+        broadcast.save();
         return broadcast;
     }
     @Override
     public IProduction addNewProductionToDatabase(String name, String year, String productionCompany) {
         IProduction production = new Production(name, year, productionCompany);
-        production.saveProduction();
+        production.save();
         return production;
     }
 

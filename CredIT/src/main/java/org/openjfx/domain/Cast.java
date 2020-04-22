@@ -50,7 +50,7 @@ public class Cast implements ICast {
     }
 
     @Override
-    public boolean saveCast() {
+    public boolean save() {
         int idNumber = -1;
         try {
             idNumber = CredITSystem.getPersistence().createNewCastInDatabase(this);

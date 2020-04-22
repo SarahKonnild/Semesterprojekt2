@@ -25,7 +25,7 @@ public interface ICast {
      * @return {@code True}: if the cast member successfully saves in the persistence.
      * {@code False}: it wasn't possible to save.
      */
-    public boolean saveCast();
+    public boolean save();
 
     /**
      * Removes a {@code Cast} object from the persistence layer.

@@ -12,7 +12,7 @@ public interface IBroadcast {
      * Saves the broadcast to the persistence.
      * @return
      */
-    public boolean saveBroadcast();
+    public boolean save();
 
     /**
      * Assigns a {@code Cast} object to a specified role value in the HashMap of the broadcast.

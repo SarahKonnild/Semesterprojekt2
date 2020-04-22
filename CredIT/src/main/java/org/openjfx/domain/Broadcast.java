@@ -40,7 +40,7 @@ public class Broadcast implements IBroadcast {
 //    }
 
     @Override
-    public boolean saveBroadcast() {
+    public boolean save() {
         int idNumber = -1;
         try {
             idNumber = persistence.createNewBroadcastInDatabase(this);

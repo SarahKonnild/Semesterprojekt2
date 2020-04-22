@@ -41,7 +41,7 @@ public class Production implements IProduction {
 //
 
     @Override
-    public boolean saveProduction() {
+    public boolean save() {
         int idNumber = -1;
         try {
             idNumber = CredITSystem.getPersistence().createNewProductionInDatabase(this);
