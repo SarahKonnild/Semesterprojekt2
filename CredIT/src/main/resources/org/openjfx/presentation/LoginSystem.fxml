@@ -41,21 +41,16 @@
                </cursor>
             </Label>
          </children></AnchorPane>
-      <Label layoutX="39.0" layoutY="140.0" text="CredIT " textFill="#84a9ac">
-         <font>
-            <Font size="59.0" />
-         </font>
-      </Label>
       <Label layoutX="75.0" layoutY="221.0" text="Et TV-Krediteringssystem" />
       <ImageView fx:id="tv2Logo" fitHeight="40.0" fitWidth="68.0" layoutX="104.0" layoutY="338.0" onMouseClicked="#handleBypassLogin" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../Images/Danish_TV_2_logo.png" />
          </image>
       </ImageView>
-      <Label layoutX="208.0" layoutY="150.0" text="&gt;_" textFill="#84a9ac">
-         <font>
-            <Font size="25.0" />
-         </font>
-      </Label>
+      <ImageView fitHeight="74.0" fitWidth="218.0" layoutX="40.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Images/CredIT%20Logo.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
