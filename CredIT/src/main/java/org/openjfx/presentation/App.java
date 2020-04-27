@@ -6,9 +6,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.openjfx.interfaces.*;
@@ -199,6 +201,12 @@ public class App extends Application {
             }
         });
     }
+
+    //AN EXPERIMENT
+//    public static void hoverLabel(Label label){
+//        label.setTextFill(Paint.valueOf("cae8d5"));
+//
+//    }
 
     public static void closeWindow(){
         App.getStage().close();

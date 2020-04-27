@@ -63,6 +63,7 @@ public class ModifyCastController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
+        
     }
 
     @FXML
