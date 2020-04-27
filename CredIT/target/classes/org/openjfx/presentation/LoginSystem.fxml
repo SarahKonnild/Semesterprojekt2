@@ -13,11 +13,11 @@
    <children>
       <AnchorPane layoutX="281.0" prefHeight="400.0" prefWidth="319.0" style="-fx-background-color: #84a9ac;">
          <children>
-            <Label fx:id="adminUserLogin" layoutX="88.0" layoutY="272.0" onMouseClicked="#handleAdminLoginClicked" prefHeight="30.0" prefWidth="143.0" text="Log Ind som Administrator" textFill="WHITE">
+            <Label fx:id="adminUserLogin" layoutX="88.0" layoutY="238.0" onMouseClicked="#handleAdminLoginClicked" prefHeight="30.0" prefWidth="143.0" text="Log Ind som Administrator" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor></Label>
-            <Label fx:id="guestUserLogin" layoutX="36.0" layoutY="135.0" onMouseClicked="#handleUserLogin" prefHeight="37.0" prefWidth="251.0" text="Fortsæt som Gæstebruger" textFill="WHITE">
+            <Label fx:id="guestUserLogin" layoutX="37.0" layoutY="168.0" onMouseClicked="#handleUserLogin" prefHeight="37.0" prefWidth="251.0" text="Fortsæt som Gæstebruger" textFill="WHITE">
                <font>
                   <Font size="21.0" />
                </font>

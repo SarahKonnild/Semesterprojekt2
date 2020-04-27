@@ -1,5 +1,6 @@
 package org.openjfx.presentation;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -108,19 +109,66 @@ public class GuestUserPageController implements Initializable {
     private ArrayList<IProduction> productionSearchResult;
     private ArrayList<ICast> castSearchResult;
     private ArrayList<IBroadcast> broadcastSearchResult;
+    private ArrayList<IMovie> movieSearchResult;
 
     private ObservableList<ICast> castObservableList;
     private ObservableList<IProduction> productionObservableList;
     private ObservableList<IBroadcast> broadcastObservableList;
+    private ObservableList<IMovie> movieObservableList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
+            search.setDisable(true);
     }
 
     @FXML
     public void handleSearch(ActionEvent event){
-
+        String searchText = searchField.getText();
+        if(searchTopicChosen.equals("cast")){
+            resultList.getItems().clear();
+            castSearchResult = App.getSystemInstance().searchCast(searchText);
+            if (castSearchResult != null && !searchField.getText().isEmpty()) {
+                castObservableList = FXCollections.observableArrayList(castSearchResult);
+                resultList.setItems(castObservableList);
+                searchField.clear();
+            } else {
+                errorMessage.setText("Fejl opstået, medvirkende ikke fundet");
+            }
+        }else if(searchTopicChosen.equals("production")){
+            resultList.getItems().clear();
+            productionSearchResult = App.getSystemInstance().searchProduction(searchText);
+            if(productionSearchResult != null && !searchField.getText().isEmpty()){
+                productionObservableList = FXCollections.observableArrayList(productionSearchResult);
+                resultList.setItems(productionObservableList);
+                searchField.clear();
+            }else {
+                errorMessage.setText("Fejl opstået, produktion ikke fundet");
+            }
+        }else if(searchTopicChosen.equals("broadcast")){
+            resultList.getItems().clear();
+            broadcastSearchResult = App.getSystemInstance().searchBroadcast(searchText);
+            if(broadcastSearchResult != null && !searchField.getText().isEmpty()){
+                broadcastObservableList = FXCollections.observableArrayList(broadcastSearchResult);
+                resultList.setItems(productionObservableList);
+                searchField.clear();
+            }else{
+                errorMessage.setText("Fejl opstået, udsendelse ikke fundet");
+            }
+        }else if(searchTopicChosen.equals("movie")){
+            resultList.getItems().clear();
+            movieSearchResult = App.getSystemInstance().searchMovie(searchText);
+            if(movieSearchResult != null && !searchField.getText().isEmpty()){
+                movieObservableList = FXCollections.observableArrayList(movieSearchResult);
+                resultList.setItems(movieObservableList);
+                searchField.clear();
+            }else{
+                errorMessage.setText("Fejl opstået, udsendelse ikke fundet");
+            }
+        }else{
+            errorMessage.setText("Intet søgeemne valgt");
+        }
+        changeFieldsVisible(searchTopicChosen);
     }
 
     @FXML
@@ -130,10 +178,7 @@ public class GuestUserPageController implements Initializable {
             public void handle(ActionEvent event) {
                 searchTopic.setText("Medvirkende");
                 searchTopicChosen = "cast";
-                setCastFieldsVisible();
-                setBroadcastFieldsInvisible();
-                setMovieFieldsInvisible();
-                setProductionFieldsInvisible();
+                search.setDisable(false);
             }
         });
         production.setOnAction(new EventHandler<ActionEvent>() {
@@ -141,10 +186,7 @@ public class GuestUserPageController implements Initializable {
             public void handle(ActionEvent event) {
                 searchTopic.setText("Produktion");
                 searchTopicChosen = "production";
-                setCastFieldsInvisible();
-                setBroadcastFieldsInvisible();
-                setMovieFieldsInvisible();
-                setProductionFieldsVisible();
+                search.setDisable(false);
             }
         });
         broadcast.setOnAction(new EventHandler<ActionEvent>() {
@@ -152,10 +194,8 @@ public class GuestUserPageController implements Initializable {
             public void handle(ActionEvent event) {
                 searchTopic.setText("Udsendelse");
                 searchTopicChosen = "broadcast";
-                setCastFieldsInvisible();
-                setBroadcastFieldsVisible();
-                setMovieFieldsInvisible();
-                setProductionFieldsInvisible();
+
+                search.setDisable(false);
             }
         });
         movie.setOnAction(new EventHandler<ActionEvent>() {
@@ -163,10 +203,7 @@ public class GuestUserPageController implements Initializable {
             public void handle(ActionEvent event) {
                 searchTopic.setText("Film");
                 searchTopicChosen = "movie";
-                setCastFieldsInvisible();
-                setBroadcastFieldsInvisible();
-                setMovieFieldsVisible();
-                setProductionFieldsInvisible();
+                search.setDisable(false);
             }
         });
     }
@@ -182,88 +219,71 @@ public class GuestUserPageController implements Initializable {
     @FXML
     public void handleBack(MouseEvent event){App.handleLoginSystemPage();}
 
-    private void setCastFieldsVisible(){
-        castName.setVisible(true);
-        castNameField.setVisible(true);
-        castRoleList.setVisible(true);
+
+    private void changeFieldsVisible(String searchTopicChosen) {
+        this.searchTopicChosen = searchTopicChosen;
+        if (searchTopicChosen.equals("cast")) {
+            changeCastFields(true);
+            changeBroadcastFields(false);
+            changeMovieFields(false);
+            changeProductionFields(false);
+        }else if(searchTopicChosen.equals("production")){
+            changeCastFields(false);
+            changeBroadcastFields(false);
+            changeMovieFields(false);
+            changeProductionFields(true);
+        }else if(searchTopicChosen.equals("broadcast")){
+            changeCastFields(false);
+            changeBroadcastFields(true);
+            changeMovieFields(false);
+            changeProductionFields(false);
+        }else if(searchTopicChosen.equals("movie")){
+            changeCastFields(false);
+            changeBroadcastFields(false);
+            changeMovieFields(true);
+            changeProductionFields(false);
+        }
     }
 
-    private void setCastFieldsInvisible(){
-        castName.setVisible(false);
-        castNameField.setVisible(false);
-        castRoleList.setVisible(false);
-    }
+    private void changeCastFields(boolean value){
+            castName.setVisible(value);
+            castNameField.setVisible(value);
+            castRoleList.setVisible(value);
+        }
+        private void changeProductionFields(boolean value){
+            productionName.setVisible(value);
+            productionNameField.setVisible(value);
+            productionProducer.setVisible(value);
+            productionProducerField.setVisible(value);
+            releaseYearProduction.setVisible(value);
+            productionReleaseYearField.setVisible(value);
+            amountOfSeasons.setVisible(value);
+            productionSeasonsField.setVisible(value);
+            amountOfEpisodes.setVisible(value);
+            productionEpisodesField.setVisible(value);
+        }
 
-    private void setBroadcastFieldsVisible(){
-        broadcastName.setVisible(true);
-        broadcastNameField.setVisible(true);
-        broadcastProducerName.setVisible(true);
-        broadcastProducerNameField.setVisible(true);
-        dateHeadline.setVisible(true);
-        broadcastDay.setVisible(true);
-        broadcastDayField.setVisible(true);
-        broadcastMonth.setVisible(true);
-        broadcastMonthField.setVisible(true);
-        broadcastYear.setVisible(true);
-        broadcastYearField.setVisible(true);
-    }
+        private void changeBroadcastFields(boolean value){
+            broadcastName.setVisible(value);
+            broadcastNameField.setVisible(value);
+            broadcastProducerName.setVisible(value);
+            broadcastProducerNameField.setVisible(value);
+            dateHeadline.setVisible(value);
+            broadcastDay.setVisible(value);
+            broadcastDayField.setVisible(value);
+            broadcastMonth.setVisible(value);
+            broadcastMonthField.setVisible(value);
+            broadcastYear.setVisible(value);
+            broadcastYearField.setVisible(value);
+        }
 
-    private void setBroadcastFieldsInvisible(){
-        broadcastName.setVisible(false);
-        broadcastNameField.setVisible(false);
-        broadcastProducerName.setVisible(false);
-        broadcastProducerNameField.setVisible(false);
-        dateHeadline.setVisible(false);
-        broadcastDay.setVisible(false);
-        broadcastDayField.setVisible(false);
-        broadcastMonth.setVisible(false);
-        broadcastMonthField.setVisible(false);
-        broadcastYear.setVisible(false);
-        broadcastYearField.setVisible(false);
-    }
-
-    private void setProductionFieldsVisible(){
-        productionName.setVisible(true);
-        productionNameField.setVisible(true);
-        productionProducer.setVisible(true);
-        productionProducerField.setVisible(true);
-        amountOfEpisodes.setVisible(true);
-        productionEpisodesField.setVisible(true);
-        amountOfSeasons.setVisible(true);
-        productionSeasonsField.setVisible(true);
-        releaseYearProduction.setVisible(true);
-        productionReleaseYearField.setVisible(true);
-    }
-
-    private void setProductionFieldsInvisible(){
-        productionName.setVisible(false);
-        productionNameField.setVisible(false);
-        productionProducer.setVisible(false);
-        productionProducerField.setVisible(false);
-        amountOfEpisodes.setVisible(false);
-        productionEpisodesField.setVisible(false);
-        amountOfSeasons.setVisible(false);
-        productionSeasonsField.setVisible(false);
-        releaseYearProduction.setVisible(false);
-        productionReleaseYearField.setVisible(false);
-    }
-
-    private void setMovieFieldsVisible(){
-        movieName.setVisible(true);
-        movieNameField.setVisible(true);
-        movieProducerName.setVisible(true);
-        movieProductionCompanyField.setVisible(true);
-        releaseYearMovie.setVisible(true);
-        movieReleaseYearField.setVisible(true);
-    }
-
-    private void setMovieFieldsInvisible(){
-        movieName.setVisible(false);
-        movieNameField.setVisible(false);
-        movieProducerName.setVisible(false);
-        movieProductionCompanyField.setVisible(false);
-        releaseYearMovie.setVisible(false);
-        movieReleaseYearField.setVisible(false);
-    }
+        private void changeMovieFields(boolean value){
+            movieName.setVisible(value);
+            movieNameField.setVisible(value);
+            movieProducerName.setVisible(value);
+            movieProductionCompanyField.setVisible(value);
+            releaseYearMovie.setVisible(value);
+            movieReleaseYearField.setVisible(value);
+        }
 
 }
