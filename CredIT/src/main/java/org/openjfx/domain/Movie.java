@@ -24,6 +24,7 @@ public class Movie implements IMovie {
         this.title = title;
         this.productionCompany = productionCompany;
         this.releaseDate = releaseDate.split("-");
+        this.castRoleMap = CredITSystem.instance.getCastRoles(this.id);
     }
 
     @Override

@@ -55,7 +55,7 @@ public interface IPersistence {
      */
 
     public boolean removeBroadcastFromDatabase(int id);
-    
+
     public boolean removeProductionFromDatabase(int id);
 
     public boolean removeCastFromDatabase(int id);
@@ -86,12 +86,13 @@ public interface IPersistence {
     public List<String> getBroadcastFromDatabase(String keyword);
 
     /**
-     * Finds the broadcasts that matches the keyword and returns them in a list
+     * Finds broadcast that have the id as their production company, return a list of those broadcasts.
      *
      * @param productionId The keyword that the broadcasts are selected on
      * @return The list of broadcasts that matched the keyword
      */
     public List<String> getBroadcastFromDatabase(int productionId);
+
 
     public List<String> getMovieFromDatabase(String keyword);
 
@@ -111,6 +112,12 @@ public interface IPersistence {
      */
     public List<String> getCastFromDatabase(int id);
 
+    /**
+     * Search for the id of movie or broadcast, returns a list of castID and a string with their role in this format CastID, role
+     * @param id
+     * @return
+     */
+    public List<String> getCastRolesFromDatabase(int id);
 
     /**
      * Finds the production that matches the keyword and returns them in a list
@@ -128,6 +135,13 @@ public interface IPersistence {
      * @return The list of production that matched the keyword
      */
     public List<String> getProductionFromDatabase(int id);
+
+    /**
+     * Gets an id for broadcast and movies and returns the name of the production name
+     * @param id
+     * @return
+     */
+    public String getProductionName(int id);
 
     /**
      * Merges the two casts in the persistence layer, going through and finding all the references and making sure that the merge is completed correctly

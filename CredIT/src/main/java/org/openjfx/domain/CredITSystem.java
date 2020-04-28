@@ -46,6 +46,17 @@ public class CredITSystem implements ISystem {
         return makeCastObjects(persistenceLayer.getCastFromDatabase(keyword));
     }
 
+    public HashMap<ICast, String> getCastRoles(int id){
+        List<String> list = persistenceLayer.getCastRolesFromDatabase(id);
+        HashMap<ICast, String> castMap = new HashMap<>();
+        for(String item : list ){
+            String[] temp = item.split(",");
+            ICast castObj = searchCast(temp[0]).get(1);
+            castMap.put(castObj, temp[1]);
+        };
+        return castMap;
+    };
+
     @Override
     public ArrayList<ICast> searchCast(int broadcastId) {
         return makeCastObjects(persistenceLayer.getCastFromDatabase(broadcastId));
@@ -78,8 +89,8 @@ public class CredITSystem implements ISystem {
     }
 
     @Override
-    public ArrayList<IBroadcast> searchBroadcast(int broadcastID) {
-        return makeBroadcastObjects(persistenceLayer.getBroadcastFromDatabase((broadcastID)));
+    public ArrayList<IBroadcast> searchBroadcast(int productionID) {
+        return makeBroadcastObjects(persistenceLayer.getBroadcastFromDatabase((productionID)));
     }
 
     //endregion

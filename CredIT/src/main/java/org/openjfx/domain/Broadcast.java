@@ -12,7 +12,7 @@ public class Broadcast implements IBroadcast {
     private final IPersistence persistence = CredITSystem.getPersistence();
     private int id;
     private String name;
-    private HashMap<ICast, String> castMap;
+    private HashMap<ICast, String> castRoleMap;
     private String produtionName;
     private int seasonNumber;
     private int episodeNumber;
@@ -25,6 +25,7 @@ public class Broadcast implements IBroadcast {
         this.episodeNumber = episodeNumber;
         this.airDate = airDate.split("-");
         this.produtionName = productionName;
+        this.castRoleMap = CredITSystem.instance.getCastRoles(this.id);
     }
 
     public Broadcast(String name, int seasonNumber, int episodeNumber, String airDate) {
@@ -33,10 +34,6 @@ public class Broadcast implements IBroadcast {
         this.episodeNumber = episodeNumber;
         this.airDate = airDate.split("-");
     }
-
-//    private void loadCast(){
-//
-//    }
 
     @Override
     public boolean save() {
