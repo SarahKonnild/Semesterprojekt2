@@ -30,13 +30,14 @@ public interface IPersistence {
      */
     public int createNewBroadcastInDatabase(IBroadcast broadcast) throws IOException;
 
+    public int createNewMovieInDatabase(IMovie movie) throws IOException;
+
     /**
      * Deletes a broadcast from the persistence/layer(Database).
      *
      * @param id The ID on the broadcast you want to delete in the persistence layer.
      * @return returns the boolean value of the delete run.
      */
-    public boolean removeBroadcastFromDatabase(int id);
 
     /**
      * Saves a new production to the persistence layer.
@@ -52,7 +53,14 @@ public interface IPersistence {
      * @param id The ID on the production you want to delete in the persistence layer.
      * @return returns the boolean value of the delete run.
      */
+
+    public boolean removeBroadcastFromDatabase(int id);
+    
     public boolean removeProductionFromDatabase(int id);
+
+    public boolean removeCastFromDatabase(int id);
+
+    public boolean removeMovieFromDatabase(int id);
 
     /**
      * Saves a new cast to the persistence layer.
@@ -68,7 +76,6 @@ public interface IPersistence {
      * @param id The ID on the cast you want to delete in the persistence layer.
      * @return returns the boolean value of the delete run.
      */
-    public boolean removeCastFromDatabase(int id);
 
     /**
      * Finds the broadcasts that matches the keyword and returns them in a list
@@ -81,10 +88,12 @@ public interface IPersistence {
     /**
      * Finds the broadcasts that matches the keyword and returns them in a list
      *
-     * @param id The keyword that the broadcasts are selected on
+     * @param productionId The keyword that the broadcasts are selected on
      * @return The list of broadcasts that matched the keyword
      */
-    public List<String> getBroadcastFromDatabase(int id);
+    public List<String> getBroadcastFromDatabase(int productionId);
+
+    public List<String> getMovieFromDatabase(String keyword);
 
     /**
      * Finds the casts that matches the keyword and returns them in a list
@@ -137,7 +146,13 @@ public interface IPersistence {
      * @param regDKID The new regDKID of the cast member
      * @return
      */
-    public boolean updateCastInDatabase(int id, String name, String regDKID);
+    public boolean updateCastInDatabase(ICast cast);
+
+    public boolean updateMovieInDatabase(IMovie movie);
+
+    public boolean updateBroadcastInDatabase(IBroadcast broadcast);
+
+    public boolean updateProduction(IProduction production);
 
 
 }

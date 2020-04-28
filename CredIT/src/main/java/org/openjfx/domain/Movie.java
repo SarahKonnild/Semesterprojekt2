@@ -3,6 +3,7 @@ package org.openjfx.domain;
 import org.openjfx.interfaces.ICast;
 import org.openjfx.interfaces.IMovie;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 public class Movie implements IMovie {
@@ -27,7 +28,19 @@ public class Movie implements IMovie {
 
     @Override
     public boolean save() {
-        return false;
+        int idNumber = -1;
+        try {
+            idNumber = CredITSystem.instance.getPersistenceLayer().createNewMovieInDatabase(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (idNumber != -1) {
+                this.id = idNumber;
+                return true;
+            } else
+                return false;
+        }
+
     }
 
     @Override
@@ -74,7 +87,7 @@ public class Movie implements IMovie {
     public String[] getReleaseDate() {
         return this.releaseDate;
     }
-    
+
     @Override
     public void setReleaseDate(String[] airDate) {
 
