@@ -21,7 +21,7 @@ public interface IMovie {
 
     public HashMap<ICast, String> getCastMap();
 
-    public String getProductionCompany();
+    public IProductionCompany getProductionCompany();
 
     public String[] getReleaseDate();
 

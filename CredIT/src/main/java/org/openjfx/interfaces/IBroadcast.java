@@ -70,7 +70,7 @@ public interface IBroadcast {
      */
     public int getEpisodeNumber();
 
-    public String getProductionName();
+    public IProduction getProduction();
 
     /**
      * Returns the air date of this broadcast.

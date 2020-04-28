@@ -46,8 +46,15 @@ public class CredITSystem implements ISystem {
         return makeCastObjects(persistenceLayer.getCastFromDatabase(keyword));
     }
 
-    public HashMap<ICast, String> getCastRoles(int id){
-        List<String> list = persistenceLayer.getCastRolesFromDatabase(id);
+    public HashMap<ICast, String> getCastRolesMovies(int id){
+        return getCastRoles(persistenceLayer.getCastRolesMoviesFromDatabase(id));
+    }
+
+    public HashMap<ICast, String> getCastRolesBroadcast(int id){
+        return getCastRoles(persistenceLayer.getCastRolesBroadcastFromDatabase(id));
+    }
+
+    private HashMap<ICast, String> getCastRoles(List<String> list){
         HashMap<ICast, String> castMap = new HashMap<>();
         for(String item : list ){
             String[] temp = item.split(",");
@@ -118,7 +125,13 @@ public class CredITSystem implements ISystem {
                     String[] key = items[2].split("_");
                 }
                 //Need to update this to take the hashmap instead
-                broadcasts.add(new Broadcast(Integer.parseInt(items[0]), items[1], Integer.parseInt(items[3]), Integer.parseInt(items[4]), items[5], items[6]));
+                broadcasts.add(new Broadcast(
+                        Integer.parseInt(items[0]),
+                        items[1],
+                        Integer.parseInt(items[3]),
+                        Integer.parseInt(items[4]),
+                        items[5],
+                        Integer.parseInt(items[6])));
             }
             return broadcasts;
         }
@@ -130,21 +143,22 @@ public class CredITSystem implements ISystem {
     //endregion
 
     //region production search methods here
-    @Override
-    public ArrayList<IProduction> searchProduction(String keyword) {
-        ArrayList<IProduction> productions = new ArrayList<>();
-        ArrayList<IBroadcast> broadcastObjects = new ArrayList<>();
 
-        List<String> list = persistenceLayer.getProductionFromDatabase(keyword);
+    public IProduction searchProduction(int id){
+        List<String> list = persistenceLayer.getProductionFromDatabase(id);
+        IProduction production = searchProduction(list).get(1);
+        return production;
+    };
+    @Override
+    public ArrayList<IProduction> searchProduction(String keyword){
+        return searchProduction(persistenceLayer.getProductionFromDatabase(keyword));
+    };
+
+    private ArrayList<IProduction> searchProduction(List<String> list) {
+        ArrayList<IProduction> productions = new ArrayList<>();
         if (list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
                 String[] items = list.get(i).split(",");
-                if (items[2].length() > 0) {
-                    String[] broadcastIds = items[2].split(";");
-                    for (int j = 0; j < broadcastIds.length; j++) {
-                        broadcastObjects = searchBroadcast(Integer.parseInt(broadcastIds[j]));
-                    }
-                }
                 productions.add(new Production(Integer.parseInt(items[0]), items[1], items[3], items[4]));
             }
             return productions;

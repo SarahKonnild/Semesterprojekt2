@@ -46,7 +46,7 @@ public class Cast implements ICast {
     public boolean update(String name, String regDKID) {
         this.name = name;
         this.regDKID = regDKID;
-        persistence.updateCastInDatabase(this.id, name, regDKID);
+        persistence.updateCastInDatabase(this);
         return true;
     }
 

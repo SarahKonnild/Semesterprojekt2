@@ -2,29 +2,30 @@ package org.openjfx.domain;
 
 import org.openjfx.interfaces.ICast;
 import org.openjfx.interfaces.IMovie;
+import org.openjfx.interfaces.IProduction;
+import org.openjfx.interfaces.IProductionCompany;
 
 import java.io.IOException;
 import java.util.HashMap;
 
 public class Movie implements IMovie {
     private String title;
-    private String productionCompany;
     private String[] releaseDate;
     private int id;
     private HashMap<ICast, String> castRoleMap;
+    private IProductionCompany productionCompany;
 
     public Movie(String title, String productionCompany, String releaseDate){
         this.title = title;
-        this.productionCompany = productionCompany;
         this.releaseDate = releaseDate.split("-");
     }
 
-    public Movie(int id, String title, String productionCompany, String releaseDate){
+    public Movie(int id, String title, String releaseDate, int productionCompanyID){
         this.id = id;
         this.title = title;
-        this.productionCompany = productionCompany;
         this.releaseDate = releaseDate.split("-");
-        this.castRoleMap = CredITSystem.instance.getCastRoles(this.id);
+        this.castRoleMap = CredITSystem.instance.getCastRolesMovies(this.id);
+        //this.productionCompany = CredITSystem.instance.searchProductionCompany(productionCompanyID);
     }
 
     @Override
@@ -80,7 +81,7 @@ public class Movie implements IMovie {
     }
 
     @Override
-    public String getProductionCompany() {
+    public IProductionCompany getProductionCompany() {
         return this.productionCompany;
     }
 

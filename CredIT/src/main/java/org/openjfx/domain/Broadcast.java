@@ -3,6 +3,7 @@ package org.openjfx.domain;
 import org.openjfx.interfaces.IBroadcast;
 import org.openjfx.interfaces.ICast;
 import org.openjfx.interfaces.IPersistence;
+import org.openjfx.interfaces.IProduction;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,19 +14,19 @@ public class Broadcast implements IBroadcast {
     private int id;
     private String name;
     private HashMap<ICast, String> castRoleMap;
-    private String produtionName;
     private int seasonNumber;
     private int episodeNumber;
     private String[] airDate;
+    private IProduction production;
 
-    public Broadcast(int id, String name, int seasonNumber, int episodeNumber, String airDate, String productionName) {
+    public Broadcast(int id, String name, int seasonNumber, int episodeNumber, String airDate,int productionCompanyID) {
         this.id = id;
         this.name = name;
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.airDate = airDate.split("-");
-        this.produtionName = productionName;
-        this.castRoleMap = CredITSystem.instance.getCastRoles(this.id);
+        this.castRoleMap = CredITSystem.instance.getCastRolesBroadcast(this.id);
+        this.production = CredITSystem.instance.searchProduction(productionCompanyID);
     }
 
     public Broadcast(String name, int seasonNumber, int episodeNumber, String airDate) {
@@ -79,7 +80,7 @@ public class Broadcast implements IBroadcast {
     @Override
     public String toString() {
         return
-                this.name + ": " + this.airDate[0] + "-" + this.airDate[1] + "-" + this.airDate[2] + " : " + this.produtionName;
+                this.name + ": " + this.airDate[0] + "-" + this.airDate[1] + "-" + this.airDate[2] + " : " + this.production.getName();
     }
 
     public int getId() {
@@ -91,7 +92,7 @@ public class Broadcast implements IBroadcast {
     }
 
     public HashMap<ICast, String> getCastMap() {
-        return castMap;
+        return castRoleMap;
     }
 
     public int getSeasonNumber() {
@@ -107,8 +108,8 @@ public class Broadcast implements IBroadcast {
     }
 
     @Override
-    public String getProductionName() {
-        return this.produtionName;
+    public IProduction getProduction() {
+        return this.production;
     }
 
     public String[] getAirDate() {

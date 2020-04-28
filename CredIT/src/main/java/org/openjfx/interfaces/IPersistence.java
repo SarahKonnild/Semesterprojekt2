@@ -91,10 +91,27 @@ public interface IPersistence {
      * @param productionId The keyword that the broadcasts are selected on
      * @return The list of broadcasts that matched the keyword
      */
-    public List<String> getBroadcastFromDatabase(int productionId);
+    public List<String> getBroadcastsFromDatabase(int productionId);
 
+    public List<String> getBroadcastFromDatabase(int broadcastID);
 
     public List<String> getMovieFromDatabase(String keyword);
+
+    public List<String> getMovieFromDatabase(int movieID);
+
+    public List<String> getMoviesFromDatabase(int productionCompanyID);
+
+    /**
+     * Finds the production that matches the keyword and returns them in a list
+     *
+     * @param keyword The keyword that the production are selected on
+     * @return The list of production that matched the keyword
+     */
+    public List<String> getProductionFromDatabase(String keyword);
+
+    public List<String> getProductionsFromDatabase(int productionCompanyID);
+
+    public List<String> getProductionFromDatabase(int productionId);
 
     /**
      * Finds the casts that matches the keyword and returns them in a list
@@ -107,26 +124,21 @@ public interface IPersistence {
     /**
      * Finds the casts that matches the keyword and returns them in a list
      *
-     * @param id The keyword that the casts are selected on
+     * @param castID The keyword that the casts are selected on
      * @return The list of casts that matched the keyword
      */
-    public List<String> getCastFromDatabase(int id);
+    public List<String> getCastFromDatabase(int castID);
+
+    public List<String> getProductionCompany(int id);
 
     /**
      * Search for the id of movie or broadcast, returns a list of castID and a string with their role in this format CastID, role
      * @param id
      * @return
      */
-    public List<String> getCastRolesFromDatabase(int id);
+    public List<String> getCastRolesMoviesFromDatabase(int id);
 
-    /**
-     * Finds the production that matches the keyword and returns them in a list
-     *
-     * @param keyword The keyword that the production are selected on
-     * @return The list of production that matched the keyword
-     */
-    public List<String> getProductionFromDatabase(String keyword);
-
+    public List<String> getCastRolesBroadcastFromDatabase(int id);
 
     /**
      * Finds the production that matches the keyword and returns them in a list
@@ -134,7 +146,6 @@ public interface IPersistence {
      * @param id The keyword that the production are selected on
      * @return The list of production that matched the keyword
      */
-    public List<String> getProductionFromDatabase(int id);
 
     /**
      * Gets an id for broadcast and movies and returns the name of the production name
