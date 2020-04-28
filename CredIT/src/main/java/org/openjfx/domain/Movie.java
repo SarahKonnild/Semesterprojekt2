@@ -35,14 +35,12 @@ public class Movie implements IMovie {
             idNumber = CredITSystem.instance.getPersistenceLayer().createNewMovieInDatabase(this);
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (idNumber != -1) {
-                this.id = idNumber;
-                return true;
-            } else
-                return false;
         }
-
+        if (idNumber != -1) {
+            this.id = idNumber;
+            return true;
+        } else
+            return false;
     }
 
     @Override

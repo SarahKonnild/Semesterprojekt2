@@ -54,16 +54,15 @@ public class Cast implements ICast {
     public boolean save() {
         int idNumber = -1;
         try {
-            idNumber = CredITSystem.getPersistence().createNewCastInDatabase(this);
+            idNumber = CredITSystem.instance.getPersistenceLayer().createNewCastInDatabase(this);
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (idNumber != -1) {
-                this.id = idNumber;
-                return true;
-            } else
-                return false;
         }
+        if (idNumber != -1) {
+            this.id = idNumber;
+            return true;
+        } else
+            return false;
     }
 
     @Override

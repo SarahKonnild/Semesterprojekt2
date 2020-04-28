@@ -23,7 +23,6 @@ public class Broadcast implements IBroadcast {
         this.episodeNumber = episodeNumber;
         this.airDate = airDate.split("-");
         this.castRoleMap = CredITSystem.instance.getCastRolesBroadcast(this.id);
-        this.productionCompany = productionCompany;
         this.production = CredITSystem.instance.searchProduction(productionCompanyID);
     }
 
@@ -32,7 +31,6 @@ public class Broadcast implements IBroadcast {
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.airDate = airDate.split("-");
-        this.productionCompany = productionCompany;
     }
 
     @Override

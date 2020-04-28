@@ -4,17 +4,24 @@ import org.openjfx.interfaces.IMovie;
 import org.openjfx.interfaces.IProduction;
 import org.openjfx.interfaces.IProductionCompany;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ProductionCompany implements IProductionCompany {
 
+    private int id;
     private String name;
     private ArrayList<IProduction> productionList;
     private ArrayList<IMovie> movieList;
 
-    ProductionCompany(String name){}
+    ProductionCompany(String name){
+        this.name = name;
+    }
 
-    ProductionCompany(int id, String name){}
+    ProductionCompany(int id, String name){
+        this.id = id;
+        this.name = name;
+    }
 
     @Override
     public String toString() {
@@ -23,7 +30,17 @@ public class ProductionCompany implements IProductionCompany {
 
     @Override
     public boolean save() {
-        return false;
+        int idNumber = -1;
+        try {
+            idNumber = CredITSystem.instance.getPersistenceLayer().createNewProductionCompanyInDatabase(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (idNumber != -1) {
+            this.id = idNumber;
+            return true;
+        } else
+            return false;
     }
 
     @Override

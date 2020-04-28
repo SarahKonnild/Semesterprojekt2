@@ -47,6 +47,7 @@ public interface IPersistence {
      */
     public int createNewProductionInDatabase(IProduction production) throws IOException;
 
+    public int createNewProductionCompanyInDatabase(IProductionCompany production) throws IOException;
     /**
      * Deletes a production from the persistence/layer(Database).
      *
