@@ -12,7 +12,7 @@ public interface IProduction {
 
     public boolean delete();
 
-    public boolean update(String name, String year, String productionCompany);
+    public boolean update(String name, String year, IProductionCompany productionCompany);
 
     public int getId();
 
@@ -22,7 +22,7 @@ public interface IProduction {
 
     public ArrayList<IBroadcast> getBroadcasts();
 
-    public String getProductionCompany();
+    public IProductionCompany getProductionCompany();
 
     public int getNumberOfSeasons();
 

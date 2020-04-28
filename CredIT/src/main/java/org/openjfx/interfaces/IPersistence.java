@@ -131,6 +131,8 @@ public interface IPersistence {
 
     public List<String> getProductionCompany(int id);
 
+    public List<String> getProductionCompany(String keyword);
+
     /**
      * Search for the id of movie or broadcast, returns a list of castID and a string with their role in this format CastID, role
      * @param id

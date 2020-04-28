@@ -2,6 +2,7 @@ package org.openjfx.domain;
 
 import org.openjfx.interfaces.IBroadcast;
 import org.openjfx.interfaces.IProduction;
+import org.openjfx.interfaces.IProductionCompany;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,17 +13,17 @@ public class Production implements IProduction {
     private String name;
     private String year;
     private ArrayList<IBroadcast> broadcasts;
-    private String productionCompany;
+    private IProductionCompany productionCompany;
     private int numberOfSeasons;
     private int numberOfEpisodes;
 
-    public Production(String name, String year, String productionCompany) {
+    public Production(String name, String year, IProductionCompany productionCompany) {
         this.name = name;
         this.year = year;
         this.productionCompany = productionCompany;
     }
 
-    public Production(int id, String name, String productionCompany, String year) {
+    public Production(int id, String name, IProductionCompany productionCompany, String year) {
         this.id = id;
         this.name = name;
         this.year = year;
@@ -41,18 +42,19 @@ public class Production implements IProduction {
 
     @Override
     public boolean save() {
-        int idNumber = -1;
-        try {
-            idNumber = CredITSystem.getPersistence().createNewProductionInDatabase(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (idNumber != -1) {
-                this.id = idNumber;
-                return true;
-            } else
-                return false;
-        }
+//        int idNumber = -1;
+//        try {
+//            idNumber = CredITSystem.getPersistence().createNewProductionInDatabase(this);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (idNumber != -1) {
+//                this.id = idNumber;
+//                return true;
+//            } else
+//                return false;
+//        }
+        return true;
     }
 
     @Override
@@ -62,7 +64,7 @@ public class Production implements IProduction {
     }
 
     @Override
-    public boolean update(String name, String year, String productionCompany) {
+    public boolean update(String name, String year, IProductionCompany productionCompany) {
         this.name = name;
         this.year = year;
         this.productionCompany = productionCompany;
@@ -97,7 +99,7 @@ public class Production implements IProduction {
     }
 
     @Override
-    public String getProductionCompany() {
+    public IProductionCompany getProductionCompany() {
         return this.productionCompany;
     }
 

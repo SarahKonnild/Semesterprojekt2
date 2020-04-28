@@ -26,7 +26,7 @@
             <TextField fx:id="searchField" layoutX="14.0" layoutY="25.0" prefHeight="27.0" prefWidth="205.0" promptText="Indtast søgetekst" style="-fx-background-color: FFFFFF;" />
             <Button fx:id="search" layoutX="248.0" layoutY="25.0" mnemonicParsing="false" onMouseClicked="#handleSearch" style="-fx-background-color: FFFFFF;" text="Søg" />
             <TextField fx:id="broadcastName" layoutX="12.0" layoutY="110.0" prefHeight="27.0" prefWidth="273.0" style="-fx-background-color: FFFFFF;" />
-            <TextField fx:id="productionCompany" layoutX="12.0" layoutY="173.0" prefHeight="27.0" prefWidth="273.0" style="-fx-background-color: FFFFFF;" />
+            <TextField fx:id="production" layoutX="12.0" layoutY="173.0" prefHeight="27.0" prefWidth="273.0" style="-fx-background-color: FFFFFF;" />
             <TextField fx:id="season" layoutX="9.0" layoutY="240.0" prefHeight="27.0" prefWidth="104.0" style="-fx-background-color: FFFFFF;" />
             <TextField fx:id="episode" layoutX="173.0" layoutY="240.0" prefHeight="27.0" prefWidth="110.0" style="-fx-background-color: FFFFFF;" />
             <TextField fx:id="day" layoutX="22.0" layoutY="328.0" prefHeight="27.0" prefWidth="59.0" promptText="DD" style="-fx-background-color: FFFFFF;" />
@@ -40,7 +40,7 @@
             <Label layoutX="131.0" layoutY="310.0" text="Måned" textFill="WHITE" />
             <Label layoutX="242.0" layoutY="312.0" text="År" textFill="WHITE" />
             <Label layoutX="11.0" layoutY="93.0" text="Udsendelsens Navn" textFill="WHITE" />
-            <Label layoutX="11.0" layoutY="156.0" text="Udsendelsens Produktionsfirma" textFill="WHITE" />
+            <Label layoutX="11.0" layoutY="156.0" text="Udsendelsens Produktion" textFill="WHITE" />
             <Label layoutX="11.0" layoutY="223.0" text="Sæson" textFill="WHITE" />
             <Label layoutX="172.0" layoutY="223.0" text="Episode" textFill="WHITE" />
             <Button fx:id="modifyCast" layoutX="40.0" layoutY="376.0" mnemonicParsing="false" onMouseClicked="#handleChangeCast" prefHeight="27.0" prefWidth="222.0" style="-fx-background-color: FFFFFF;" text="Ændr Medvirkende på Udsendelsen" />

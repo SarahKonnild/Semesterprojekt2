@@ -12,10 +12,12 @@ import javafx.stage.Stage;
 import org.openjfx.interfaces.IBroadcast;
 import org.openjfx.interfaces.ICast;
 import org.openjfx.interfaces.IProduction;
+import org.openjfx.interfaces.IProductionCompany;
 
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ModifyBroadcastController implements Initializable {
@@ -51,7 +53,7 @@ public class ModifyBroadcastController implements Initializable {
     @FXML
     private TextField broadcastName;
     @FXML
-    private TextField productionCompany;
+    private TextField production;
     @FXML
     private TextField season;
     @FXML
@@ -113,7 +115,7 @@ public class ModifyBroadcastController implements Initializable {
     public void handleSearchResultChosen(MouseEvent event){
         chosenBroadcast = (IBroadcast) resultList.getSelectionModel().getSelectedItem();
         broadcastName.setText(chosenBroadcast.getName());
-        productionCompany.setText(chosenBroadcast.getProductionName());
+        productionCompany.setText(chosenBroadcast.getProduction().getProductionCompany().getName());
         String[] airDate = chosenBroadcast.getAirDate();
         day.setText(airDate[0]);
         month.setText(airDate[1]);
@@ -131,25 +133,30 @@ public class ModifyBroadcastController implements Initializable {
      */
     @FXML
     public void handleCreateBroadcast(MouseEvent event){
-        String dateVariable = day.getText() + "-" + month.getText() + "-" + year.getText();
-        if (day.getText().length() != 2 && month.getText().length() != 2 && year.getText().length() != 4) {
-            errorMessage.setText("Fejl opstået, ugyldig datoindtastning");
-        } else {
-            IBroadcast broadcast = LoginController.getAdminUser().addNewBroadcastToDatabase(broadcastName.getText(), Integer.parseInt(season.getText()),
-                    Integer.parseInt(episode.getText()), dateVariable);
-            clearFields();
-            if (broadcast != null) {
-                errorMessage.setText("Udsendelsen tilføjet");
-                if(!searchList.isEmpty()) {
-                    searchList = new ArrayList<>();
-                    searchList.add(broadcast);
-                    resultList.setItems(FXCollections.observableArrayList(searchList));
-                }
+        boolean status = false;
+        String productionSearch = production.getText();
+        ArrayList<IProduction> results = App.getSystemInstance().searchProduction(productionSearch);
+        if(results.get(0).equals(productionSearch)){
+            String dateVariable = day.getText() + "-" + month.getText() + "-" + year.getText();
+            if (day.getText().length() != 2 && month.getText().length() != 2 && year.getText().length() != 4) {
+                errorMessage.setText("Fejl opstået, ugyldig datoindtastning");
             } else {
-                errorMessage.setText("Fejl opstået, udsendelsen blev ikke tilføjet");
+                IBroadcast broadcast = LoginController.getAdminUser().addNewBroadcastToDatabase(broadcastName.getText(), Integer.parseInt(season.getText()),
+                        Integer.parseInt(episode.getText()), dateVariable, results.get(0));
+                clearFields();
+                if (broadcast != null) {
+                    errorMessage.setText("Udsendelsen tilføjet");
+                    if(!searchList.isEmpty()) {
+                        searchList = new ArrayList<>();
+                        searchList.add(broadcast);
+                        resultList.setItems(FXCollections.observableArrayList(searchList));
+                    }
+                } else {
+                    errorMessage.setText("Fejl opstået, udsendelsen blev ikke tilføjet");
+                }
             }
+            resultList.refresh();
         }
-        resultList.refresh();
     }
     //endregion
 
