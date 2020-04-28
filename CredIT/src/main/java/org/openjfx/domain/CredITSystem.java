@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CredITSystem implements ISystem {
-    private User user;
-    private static Persistence persistenceLayer;
     static CredITSystem instance = null;
+    private static Persistence persistenceLayer;
+    private User user;
 
     /**
      * To use for creating an instance of the System class that can then be used mainly in Presentation.
@@ -19,6 +19,7 @@ public class CredITSystem implements ISystem {
         this.persistenceLayer = Persistence.getInstance();
         this.instance = this;
     }
+
     //FIXME I do not think we need this constructor.
     public CredITSystem(User user) {
         this.user = user;
@@ -35,6 +36,9 @@ public class CredITSystem implements ISystem {
 
     //region search methods goes here
 
+    public static IPersistence getPersistence() {
+        return persistenceLayer;
+    }
 
     //region cast database seach metods here
     @Override
@@ -42,10 +46,30 @@ public class CredITSystem implements ISystem {
         return makeCastObjects(persistenceLayer.getCastFromDatabase(keyword));
     }
 
+    public HashMap<ICast, String> getCastRolesMovies(int id){
+        return getCastRoles(persistenceLayer.getCastRolesMoviesFromDatabase(id));
+    }
+
+    public HashMap<ICast, String> getCastRolesBroadcast(int id){
+        return getCastRoles(persistenceLayer.getCastRolesBroadcastFromDatabase(id));
+    }
+
+    private HashMap<ICast, String> getCastRoles(List<String> list){
+        HashMap<ICast, String> castMap = new HashMap<>();
+        for(String item : list ){
+            String[] temp = item.split(",");
+            ICast castObj = searchCast(temp[0]).get(1);
+            castMap.put(castObj, temp[1]);
+        };
+        return castMap;
+    };
+
     @Override
     public ArrayList<ICast> searchCast(int broadcastId) {
         return makeCastObjects(persistenceLayer.getCastFromDatabase(broadcastId));
     }
+
+    //endregion
 
     /**
      * This method takes the list returned from the search in the database and creates cast objects from that list.
@@ -58,14 +82,12 @@ public class CredITSystem implements ISystem {
             ArrayList<ICast> casts = new ArrayList();
             for (int i = 0; i < cast.size(); i++) {
                 String[] items = cast.get(i).split(",");
-                casts.add(new Cast((Integer.parseInt(items[0])), items[1], (Integer.parseInt(items[2]))));
+                casts.add(new Cast((Integer.parseInt(items[0])), items[1], ((items[2]))));
             }
             return casts;
         }
         return null;
     }
-
-    //endregion
 
     //region broadcast database search methods here
     @Override
@@ -74,9 +96,11 @@ public class CredITSystem implements ISystem {
     }
 
     @Override
-    public ArrayList<IBroadcast> searchBroadcast(int broadcastID) {
-        return makeBroadcastObjects(persistenceLayer.getBroadcastFromDatabase((broadcastID)));
+    public ArrayList<IBroadcast> searchBroadcast(int productionID) {
+        return makeBroadcastObjects(persistenceLayer.getBroadcastFromDatabase((productionID)));
     }
+
+    //endregion
 
     /**
      * This method takes the list returned from the search in the database and creates broadcast objects from that list.
@@ -99,22 +123,15 @@ public class CredITSystem implements ISystem {
                     //Takes the 3rd element in the string array and splits it to its different key. 3rd element represent the hashmap over roles and cast members
                     //The string Items looks like this = key;value:value:value_key;value:value:value_key;value:value:value_
                     String[] key = items[2].split("_");
-                    for (int j = 0; j < key.length; j++) {
-                        //Splits each string of keys out to the values aka the role and the following
-                        //a string in the key array looks like this = key;value:value:value
-                        String[] pair = key[j].split(";");
-                        //The pair array has 2 elements. First is key and the 2nd is value:value:value
-                        String[] values = pair[1].split(":");
-                        for (int k = 0; k < values.length; k++) {
-                            //Calls the search method for casts where is gives the cast ID.
-//                            castObjects = searchCast(Integer.parseInt(values[k]));
-                            castObjects.add(searchCast(Integer.parseInt(values[k])).get(0));
-                        }
-                        castRolesMap.put(pair[0], castObjects);
-                    }
                 }
                 //Need to update this to take the hashmap instead
-                broadcasts.add(new Broadcast(Integer.parseInt(items[0]), items[1], castRolesMap, Integer.parseInt(items[3]), Integer.parseInt(items[4]), items[5], items[6]));
+                broadcasts.add(new Broadcast(
+                        Integer.parseInt(items[0]),
+                        items[1],
+                        Integer.parseInt(items[3]),
+                        Integer.parseInt(items[4]),
+                        items[5],
+                        Integer.parseInt(items[6])));
             }
             return broadcasts;
         }
@@ -123,23 +140,26 @@ public class CredITSystem implements ISystem {
 
     //endregion
 
-    //region production search methods here
-    @Override
-    public ArrayList<IProduction> searchProduction(String keyword) {
-        ArrayList<IProduction> productions = new ArrayList<>();
-        ArrayList<IBroadcast> broadcastObjects = new ArrayList<>();
+    //endregion
 
-        List<String> list = persistenceLayer.getProductionFromDatabase(keyword);
+    //region production search methods here
+
+    public IProduction searchProduction(int id){
+        List<String> list = persistenceLayer.getProductionFromDatabase(id);
+        IProduction production = searchProduction(list).get(1);
+        return production;
+    };
+    @Override
+    public ArrayList<IProduction> searchProduction(String keyword){
+        return searchProduction(persistenceLayer.getProductionFromDatabase(keyword));
+    };
+
+    private ArrayList<IProduction> searchProduction(List<String> list) {
+        ArrayList<IProduction> productions = new ArrayList<>();
         if (list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
                 String[] items = list.get(i).split(",");
-                if (items[2].length() > 0) {
-                    String[] broadcastIds = items[2].split(";");
-                    for (int j = 0; j < broadcastIds.length; j++) {
-                        broadcastObjects = searchBroadcast(Integer.parseInt(broadcastIds[j]));
-                    }
-                }
-                productions.add(new Production(Integer.parseInt(items[0]), items[1], broadcastObjects, items[3], items[4]));
+                productions.add(new Production(Integer.parseInt(items[0]), items[1], items[3], items[4]));
             }
             return productions;
         }

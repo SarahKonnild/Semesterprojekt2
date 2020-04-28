@@ -1,5 +1,4 @@
 1,Søren Pedersen,1000
-2,Laust Hansen,1001
 3,Teis Andersen,1002
 4,Nichlas Dobbermann,1003
 5,Lise Bornholm,1004
@@ -10,8 +9,6 @@
 11,Lisbeth Madsen,1009
 12,Katrine Nielsen,1010
 13,Sofie Kraggaard,1011
-14,Josefine Hansen,1012
-15,Esben Hansen,1013
 16,Daniel Vejman,1014
 17,Mads Fyn,1015
 18,Hans Rosengaard,1016

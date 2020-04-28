@@ -16,7 +16,7 @@
       <TextField fx:id="regDKField" disable="true" layoutX="26.0" layoutY="134.0" prefHeight="25.0" prefWidth="171.0" />
       <Label layoutX="26.0" layoutY="178.0" text="Rollenavn" />
       <TextField fx:id="roleNameField" layoutX="26.0" layoutY="199.0" prefHeight="25.0" prefWidth="171.0" />
-      <Button fx:id="removeCast" disable="true" layoutX="24.0" layoutY="280.0" mnemonicParsing="false" onMouseClicked="#handleRemoveCast" text="Fjern" />
+      <Button fx:id="removeCast" layoutX="24.0" layoutY="280.0" mnemonicParsing="false" onMouseClicked="#handleRemoveCast" text="Fjern" />
       <Button fx:id="saveChanges" layoutX="92.0" layoutY="280.0" mnemonicParsing="false" onMouseClicked="#handleSaveChanges" text="Gem Ændringer" />
       <Label fx:id="errorMsg" alignment="CENTER" layoutX="28.0" layoutY="245.0" prefHeight="17.0" prefWidth="171.0" textFill="#f80303" />
    </children>

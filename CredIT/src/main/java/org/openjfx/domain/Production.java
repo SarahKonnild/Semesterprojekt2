@@ -1,6 +1,7 @@
 package org.openjfx.domain;
 
-import org.openjfx.interfaces.*;
+import org.openjfx.interfaces.IBroadcast;
+import org.openjfx.interfaces.IProduction;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,46 +16,58 @@ public class Production implements IProduction {
     private int numberOfSeasons;
     private int numberOfEpisodes;
 
-    public Production(String name, String year, String productionCompany){
+    public Production(String name, String year, String productionCompany) {
         this.name = name;
         this.year = year;
         this.productionCompany = productionCompany;
     }
 
-    public Production(int id, String name, ArrayList<IBroadcast> broadcasts, String productionCompany, String year){
+    public Production(int id, String name, String productionCompany, String year) {
         this.id = id;
         this.name = name;
         this.year = year;
         this.productionCompany = productionCompany;
-        this.broadcasts = broadcasts;
         numberOfEpisodes = broadcasts.size();
+        loadBroadcastArray();
     }
 
     /**
      * Calls the search method in System, to get an arraylist of the broadcasts that this production have associted with it.
-     *
      */
-//
-//    private void loadBroadcastArray(){
-//        this.broadcasts = System.instance.searchBroadcast(this.id);
-//    }
-//
+
+    private void loadBroadcastArray(){
+        this.broadcasts = CredITSystem.instance.searchBroadcast(this.id);
+    }
 
     @Override
-    public boolean saveProduction() {
+    public boolean save() {
         int idNumber = -1;
         try {
             idNumber = CredITSystem.getPersistence().createNewProductionInDatabase(this);
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
-            if(idNumber != -1)
-            {
+        } finally {
+            if (idNumber != -1) {
                 this.id = idNumber;
                 return true;
             } else
                 return false;
         }
+    }
+
+    @Override
+    public boolean delete() {
+        //Todo call a method in persistence to delete the production in database
+        return false;
+    }
+
+    @Override
+    public boolean update(String name, String year, String productionCompany) {
+        this.name = name;
+        this.year = year;
+        this.productionCompany = productionCompany;
+        //Todo call a method in persistence to save the changes.
+        return false;
     }
 
     @Override

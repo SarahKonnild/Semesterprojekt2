@@ -1,54 +1,50 @@
 package org.openjfx.domain;
+
 import org.openjfx.interfaces.IBroadcast;
 import org.openjfx.interfaces.ICast;
 import org.openjfx.interfaces.IPersistence;
+import org.openjfx.interfaces.IProduction;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class Broadcast implements IBroadcast {
     private final IPersistence persistence = CredITSystem.getPersistence();
     private int id;
     private String name;
-    private HashMap<String, ArrayList<ICast>> castMap;
-    private String produtionName;
+    private HashMap<ICast, String> castRoleMap;
     private int seasonNumber;
     private int episodeNumber;
     private String[] airDate;
+    private IProduction production;
 
-    public Broadcast(int id, String name, HashMap<String, ArrayList<ICast>> castMap, int seasonNumber, int episodeNumber, String airDate, String productionName) {
+    public Broadcast(int id, String name, int seasonNumber, int episodeNumber, String airDate,int productionCompanyID) {
         this.id = id;
         this.name = name;
-        this.castMap = castMap;
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.airDate = airDate.split("-");
-        this.produtionName = productionName;
+        this.castRoleMap = CredITSystem.instance.getCastRolesBroadcast(this.id);
+        this.production = CredITSystem.instance.searchProduction(productionCompanyID);
     }
 
-    public Broadcast(String name, int seasonNumber, int episodeNumber, String airDate){
+    public Broadcast(String name, int seasonNumber, int episodeNumber, String airDate) {
         this.name = name;
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.airDate = airDate.split("-");
     }
 
-//    private void loadCast(){
-//
-//    }
-
     @Override
-    public boolean saveBroadcast() {
+    public boolean save() {
         int idNumber = -1;
         try {
             idNumber = persistence.createNewBroadcastInDatabase(this);
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
-            if(idNumber != -1)
-            {
+        } finally {
+            if (idNumber != -1) {
                 this.id = idNumber;
                 return true;
             } else
@@ -58,32 +54,33 @@ public class Broadcast implements IBroadcast {
     }
 
     @Override
+    public boolean delete() {
+        //Todo call method in persistence to delete the broadcast in database
+        return false;
+    }
+
+    @Override
+    public boolean update(String name, int seasonNumber, int episodeNumber, String airDate) {
+        //Todo call method to update in database
+        //Todo figure out if we need to make a check for if the production company is in the database.
+        return false;
+    }
+
+    @Override
     public boolean unassignCast(ICast cast, String role) {
-        if (castMap.containsKey(role) && castMap.get(role).contains(cast)){
-            castMap.get(role).remove(cast);
-            if (castMap.get(role).isEmpty()){
-                castMap.remove(role);
-            }
-        }
         return true;
     }
 
     @Override
     public boolean assignCast(ICast cast, String role) {
-        if (castMap.containsKey(role)) {
-            castMap.get(role).add(cast);
-        }
-        if (!castMap.containsKey(role)) {
-            castMap.put(role, new ArrayList<ICast>());
-            castMap.get(role).add(cast);
-        }
+
         return true;
     }
 
     @Override
     public String toString() {
         return
-                this.name + ": " + this.airDate[0] + "-" + this.airDate[1] + "-" + this.airDate[2] + " : " + this.produtionName;
+                this.name + ": " + this.airDate[0] + "-" + this.airDate[1] + "-" + this.airDate[2] + " : " + this.production.getName();
     }
 
     public int getId() {
@@ -94,8 +91,8 @@ public class Broadcast implements IBroadcast {
         return name;
     }
 
-    public HashMap<String, ArrayList<ICast>> getCastMap() {
-        return castMap;
+    public HashMap<ICast, String> getCastMap() {
+        return castRoleMap;
     }
 
     public int getSeasonNumber() {
@@ -106,13 +103,13 @@ public class Broadcast implements IBroadcast {
         return episodeNumber;
     }
 
-    @Override
-    public String getProductionName() {
-        return this.produtionName;
-    }
-
     public void setEpisodeNumber(int episodeNumber) {
         this.episodeNumber = episodeNumber;
+    }
+
+    @Override
+    public IProduction getProduction() {
+        return this.production;
     }
 
     public String[] getAirDate() {

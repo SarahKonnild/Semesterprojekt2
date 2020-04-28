@@ -29,13 +29,14 @@ public class HelpController implements Initializable {
     /**
      * Creates a list of items in the TreeView that can be chosen. Upon choosing, they will
      * produce a fitting help-screen that can help the user use the system.
+     *
      * @param location
      * @param resources
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Initial Label text be fun
-        textLabel.setText("En eller anden dag kommer der relevant tekst her.\n"+ "\n" + "\n" +
+        textLabel.setText("En eller anden dag kommer der relevant tekst her.\n" + "\n" + "\n" +
                 "Ingen ved hvornår... But someday.");
 
         //Initialising the treeview
