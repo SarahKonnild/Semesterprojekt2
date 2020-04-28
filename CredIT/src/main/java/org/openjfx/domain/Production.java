@@ -23,11 +23,11 @@ public class Production implements IProduction {
         this.productionCompany = productionCompany;
     }
 
-    public Production(int id, String name, IProductionCompany productionCompany, String year) {
+    public Production(int id, String name, int productionCompanyID, String year) {
         this.id = id;
         this.name = name;
         this.year = year;
-        this.productionCompany = productionCompany;
+        this.productionCompany = CredITSystem.instance.searchProductionCompany(productionCompanyID);
         numberOfEpisodes = broadcasts.size();
         loadBroadcastArray();
     }

@@ -159,20 +159,21 @@ public class CredITSystem implements ISystem {
         if (list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
                 String[] items = list.get(i).split(",");
-                productions.add(new Production(Integer.parseInt(items[0]), items[1], items[3], items[4]));
+                productions.add(new Production(Integer.parseInt(items[0]), items[1], Integer.parseInt(items[3]), items[4]));
             }
             return productions;
         }
         return null;
     }
 
-    //endregion
+    public IProductionCompany searchProductionCompany(int id){return null;};
+
+    @Override
+    public IProductionCompany searchProductionCompany(String keyword){return null;};
 
     //endregion
 
-    public static IPersistence getPersistence(){
-        return persistenceLayer;
-    }
+    //endregion
 
     @Override
     public IUser createNewUser(String username, String password) {

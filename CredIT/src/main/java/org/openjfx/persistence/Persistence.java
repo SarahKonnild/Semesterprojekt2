@@ -10,6 +10,19 @@ import java.util.Scanner;
 
 public class Persistence implements IPersistence {
 
+    private static Persistence instance;
+
+    private Persistence(){}
+
+    public static Persistence getInstance() {
+        //If there is no instance of the Persistence class, make one
+        if (instance == null) {
+            instance = new Persistence();
+        }
+
+        //Return the singleton instance of Persistence
+        return instance;
+    }
 
     @Override
     public boolean createNewUserInDatabase(IUser user) throws IOException {
@@ -118,6 +131,11 @@ public class Persistence implements IPersistence {
 
     @Override
     public List<String> getProductionCompany(int id) {
+        return null;
+    }
+
+    @Override
+    public List<String> getProductionCompany(String keyword) {
         return null;
     }
 

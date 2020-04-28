@@ -38,21 +38,21 @@ public class User implements IUser {
     }
 
     @Override
-    public ICast addNewCastToDatabase(String name, int regDKID) {
+    public ICast addNewCastToDatabase(String name, String regDKID) {
         ICast cast = new Cast(name, regDKID);
         cast.save();
         return cast;
     }
 
     @Override
-    public IBroadcast addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate) {
-        IBroadcast broadcast = new Broadcast(name, seasonNumber, episodeNumber, airDate);
+    public IBroadcast addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate, IProduction production) {
+        IBroadcast broadcast = new Broadcast(name, seasonNumber, episodeNumber, airDate, production);
         broadcast.save();
         return broadcast;
     }
 
     @Override
-    public IProduction addNewProductionToDatabase(String name, String year, String productionCompany) {
+    public IProduction addNewProductionToDatabase(String name, String year, IProductionCompany productionCompany) {
         IProduction production = new Production(name, year, productionCompany);
         production.save();
         return production;
@@ -64,6 +64,16 @@ public class User implements IUser {
         if (Role.valueOf(roleKey) == this.role) {
             return true;
         } else return false;
+    }
+
+    @Override
+    public IProductionCompany addNewProductionCompanyToDatabase(String name) {
+        return null;
+    }
+
+    @Override
+    public IProductionCompany getProductionCompanyFromDatabase(String name) {
+        return null;
     }
 
     @Override

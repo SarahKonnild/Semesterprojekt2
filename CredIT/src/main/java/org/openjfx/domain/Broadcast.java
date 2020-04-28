@@ -16,7 +16,7 @@ public class Broadcast implements IBroadcast {
     private IProduction production;
     private IProductionCompany productionCompany;
 
-    public Broadcast(int id, String name, int seasonNumber, int episodeNumber, String airDate,IProductionCompany productionCompany, int productionCompanyID) {
+    public Broadcast(int id, String name, int seasonNumber, int episodeNumber, String airDate, int productionCompanyID) {
         this.id = id;
         this.name = name;
         this.seasonNumber = seasonNumber;
@@ -27,7 +27,7 @@ public class Broadcast implements IBroadcast {
         this.production = CredITSystem.instance.searchProduction(productionCompanyID);
     }
 
-    public Broadcast(String name, int seasonNumber, int episodeNumber, String airDate, IProductionCompany productionCompany) {
+    public Broadcast(String name, int seasonNumber, int episodeNumber, String airDate, IProduction production) {
         this.name = name;
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;

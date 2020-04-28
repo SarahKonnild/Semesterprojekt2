@@ -18,7 +18,7 @@
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor></Label>
-            <Label fx:id="guestUserLogin" layoutX="37.0" layoutY="168.0" onMouseClicked="#handleUserLogin" prefHeight="37.0" prefWidth="251.0" text="Fortsæt som Gæstebruger" textFill="WHITE">
+            <Label fx:id="guestUserLogin" layoutX="37.0" layoutY="168.0" onMouseClicked="#handleGuestUserLogin" prefHeight="37.0" prefWidth="251.0" text="Fortsæt som Gæstebruger" textFill="WHITE">
                <font>
                   <Font size="21.0" />
                </font>
