@@ -21,6 +21,8 @@ import java.util.ResourceBundle;
 
 public class GuestUserPageController implements Initializable {
 
+    //FXML Attributes
+    //region
     @FXML
     private AnchorPane basePane;
     @FXML
@@ -74,6 +76,8 @@ public class GuestUserPageController implements Initializable {
     @FXML
     private MenuItem movie;
     @FXML
+    private MenuItem productionCompany;
+    @FXML
     private TextField searchField;
     @FXML
     private TextField castNameField;
@@ -103,27 +107,45 @@ public class GuestUserPageController implements Initializable {
     private TextField movieReleaseYearField;
     @FXML
     private TextField movieProductionCompanyField;
+    //endregion
 
+    //Variables/attributes used in this controller
+    //region
     private String searchTopicChosen;
 
     private ArrayList<IProduction> productionSearchResult;
     private ArrayList<ICast> castSearchResult;
     private ArrayList<IBroadcast> broadcastSearchResult;
-    private ArrayList<IMovie> movieSearchResult;
+//    private ArrayList<IMovie> movieSearchResult;
+//    private ArrayList<IProductionCompany> companySearchResult;
 
     private ObservableList<ICast> castObservableList;
     private ObservableList<IProduction> productionObservableList;
     private ObservableList<IBroadcast> broadcastObservableList;
-    private ObservableList<IMovie> movieObservableList;
+//    private ObservableList<IMovie> movieObservableList;
+//    private ObservableList<IProductionCompany> companyObservableList;
+
+    private Object obj;
+    private String searchText;
+    private ICast chosenCast;
+//    private IMovie chosenMovie;
+//    private IProduction chosenProduction;
+    //endregion
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
-            search.setDisable(true);
+        search.setDisable(true);
     }
 
+    /**
+     * Checks the subject that has been chosen in the dropdown menu, and specifies the search-method in the domain layer that is being
+     * run on the searchfield's input
+     * @param event
+     */
+    //region
     @FXML
-    public void handleSearch(ActionEvent event){
+    private void handleSearch(MouseEvent event){
         String searchText = searchField.getText();
         if(searchTopicChosen.equals("cast")){
             resultList.getItems().clear();
@@ -145,34 +167,102 @@ public class GuestUserPageController implements Initializable {
             }else {
                 errorMessage.setText("Fejl opstået, produktion ikke fundet");
             }
-        }else if(searchTopicChosen.equals("broadcast")){
+        }else if(searchTopicChosen.equals("broadcast")) {
             resultList.getItems().clear();
             broadcastSearchResult = App.getSystemInstance().searchBroadcast(searchText);
-            if(broadcastSearchResult != null && !searchField.getText().isEmpty()){
+            if (broadcastSearchResult != null && !searchField.getText().isEmpty()) {
                 broadcastObservableList = FXCollections.observableArrayList(broadcastSearchResult);
                 resultList.setItems(productionObservableList);
                 searchField.clear();
-            }else{
+            } else {
                 errorMessage.setText("Fejl opstået, udsendelse ikke fundet");
             }
-        }else if(searchTopicChosen.equals("movie")){
-            resultList.getItems().clear();
-            movieSearchResult = App.getSystemInstance().searchMovie(searchText);
-            if(movieSearchResult != null && !searchField.getText().isEmpty()){
-                movieObservableList = FXCollections.observableArrayList(movieSearchResult);
-                resultList.setItems(movieObservableList);
-                searchField.clear();
-            }else{
-                errorMessage.setText("Fejl opstået, udsendelse ikke fundet");
-            }
+//        }else if(searchTopicChosen.equals("movie")){
+//            resultList.getItems().clear();
+//            movieSearchResult = App.getSystemInstance().searchMovie(searchText);
+//            if(movieSearchResult != null && !searchField.getText().isEmpty()){
+//                movieObservableList = FXCollections.observableArrayList(movieSearchResult);
+//                resultList.setItems(movieObservableList);
+//                searchField.clear();
+//            }else{
+//                errorMessage.setText("Fejl opstået, udsendelse ikke fundet");
+//            }
+        }else if(searchTopicChosen.equals("productioncompany")){
+//            resultList.getItems().clear();
+//            companySearchResult = App.getSystemInstance().searchProductionCompany(searchText);
+//            if (companySearchResult != null && !searchField.getText().isEmpty()) {
+//                companyObservableList = FXCollections.observableArrayList(companySearchResult);
+//                resultList.setItems(companyObservableList);
+//                searchField.clear();
+//            } else {
+//                errorMessage.setText("Fejl opstået, udsendelse ikke fundet");
+//            }
         }else{
             errorMessage.setText("Intet søgeemne valgt");
         }
         changeFieldsVisible(searchTopicChosen);
     }
+    //endregion
 
+    /**
+     * Handles the picking of an item in the searchlist and writes that object's information to the relevant fields.
+     * @param event
+     */
     @FXML
-    public void handleSearchTopicChosen(MouseEvent event){
+    private void handleSearchResultChosen(MouseEvent event){
+        obj = resultList.getSelectionModel().getSelectedItem();
+        if (obj instanceof ICast) {
+            searchText = searchField.getText();
+            resultList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+            chosenCast = (ICast) obj;
+            castNameField.setText(chosenCast.getName());
+        } else if (obj instanceof IProduction) {
+            searchText = searchField.getText();
+            IProduction chosenProduction = (IProduction) obj;
+            productionNameField.setText(chosenProduction.getName());
+            productionProducerField.setText(chosenProduction.getProductionCompany());
+            productionReleaseYearField.setText(chosenProduction.getYear());
+        } else if (obj instanceof IBroadcast) {
+            searchText = searchField.getText();
+            obj = resultList.getSelectionModel().getSelectedItem();
+            IBroadcast chosenBroadcast = (IBroadcast) obj;
+            broadcastNameField.setText(chosenBroadcast.getName());
+            String[] airDateInput = chosenBroadcast.getAirDate();
+            broadcastDayField.setText(airDateInput[0]);
+            broadcastMonthField.setText(airDateInput[1]);
+            broadcastYearField.setText(airDateInput[2]);
+            broadcastProducerNameField.setText(chosenBroadcast.getProductionName());
+        }
+//        else if(obj instanceof IMovie){
+//            searchText = searchField.getText();
+//            obj = resultList.getSelectionModel().getSelectedItem();
+//            IMovie chosenMovie = (IMovie) obj;
+//            movieNameField.setText(chosenMovie.getName());
+//            movieReleaseYearField.setText(chosenMovie.getReleaseYear());
+//            movieProductionCompanyField.setText(chosenMovie.getProductionCompany());
+//        }
+//        else if(obj instanceof IProductionCompany){
+//            searchField.setText(searchText);
+//            //TODO insert code which prints the ProductionCompany's list of productions/movies into the resultList
+//            obj = resultList.getSelectionModel().getSelectedItem();
+//            if(obj instanceof IMovie){
+//                changeFieldsVisible("movie");
+//                chosenMovie = (IMovie) obj;
+//                movieProductionCompanyField.setText(chosenMovie.getProductionCompany().getName());
+//
+//            }else if(obj instanceof IProduction){
+//                changeFieldsVisible("production");
+//            }
+//        }
+    }
+
+    /**
+     * A method which creates a String-value that can be used to specify the search method used and the fields that should be
+     * visible
+     * @param event
+     */
+    @FXML
+    private void handleSearchTopicChosen(MouseEvent event){
         cast.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -206,20 +296,44 @@ public class GuestUserPageController implements Initializable {
                 search.setDisable(false);
             }
         });
+        productionCompany.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                searchTopic.setText("Producentfirma");
+                searchTopicChosen = "productioncompany";
+                search.setDisable(false);
+            }
+        });
     }
 
+    /**
+     * Methods which handle the changing of the FXMLs. Includes:
+     * - Close the window (and thus the main process)
+     * - Open the help-window
+     * - Return to the past scene
+     * @param event
+     */
+    //region
     @FXML
-    public void handleClose(MouseEvent event){App.closeWindow();}
+    public void handleClose(MouseEvent event){
+        App.closeWindow();}
 
     @FXML
     public void handleHelp(MouseEvent event){
         App.handleHelpStage();
     }
-
     @FXML
-    public void handleBack(MouseEvent event){App.handleLoginSystemPage();}
+    public void handleBack(MouseEvent event){
+        App.handleLoginSystemPage();
+    }
+    //endregion
 
-
+    /**
+     * Method that can be used to specify which fields should be rendered visible in the GUI based on the search topic.
+     * This method can then be called upon to specify the fields and labels that should be shown to the user based on the search topic.
+     * Utilises the changeXFields-methods.
+     * @param searchTopicChosen referring to the variable that gets set using the dropdown menu
+     */
     private void changeFieldsVisible(String searchTopicChosen) {
         this.searchTopicChosen = searchTopicChosen;
         if (searchTopicChosen.equals("cast")) {
@@ -245,6 +359,12 @@ public class GuestUserPageController implements Initializable {
         }
     }
 
+    /**
+     * This region creates a method that can be called which just toggles the visibility of the fields and labels that are
+     * associated with one of the classes/searchtopic that has been chosen.
+     * @param value a boolean value that allows for toggling the fields/labels
+     */
+    //region
     private void changeCastFields(boolean value){
             castName.setVisible(value);
             castNameField.setVisible(value);
@@ -286,4 +406,5 @@ public class GuestUserPageController implements Initializable {
             movieReleaseYearField.setVisible(value);
         }
 
+        //endregion
 }

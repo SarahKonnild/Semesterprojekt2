@@ -37,7 +37,7 @@
       <AnchorPane layoutX="285.0" layoutY="27.0" prefHeight="375.0" prefWidth="315.0" style="-fx-background-color: #84a9ac #84a9ac;">
          <children>
             <TextField fx:id="searchField" layoutX="14.0" layoutY="25.0" prefHeight="27.0" prefWidth="205.0" promptText="Indtast søgetekst" style="-fx-background-color: FFFFFF;" />
-            <Button fx:id="search" layoutX="261.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleSearch" style="-fx-background-color: FFFFFF;" text="Søg">
+            <Button fx:id="search" layoutX="261.0" layoutY="25.0" mnemonicParsing="false" onMouseClicked="#handleSearch" style="-fx-background-color: FFFFFF;" text="Søg">
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor></Button>
@@ -51,15 +51,15 @@
             <Label layoutX="14.0" layoutY="244.0" text="Antal Sæsoner" textFill="WHITE" />
             <TextField fx:id="amountOfEpisodes" editable="false" layoutX="190.0" layoutY="261.0" prefHeight="27.0" prefWidth="111.0" style="-fx-background-color: FFFFFF;" />
             <Label layoutX="191.0" layoutY="243.0" text="Antal Episoder" textFill="WHITE" />
-            <Button fx:id="createNew" layoutX="14.0" layoutY="334.0" mnemonicParsing="false" onAction="#handleCreateNew" style="-fx-background-color: FFFFFF;" text="Opret Ny">
+            <Button fx:id="createNew" layoutX="14.0" layoutY="334.0" mnemonicParsing="false" onMouseClicked="#handleCreateNew" style="-fx-background-color: FFFFFF;" text="Opret Ny">
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor></Button>
-            <Button fx:id="delete" layoutX="138.0" layoutY="334.0" mnemonicParsing="false" onAction="#handleDelete" style="-fx-background-color: FFFFFF;" text="Slet">
+            <Button fx:id="delete" layoutX="138.0" layoutY="334.0" mnemonicParsing="false" onMouseClicked="#handleDelete" style="-fx-background-color: FFFFFF;" text="Slet">
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor></Button>
-            <Button fx:id="save" layoutX="259.0" layoutY="334.0" mnemonicParsing="false" onAction="#handleSave" style="-fx-background-color: FFFFFF;" text="Gem">
+            <Button fx:id="save" layoutX="259.0" layoutY="334.0" mnemonicParsing="false" onMouseClicked="#handleSave" style="-fx-background-color: FFFFFF;" text="Gem">
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor></Button>

@@ -17,3 +17,5 @@
 18,Hans Rosengaard,1016
 20,Marie Anker,101821,Lone Borgersen,666
 21,Lone Borgersen,666
+22,Lone Borgersen,6666666
+23,Mie Rasmussen,1234859

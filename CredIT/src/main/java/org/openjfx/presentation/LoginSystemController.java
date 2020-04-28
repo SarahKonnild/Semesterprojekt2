@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
@@ -26,6 +27,8 @@ import java.util.ResourceBundle;
 
 public class LoginSystemController implements Initializable {
 
+    //FXML attributes
+    //region
     @FXML
     private AnchorPane basePane;
     @FXML
@@ -47,18 +50,26 @@ public class LoginSystemController implements Initializable {
     @FXML
     private TextField username;
     @FXML
-    private TextField password;
+    private PasswordField password;
+    //endregion
 
+    //Class attributes
+    //region
     private static IUser adminUser;
     private static String usernameString;
     private double dragX;
     private double dragY;
+    //endregion
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
     }
 
+    /**
+     * Allows for bypassing the login system to speed shit up
+     * @param event
+     */
     @FXML
     public void handleBypassLogin(MouseEvent event){
         usernameString = "admin";
@@ -73,8 +84,12 @@ public class LoginSystemController implements Initializable {
         }
     }
 
+    /**
+     * Changes the stage for guest users when pressing the "Continue as Guest User" label
+     * @param event
+     */
     @FXML
-    public void handleUserLogin(MouseEvent event) {
+    public void handleGuestUserLogin(MouseEvent event) {
         try {
             Parent value = FXMLLoader.load(LoginSystemController.class.getResource("GuestUserPage.fxml"));
             App.getScene().setRoot(value);
@@ -85,6 +100,10 @@ public class LoginSystemController implements Initializable {
         }
     }
 
+    /**
+     * Changes the visibility of the labels/textfields when pressing to continue as an admin.
+     * @param event
+     */
     @FXML
     public void handleAdminLoginClicked(MouseEvent event) {
         guestUserLogin.setVisible(false);
@@ -96,6 +115,10 @@ public class LoginSystemController implements Initializable {
         login.setVisible(true);
     }
 
+    /**
+     * Checks if the pseudo-login criteria are met, and if so, the scene will change to the admin-page.
+     * @param event
+     */
     @FXML
     public void handleLoginButton(ActionEvent event) {
         if(username.getText().equals("admin") && password.getText().equals("admin")){
@@ -109,12 +132,13 @@ public class LoginSystemController implements Initializable {
        }
     }
 
+    /**
+     * Permits closing of the borderless window.
+     */
     @FXML
     public void handleClose(MouseEvent event){
         App.closeWindow();
     }
-
-
 
     public static String getUsernameString(){
         return usernameString;

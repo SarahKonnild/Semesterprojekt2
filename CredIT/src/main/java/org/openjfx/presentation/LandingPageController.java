@@ -22,6 +22,7 @@ import org.openjfx.interfaces.ICast;
 import org.openjfx.interfaces.IProduction;
 
 public class LandingPageController implements Initializable {
+    //region
     @FXML
     private Button createNewCast;
     @FXML
@@ -112,6 +113,7 @@ public class LandingPageController implements Initializable {
     private TextField broadcastAirDateMonth;
     @FXML
     private TextField broadcastAirDateYear;
+    //
 
     private Stage assignStage = new Stage();
     private Stage unassignStage = new Stage();

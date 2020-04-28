@@ -6,11 +6,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.openjfx.interfaces.*;
@@ -38,6 +36,7 @@ public class App extends Application {
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
+
     }
 
     static void setRoot(String fxml) throws IOException {
@@ -63,6 +62,11 @@ public class App extends Application {
         launch();
     }
 
+    /**
+     * These methods are used to be called in other controllers. They are used to change the scene of the primary stage
+     * (or open the help-stage) in any given controller.
+     */
+    //region
     public static void handleAdminPage(){
         try {
             Parent value = FXMLLoader.load(LoginSystemController.class.getResource("AdministratorPage.fxml"));
@@ -154,7 +158,10 @@ public class App extends Application {
             ex.printStackTrace();
         }
     }
+    //endregion
 
+    //Set- and get-methods
+    //region
     public static Scene getScene(){
         return scene;
     }
@@ -178,7 +185,13 @@ public class App extends Application {
     public static void setAssignCastModifier(String newAssignCastModifier){
         assignCastModifier = newAssignCastModifier;
     }
+    //endregion
 
+    /**
+     * This method can be called upon in all the other controllers. It allows for moving the borderless application window.
+     * @param basePane refers to the AnchorPane that is clickable and movable in the Stage (usually the darker blue panel at
+     *                 the top of the stage.
+     */
     public static void handleMoveWindow(AnchorPane basePane){
         final double[] dragX = new double[1];
         final double[] dragY = new double[1];
@@ -202,11 +215,6 @@ public class App extends Application {
         });
     }
 
-    //AN EXPERIMENT
-//    public static void hoverLabel(Label label){
-//        label.setTextFill(Paint.valueOf("cae8d5"));
-//
-//    }
 
     public static void closeWindow(){
         App.getStage().close();

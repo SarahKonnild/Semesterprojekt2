@@ -15,6 +15,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AdministratorPageController implements Initializable {
+
+    //FXML Attributes
+    //region
     @FXML
     private AnchorPane basePane;
     @FXML
@@ -31,7 +34,7 @@ public class AdministratorPageController implements Initializable {
     private Label username;
     @FXML
     private Label help;
-
+    //endregion
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -41,6 +44,11 @@ public class AdministratorPageController implements Initializable {
         App.handleMoveWindow(basePane);
     }
 
+    /**
+     * All these handlers work to change the scene of the primary stage based on the label that is being clicked on
+     * @param event
+     */
+    //region
     @FXML
     public void handleAdministrateUsers(MouseEvent event){    }
 
@@ -70,4 +78,5 @@ public class AdministratorPageController implements Initializable {
     @FXML
     public void handleClose(MouseEvent event){ App.closeWindow();}
 
+    //endregion
 }

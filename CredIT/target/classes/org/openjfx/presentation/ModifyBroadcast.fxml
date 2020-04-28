@@ -24,7 +24,7 @@
       <AnchorPane layoutX="302.0" layoutY="27.0" prefHeight="493.0" prefWidth="302.0" style="-fx-background-color: #84a9ac #84a9ac #84a9ac #84a9ac;">
          <children>
             <TextField fx:id="searchField" layoutX="14.0" layoutY="25.0" prefHeight="27.0" prefWidth="205.0" promptText="Indtast søgetekst" style="-fx-background-color: FFFFFF;" />
-            <Button fx:id="search" layoutX="248.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleSearch" style="-fx-background-color: FFFFFF;" text="Søg" />
+            <Button fx:id="search" layoutX="248.0" layoutY="25.0" mnemonicParsing="false" onMouseClicked="#handleSearch" style="-fx-background-color: FFFFFF;" text="Søg" />
             <TextField fx:id="broadcastName" layoutX="12.0" layoutY="110.0" prefHeight="27.0" prefWidth="273.0" style="-fx-background-color: FFFFFF;" />
             <TextField fx:id="productionCompany" layoutX="12.0" layoutY="173.0" prefHeight="27.0" prefWidth="273.0" style="-fx-background-color: FFFFFF;" />
             <TextField fx:id="season" layoutX="9.0" layoutY="240.0" prefHeight="27.0" prefWidth="104.0" style="-fx-background-color: FFFFFF;" />
@@ -32,9 +32,9 @@
             <TextField fx:id="day" layoutX="22.0" layoutY="328.0" prefHeight="27.0" prefWidth="59.0" promptText="DD" style="-fx-background-color: FFFFFF;" />
             <TextField fx:id="month" layoutX="119.0" layoutY="328.0" prefHeight="27.0" prefWidth="59.0" promptText="MM" style="-fx-background-color: FFFFFF;" />
             <TextField fx:id="year" layoutX="219.0" layoutY="328.0" prefHeight="27.0" prefWidth="59.0" promptText="YYYY" style="-fx-background-color: FFFFFF;" />
-            <Button fx:id="createNew" layoutX="16.0" layoutY="452.0" mnemonicParsing="false" onAction="#handleCreateCast" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: FFFFFF;" text="Opret Ny" />
-            <Button fx:id="delete" layoutX="131.0" layoutY="452.0" mnemonicParsing="false" onAction="#handleDeleteCast" prefHeight="27.0" prefWidth="40.0" style="-fx-background-color: FFFFFF;" text="Slet" />
-            <Button fx:id="save" layoutX="228.0" layoutY="452.0" mnemonicParsing="false" onAction="#handleSaveCast" prefHeight="27.0" prefWidth="51.0" style="-fx-background-color: FFFFFF;" text="Gem" />
+            <Button fx:id="createNew" layoutX="16.0" layoutY="452.0" mnemonicParsing="false" onMouseClicked="#handleCreateBroadcast" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: FFFFFF;" text="Opret Ny" />
+            <Button fx:id="delete" layoutX="131.0" layoutY="452.0" mnemonicParsing="false" onMouseClicked="#handleDeleteBroadcast" prefHeight="27.0" prefWidth="40.0" style="-fx-background-color: FFFFFF;" text="Slet" />
+            <Button fx:id="save" layoutX="228.0" layoutY="452.0" mnemonicParsing="false" onMouseClicked="#handleSaveBroadcast" prefHeight="27.0" prefWidth="51.0" style="-fx-background-color: FFFFFF;" text="Gem" />
             <Label layoutX="90.0" layoutY="277.0" text="Dato for Første Visning" textFill="WHITE" />
             <Label layoutX="40.0" layoutY="309.0" text="Dag" textFill="WHITE" />
             <Label layoutX="131.0" layoutY="310.0" text="Måned" textFill="WHITE" />
@@ -43,13 +43,13 @@
             <Label layoutX="11.0" layoutY="156.0" text="Udsendelsens Produktionsfirma" textFill="WHITE" />
             <Label layoutX="11.0" layoutY="223.0" text="Sæson" textFill="WHITE" />
             <Label layoutX="172.0" layoutY="223.0" text="Episode" textFill="WHITE" />
-            <Button fx:id="modifyCast" layoutX="40.0" layoutY="376.0" mnemonicParsing="false" onAction="#handleChangeCast" prefHeight="27.0" prefWidth="222.0" style="-fx-background-color: FFFFFF;" text="Ændr Medvirkende på Udsendelsen" />
+            <Button fx:id="modifyCast" layoutX="40.0" layoutY="376.0" mnemonicParsing="false" onMouseClicked="#handleChangeCast" prefHeight="27.0" prefWidth="222.0" style="-fx-background-color: FFFFFF;" text="Ændr Medvirkende på Udsendelsen" />
             <Label fx:id="errorMessageSearch" alignment="CENTER" layoutX="13.0" layoutY="63.0" prefHeight="17.0" prefWidth="273.0" text="Fejl, ingen søgeresultater fundet" textFill="RED" visible="false" />
-            <Label fx:id="errorMessage" alignment="CENTER" layoutX="15.0" layoutY="419.0" prefHeight="17.0" prefWidth="266.0" text="Fejlmeddelelse" textFill="RED" visible="false" />
+            <Label fx:id="errorMessage" alignment="CENTER" layoutX="15.0" layoutY="419.0" prefHeight="17.0" prefWidth="266.0" textFill="RED" />
          </children>
       </AnchorPane>
       <Label fx:id="help" layoutX="425.0" layoutY="5.0" onMouseClicked="#handleHelp" text="Hjælp" textFill="WHITE" />
-      <ListView fx:id="searchResultList" layoutY="27.0" onMouseClicked="#handleSearchResultChosen" prefHeight="493.0" prefWidth="302.0" style="-fx-background-color: FFFFFF;" />
+      <ListView fx:id="resultList" layoutY="27.0" onMouseClicked="#handleSearchResultChosen" prefHeight="493.0" prefWidth="302.0" style="-fx-background-color: FFFFFF;" />
       <Label fx:id="close" layoutX="568.0" layoutY="5.0" onMouseClicked="#handleClose" text="Luk" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="OPEN_HAND" />
