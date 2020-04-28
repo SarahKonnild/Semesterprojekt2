@@ -36,7 +36,6 @@ public class Cast implements ICast {
         this.regDKID = regDKID;
     }
 
-
     @Override
     public boolean mergeCastMembers(ICast cast) {
         ICast tempCast = this;
@@ -44,7 +43,7 @@ public class Cast implements ICast {
     }
 
     @Override
-    public boolean updateCast(String name, String regDKID) {
+    public boolean update(String name, String regDKID) {
         this.name = name;
         this.regDKID = regDKID;
         persistence.updateCastInDatabase(this.id, name, regDKID);
@@ -68,7 +67,7 @@ public class Cast implements ICast {
     }
 
     @Override
-    public boolean deleteCast() {
+    public boolean delete() {
         return persistence.removeCastFromDatabase(this.id);
     }
 

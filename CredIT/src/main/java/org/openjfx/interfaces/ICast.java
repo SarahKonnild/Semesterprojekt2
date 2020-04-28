@@ -18,7 +18,6 @@ public interface ICast {
      * @param regDKID the regDKID of the given cast member, created as a {@code integer}.
      * @return the {@code name} object and the {@code regDKID} object.
      */
-    public boolean updateCast(String name, String regDKID);
 
     /**
      * Saves a {@code Cast} object in the persistence layer.
@@ -34,7 +33,9 @@ public interface ICast {
      * @return {@code True}: if the cast member successfully removes in the persistence.
      * {@code False}: it wasn't possible to remove.
      */
-    public boolean deleteCast();
+    public boolean delete();
+
+    public boolean update(String name, String regDKID);
 
     /**
      * Returns the ID of the cast member. This ID is given by the persistence layer.

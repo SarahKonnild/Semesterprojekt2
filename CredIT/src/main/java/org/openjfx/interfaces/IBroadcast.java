@@ -15,6 +15,10 @@ public interface IBroadcast {
      */
     public boolean save();
 
+    public boolean delete();
+
+    public boolean update(String name, int seasonNumber, int episodeNumber, String airDate);
+
     /**
      * Assigns a {@code Cast} object to a specified role value in the HashMap of the broadcast.
      *

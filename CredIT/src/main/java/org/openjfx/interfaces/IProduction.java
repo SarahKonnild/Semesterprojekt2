@@ -10,6 +10,10 @@ public interface IProduction {
      */
     public boolean save();
 
+    public boolean delete();
+
+    public boolean update(String name, String year, String productionCompany);
+
     public int getId();
 
     public String getName();

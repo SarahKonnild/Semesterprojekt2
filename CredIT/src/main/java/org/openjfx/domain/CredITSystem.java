@@ -134,7 +134,7 @@ public class CredITSystem implements ISystem {
                         broadcastObjects = searchBroadcast(Integer.parseInt(broadcastIds[j]));
                     }
                 }
-                productions.add(new Production(Integer.parseInt(items[0]), items[1], broadcastObjects, items[3], items[4]));
+                productions.add(new Production(Integer.parseInt(items[0]), items[1], items[3], items[4]));
             }
             return productions;
         }

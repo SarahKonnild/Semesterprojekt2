@@ -56,8 +56,20 @@ public class Broadcast implements IBroadcast {
     }
 
     @Override
-    public boolean unassignCast(ICast cast, String role) {
+    public boolean delete() {
+        //Todo call method in persistence to delete the broadcast in database
+        return false;
+    }
 
+    @Override
+    public boolean update(String name, int seasonNumber, int episodeNumber, String airDate) {
+        //Todo call method to update in database
+        //Todo figure out if we need to make a check for if the production company is in the database.
+        return false;
+    }
+
+    @Override
+    public boolean unassignCast(ICast cast, String role) {
         return true;
     }
 
