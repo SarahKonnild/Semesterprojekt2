@@ -65,8 +65,8 @@ public class CredITSystem implements ISystem {
     };
 
     @Override
-    public ArrayList<ICast> searchCast(int broadcastId) {
-        return makeCastObjects(persistenceLayer.getCastFromDatabase(broadcastId));
+    public ArrayList<ICast> searchCast(int castID) {
+        return makeCastObjects(persistenceLayer.getCastFromDatabase(castID));
     }
 
     //endregion
