@@ -152,7 +152,14 @@ public class CredITSystem implements ISystem {
     @Override
     public ArrayList<IProduction> searchProduction(String keyword){
         return searchProduction(persistenceLayer.getProductionFromDatabase(keyword));
-    };
+    }
+
+    @Override
+    public ArrayList<IMovie> searchMovie(String keyword) {
+        return null;
+    }
+
+    ;
 
     private ArrayList<IProduction> searchProduction(List<String> list) {
         ArrayList<IProduction> productions = new ArrayList<>();

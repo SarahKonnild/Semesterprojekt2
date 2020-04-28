@@ -127,7 +127,7 @@ public class ModifyCastController implements Initializable {
      */
     @FXML
     public void handleCreateNew(ActionEvent event){
-        ICast cast = LoginSystemController.getAdminUser().addNewCastToDatabase(castName.getText(),Integer.parseInt(regDKID.getText()));
+        ICast cast = LoginSystemController.getAdminUser().addNewCastToDatabase(castName.getText(),regDKID.getText());
         if(cast != null){
             errorMessage.setText("Medvirkende oprettet");
             castSearchResult = new ArrayList<>();

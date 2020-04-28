@@ -59,6 +59,11 @@ public class User implements IUser {
     }
 
     @Override
+    public IMovie addNewMovieToDatabase(String name, IProductionCompany productionCompany, String releasedate) {
+        return null;
+    }
+
+    @Override
     public boolean checkRole(String roleKey) {
         //valueOf checks if the inputted role is equal to the role of this user. Is case senitive.
         if (Role.valueOf(roleKey) == this.role) {

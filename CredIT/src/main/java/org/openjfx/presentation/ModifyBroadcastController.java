@@ -140,7 +140,7 @@ public class ModifyBroadcastController implements Initializable {
             if (day.getText().length() != 2 && month.getText().length() != 2 && year.getText().length() != 4) {
                 errorMessage.setText("Fejl opstået, ugyldig datoindtastning");
             } else {
-                IBroadcast broadcast = LoginController.getAdminUser().addNewBroadcastToDatabase(broadcastName.getText(), Integer.parseInt(season.getText()),
+                IBroadcast broadcast = LoginSystemController.getAdminUser().addNewBroadcastToDatabase(broadcastName.getText(), Integer.parseInt(season.getText()),
                         Integer.parseInt(episode.getText()), dateVariable, results.get(0));
                 clearFields();
                 if (broadcast != null) {

@@ -220,7 +220,7 @@ public class GuestUserPageController implements Initializable {
             searchText = searchField.getText();
             IProduction chosenProduction = (IProduction) obj;
             productionNameField.setText(chosenProduction.getName());
-            productionProducerField.setText(chosenProduction.getProductionCompany());
+            productionProducerField.setText(chosenProduction.getProductionCompany().getName());
             productionReleaseYearField.setText(chosenProduction.getYear());
         } else if (obj instanceof IBroadcast) {
             searchText = searchField.getText();
@@ -231,7 +231,7 @@ public class GuestUserPageController implements Initializable {
             broadcastDayField.setText(airDateInput[0]);
             broadcastMonthField.setText(airDateInput[1]);
             broadcastYearField.setText(airDateInput[2]);
-            broadcastProducerNameField.setText(chosenBroadcast.getProductionName());
+            broadcastProducerNameField.setText(chosenBroadcast.getProduction().getName());
         }
 //        else if(obj instanceof IMovie){
 //            searchText = searchField.getText();

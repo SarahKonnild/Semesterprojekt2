@@ -50,6 +50,11 @@ public class Persistence implements IPersistence {
     }
 
     @Override
+    public int createNewProductionCompanyInDatabase(IProductionCompany production) throws IOException {
+        return 0;
+    }
+
+    @Override
     public boolean removeBroadcastFromDatabase(int id) {
         return false;
     }

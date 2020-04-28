@@ -16,14 +16,14 @@ public class Broadcast implements IBroadcast {
     private IProduction production;
     private IProductionCompany productionCompany;
 
-    public Broadcast(int id, String name, int seasonNumber, int episodeNumber, String airDate,IProduction production, int productionCompanyID) {
+    public Broadcast(int id, String name, int seasonNumber, int episodeNumber, String airDate, int productionID) {
         this.id = id;
         this.name = name;
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.airDate = airDate.split("-");
         this.castRoleMap = CredITSystem.instance.getCastRolesBroadcast(this.id);
-        this.production = CredITSystem.instance.searchProduction(productionCompanyID);
+        this.production = CredITSystem.instance.searchProduction(productionID);
     }
 
     public Broadcast(String name, int seasonNumber, int episodeNumber, String airDate, IProduction production) {
