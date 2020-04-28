@@ -21,7 +21,6 @@ public class Broadcast implements IBroadcast {
     public Broadcast(int id, String name, int seasonNumber, int episodeNumber, String airDate, String productionName) {
         this.id = id;
         this.name = name;
-        this.castMap = castMap;
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.airDate = airDate.split("-");
