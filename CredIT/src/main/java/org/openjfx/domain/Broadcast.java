@@ -12,13 +12,13 @@ public class Broadcast implements IBroadcast {
     private final IPersistence persistence = CredITSystem.getPersistence();
     private int id;
     private String name;
-    private HashMap<String, ArrayList<ICast>> castMap;
+    private HashMap<ICast, String> castMap;
     private String produtionName;
     private int seasonNumber;
     private int episodeNumber;
     private String[] airDate;
 
-    public Broadcast(int id, String name, HashMap<String, ArrayList<ICast>> castMap, int seasonNumber, int episodeNumber, String airDate, String productionName) {
+    public Broadcast(int id, String name, int seasonNumber, int episodeNumber, String airDate, String productionName) {
         this.id = id;
         this.name = name;
         this.castMap = castMap;
@@ -58,24 +58,13 @@ public class Broadcast implements IBroadcast {
 
     @Override
     public boolean unassignCast(ICast cast, String role) {
-        if (castMap.containsKey(role) && castMap.get(role).contains(cast)) {
-            castMap.get(role).remove(cast);
-            if (castMap.get(role).isEmpty()) {
-                castMap.remove(role);
-            }
-        }
+
         return true;
     }
 
     @Override
     public boolean assignCast(ICast cast, String role) {
-        if (castMap.containsKey(role)) {
-            castMap.get(role).add(cast);
-        }
-        if (!castMap.containsKey(role)) {
-            castMap.put(role, new ArrayList<ICast>());
-            castMap.get(role).add(cast);
-        }
+
         return true;
     }
 
@@ -93,7 +82,7 @@ public class Broadcast implements IBroadcast {
         return name;
     }
 
-    public HashMap<String, ArrayList<ICast>> getCastMap() {
+    public HashMap<ICast, String> getCastMap() {
         return castMap;
     }
 

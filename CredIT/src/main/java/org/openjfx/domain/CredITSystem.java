@@ -64,7 +64,7 @@ public class CredITSystem implements ISystem {
             ArrayList<ICast> casts = new ArrayList();
             for (int i = 0; i < cast.size(); i++) {
                 String[] items = cast.get(i).split(",");
-                casts.add(new Cast((Integer.parseInt(items[0])), items[1], (Integer.parseInt(items[2]))));
+                casts.add(new Cast((Integer.parseInt(items[0])), items[1], ((items[2]))));
             }
             return casts;
         }
@@ -105,23 +105,9 @@ public class CredITSystem implements ISystem {
                     //Takes the 3rd element in the string array and splits it to its different key. 3rd element represent the hashmap over roles and cast members
                     //The string Items looks like this = key;value:value:value_key;value:value:value_key;value:value:value_
                     String[] key = items[2].split("_");
-                    for (int j = 0; j < key.length; j++) {
-                        //Splits each string of keys out to the values aka the role and the following
-                        //a string in the key array looks like this = key;value:value:value
-                        String[] pair = key[j].split(";");
-                        //The pair array has 2 elements. First is key and the 2nd is value:value:value
-                        String[] values = pair[1].split(":");
-                        for (int k = 0; k < values.length; k++) {
-                            //Calls the search method for casts where is gives the cast ID.
-//                            castObjects = searchCast(Integer.parseInt(values[k]));
-                            castObjects.add(searchCast(Integer.parseInt(values[k])).get(0));
-                        }
-                        castRolesMap.put(pair[0], castObjects);
-                        castObjects.clear();
-                    }
                 }
                 //Need to update this to take the hashmap instead
-                broadcasts.add(new Broadcast(Integer.parseInt(items[0]), items[1], castRolesMap, Integer.parseInt(items[3]), Integer.parseInt(items[4]), items[5], items[6]));
+                broadcasts.add(new Broadcast(Integer.parseInt(items[0]), items[1], Integer.parseInt(items[3]), Integer.parseInt(items[4]), items[5], items[6]));
             }
             return broadcasts;
         }

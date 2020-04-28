@@ -18,7 +18,7 @@ public interface ICast {
      * @param regDKID the regDKID of the given cast member, created as a {@code integer}.
      * @return the {@code name} object and the {@code regDKID} object.
      */
-    public boolean updateCast(String name, int regDKID);
+    public boolean updateCast(String name, String regDKID);
 
     /**
      * Saves a {@code Cast} object in the persistence layer.
@@ -55,7 +55,7 @@ public interface ICast {
      *
      * @return the RegDKID of the cast member.
      */
-    public int getRegDKID();
+    public String getRegDKID();
 
     public String getRole();
 

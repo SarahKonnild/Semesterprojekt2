@@ -50,7 +50,7 @@ public interface IBroadcast {
      *
      * @return a map over the roles and their associated cast members on this broadcast.
      */
-    public HashMap<String, ArrayList<ICast>> getCastMap();
+    public HashMap<ICast, String> getCastMap();
 
     /**
      * Returns the season number of this broadcast.

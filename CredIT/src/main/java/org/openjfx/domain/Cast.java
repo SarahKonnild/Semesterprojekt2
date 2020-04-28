@@ -9,7 +9,7 @@ public class Cast implements ICast {
     private final IPersistence persistence = CredITSystem.getPersistence();
     private int id;
     private String name;
-    private int regDKID;
+    private String regDKID;
     private String role;
 
     /**
@@ -18,7 +18,7 @@ public class Cast implements ICast {
      * @param name    The name of the cast member
      * @param regDKID The Registerings Danmark ID that the cast member has
      */
-    public Cast(String name, int regDKID) {
+    public Cast(String name, String regDKID) {
         this.name = name;
         this.regDKID = regDKID;
     }
@@ -30,7 +30,7 @@ public class Cast implements ICast {
      * @param name    The name of the cast member
      * @param regDKID The Registerings Danmark ID that the cast member has
      */
-    public Cast(int id, String name, int regDKID) {
+    public Cast(int id, String name, String regDKID) {
         this.id = id;
         this.name = name;
         this.regDKID = regDKID;
@@ -44,7 +44,7 @@ public class Cast implements ICast {
     }
 
     @Override
-    public boolean updateCast(String name, int regDKID) {
+    public boolean updateCast(String name, String regDKID) {
         this.name = name;
         this.regDKID = regDKID;
         persistence.updateCastInDatabase(this.id, name, regDKID);
@@ -96,7 +96,7 @@ public class Cast implements ICast {
         return name;
     }
 
-    public int getRegDKID() {
+    public String getRegDKID() {
         return regDKID;
     }
 

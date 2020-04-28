@@ -137,7 +137,7 @@ public interface IPersistence {
      * @param regDKID The new regDKID of the cast member
      * @return
      */
-    public boolean updateCastInDatabase(int id, String name, int regDKID);
+    public boolean updateCastInDatabase(int id, String name, String regDKID);
 
 
 }
