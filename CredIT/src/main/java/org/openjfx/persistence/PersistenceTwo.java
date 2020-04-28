@@ -38,7 +38,11 @@ public class PersistenceTwo implements IPersistence {
         } catch (SQLException | IllegalArgumentException ex) {
             System.out.println("Sorry... Something is wrong with your password.");
         } finally {
-            if (connection == null) getPassword();
+            if (connection == null) {
+                getPassword();
+                initializePostgresqlDatabase();
+            }
+
         }
     }
     private void getPassword(){
@@ -103,12 +107,27 @@ public class PersistenceTwo implements IPersistence {
     }
 
     @Override
+    public List<String> getBroadcastsFromDatabase(int productionId) {
+        return null;
+    }
+
+    @Override
     public List<String> getBroadcastFromDatabase(int productionId) {
         return null;
     }
 
     @Override
     public List<String> getMovieFromDatabase(String keyword) {
+        return null;
+    }
+
+    @Override
+    public List<String> getMovieFromDatabase(int movieID) {
+        return null;
+    }
+
+    @Override
+    public List<String> getMoviesFromDatabase(int productionCompanyID) {
         return null;
     }
 
@@ -123,12 +142,32 @@ public class PersistenceTwo implements IPersistence {
     }
 
     @Override
+    public List<String> getProductionCompany(int id) {
+        return null;
+    }
+
+    @Override
+    public List<String> getCastRolesMoviesFromDatabase(int id) {
+        return null;
+    }
+
+    @Override
+    public List<String> getCastRolesBroadcastFromDatabase(int id) {
+        return null;
+    }
+
+    @Override
     public List<String> getCastRolesFromDatabase(int id) {
         return null;
     }
 
     @Override
     public List<String> getProductionFromDatabase(String keyword) {
+        return null;
+    }
+
+    @Override
+    public List<String> getProductionsFromDatabase(int productionCompanyID) {
         return null;
     }
 
