@@ -1,5 +1,7 @@
 package org.openjfx.presentation;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -9,8 +11,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import org.openjfx.interfaces.IMovie;
+import org.openjfx.interfaces.IProductionCompany;
 
+import java.lang.reflect.Array;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ModifyMovieController implements Initializable {
@@ -50,6 +56,11 @@ public class ModifyMovieController implements Initializable {
     private TextField releaseYear;
     //endregion
 
+    private ArrayList<IMovie> searchResult;
+    private ObservableList<IMovie> observableList;
+
+    private IMovie chosenMovie;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
@@ -57,14 +68,38 @@ public class ModifyMovieController implements Initializable {
 
     //Everything to do with the ListView (search, choose)
     //region
+
+    /**
+     * Searches the database for entries that match the search field's information in the database.
+     * Writes all results into the list, which can then be chosen by the user.
+     * @param event
+     */
     @FXML
     public void handleSearch(MouseEvent event){
-
+        String searchText = searchField.getText();
+        resultList.getItems().clear();
+        searchResult = App.getSystemInstance().searchMovie(searchText);
+        if(searchResult != null && !searchField.getText().isEmpty()){
+            observableList = FXCollections.observableArrayList(searchResult);
+            resultList.setItems(observableList);
+            searchField.clear();
+        }else{
+            errorMessageSearch.setVisible(true);
+        }
     }
 
+    /**
+     * When the user chooses an object from the search list, this method is run. It will always write the
+     * data associated with the LAST object chosen to the fields.
+     * @param event
+     */
     @FXML
     public void handleResultChosen(MouseEvent event){
-
+        chosenMovie = (IMovie) resultList.getSelectionModel().getSelectedItem();
+        movieName.setText(chosenMovie.getTitle());
+        String[] airDate = chosenMovie.getReleaseDate();
+        releaseYear.setText(String.valueOf(airDate[2]));
+        productionCompany.setText(chosenMovie.getProductionCompany().getName());
     }
 
     //endregion
@@ -74,7 +109,26 @@ public class ModifyMovieController implements Initializable {
     //region
     @FXML
     public void handleCreateNew(MouseEvent event){
-
+        String companySearch = productionCompany.getText();
+        ArrayList<IProductionCompany> results = new ArrayList<>();
+        results.add(App.getSystemInstance().searchProductionCompany(companySearch));
+        if(results.get(0).getName().equals(companySearch)) {
+            IMovie movie = LoginSystemController.getAdminUser().addNewMovieToDatabase(movieName.getText(), results.get(0), releaseYear.getText());
+            clearFields();
+            if(movie != null){
+                errorMessage.setText("Filmen tilføjet");
+                if(!searchResult.isEmpty()){
+                    searchResult = new ArrayList<>();
+                    searchResult.add(movie);
+                    resultList.setItems(FXCollections.observableArrayList(searchResult));
+                }else{
+                    errorMessage.setText("Fejl opstået, udsendelsen blev ikke tilføjet");
+                }
+            }
+            resultList.refresh();
+        }else{
+            errorMessage.setText("Fejl opstået, intet firma at tilføje til");
+        }
     }
     //endregion
 
@@ -116,4 +170,10 @@ public class ModifyMovieController implements Initializable {
         App.handleUnassignAssignStage();
     }
     //endregion
+
+    private void clearFields(){
+        movieName.clear();
+        releaseYear.clear();
+        productionCompany.clear();
+    }
 }

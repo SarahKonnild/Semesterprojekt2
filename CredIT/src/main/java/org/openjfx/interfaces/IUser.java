@@ -37,6 +37,8 @@ public interface IUser {
      * @param roleKey the role of the user thats logged in.
      * @return Returns <code>true</code> if the string match the role of this user object else <code>false</code>
      */
+
+    public IMovie addNewMovieToDatabase(String name, IProductionCompany productionCompany, String releasedate);
     public boolean checkRole(String role);
 
     public IProductionCompany addNewProductionCompanyToDatabase(String name);

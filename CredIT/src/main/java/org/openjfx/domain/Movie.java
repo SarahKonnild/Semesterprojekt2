@@ -15,9 +15,10 @@ public class Movie implements IMovie {
     private HashMap<ICast, String> castRoleMap;
     private IProductionCompany productionCompany;
 
-    public Movie(String title, String productionCompany, String releaseDate){
+    public Movie(String title, IProductionCompany productionCompany, String releaseDate){
         this.title = title;
         this.releaseDate = releaseDate.split("-");
+        this.productionCompany = productionCompany;
     }
 
     public Movie(int id, String title, String releaseDate, int productionCompanyID){

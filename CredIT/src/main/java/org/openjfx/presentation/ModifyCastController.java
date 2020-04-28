@@ -193,7 +193,7 @@ public class ModifyCastController implements Initializable {
     public void handleDelete(ActionEvent event){
         if(!castObservableList.isEmpty()){
             chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
-            creationState = chosenCast.deleteCast();
+            creationState = chosenCast.delete();
             if(creationState){
                 errorMessage.setText("Medvirkende slettet");
                 clearFields();
@@ -218,7 +218,7 @@ public class ModifyCastController implements Initializable {
     public void handleSave(ActionEvent event){
         if(!castObservableList.isEmpty()){
             chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
-            creationState = chosenCast.updateCast(castName.getText(), Integer.parseInt(regDKID.getText()));
+            creationState = chosenCast.update(castName.getText(), regDKID.getText());
             if(creationState){
                 errorMessage.setText("Medvirkende opdateret");
                 clearFields();

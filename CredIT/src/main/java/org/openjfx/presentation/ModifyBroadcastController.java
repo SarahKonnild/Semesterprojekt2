@@ -115,7 +115,7 @@ public class ModifyBroadcastController implements Initializable {
     public void handleSearchResultChosen(MouseEvent event){
         chosenBroadcast = (IBroadcast) resultList.getSelectionModel().getSelectedItem();
         broadcastName.setText(chosenBroadcast.getName());
-        productionCompany.setText(chosenBroadcast.getProduction().getProductionCompany().getName());
+        production.setText(chosenBroadcast.getProduction().getName());
         String[] airDate = chosenBroadcast.getAirDate();
         day.setText(airDate[0]);
         month.setText(airDate[1]);
@@ -133,10 +133,9 @@ public class ModifyBroadcastController implements Initializable {
      */
     @FXML
     public void handleCreateBroadcast(MouseEvent event){
-        boolean status = false;
         String productionSearch = production.getText();
         ArrayList<IProduction> results = App.getSystemInstance().searchProduction(productionSearch);
-        if(results.get(0).equals(productionSearch)){
+        if(results.get(0).getName().equals(productionSearch)){
             String dateVariable = day.getText() + "-" + month.getText() + "-" + year.getText();
             if (day.getText().length() != 2 && month.getText().length() != 2 && year.getText().length() != 4) {
                 errorMessage.setText("Fejl opstået, ugyldig datoindtastning");
@@ -156,6 +155,8 @@ public class ModifyBroadcastController implements Initializable {
                 }
             }
             resultList.refresh();
+        }else{
+            errorMessage.setText("Fejl opstået, ingen produktion at tilføje til");
         }
     }
     //endregion
@@ -212,7 +213,7 @@ public class ModifyBroadcastController implements Initializable {
     //region
     private void clearFields(){
         broadcastName.clear();
-        productionCompany.clear();
+        production.clear();
         year.clear();
         day.clear();
         month.clear();

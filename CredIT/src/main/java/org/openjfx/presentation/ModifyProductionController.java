@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import org.openjfx.interfaces.IBroadcast;
 import org.openjfx.interfaces.ICast;
 import org.openjfx.interfaces.IProduction;
+import org.openjfx.interfaces.IProductionCompany;
 
 import java.io.IOException;
 import java.net.URL;
@@ -103,7 +104,6 @@ public class ModifyProductionController implements Initializable {
      */
     @FXML
     public void handleSearchResultChosen(MouseEvent event){
-        resultList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         observableList = resultList.getSelectionModel().getSelectedItems();
         chosenProduction = (IProduction) resultList.getSelectionModel().getSelectedItem();
         productionName.setText(chosenProduction.getName());
@@ -123,7 +123,10 @@ public class ModifyProductionController implements Initializable {
      */
     @FXML
     public void handleCreateNew(MouseEvent event){
-        IProduction production = LoginController.getAdminUser().addNewProductionToDatabase(productionName.getText(), releaseYear.getText(), productionCompany.getText());
+        String companySearch = productionCompany.getText();
+        ArrayList<IProductionCompany> results = new ArrayList<>();
+        results.add(App.getSystemInstance().searchProductionCompany(companySearch));
+        IProduction production = LoginSystemController.getAdminUser().addNewProductionToDatabase(productionName.getText(), releaseYear.getText(), results.get(0));
         if (production != null) {
             errorMessage.setText("Produktionen oprettet");
             searchResult = new ArrayList<>();
