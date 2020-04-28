@@ -75,6 +75,8 @@ public class ModifyProductionController implements Initializable {
         App.handleMoveWindow(basePane);
     }
 
+    //Everything to do with the ListView (search, choose)
+    //region
     /**
      * Searches the database for entries that match the search field's information in the database.
      * Writes all results into the list, which can then be chosen by the user.
@@ -110,7 +112,10 @@ public class ModifyProductionController implements Initializable {
         amountOfEpisodes.setText(String.valueOf(chosenProduction.getNumberOfEpisodes()));
         releaseYear.setText(chosenProduction.getYear());
     }
+    //endregion
 
+    //Create Production
+    //region
     /**
      * Takes the information written in the fields and uses those as the parameters for the createProduction method
      * in the domain layer. Thus creates a new entry into the database.
@@ -130,7 +135,10 @@ public class ModifyProductionController implements Initializable {
         }
         resultList.refresh();
     }
+    //endregion
 
+    //Delete Production
+    //region
     /**
      *
      * @param event
@@ -139,7 +147,10 @@ public class ModifyProductionController implements Initializable {
     public void handleDelete(MouseEvent event){
 
     }
+    //endregion
 
+    //Save Production
+    //region
     /**
      *
      * @param event
@@ -148,7 +159,9 @@ public class ModifyProductionController implements Initializable {
     public void handleSave(MouseEvent event){
 
     }
+    //endregion
 
+    //Clears the fields
     //region
     private void clearFields(){
         productionName.clear();
@@ -156,10 +169,7 @@ public class ModifyProductionController implements Initializable {
     }
     //endregion
 
-    /**
-     * Changes the scene of the primary stage, opens the new Help-stage and closes the entire program.
-     * @param event
-     */
+    //Changes the scene of the primary stage, opens the new Help-stage and closes the entire program.
     //region
     @FXML
     public void handleHelp(MouseEvent event){

@@ -14,7 +14,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ModifyMovieController implements Initializable {
-
+    //FXML Attributes
+    //region
     @FXML
     private AnchorPane basePane;
     @FXML
@@ -47,35 +48,17 @@ public class ModifyMovieController implements Initializable {
     private TextField productionCompany;
     @FXML
     private TextField releaseYear;
+    //endregion
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
     }
 
+    //Everything to do with the ListView (search, choose)
+    //region
     @FXML
-    public void handleSearch(ActionEvent event){
-
-    }
-
-    @FXML
-    public void handleChangeCast(ActionEvent event){
-        App.setAssignCastModifier("movie");
-        App.handleUnassignAssignStage();
-    }
-
-    @FXML
-    public void handleCreateNew(ActionEvent event){
-
-    }
-
-    @FXML
-    public void handleDelete(ActionEvent event){
-
-    }
-
-    @FXML
-    public void handleSave(ActionEvent event){
+    public void handleSearch(MouseEvent event){
 
     }
 
@@ -84,6 +67,36 @@ public class ModifyMovieController implements Initializable {
 
     }
 
+    //endregion
+
+
+    //Create Movie
+    //region
+    @FXML
+    public void handleCreateNew(MouseEvent event){
+
+    }
+    //endregion
+
+    //Delete Movie
+    //region
+    @FXML
+    public void handleDelete(MouseEvent event){
+
+    }
+    //endregion
+
+    //Save Movie
+    //region
+    @FXML
+    public void handleSave(MouseEvent event){
+
+    }
+    //endregion
+
+
+    //All the methods which change the scene, open the help stage or close the program.
+    //region
     @FXML
     public void handleHelp(MouseEvent event){
         App.handleHelpStage();
@@ -97,4 +110,10 @@ public class ModifyMovieController implements Initializable {
     @FXML
     public void handleClose(MouseEvent event){App.closeWindow();}
 
+    @FXML
+    public void handleChangeCast(ActionEvent event){
+        App.setAssignCastModifier("movie");
+        App.handleUnassignAssignStage();
+    }
+    //endregion
 }

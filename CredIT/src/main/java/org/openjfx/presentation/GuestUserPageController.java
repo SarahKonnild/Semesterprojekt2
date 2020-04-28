@@ -138,12 +138,13 @@ public class GuestUserPageController implements Initializable {
         search.setDisable(true);
     }
 
+    //Everything do do with manipulating the ListView (search,choose)
+    //region
     /**
      * Checks the subject that has been chosen in the dropdown menu, and specifies the search-method in the domain layer that is being
      * run on the searchfield's input
      * @param event
      */
-    //region
     @FXML
     private void handleSearch(MouseEvent event){
         String searchText = searchField.getText();
@@ -202,7 +203,6 @@ public class GuestUserPageController implements Initializable {
         }
         changeFieldsVisible(searchTopicChosen);
     }
-    //endregion
 
     /**
      * Handles the picking of an item in the searchlist and writes that object's information to the relevant fields.
@@ -256,6 +256,10 @@ public class GuestUserPageController implements Initializable {
 //        }
     }
 
+    //endregion
+
+    //Choose searchtopic
+    //region
     /**
      * A method which creates a String-value that can be used to specify the search method used and the fields that should be
      * visible
@@ -305,7 +309,10 @@ public class GuestUserPageController implements Initializable {
             }
         });
     }
+    //endregion
 
+    //All the methods which change the scene, open the help stage or close the program.
+    //region
     /**
      * Methods which handle the changing of the FXMLs. Includes:
      * - Close the window (and thus the main process)
@@ -313,7 +320,6 @@ public class GuestUserPageController implements Initializable {
      * - Return to the past scene
      * @param event
      */
-    //region
     @FXML
     public void handleClose(MouseEvent event){
         App.closeWindow();}
@@ -328,6 +334,8 @@ public class GuestUserPageController implements Initializable {
     }
     //endregion
 
+    //Changing visible fields
+    //region
     /**
      * Method that can be used to specify which fields should be rendered visible in the GUI based on the search topic.
      * This method can then be called upon to specify the fields and labels that should be shown to the user based on the search topic.
@@ -364,7 +372,6 @@ public class GuestUserPageController implements Initializable {
      * associated with one of the classes/searchtopic that has been chosen.
      * @param value a boolean value that allows for toggling the fields/labels
      */
-    //region
     private void changeCastFields(boolean value){
             castName.setVisible(value);
             castNameField.setVisible(value);
