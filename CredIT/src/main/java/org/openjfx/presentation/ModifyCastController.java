@@ -71,6 +71,8 @@ public class ModifyCastController implements Initializable {
         
     }
 
+    //Everything do do with manipulating the ListView
+    //region
     /**
      * Searches the database for entries that match the search field's information in the database.
      * Writes all results into the list, which can then be chosen by the user.
@@ -91,11 +93,33 @@ public class ModifyCastController implements Initializable {
         }
     }
 
+    /**
+     * When the user chooses an object from the search list, this method is run. It will always write the
+     * data associated with the LAST object chosen to the fields.
+     * @param event
+     */
+    @FXML
+    public void handleResultChosen(MouseEvent event){
+        resultList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        chosenCastObservable = resultList.getSelectionModel().getSelectedItems();
+        chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
+        castName.setText(chosenCast.getName());
+        regDKID.setText(String.valueOf(chosenCast.getRegDKID()));
+    }
+
+    /**
+     * Displays the rolelist for each cast member in the resultList view.
+     * @param event
+     */
     @FXML
     public void handleSeeRolelist(ActionEvent event){
         searchField.setText("You gon' goofed");
     }
 
+    //endregion
+
+    //Create Cast
+    //region
     /**
      * Takes the information written in the fields and uses those as the parameters for the createCast method
      * in the domain layer. Thus creates a new entry into the database.
@@ -116,33 +140,10 @@ public class ModifyCastController implements Initializable {
         }
         resultList.refresh();
     }
+    //endregion
 
-    /**
-     * Deletes the object that has been chosen in the list of search results, by running the Domain method on
-     * the object.
-     * If successful, the user is given a success message.
-     * If unsuccessful, the user is given an error message.
-     * If no objects are chosen and the button is pressed, an error message is written.
-     * @param event
-     */
-    @FXML
-    public void handleDelete(ActionEvent event){
-        if(!castObservableList.isEmpty()){
-            chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
-            creationState = chosenCast.deleteCast();
-            if(creationState){
-                errorMessage.setText("Medvirkende slettet");
-                clearFields();
-            }else{
-                errorMessage.setText("Fejl, medvirkende blev ikke slettet");
-            }
-        }else{
-            errorMessage.setText("Fejl, ingen medvirkende valgt");
-        }
-        resultList.refresh();
-    }
-
-
+    //Merge Cast
+    //region
     /**
      * Checks how many cast members are chosen in the resultslist;
      * If less than 2, an error message will be printed stating that there is not enough cast members chosen
@@ -176,6 +177,38 @@ public class ModifyCastController implements Initializable {
 
     }
 
+    //endregion
+
+    //Delete Cast
+    //region
+    /**
+     * Deletes the object that has been chosen in the list of search results, by running the Domain method on
+     * the object.
+     * If successful, the user is given a success message.
+     * If unsuccessful, the user is given an error message.
+     * If no objects are chosen and the button is pressed, an error message is written.
+     * @param event
+     */
+    @FXML
+    public void handleDelete(ActionEvent event){
+        if(!castObservableList.isEmpty()){
+            chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
+            creationState = chosenCast.deleteCast();
+            if(creationState){
+                errorMessage.setText("Medvirkende slettet");
+                clearFields();
+            }else{
+                errorMessage.setText("Fejl, medvirkende blev ikke slettet");
+            }
+        }else{
+            errorMessage.setText("Fejl, ingen medvirkende valgt");
+        }
+        resultList.refresh();
+    }
+    //endregion
+
+    //Save Cast
+    //region
     /**
      * Saves the changes that are made to a cast object into the databases. Reads the values of all the fields
      * and saves the changes to the object that was originally chosen.
@@ -197,25 +230,10 @@ public class ModifyCastController implements Initializable {
         }
         resultList.refresh();
     }
+    //endregion
 
-    /**
-     * When the user chooses an object from the search list, this method is run. It will always write the
-     * data associated with the LAST object chosen to the fields.
-     * @param event
-     */
-    @FXML
-    public void handleResultChosen(MouseEvent event){
-        resultList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        chosenCastObservable = resultList.getSelectionModel().getSelectedItems();
-        chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
-        castName.setText(chosenCast.getName());
-        regDKID.setText(String.valueOf(chosenCast.getRegDKID()));
-    }
 
-    /**
-     * Methods that are responsible for changing the scene, closing the stage or opening the help stage.
-     * @param event
-     */
+    //Methods that are responsible for changing the scene, closing the stage or opening the help stage.
     //region
     @FXML
     public void handleHelp(MouseEvent event){
@@ -232,12 +250,13 @@ public class ModifyCastController implements Initializable {
 
     //endregion
 
-    /**
-     * Clears the fields that are available for this specific object
-     */
+
+    //Clears the fields that are available for this specific object
+    //region
     private void clearFields(){
         castName.clear();
         regDKID.clear();
     }
+    //endregion
     
 }

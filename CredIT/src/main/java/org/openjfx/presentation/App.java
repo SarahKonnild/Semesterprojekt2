@@ -187,6 +187,8 @@ public class App extends Application {
     }
     //endregion
 
+    //Movement of the window
+    //region
     /**
      * This method can be called upon in all the other controllers. It allows for moving the borderless application window.
      * @param basePane refers to the AnchorPane that is clickable and movable in the Stage (usually the darker blue panel at
@@ -214,6 +216,7 @@ public class App extends Application {
             }
         });
     }
+    //endregion
 
 
     public static void closeWindow(){

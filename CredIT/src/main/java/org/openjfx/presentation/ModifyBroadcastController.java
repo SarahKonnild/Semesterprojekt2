@@ -83,7 +83,8 @@ public class ModifyBroadcastController implements Initializable {
         App.handleMoveWindow(basePane);
     }
 
-
+    //Everything do do with manipulating the ListView (search,choose)
+    //region
     /**
      * Searches the database for entries that match the search field's information in the database.
      * Writes all results into the list, which can then be chosen by the user.
@@ -120,7 +121,10 @@ public class ModifyBroadcastController implements Initializable {
         season.setText(String.valueOf(chosenBroadcast.getSeasonNumber()));
         episode.setText(String.valueOf(chosenBroadcast.getEpisodeNumber()));
     }
+    //endregion
 
+    //Create Broadcast
+    //region
     /**
      *
      * @param event
@@ -147,7 +151,10 @@ public class ModifyBroadcastController implements Initializable {
         }
         resultList.refresh();
     }
+    //endregion
 
+    //Delete Broadcast
+    //region
     /**
      * When the user chooses an object from the search list, and they press the "delete"-button, this method
      * is run. It will delete the object that is chosen from the database.
@@ -157,17 +164,17 @@ public class ModifyBroadcastController implements Initializable {
     public void handleDeleteBroadcast(MouseEvent event){
 
     }
+    //endregion
 
+    //Save Broadcast
+    //region
     @FXML
     public void handleSaveBroadcast(MouseEvent event){
 
     }
+    //endregion
 
-
-    /**
-     * Changes the scene of the primary stage, opens the new Help-stage and closes the entire program.
-     * @param event
-     */
+    //Changes the scene of the primary stage, opens the new Help-stage and closes the entire program.
     //region
     @FXML
     public void handleBack(MouseEvent event){
@@ -194,6 +201,8 @@ public class ModifyBroadcastController implements Initializable {
     }
     //endregion
 
+    //Clears the fields
+    //region
     private void clearFields(){
         broadcastName.clear();
         productionCompany.clear();
@@ -203,8 +212,12 @@ public class ModifyBroadcastController implements Initializable {
         season.clear();
         episode.clear();
     }
+    //endregion
 
+    //Retrieve the chosen broadcast for scene changes
+    //region
     public static IBroadcast getChosenBroadcast(){
         return chosenBroadcast;
     }
+    //endregion
 }

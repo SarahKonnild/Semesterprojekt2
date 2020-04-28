@@ -19,6 +19,8 @@ import java.util.ResourceBundle;
 
 public class AssignUnassignCastController implements Initializable {
 
+    //FXML Attributes
+    //region
     @FXML
     private Button search;
     @FXML
@@ -53,19 +55,28 @@ public class AssignUnassignCastController implements Initializable {
     private TextField regDKField;
     @FXML
     private TextField rolenameField;
-
-
+    //endregion
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
 
+    //Everything do do with manipulating the ListView (search,choose)
+    //region
     @FXML
     public void handleSearch(ActionEvent event){
 
     }
 
+    @FXML
+    public void handleResultChosen(MouseEvent event){
+
+    }
+    //endregion
+
+    //Assign/Unassign Cast
+    //region
     @FXML
     public void handleAssignNewCast(ActionEvent event){
 
@@ -75,17 +86,18 @@ public class AssignUnassignCastController implements Initializable {
     public void handleUnassignCast(ActionEvent event){
 
     }
+    //endregion
 
+    //Save Changes
+    //region
     @FXML
     public void handleSave(ActionEvent event){
 
     }
+    //endregion
 
-    @FXML
-    public void handleResultChosen(MouseEvent event){
-
-    }
-
+    //Change the scenes and close the stage
+    //region
     @FXML
     public void handleHelp(MouseEvent event){
         App.handleHelpStage();
@@ -99,7 +111,10 @@ public class AssignUnassignCastController implements Initializable {
             App.handleModifyBroadcastPage();
         }
     }
+    //endregion
 
+    //Show the desired Labels and Fields/Buttons
+    //region
     @FXML
     public void handleAssignCastOption(MouseEvent event){
         setFieldsAndLabelsVisible();
@@ -107,6 +122,7 @@ public class AssignUnassignCastController implements Initializable {
         unassignButton.setVisible(false);
         save.setVisible(false);
     }
+
 
     @FXML
     public void handleUnassignCastOption(MouseEvent event){
@@ -127,4 +143,5 @@ public class AssignUnassignCastController implements Initializable {
         role.setVisible(true);
         rolenameField.setVisible(true);
     }
+    //endregion
 }
