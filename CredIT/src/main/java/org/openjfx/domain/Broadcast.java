@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Broadcast implements IBroadcast {
-    private final IPersistence persistence = CredITSystem.getPersistence();
     private int id;
     private String name;
     private HashMap<ICast, String> castRoleMap;
@@ -40,7 +39,7 @@ public class Broadcast implements IBroadcast {
     public boolean save() {
         int idNumber = -1;
         try {
-            idNumber = persistence.createNewBroadcastInDatabase(this);
+            idNumber = CredITSystem.instance.getPersistenceLayer().createNewBroadcastInDatabase(this);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
