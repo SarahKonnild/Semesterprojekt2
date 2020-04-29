@@ -22,7 +22,7 @@ public interface IProduction {
 
     public ArrayList<IBroadcast> getBroadcasts();
 
-    public String getProductionCompany();
+    public IProductionCompany getProductionCompany();
 
     public int getNumberOfSeasons();
 
