@@ -11,9 +11,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import org.openjfx.interfaces.IBroadcast;
-import org.openjfx.interfaces.ICast;
-import org.openjfx.interfaces.IProduction;
+import org.openjfx.interfaces.*;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -61,6 +59,12 @@ public class GuestUserPageController implements Initializable {
     private Label releaseYearMovie;
     @FXML
     private Label movieProducerName;
+    @FXML
+    private Label searchTextInfo;
+    @FXML
+    private Label showMovies;
+    @FXML
+    private Label showProductions;
     @FXML
     private ListView resultList;
     @FXML
@@ -116,20 +120,21 @@ public class GuestUserPageController implements Initializable {
     private ArrayList<IProduction> productionSearchResult;
     private ArrayList<ICast> castSearchResult;
     private ArrayList<IBroadcast> broadcastSearchResult;
-//    private ArrayList<IMovie> movieSearchResult;
-//    private ArrayList<IProductionCompany> companySearchResult;
+    private ArrayList<IMovie> movieSearchResult;
 
     private ObservableList<ICast> castObservableList;
     private ObservableList<IProduction> productionObservableList;
     private ObservableList<IBroadcast> broadcastObservableList;
-//    private ObservableList<IMovie> movieObservableList;
-//    private ObservableList<IProductionCompany> companyObservableList;
+    private ObservableList<IMovie> movieObservableList;
+    private ObservableList<IProductionCompany> companyObservableList;
 
     private Object obj;
     private String searchText;
     private ICast chosenCast;
-//    private IMovie chosenMovie;
-//    private IProduction chosenProduction;
+    private IMovie chosenMovie;
+    private IProduction chosenProduction;
+    private IProductionCompany companySearchResult;
+    private String wasCompanyChosen;
     //endregion
 
     @Override
@@ -178,30 +183,31 @@ public class GuestUserPageController implements Initializable {
             } else {
                 errorMessage.setText("Fejl opstået, udsendelse ikke fundet");
             }
-//        }else if(searchTopicChosen.equals("movie")){
-//            resultList.getItems().clear();
-//            movieSearchResult = App.getSystemInstance().searchMovie(searchText);
-//            if(movieSearchResult != null && !searchField.getText().isEmpty()){
-//                movieObservableList = FXCollections.observableArrayList(movieSearchResult);
-//                resultList.setItems(movieObservableList);
-//                searchField.clear();
-//            }else{
-//                errorMessage.setText("Fejl opstået, udsendelse ikke fundet");
-//            }
+        }else if(searchTopicChosen.equals("movie")){
+            resultList.getItems().clear();
+            movieSearchResult = App.getSystemInstance().searchMovie(searchText);
+            if(movieSearchResult != null && !searchField.getText().isEmpty()){
+                movieObservableList = FXCollections.observableArrayList(movieSearchResult);
+                resultList.setItems(movieObservableList);
+                searchField.clear();
+            }else{
+                errorMessage.setText("Fejl opstået, udsendelse ikke fundet");
+            }
         }else if(searchTopicChosen.equals("productioncompany")){
-//            resultList.getItems().clear();
-//            companySearchResult = App.getSystemInstance().searchProductionCompany(searchText);
-//            if (companySearchResult != null && !searchField.getText().isEmpty()) {
-//                companyObservableList = FXCollections.observableArrayList(companySearchResult);
-//                resultList.setItems(companyObservableList);
-//                searchField.clear();
-//            } else {
-//                errorMessage.setText("Fejl opstået, udsendelse ikke fundet");
-//            }
+            resultList.getItems().clear();
+            companySearchResult = App.getSystemInstance().searchProductionCompany(searchText);
+            if (companySearchResult != null && !searchField.getText().isEmpty()) {
+                companyObservableList = FXCollections.observableArrayList(companySearchResult);
+                resultList.setItems(companyObservableList);
+                searchField.clear();
+            } else {
+                errorMessage.setText("Fejl opstået, produktionsfirma ikke fundet");
+            }
         }else{
             errorMessage.setText("Intet søgeemne valgt");
         }
         changeFieldsVisible(searchTopicChosen);
+        searchTextInfo.setText(searchText);
     }
 
     /**
@@ -218,6 +224,9 @@ public class GuestUserPageController implements Initializable {
             castNameField.setText(chosenCast.getName());
         } else if (obj instanceof IProduction) {
             searchText = searchField.getText();
+            if(wasCompanyChosen.equals("yes")){
+                changeFieldsVisible("production");
+            }
             IProduction chosenProduction = (IProduction) obj;
             productionNameField.setText(chosenProduction.getName());
             productionProducerField.setText(chosenProduction.getProductionCompany().getName());
@@ -233,29 +242,40 @@ public class GuestUserPageController implements Initializable {
             broadcastYearField.setText(airDateInput[2]);
             broadcastProducerNameField.setText(chosenBroadcast.getProduction().getName());
         }
-//        else if(obj instanceof IMovie){
-//            searchText = searchField.getText();
-//            obj = resultList.getSelectionModel().getSelectedItem();
-//            IMovie chosenMovie = (IMovie) obj;
-//            movieNameField.setText(chosenMovie.getName());
-//            movieReleaseYearField.setText(chosenMovie.getReleaseYear());
-//            movieProductionCompanyField.setText(chosenMovie.getProductionCompany());
-//        }
-//        else if(obj instanceof IProductionCompany){
-//            searchField.setText(searchText);
-//            //TODO insert code which prints the ProductionCompany's list of productions/movies into the resultList
-//            obj = resultList.getSelectionModel().getSelectedItem();
-//            if(obj instanceof IMovie){
-//                changeFieldsVisible("movie");
-//                chosenMovie = (IMovie) obj;
-//                movieProductionCompanyField.setText(chosenMovie.getProductionCompany().getName());
-//
-//            }else if(obj instanceof IProduction){
-//                changeFieldsVisible("production");
-//            }
-//        }
+        else if(obj instanceof IMovie){
+            searchText = searchField.getText();
+            if(wasCompanyChosen.equals("yes")){
+                changeFieldsVisible("movie");
+            }
+            obj = resultList.getSelectionModel().getSelectedItem();
+            IMovie chosenMovie = (IMovie) obj;
+            movieNameField.setText(chosenMovie.getTitle());
+            String[] releaseDateInput = chosenMovie.getReleaseDate();
+            movieReleaseYearField.setText(releaseDateInput[2]);
+            movieProductionCompanyField.setText(chosenMovie.getProductionCompany().getName());
+        }
+        else if(obj instanceof IProductionCompany){
+            searchField.setText(searchText);
+            wasCompanyChosen = "yes";
+            obj = resultList.getSelectionModel().getSelectedItem();
+            ArrayList<IMovie> movieList = ((IProductionCompany) obj).getMovieList();
+            ArrayList<IProduction> productionList = ((IProductionCompany) obj).getProductionList();
+            ObservableList<IMovie> movieObsList = FXCollections.observableArrayList(movieList);
+            ObservableList<IProduction> prodObsList = FXCollections.observableArrayList(productionList);
+            if(movieObsList.isEmpty()){ //Ensures that if the movielist is empty, i.e. the company makes no movies, the productions are shown
+                resultList.setItems(prodObsList);
+            }else if(prodObsList.isEmpty()){ //Ensures that if the productionlist is empty, i.e. the company makes no productions, the movies are shown
+                resultList.setItems(movieObsList);
+            }else if(movieObsList.size() > prodObsList.size()){ //if the company makes more movies than productions, movies are shown
+                resultList.setItems(movieObsList);
+            }else if(movieObsList.size() < prodObsList.size()){//if the company makes more productions than movies, productions are shown
+                resultList.setItems(prodObsList);
+            }else{ //If the company has neither movies nor productions, the user is informed of this.
+                errorMessage.setText("Firmaet har ingen film/serier");
+            }
+            //TODO specify a handler for showMovies/showProductions, which changes the resultList to show the appropriate elements and fields.
+        }
     }
-
     //endregion
 
     //Choose searchtopic
