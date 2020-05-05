@@ -100,3 +100,55 @@ create table broadcast_employs
     constraint broadcast_employs_pkey
         primary key (broadcast_id, cast_id)
 );
+
+-- update single broadcast season number
+CREATE OR REPLACE PROCEDURE update_season_number(broadcast_name varchar)
+AS $$
+DECLARE
+    number_of_seasons_temp integer := 1;
+BEGIN
+    SELECT max(season_number) INTO number_of_seasons_temp FROM broadcast WHERE broadcast.name = broadcast_name;
+    UPDATE production SET number_of_seasons = number_of_seasons_temp WHERE name = broadcast_name;
+END; $$
+    LANGUAGE plpgsql;
+
+-- update single broadcast episode number
+CREATE OR REPLACE PROCEDURE update_episode_number(broadcast_name varchar)
+AS $$
+DECLARE
+    number_of_episodes_temp integer := 1;
+BEGIN
+    SELECT count(episode_number) INTO number_of_episodes_temp FROM broadcast WHERE broadcast.name = broadcast_name;
+    UPDATE production SET number_of_episodes = number_of_episodes_temp WHERE name = broadcast_name;
+END; $$
+    LANGUAGE plpgsql;
+
+-- update all broadcasts procedure
+CREATE OR REPLACE PROCEDURE update_all_broadcast_sizes()
+AS $$
+DECLARE
+    broadcasts CURSOR FOR SELECT DISTINCT(name) AS name FROM broadcast;
+BEGIN
+    FOR broadcast in broadcasts LOOP
+            CALL update_season_number(broadcast.name);
+            CALL update_episode_number(broadcast.name);
+        END LOOP;
+END; $$
+    LANGUAGE plpgsql;
+
+-- function wrapper to enable running procedure as trigger
+CREATE OR REPLACE FUNCTION update_all_broadcast_sizes_trigger()
+    RETURNS TRIGGER
+AS $$
+BEGIN
+    CALL update_all_broadcast_sizes();
+    RETURN NULL;
+END; $$
+    LANGUAGE plpgsql;
+
+-- Define trigger to update broadcast(number_of_seasons and number_of_episodes)
+CREATE TRIGGER update_size_of_broadcast_trigger
+    AFTER INSERT OR DELETE ON broadcast
+EXECUTE PROCEDURE update_all_broadcast_sizes_trigger();
+
+commit;
