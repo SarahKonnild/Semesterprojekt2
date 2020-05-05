@@ -4,7 +4,6 @@ import org.openjfx.domain.Broadcast;
 import org.openjfx.domain.Cast;
 import org.openjfx.interfaces.*;
 
-import java.io.Console;
 import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
@@ -34,8 +33,6 @@ public class PersistenceTwo implements IPersistence {
         return persistence;
     }
 
-
-
     private void initializePostgresqlDatabase() {
         try {
             DriverManager.registerDriver(new org.postgresql.Driver());
@@ -44,8 +41,6 @@ public class PersistenceTwo implements IPersistence {
             System.out.println("Sorry... Something is wrong with your password.");
         }
     }
-
-
 
     @Override
     public boolean createNewUserInDatabase(IUser user) {
@@ -73,19 +68,18 @@ public class PersistenceTwo implements IPersistence {
 
 
             stmt.execute();
-
-                HashMap<ICast, String> map = broadcast.getCastMap();
-                for (ICast cast : map.keySet()) {
-                    PreparedStatement stmt2 = connection.prepareStatement(
-                            "insert into broadcast_employs(broadcast_id, cast_id, role)" +
-                                    "values(?,?,?)"
-                    );
-                    stmt2.setInt(1, getBroadcastId(broadcast));
-                    stmt2.setInt(2, cast.getId());
-                    stmt2.setString(3, map.get(cast));
-                    stmt2.execute();
-                }
-
+            int broadCastId = getBroadcastId(broadcast);
+            HashMap<ICast, String> map = broadcast.getCastMap();
+            for (ICast cast : map.keySet()) {
+                PreparedStatement stmt2 = connection.prepareStatement(
+                        "insert into broadcast_employs(broadcast_id, cast_id, role)" +
+                                "values(?,?,?)"
+                );
+                stmt2.setInt(1, broadCastId);
+                stmt2.setInt(2, cast.getId());
+                stmt2.setString(3, map.get(cast));
+                stmt2.execute();
+            }
 
 
         } catch (SQLException throwables) {
@@ -103,8 +97,8 @@ public class PersistenceTwo implements IPersistence {
 
             );
             stmt.setString(1, "test");
-            String[] realease = movie.getReleaseDate();
-            stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(realease[2]), Integer.parseInt(realease[1]), Integer.parseInt(realease[0]))));
+            String[] release = movie.getReleaseDate();
+            stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(release[2]), Integer.parseInt(release[1]), Integer.parseInt(release[0]))));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -138,8 +132,7 @@ public class PersistenceTwo implements IPersistence {
     }
 
     @Override
-    public int createNewCastInDatabase(ICast cast)
-    {
+    public int createNewCastInDatabase(ICast cast) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
                     "insert into \"cast\"(regdkid, name)" +
@@ -262,12 +255,12 @@ public class PersistenceTwo implements IPersistence {
         return null;
     }
 
-    private int getBroadcastId(IBroadcast broadcast){
+    private int getBroadcastId(IBroadcast broadcast) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
                     "select id FROM broadcast WHERE name = ? and air_date = ? and episode_number = ? and season_number = ?"
             );
-            stmt.setString(1,broadcast.getName());
+            stmt.setString(1, broadcast.getName());
             String[] airdate = broadcast.getAirDate();
             stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(airdate[2]), Integer.parseInt(airdate[1]), Integer.parseInt(airdate[0]))));
             stmt.setInt(3, broadcast.getEpisodeNumber());
@@ -283,15 +276,34 @@ public class PersistenceTwo implements IPersistence {
 
     }
 
+    private int getMovieId(IMovie movie) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "select id FROM movie WHERE title = ? and release_date = ?"
+            );
+            stmt.setString(1, movie.getTitle());
+            String[] releaseDate = movie.getReleaseDate();
+            stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(releaseDate[2]), Integer.parseInt(releaseDate[1]), Integer.parseInt(releaseDate[0]))));
+
+            ResultSet result = stmt.executeQuery();
+            result.next();
+            return result.getInt("id");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
+
+    }
+
     public static void main(String[] args) {
         PersistenceTwo pt = PersistenceTwo.getInstance();
         pt.initializePostgresqlDatabase();
         ICast cast = new Cast(1, "Teis Doe", "9999");
-        ICast cast2 = new Cast(2, "Nichlas","88888");
+        ICast cast2 = new Cast(2, "Nichlas", "88888");
         pt.createNewCastInDatabase(cast2);
         HashMap<ICast, String> map = new HashMap<>();
         map.put(cast, "fejedreng");
-        map.put(cast2,"Director");
+        map.put(cast2, "Director");
         IBroadcast broadcast = new Broadcast("Paradise Hotel", 1, 1, "01-02-2030");
         broadcast.setCastRoleMap(map);
         try {
