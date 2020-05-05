@@ -123,4 +123,8 @@ public class Broadcast implements IBroadcast {
     public void setCastRoleMap(HashMap<ICast, String> castRoleMap) {
         this.castRoleMap = castRoleMap;
     }
+
+    public void setProduction(IProduction production) {
+        this.production = production;
+    }
 }

@@ -100,3 +100,15 @@ create table broadcast_employs
     constraint broadcast_employs_pkey
         primary key (broadcast_id, cast_id)
 );
+
+create table produces_movie
+(
+    production_company_id integer not null
+        constraint produces_movie_production_company_id_fkey
+            references production_company,
+    movie_id              integer not null
+        constraint produces_movie_movie_id_fkey
+            references movie,
+    constraint produces_movie_pkey
+        primary key (production_company_id, movie_id)
+);

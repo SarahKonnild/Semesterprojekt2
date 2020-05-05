@@ -28,8 +28,8 @@ public class Production implements IProduction {
         this.name = name;
         this.year = year;
         this.productionCompany = productionCompany;
-        numberOfEpisodes = broadcasts.size();
-        loadBroadcastArray();
+//        loadBroadcastArray();
+//        numberOfEpisodes = broadcasts.size();
     }
 
     /**

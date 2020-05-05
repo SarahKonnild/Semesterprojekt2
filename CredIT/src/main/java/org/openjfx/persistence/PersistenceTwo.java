@@ -2,6 +2,8 @@ package org.openjfx.persistence;
 
 import org.openjfx.domain.Broadcast;
 import org.openjfx.domain.Cast;
+import org.openjfx.domain.Production;
+import org.openjfx.domain.ProductionCompany;
 import org.openjfx.interfaces.*;
 
 import java.io.IOException;
@@ -80,7 +82,13 @@ public class PersistenceTwo implements IPersistence {
                 stmt2.setString(3, map.get(cast));
                 stmt2.execute();
             }
-
+            PreparedStatement stmt3 = connection.prepareStatement(
+                    "insert into contains(broadcast_id, production_id)" +
+                            "values(?,?)"
+            );
+            stmt3.setInt(1, broadCastId);
+            stmt3.setInt(2, broadcast.getProduction().getId());
+            stmt3.execute();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -108,7 +116,20 @@ public class PersistenceTwo implements IPersistence {
 
     @Override
     public int createNewProductionInDatabase(IProduction production) throws IOException {
-        return 0;
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "insert into production(name, year)" +
+                            "values(?,?)"
+            );
+            stmt.setString(1, production.getName());
+            stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(production.getYear()), 01, 01)));
+            stmt.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return -1;
+        }
+        return 1;
     }
 
     @Override
@@ -298,6 +319,8 @@ public class PersistenceTwo implements IPersistence {
     public static void main(String[] args) {
         PersistenceTwo pt = PersistenceTwo.getInstance();
         pt.initializePostgresqlDatabase();
+        IProductionCompany productionCompany = new ProductionCompany(1,"test");
+        IProduction production = new Production(3,"Paradise", productionCompany, "2019");
         ICast cast = new Cast(1, "Teis Doe", "9999");
         ICast cast2 = new Cast(2, "Nichlas", "88888");
         pt.createNewCastInDatabase(cast2);
@@ -306,7 +329,9 @@ public class PersistenceTwo implements IPersistence {
         map.put(cast2, "Director");
         IBroadcast broadcast = new Broadcast("Paradise Hotel", 1, 1, "01-02-2030");
         broadcast.setCastRoleMap(map);
+        broadcast.setProduction(production);
         try {
+            pt.createNewProductionInDatabase(production);
             pt.createNewBroadcastInDatabase(broadcast);
         } catch (IOException e) {
             e.printStackTrace();

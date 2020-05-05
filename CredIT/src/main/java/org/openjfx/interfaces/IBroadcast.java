@@ -87,5 +87,7 @@ public interface IBroadcast {
     public String toString();
 
     public void setCastRoleMap(HashMap<ICast, String> castRoleMap);
+
+    public void setProduction(IProduction production);
 }
 
