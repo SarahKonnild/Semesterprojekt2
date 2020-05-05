@@ -174,6 +174,11 @@ public class PersistenceTwo implements IPersistence {
         return null;
     }
 
+    /**
+     * Searches the database for every Cast object associated with a Broadcast, given it's id.
+     * @param id of the Broadcast.
+     * @return a {@code List<String>} of all Cast's ids from the database, for the Broadcast.
+     */
     @Override
     public List<String> getCastRolesBroadcastFromDatabase(int id) {
         try {
@@ -193,14 +198,19 @@ public class PersistenceTwo implements IPersistence {
 
     @Override
     public List<String> getProductionFromDatabase(String keyword) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<String> getProductionsFromDatabase(int productionCompanyID) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
+    /**
+     * Searches the database for a Production and returns it as a {@code List<String>} if successful.
+     * @param id the id {@code int} for the Production that you want returned.
+     * @return a {@code List<String>} of the production's attributes from the database.
+     */
     @Override
     public List<String> getProductionFromDatabase(int id) {
         try {
@@ -226,19 +236,24 @@ public class PersistenceTwo implements IPersistence {
 
     @Override
     public String getProductionName(int id) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean mergeCastInDatabase(ICast cast1, ICast cast2) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean updateCastInDatabase(ICast cast) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
+    /**
+     * Updates a given Movie object in the database to the current attributes of the given parameter.
+     * @param movie the current version of the Movie object to be updated.
+     * @return {@code true} if the object was updated; {@code false} if the object did not update or if the object could not be found.
+     */
     @Override
     public boolean updateMovieInDatabase(IMovie movie) {
         try {
@@ -255,38 +270,12 @@ public class PersistenceTwo implements IPersistence {
         }
     }
 
-    //todo test if this works as intended.
-    @Override
-    public boolean updateBroadcastInDatabase(IBroadcast broadcast) {
-        try {
-            PreparedStatement stmt = connection.prepareStatement("update broadcast set (name, air_date, episode_number, season_number) = (?,?,?,?) where id = ?");
-            stmt.setInt(4, broadcast.getId());
-            stmt.setString(1,broadcast.getName());
-            LocalDate tempDate = LocalDate.of(Integer.parseInt(broadcast.getAirDate()[2]), Integer.parseInt(broadcast.getAirDate()[1]), Integer.parseInt(broadcast.getAirDate()[0]));
-            stmt.setDate(2, Date.valueOf(tempDate));
-            stmt.setInt(3, broadcast.getEpisodeNumber());
-            stmt.setInt(4, broadcast.getSeasonNumber());
-            stmt.execute();
 
-            PreparedStatement removeCastStatement = connection.prepareStatement("DELETE FROM broadcast_employs WHERE broadcast_id = ?");
-            removeCastStatement.setInt(1, broadcast.getId());
-            removeCastStatement.execute();
-
-            int id = broadcast.getId();
-            for (Map.Entry<ICast, String> entry : broadcast.getCastMap().entrySet()) {
-                PreparedStatement insertCastStatement = connection.prepareStatement("INSERT INTO broadcast_employs (broadcast_id, cast_id, role) VALUES (?,?,?)");
-                insertCastStatement.setInt(1, id);
-                insertCastStatement.setInt(2, entry.getKey().getId());
-                insertCastStatement.setString(3, entry.getValue());
-                insertCastStatement.execute();
-            }
-            return true;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return false;
-        }
-    }
-
+    /**
+     * Updates a given Production object in the database to the current attributes of the given parameter.
+     * @param production the current version of the Production object to be updated.
+     * @return {@code true} if the object was updated; {@code false} if the object did not update or if the object could not be found.
+     */
     @Override
     public boolean updateProduction(IProduction production) {
         try {
@@ -303,6 +292,53 @@ public class PersistenceTwo implements IPersistence {
         }
     }
 
+    /**
+     * updates a given Broadcast object in the database.
+     * @param broadcast the current version of the object that is to overwrite the old version.
+     * @return {@code true} if the operation was successful; {@code false} if the operation failed.
+     */
+    //todo test if this works as intended.
+    @Override
+    public boolean updateBroadcastInDatabase(IBroadcast broadcast) {
+        try {
+            //finds the old version of the object and replaces it with the current one.
+            PreparedStatement stmt = connection.prepareStatement("update broadcast set (name, air_date, episode_number, season_number) = (?,?,?,?) where id = ?");
+            stmt.setInt(4, broadcast.getId());
+            stmt.setString(1,broadcast.getName());
+            LocalDate tempDate = LocalDate.of(Integer.parseInt(broadcast.getAirDate()[2]), Integer.parseInt(broadcast.getAirDate()[1]), Integer.parseInt(broadcast.getAirDate()[0]));
+            stmt.setDate(2, Date.valueOf(tempDate));
+            stmt.setInt(3, broadcast.getEpisodeNumber());
+            stmt.setInt(4, broadcast.getSeasonNumber());
+            stmt.execute();
+
+            //removes the current cast members from the object in another table.
+            PreparedStatement removeCastStatement = connection.prepareStatement("DELETE FROM broadcast_employs WHERE broadcast_id = ?");
+            removeCastStatement.setInt(1, broadcast.getId());
+            removeCastStatement.execute();
+
+            //inserts the new version of the cast member Map.
+            int id = broadcast.getId();
+            //foreach loop that runs through the entire map and inserts it all into the table.
+            //todo add support for the same cast member, having multiple roles.
+            for (Map.Entry<ICast, String> entry : broadcast.getCastMap().entrySet()) {
+                PreparedStatement insertCastStatement = connection.prepareStatement("INSERT INTO broadcast_employs (broadcast_id, cast_id, role) VALUES (?,?,?)");
+                insertCastStatement.setInt(1, id);
+                insertCastStatement.setInt(2, entry.getKey().getId());
+                insertCastStatement.setString(3, entry.getValue());
+                insertCastStatement.execute();
+            }
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Searches the database for a production company and returns it as a {@code List<String>} if successful.
+     * @param keyword the name {@code String} for the production compnay that you want returned.
+     * @return a {@code List<String>} of the production company's attributes from the database.
+     */
     @Override
     public List<String> getProductionCompany(String keyword) {
         try {
