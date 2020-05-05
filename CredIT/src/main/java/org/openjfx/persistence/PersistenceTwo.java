@@ -22,7 +22,6 @@ public class PersistenceTwo implements IPersistence {
     private final String username = "postgres";
     private String password = Password.PASS;
     private Connection connection = null;
-    private Scanner input;
 
     private PersistenceTwo() {
         initializePostgresqlDatabase();
@@ -101,12 +100,13 @@ public class PersistenceTwo implements IPersistence {
     public int createNewMovieInDatabase(IMovie movie) throws IOException {
         try {
             PreparedStatement stmt = connection.prepareStatement(
-                    "INSERT into movie(name, realease_date) " + "values(?,?)"
+                    "INSERT into movie(name, release_date) " + "values(?,?)"
 
             );
             stmt.setString(1, "test");
             String[] release = movie.getReleaseDate();
             stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(release[2]), Integer.parseInt(release[1]), Integer.parseInt(release[0]))));
+            //TODO: Implementer productionCompany
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -125,6 +125,7 @@ public class PersistenceTwo implements IPersistence {
             stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(production.getYear()), 01, 01)));
             stmt.execute();
 
+            //TODO: Implementer productionCompany
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return -1;
@@ -156,7 +157,7 @@ public class PersistenceTwo implements IPersistence {
     public int createNewCastInDatabase(ICast cast) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
-                    "insert into \"cast\"(regdkid, name)" +
+                    "insert into cast_members(regdkid, name)" +
                             "values(?,?)"
             );
 
@@ -300,7 +301,7 @@ public class PersistenceTwo implements IPersistence {
     private int getMovieId(IMovie movie) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
-                    "select id FROM movie WHERE title = ? and release_date = ?"
+                    "select id FROM movie WHERE name = ? and release_date = ?"
             );
             stmt.setString(1, movie.getTitle());
             String[] releaseDate = movie.getReleaseDate();
