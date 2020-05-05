@@ -9,7 +9,7 @@ public interface IUser {
      * @param regDKID the persons registerings Danmark ID number
      * @return if it succeed creating and saving a new cast returns <code>true</code> else <code>false</code>
      */
-    public ICast addNewCastToDatabase(String name, int regDKID);
+    public ICast addNewCastToDatabase(String name, String regDKID);
 
     /**
      * Gets parameters from the presentation layer to then create a new broadcast in the database.
@@ -32,7 +32,7 @@ public interface IUser {
      * @param productionCompany the name of the company that produces this production
      * @return if it succeed creating and saving a new cast returns <code>true</code> else <code>false</code>
      */
-    public IProduction addNewProductionToDatabase(String name, String year, String productionCompany);
+    public IProduction addNewProductionToDatabase(String name, String year, IProductionCompany productionCompany);
 
     /**
      * The method is used to see if the user that is currently logged in has the ability to do certain things.

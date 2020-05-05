@@ -1,6 +1,7 @@
 package org.openjfx.interfaces;
 
-import org.openjfx.persistence.Persistence;
+
+import org.openjfx.persistence.PersistenceTwo;
 
 import java.util.ArrayList;
 
@@ -51,5 +52,5 @@ public interface ISystem {
 
     public IUser getUser();
 
-    public Persistence getPersistenceLayer();
+    public PersistenceTwo getPersistenceLayer();
 }

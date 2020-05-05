@@ -1,5 +1,6 @@
 package org.openjfx.persistence;
 
+import org.openjfx.domain.Broadcast;
 import org.openjfx.interfaces.*;
 
 import java.io.IOException;
@@ -52,7 +53,7 @@ public class PersistenceTwo implements IPersistence {
     }
 
     @Override
-    public boolean createNewUserInDatabase(IUser user) throws IOException {
+    public boolean createNewUserInDatabase(IUser user) {
         return false;
     }
 
@@ -63,7 +64,28 @@ public class PersistenceTwo implements IPersistence {
 
     @Override
     public int createNewBroadcastInDatabase(IBroadcast broadcast) throws IOException {
-        return 0;
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "INSERT into broadcast(name, air_date,episode_number , season_number  )" +
+                            "values(?,?,?,?)"
+            );
+            stmt.setString(1, broadcast.getName());
+            String[] airdate = broadcast.getAirDate();
+            stmt.setDate(2, new Date(Integer.parseInt(airdate[0]), Integer.parseInt(airdate[1]), Integer.parseInt(airdate[2])));
+            stmt.setInt(3,broadcast.getEpisodeNumber());
+            stmt.setInt(4,broadcast.getSeasonNumber());
+            boolean execute = stmt.execute();
+            if(execute){
+                return 1;
+            } else{
+                return -1;
+            }
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return -1;
+        }
     }
 
     @Override
@@ -157,11 +179,6 @@ public class PersistenceTwo implements IPersistence {
     }
 
     @Override
-    public List<String> getCastRolesFromDatabase(int id) {
-        return null;
-    }
-
-    @Override
     public List<String> getProductionFromDatabase(String keyword) {
         return null;
     }
@@ -205,4 +222,23 @@ public class PersistenceTwo implements IPersistence {
     public boolean updateProduction(IProduction production) {
         return false;
     }
+
+    @Override
+    public List<String> getProductionCompany(String keyword) {
+        return null;
+    }
+
+    public static void main(String[] args) {
+        PersistenceTwo pt = PersistenceTwo.getInstance();
+        pt.initializePostgresqlDatabase();
+        IBroadcast broadcast = new Broadcast("Test", 1, 2, "19-01-2020");
+        try {
+            pt.createNewBroadcastInDatabase(broadcast);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
 }

@@ -54,13 +54,13 @@ public class RemoveChangeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         chosenBroadcast = LandingPageController.getChosenBroadcast();
         ArrayList<ICast> broadcastCastMembers = new ArrayList<>();
-        for (String key : chosenBroadcast.getCastMap().keySet()) {
-            ArrayList<ICast> peoplePerRole = chosenBroadcast.getCastMap().get(key);
-            for (ICast cast : peoplePerRole) {
-                cast.setRole(key);
-                broadcastCastMembers.add(cast);
-            }
-        }
+      //  for (ICast key : chosenBroadcast.getCastMap().keySet()) {
+          //  String peoplePerRole = chosenBroadcast.getCastMap().get(key);
+            //    for (ICast cast : peoplePerRole) {
+            //  cast.setRole(key);
+              //  broadcastCastMembers.add(cast);
+        //     }
+       // }
         broadcastCastObsList = FXCollections.observableArrayList(broadcastCastMembers);
         castList.setItems(broadcastCastObsList);
     }

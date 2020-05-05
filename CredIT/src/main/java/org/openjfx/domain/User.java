@@ -38,7 +38,7 @@ public class User implements IUser {
     }
 
     @Override
-    public ICast addNewCastToDatabase(String name, int regDKID) {
+    public ICast addNewCastToDatabase(String name, String regDKID) {
         ICast cast = new Cast(name, regDKID);
         cast.save();
         return cast;
@@ -52,7 +52,7 @@ public class User implements IUser {
     }
 
     @Override
-    public IProduction addNewProductionToDatabase(String name, String year, String productionCompany) {
+    public IProduction addNewProductionToDatabase(String name, String year, IProductionCompany productionCompany) {
         IProduction production = new Production(name, year, productionCompany);
         production.save();
         return production;

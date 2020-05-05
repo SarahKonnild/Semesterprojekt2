@@ -166,7 +166,7 @@ public class LandingPageController implements Initializable {
             searchText = searchFieldProduction.getText();
             IProduction chosenProduction = (IProduction) obj;
             productionName.setText(chosenProduction.getName());
-            producerName.setText(chosenProduction.getProductionCompany());
+      //      producerName.setText(chosenProduction.getProductionCompany());
             productionReleaseYear.setText(chosenProduction.getYear());
             createNewProduction.setDisable(false);
         } else if (obj instanceof IBroadcast) {
@@ -183,7 +183,7 @@ public class LandingPageController implements Initializable {
             broadcastAirDateMonth.setText(airDateInput[1]);
 //            broadcastAirDateYear.setDisable(true);
             broadcastAirDateYear.setText(airDateInput[2]);
-            broadcastProduction.setText(chosenBroadcast.getProductionName());
+       //     broadcastProduction.setText(chosenBroadcast.getProductionName());
             assignCast.setDisable(false);
             removeCast.setDisable(false);
             createBroadcast.setDisable(false);
@@ -222,18 +222,18 @@ public class LandingPageController implements Initializable {
      */
     @FXML
     public void handleCreateNewCast(MouseEvent event) {
-        ICast cast = LoginController.getAdminUser().addNewCastToDatabase(castName.getText(), Integer.parseInt(regDKField.getText()));
-        if (cast != null) {
+      //  ICast cast = LoginController.getAdminUser().addNewCastToDatabase(castName.getText(), Integer.parseInt(regDKField.getText()));
+        //   if (cast != null) {
             errorMsgCast.setText("Medvirkende oprettet");
             castSearchResult = new ArrayList<>();
-            castSearchResult.add(cast);
+        //  castSearchResult.add(cast);
             //Todo Decide if we wanna do a filtered update. Does it show up if the user have searched for Hans, but creates a new Cast named Sarah?
             searchResult.setItems(FXCollections.observableArrayList(castSearchResult));
             clearCastFields();
-        } else {
+       // } else {
             errorMsgCast.setText("Fejl opstået, medvirkende blev ikke oprettet");
-        }
-        searchResult.refresh();
+        // }
+       // searchResult.refresh();
     }
 
     /**
@@ -248,7 +248,7 @@ public class LandingPageController implements Initializable {
         if (!castObservableList.isEmpty()) {
             chosenCast = (ICast) searchResult.getSelectionModel().getSelectedItem();
             castSearchResult.remove(chosenCast);
-            creationState = chosenCast.deleteCast();
+         //   creationState = chosenCast.deleteCast();
             if (creationState) {
                 errorMsgCast.setText("Medvirkende slettet");
                 //updates the list view so it no longers shows the deleted cast
@@ -314,7 +314,7 @@ public class LandingPageController implements Initializable {
     public void handleSaveCastChanges(MouseEvent event) {
         if (!castObservableList.isEmpty()) {
             chosenCast = (ICast) searchResult.getSelectionModel().getSelectedItem();
-            creationState = chosenCast.updateCast(castName.getText(), Integer.parseInt(regDKField.getText()));
+         //   creationState = chosenCast.updateCast(castName.getText(), Integer.parseInt(regDKField.getText()));
             if (creationState) {
                 errorMsgCast.setText("Medvirkende opdateret");
                 clearCastFields();
@@ -373,16 +373,16 @@ public class LandingPageController implements Initializable {
      */
     @FXML
     public void handleCreateNewProduction(MouseEvent event) {
-        IProduction production = (IProduction) LoginController.getAdminUser().addNewProductionToDatabase(productionName.getText(), productionReleaseYear.getText(), producerName.getText());
-        if (production != null) {
+      //  IProduction production = (IProduction) LoginController.getAdminUser().addNewProductionToDatabase(productionName.getText(), productionReleaseYear.getText(), producerName.getText());
+        //if (production != null) {
             errorMsgProduction.setText("Produktionen oprettet");
             productionSearchResult = new ArrayList<>();
-            productionSearchResult.add(production);
-            searchResult.setItems(FXCollections.observableArrayList(productionSearchResult));
-            clearProductionFields();
-        } else {
-            errorMsgProduction.setText("Fejl opstået, produktionen blev ikke oprettet");
-        }
+        //   productionSearchResult.add(production);
+        //  searchResult.setItems(FXCollections.observableArrayList(productionSearchResult));
+        //    clearProductionFields();
+        // } else {
+        //  errorMsgProduction.setText("Fejl opstået, produktionen blev ikke oprettet");
+        // }
         searchResult.refresh();
     }
 
