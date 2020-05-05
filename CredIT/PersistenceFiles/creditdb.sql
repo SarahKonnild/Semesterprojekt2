@@ -82,7 +82,7 @@ create table movie_employs
             references movie,
     cast_id integer not null
         constraint movie_employs_cast_id_fkey
-            references "cast",
+            references cast_members,
     role varchar(255) not null,
     constraint movie_employs_pkey
         primary key (movie_id, cast_id)
@@ -95,7 +95,7 @@ create table broadcast_employs
             references broadcast,
     cast_id integer not null
         constraint broadcast_employs_cast_id_fkey
-            references "cast",
+            references cast_members,
     role varchar(255) not null,
     constraint broadcast_employs_pkey
         primary key (broadcast_id, cast_id)
