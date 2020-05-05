@@ -1,19 +1,20 @@
 package org.openjfx.persistence;
 
-import org.openjfx.domain.Broadcast;
+import org.openjfx.domain.*;
 import org.openjfx.interfaces.*;
 
 import java.io.IOException;
-import java.util.List;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.*;
 import java.sql.*;
-import java.util.Scanner;
 
 public class PersistenceTwo implements IPersistence {
 
     private static PersistenceTwo persistence;
     private String url = "localhost";
     private int port = 5432;
-    private String databaseName = "creditdb";
+    private String databaseName = "credIT_db";
     private String username = "postgres";
     private String password;
     private Connection connection = null;
@@ -175,6 +176,18 @@ public class PersistenceTwo implements IPersistence {
 
     @Override
     public List<String> getCastRolesBroadcastFromDatabase(int id) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement("SELECT broadcast_employs.cast_id FROM broadcast_employs WHERE broadcast_id = ?");
+            stmt.setInt(1, id);
+            ResultSet resultSet = stmt.executeQuery();
+            ArrayList<String> roleList = new ArrayList<>();
+            while (resultSet.next()) {
+                roleList.add(resultSet.getString(1));
+            }
+            return roleList;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return null;
     }
 
@@ -190,6 +203,24 @@ public class PersistenceTwo implements IPersistence {
 
     @Override
     public List<String> getProductionFromDatabase(int id) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM production WHERE id = ?");
+            stmt.setInt(1, id);
+            ResultSet resultSet = stmt.executeQuery();
+
+            if (!resultSet.next()) {
+                return null;
+            }
+            List<String> productionList = new ArrayList<>();
+            productionList.add(resultSet.getString(1));
+            productionList.add(resultSet.getString(2));
+            productionList.add(resultSet.getString(3));
+            productionList.add(resultSet.getString(4));
+            productionList.add(resultSet.getString(5));
+            return productionList;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return null;
     }
 
@@ -210,34 +241,106 @@ public class PersistenceTwo implements IPersistence {
 
     @Override
     public boolean updateMovieInDatabase(IMovie movie) {
-        return false;
+        try {
+            PreparedStatement updateMovieStatement = connection.prepareStatement("UPDATE movie SET (name, release_date) = (?,?) WHERE id = ?");
+            updateMovieStatement.setInt(3, movie.getId());
+            updateMovieStatement.setString(1, movie.getTitle());
+            LocalDate tempDate = LocalDate.of(Integer.parseInt(movie.getReleaseDate()[2]), Integer.parseInt(movie.getReleaseDate()[1]), Integer.parseInt(movie.getReleaseDate()[0]));
+            updateMovieStatement.setDate(2, Date.valueOf(tempDate));
+            updateMovieStatement.execute();
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
     }
 
+    //todo test if this works as intended.
     @Override
     public boolean updateBroadcastInDatabase(IBroadcast broadcast) {
-        return false;
+        try {
+            PreparedStatement stmt = connection.prepareStatement("update broadcast set (name, air_date, episode_number, season_number) = (?,?,?,?) where id = ?");
+            stmt.setInt(4, broadcast.getId());
+            stmt.setString(1,broadcast.getName());
+            LocalDate tempDate = LocalDate.of(Integer.parseInt(broadcast.getAirDate()[2]), Integer.parseInt(broadcast.getAirDate()[1]), Integer.parseInt(broadcast.getAirDate()[0]));
+            stmt.setDate(2, Date.valueOf(tempDate));
+            stmt.setInt(3, broadcast.getEpisodeNumber());
+            stmt.setInt(4, broadcast.getSeasonNumber());
+            stmt.execute();
+
+            PreparedStatement removeCastStatement = connection.prepareStatement("DELETE FROM broadcast_employs WHERE broadcast_id = ?");
+            removeCastStatement.setInt(1, broadcast.getId());
+            removeCastStatement.execute();
+
+            int id = broadcast.getId();
+            for (Map.Entry<ICast, String> entry : broadcast.getCastMap().entrySet()) {
+                PreparedStatement insertCastStatement = connection.prepareStatement("INSERT INTO broadcast_employs (broadcast_id, cast_id, role) VALUES (?,?,?)");
+                insertCastStatement.setInt(1, id);
+                insertCastStatement.setInt(2, entry.getKey().getId());
+                insertCastStatement.setString(3, entry.getValue());
+                insertCastStatement.execute();
+            }
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
     }
 
     @Override
     public boolean updateProduction(IProduction production) {
-        return false;
+        try {
+            PreparedStatement stmt = connection.prepareStatement("update production set (name,year) = (?,?) where id = ?");
+            stmt.setInt(3, production.getId());
+            stmt.setString(1, production.getName());
+            LocalDate tempDate = LocalDate.of(Integer.parseInt(production.getYear()), 1, 1);
+            stmt.setDate(2, Date.valueOf(tempDate));
+            stmt.execute();
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
     }
 
     @Override
     public List<String> getProductionCompany(String keyword) {
-        return null;
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "SELECT * FROM production_company WHERE name = ?");
+            stmt.setString(1, keyword);
+            ResultSet sqlReturnValues = stmt.executeQuery();
+            if (!sqlReturnValues.next()) {
+                return null;
+            }
+            List<String> resultList = new ArrayList<>();
+            resultList.add(String.valueOf(sqlReturnValues.getInt(1)));
+            resultList.add(sqlReturnValues.getString(2));
+            return resultList;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
     }
 
     public static void main(String[] args) {
         PersistenceTwo pt = PersistenceTwo.getInstance();
         pt.initializePostgresqlDatabase();
-        IBroadcast broadcast = new Broadcast("Test", 1, 2, "19-01-2020");
-        try {
-            pt.createNewBroadcastInDatabase(broadcast);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        CredITSystem credITSystem = new CredITSystem();
+        IBroadcast iBroadcast = new Broadcast(1,"Cast_Test", 50, 2, "1-2-1990",1);
 
+        ICast iCast = new Cast("Hans", "25j043");
+        ICast iCast2 = new Cast("Hanne", "h23sd");
+        ICast iCast3 = new Cast("Herold", "h56568");
+        ICast iCast4 = new Cast("Harald", "ghdj321");
+
+        HashMap<ICast, String> map = iBroadcast.getCastMap();
+        map.put(iCast, "Kam");
+        map.put(iCast2, "Kam1");
+        map.put(iCast3, "Kam2");
+        map.put(iCast4, "Kam3");
+
+        credITSystem.getPersistenceLayer().updateBroadcastInDatabase(iBroadcast);
     }
 
 
