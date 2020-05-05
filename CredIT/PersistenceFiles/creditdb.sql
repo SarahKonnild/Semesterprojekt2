@@ -11,7 +11,7 @@ create table production_company
     name varchar(250) not null
 );
 
-create table "cast"
+create table cast_members
 (
     id serial not null
         constraint cast_pk
