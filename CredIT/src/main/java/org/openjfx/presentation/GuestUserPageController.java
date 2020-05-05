@@ -133,7 +133,7 @@ public class GuestUserPageController implements Initializable {
     private ICast chosenCast;
     private IMovie chosenMovie;
     private IProduction chosenProduction;
-    private IProductionCompany companySearchResult;
+    private ArrayList<IProductionCompany> companySearchResult;
     private String wasCompanyChosen;
     //endregion
 
@@ -146,8 +146,12 @@ public class GuestUserPageController implements Initializable {
     //Everything do do with manipulating the ListView (search,choose)
     //region
     /**
-     * Checks the subject that has been chosen in the dropdown menu, and specifies the search-method in the domain layer that is being
-     * run on the searchfield's input
+     * Checks the searchtopic that has been chosen from the dropdown menu. This is used to manage which
+     * search-method that is being run in the domain layer into the persistence.
+     * Takes the text that is written in the searchfield and uses that to run the appropriate search-
+     * method in the domain layer's System class. If the list has items, and the searchfield isn't empty,
+     * the items returned from the persistence layer will be written to a list which can be printed into
+     * the ListView.
      * @param event
      */
     @FXML
@@ -217,63 +221,68 @@ public class GuestUserPageController implements Initializable {
     @FXML
     private void handleSearchResultChosen(MouseEvent event){
         obj = resultList.getSelectionModel().getSelectedItem();
-        if (obj instanceof ICast) {
-            searchText = searchField.getText();
-            resultList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-            chosenCast = (ICast) obj;
-            castNameField.setText(chosenCast.getName());
-        } else if (obj instanceof IProduction) {
-            searchText = searchField.getText();
-            if(wasCompanyChosen.equals("yes")){
-                changeFieldsVisible("production");
+        if(resultList.getItems().isEmpty()){
+            resultList.setDisable(true);
+        }else{
+            resultList.setDisable(false);
+            if (obj instanceof ICast) {
+                searchText = searchField.getText();
+                resultList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+                chosenCast = (ICast) obj;
+                castNameField.setText(chosenCast.getName());
+            } else if (obj instanceof IProduction) {
+                searchText = searchField.getText();
+                if(wasCompanyChosen.equals("yes")){
+                    changeFieldsVisible("production");
+                }
+                IProduction chosenProduction = (IProduction) obj;
+                productionNameField.setText(chosenProduction.getName());
+                productionProducerField.setText(chosenProduction.getProductionCompany().getName());
+                productionReleaseYearField.setText(chosenProduction.getYear());
+            } else if (obj instanceof IBroadcast) {
+                searchText = searchField.getText();
+                obj = resultList.getSelectionModel().getSelectedItem();
+                IBroadcast chosenBroadcast = (IBroadcast) obj;
+                broadcastNameField.setText(chosenBroadcast.getName());
+                String[] airDateInput = chosenBroadcast.getAirDate();
+                broadcastDayField.setText(airDateInput[0]);
+                broadcastMonthField.setText(airDateInput[1]);
+                broadcastYearField.setText(airDateInput[2]);
+                broadcastProducerNameField.setText(chosenBroadcast.getProduction().getName());
             }
-            IProduction chosenProduction = (IProduction) obj;
-            productionNameField.setText(chosenProduction.getName());
-            productionProducerField.setText(chosenProduction.getProductionCompany().getName());
-            productionReleaseYearField.setText(chosenProduction.getYear());
-        } else if (obj instanceof IBroadcast) {
-            searchText = searchField.getText();
-            obj = resultList.getSelectionModel().getSelectedItem();
-            IBroadcast chosenBroadcast = (IBroadcast) obj;
-            broadcastNameField.setText(chosenBroadcast.getName());
-            String[] airDateInput = chosenBroadcast.getAirDate();
-            broadcastDayField.setText(airDateInput[0]);
-            broadcastMonthField.setText(airDateInput[1]);
-            broadcastYearField.setText(airDateInput[2]);
-            broadcastProducerNameField.setText(chosenBroadcast.getProduction().getName());
-        }
-        else if(obj instanceof IMovie){
-            searchText = searchField.getText();
-            if(wasCompanyChosen.equals("yes")){
-                changeFieldsVisible("movie");
+            else if(obj instanceof IMovie){
+                searchText = searchField.getText();
+                if(wasCompanyChosen.equals("yes")){
+                    changeFieldsVisible("movie");
+                }
+                obj = resultList.getSelectionModel().getSelectedItem();
+                IMovie chosenMovie = (IMovie) obj;
+                movieNameField.setText(chosenMovie.getTitle());
+                String[] releaseDateInput = chosenMovie.getReleaseDate();
+                movieReleaseYearField.setText(releaseDateInput[2]);
+                movieProductionCompanyField.setText(chosenMovie.getProductionCompany().getName());
             }
-            obj = resultList.getSelectionModel().getSelectedItem();
-            IMovie chosenMovie = (IMovie) obj;
-            movieNameField.setText(chosenMovie.getTitle());
-            String[] releaseDateInput = chosenMovie.getReleaseDate();
-            movieReleaseYearField.setText(releaseDateInput[2]);
-            movieProductionCompanyField.setText(chosenMovie.getProductionCompany().getName());
-        }
-        else if(obj instanceof IProductionCompany){
-            searchField.setText(searchText);
-            wasCompanyChosen = "yes";
-            obj = resultList.getSelectionModel().getSelectedItem();
-            ArrayList<IMovie> movieList = ((IProductionCompany) obj).getMovieList();
-            ArrayList<IProduction> productionList = ((IProductionCompany) obj).getProductionList();
-            ObservableList<IMovie> movieObsList = FXCollections.observableArrayList(movieList);
-            ObservableList<IProduction> prodObsList = FXCollections.observableArrayList(productionList);
-            if(movieObsList.isEmpty()){ //Ensures that if the movielist is empty, i.e. the company makes no movies, the productions are shown
-                resultList.setItems(prodObsList);
-            }else if(prodObsList.isEmpty()){ //Ensures that if the productionlist is empty, i.e. the company makes no productions, the movies are shown
-                resultList.setItems(movieObsList);
-            }else if(movieObsList.size() > prodObsList.size()){ //if the company makes more movies than productions, movies are shown
-                resultList.setItems(movieObsList);
-            }else if(movieObsList.size() < prodObsList.size()){//if the company makes more productions than movies, productions are shown
-                resultList.setItems(prodObsList);
-            }else{ //If the company has neither movies nor productions, the user is informed of this.
-                errorMessage.setText("Firmaet har ingen film/serier");
+            else if(obj instanceof IProductionCompany){
+                searchField.setText(searchText);
+                wasCompanyChosen = "yes";
+                obj = resultList.getSelectionModel().getSelectedItem();
+                ArrayList<IMovie> movieList = ((IProductionCompany) obj).getMovieList();
+                ArrayList<IProduction> productionList = ((IProductionCompany) obj).getProductionList();
+                ObservableList<IMovie> movieObsList = FXCollections.observableArrayList(movieList);
+                ObservableList<IProduction> prodObsList = FXCollections.observableArrayList(productionList);
+                if(movieObsList.isEmpty()){ //Ensures that if the movielist is empty, i.e. the company makes no movies, the productions are shown
+                    resultList.setItems(prodObsList);
+                }else if(prodObsList.isEmpty()){ //Ensures that if the productionlist is empty, i.e. the company makes no productions, the movies are shown
+                    resultList.setItems(movieObsList);
+                }else if(movieObsList.size() > prodObsList.size()){ //if the company makes more movies than productions, movies are shown
+                    resultList.setItems(movieObsList);
+                }else if(movieObsList.size() < prodObsList.size()){//if the company makes more productions than movies, productions are shown
+                    resultList.setItems(prodObsList);
+                }else{ //If the company has neither movies nor productions, the user is informed of this.
+                    errorMessage.setText("Firmaet har ingen film/serier");
+                }
+                //TODO specify a handler for showMovies/showProductions, which changes the resultList to show the appropriate elements and fields.
             }
-            //TODO specify a handler for showMovies/showProductions, which changes the resultList to show the appropriate elements and fields.
         }
     }
     //endregion

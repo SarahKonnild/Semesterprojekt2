@@ -9,7 +9,7 @@ public interface IMovie {
 
     public boolean delete();
 
-    public boolean update(String title, String releaseYear, String ProductionCompany);
+    public boolean update(String title, String releaseYear);
 
     public boolean assignCast(ICast cast, String role);
 

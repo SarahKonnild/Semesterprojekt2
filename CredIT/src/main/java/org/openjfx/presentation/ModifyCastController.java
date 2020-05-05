@@ -68,14 +68,15 @@ public class ModifyCastController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
-        
     }
 
     //Everything do do with manipulating the ListView
     //region
     /**
-     * Searches the database for entries that match the search field's information in the database.
-     * Writes all results into the list, which can then be chosen by the user.
+     * Takes the text that is written in the searchfield and uses that to run the searchCast
+     * method in the domain layer's System class. If the list has items, and the searchfield isn't empty,
+     * the items returned from the persistence layer will be written to a list which can be printed into
+     * the ListView.
      * @param event
      */
     @FXML
@@ -94,17 +95,23 @@ public class ModifyCastController implements Initializable {
     }
 
     /**
-     * When the user chooses an object from the search list, this method is run. It will always write the
-     * data associated with the LAST object chosen to the fields.
+     * Enables the ability to choose multiple items from the ListView, and writes the ObservableList
+     * to it. From this list of multiple choices, the first chosen object will have its information
+     * written to the related fields.
      * @param event
      */
     @FXML
     public void handleResultChosen(MouseEvent event){
-        resultList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        chosenCastObservable = resultList.getSelectionModel().getSelectedItems();
-        chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
-        castName.setText(chosenCast.getName());
-        regDKID.setText(String.valueOf(chosenCast.getRegDKID()));
+            resultList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+            chosenCastObservable = resultList.getSelectionModel().getSelectedItems();
+            chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
+            castName.setText(chosenCast.getName());
+            regDKID.setText(String.valueOf(chosenCast.getRegDKID()));
+
+            delete.setDisable(false);
+            merge.setDisable(false);
+            save.setDisable(false);
+            seeRoleList.setDisable(false);
     }
 
     /**

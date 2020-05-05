@@ -49,7 +49,7 @@ public interface ISystem {
 
     public ArrayList<IMovie> searchMovie(String keyword);
 
-    public IProductionCompany searchProductionCompany(String keyword);
+    public ArrayList<IProductionCompany> searchProductionCompany(String keyword);
 
     public IUser createNewUser(String username, String password);
 

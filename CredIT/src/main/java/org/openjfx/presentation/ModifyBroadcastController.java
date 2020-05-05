@@ -73,6 +73,7 @@ public class ModifyBroadcastController implements Initializable {
     private ArrayList<IBroadcast> searchList;
     private Object obj;
     private static IBroadcast chosenBroadcast;
+    private boolean status;
     //endregion
 
     @Override
@@ -87,9 +88,12 @@ public class ModifyBroadcastController implements Initializable {
 
     //Everything do do with manipulating the ListView (search,choose)
     //region
+
     /**
-     * Searches the database for entries that match the search field's information in the database.
-     * Writes all results into the list, which can then be chosen by the user.
+     * Takes the text that is written in the searchfield and uses that to run the searchBroadcast
+     * method in the domain layer's System class. If the list has items, and the searchfield isn't empty,
+     * the items returned from the persistence layer will be written to a list which can be printed into
+     * the ListView.
      * @param event
      */
     @FXML
@@ -102,7 +106,7 @@ public class ModifyBroadcastController implements Initializable {
             resultList.setItems(observableList);
             clearFields();
         } else {
-            errorMessage.setVisible(true);
+            errorMessageSearch.setVisible(true);
         }
     }
 
@@ -113,15 +117,19 @@ public class ModifyBroadcastController implements Initializable {
      */
     @FXML
     public void handleSearchResultChosen(MouseEvent event){
-        chosenBroadcast = (IBroadcast) resultList.getSelectionModel().getSelectedItem();
-        broadcastName.setText(chosenBroadcast.getName());
-        production.setText(chosenBroadcast.getProduction().getName());
-        String[] airDate = chosenBroadcast.getAirDate();
-        day.setText(airDate[0]);
-        month.setText(airDate[1]);
-        year.setText(airDate[2]);
-        season.setText(String.valueOf(chosenBroadcast.getSeasonNumber()));
-        episode.setText(String.valueOf(chosenBroadcast.getEpisodeNumber()));
+            chosenBroadcast = (IBroadcast) resultList.getSelectionModel().getSelectedItem();
+            broadcastName.setText(chosenBroadcast.getName());
+            production.setText(chosenBroadcast.getProduction().getName());
+            String[] airDate = chosenBroadcast.getAirDate();
+            day.setText(airDate[0]);
+            month.setText(airDate[1]);
+            year.setText(airDate[2]);
+            season.setText(String.valueOf(chosenBroadcast.getSeasonNumber()));
+            episode.setText(String.valueOf(chosenBroadcast.getEpisodeNumber()));
+
+            modifyCast.setDisable(false);
+            delete.setDisable(false);
+            save.setDisable(false);
     }
     //endregion
 
@@ -138,7 +146,7 @@ public class ModifyBroadcastController implements Initializable {
         if(results.get(0).getName().equals(productionSearch)){
             String dateVariable = day.getText() + "-" + month.getText() + "-" + year.getText();
             if (day.getText().length() != 2 && month.getText().length() != 2 && year.getText().length() != 4) {
-                errorMessage.setText("Fejl opstået, ugyldig datoindtastning");
+                errorMessage.setText("Fejl, ugyldig datoindtastning");
             } else {
                 IBroadcast broadcast = LoginSystemController.getAdminUser().addNewBroadcastToDatabase(broadcastName.getText(), Integer.parseInt(season.getText()),
                         Integer.parseInt(episode.getText()), dateVariable, results.get(0));
@@ -151,12 +159,12 @@ public class ModifyBroadcastController implements Initializable {
                         resultList.setItems(FXCollections.observableArrayList(searchList));
                     }
                 } else {
-                    errorMessage.setText("Fejl opstået, udsendelsen blev ikke tilføjet");
+                    errorMessage.setText("Fejl, udsendelsen blev ikke tilføjet");
                 }
             }
             resultList.refresh();
         }else{
-            errorMessage.setText("Fejl opstået, ingen produktion at tilføje til");
+            errorMessage.setText("Fejl, ingen produktion at tilføje til");
         }
     }
     //endregion
@@ -170,7 +178,25 @@ public class ModifyBroadcastController implements Initializable {
      */
     @FXML
     public void handleDeleteBroadcast(MouseEvent event){
-
+        if(!observableList.isEmpty()){
+            chosenBroadcast = (IBroadcast) resultList.getSelectionModel().getSelectedItem();
+            status = chosenBroadcast.delete();
+            if(status){
+                searchList.remove(chosenBroadcast);
+                errorMessage.setText("Udsendelse slettet");
+                if(searchList.isEmpty()){
+                    resultList.getItems().clear();
+                } else{
+                    resultList.setItems(FXCollections.observableArrayList(searchList));
+                }
+                clearFields();
+            }else{
+                errorMessage.setText("Fejl, udsendelse blev ikke slettet");
+            }
+        }else{
+            errorMessage.setText("Ingen medvirkende valgt");
+        }
+        resultList.refresh();
     }
     //endregion
 
@@ -178,7 +204,20 @@ public class ModifyBroadcastController implements Initializable {
     //region
     @FXML
     public void handleSaveBroadcast(MouseEvent event){
-
+        if(!observableList.isEmpty()){
+            chosenBroadcast = (IBroadcast) resultList.getSelectionModel().getSelectedItem();
+            String[] airDate = chosenBroadcast.getAirDate();
+            status = chosenBroadcast.update(broadcastName.getText(), Integer.parseInt(season.getText()), Integer.parseInt(episode.getText()), airDate[2]);
+            if(status){
+                errorMessage.setText("Udsendelse opdateret");
+                clearFields();
+            }else{
+                errorMessage.setText("Fejl, udsendelse blev ikke opdateret");
+            }
+        }else{
+            errorMessage.setText("Ingen udsendelse valgt");
+        }
+        resultList.refresh();
     }
     //endregion
 

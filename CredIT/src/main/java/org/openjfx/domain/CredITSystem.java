@@ -176,7 +176,7 @@ public class CredITSystem implements ISystem {
     public IProductionCompany searchProductionCompany(int id){return null;};
 
     @Override
-    public IProductionCompany searchProductionCompany(String keyword){return null;};
+    public ArrayList<IProductionCompany> searchProductionCompany(String keyword){return null;};
 
     //endregion
 

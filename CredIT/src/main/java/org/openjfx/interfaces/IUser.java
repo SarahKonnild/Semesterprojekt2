@@ -1,5 +1,7 @@
 package org.openjfx.interfaces;
 
+import java.util.ArrayList;
+
 public interface IUser {
     /**
      * Gets parameters from the presentation layer to then create a new cast member in the database.
@@ -34,7 +36,6 @@ public interface IUser {
     /**
      * The method is used to see if the user that is currently logged in has the ability to do certain things.
      *
-     * @param roleKey the role of the user thats logged in.
      * @return Returns <code>true</code> if the string match the role of this user object else <code>false</code>
      */
 

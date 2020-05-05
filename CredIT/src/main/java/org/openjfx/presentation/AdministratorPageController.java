@@ -21,7 +21,7 @@ public class AdministratorPageController implements Initializable {
     @FXML
     private AnchorPane basePane;
     @FXML
-    private Label administrateUsers;
+    private Label administrateProductionCompanies;
     @FXML
     private Label administrateCast;
     @FXML
@@ -39,7 +39,6 @@ public class AdministratorPageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         username.setText(LoginSystemController.getUsernameString());
-        administrateUsers.setVisible(false); //set invisible due to low importance of use case.
 
         App.handleMoveWindow(basePane);
     }
@@ -50,7 +49,9 @@ public class AdministratorPageController implements Initializable {
      */
     //region
     @FXML
-    public void handleAdministrateUsers(MouseEvent event){    }
+    public void handleAdministrateProductionCompanies(MouseEvent event){
+        App.handleModifyProductionCompanyStage();
+    }
 
     @FXML
     private void handleAdministrateCast(MouseEvent event){

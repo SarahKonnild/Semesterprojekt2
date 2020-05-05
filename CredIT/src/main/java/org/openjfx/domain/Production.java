@@ -62,7 +62,7 @@ public class Production implements IProduction {
     }
 
     @Override
-    public boolean update(String name, String year, IProductionCompany productionCompany) {
+    public boolean update(String name, String year) {
         this.name = name;
         this.year = year;
         this.productionCompany = productionCompany;

@@ -5,12 +5,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import org.openjfx.interfaces.ICast;
 import org.openjfx.interfaces.IMovie;
 import org.openjfx.interfaces.IProductionCompany;
 
@@ -56,19 +54,30 @@ public class ModifyMovieController implements Initializable {
     private TextField releaseYear;
     //endregion
 
+    //Class Attributes
+    //region
     private ArrayList<IMovie> searchResult;
     private ObservableList<IMovie> observableList;
 
-    private IMovie chosenMovie;
+    private static IMovie chosenMovie;
+    private static IMovie givenMovie;
+    private boolean status;
+    //endregion
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
+        givenMovie = ModifyProductionCompanyController.getChosenMovie();
+        if(givenMovie != null){
+            movieName.setText(chosenMovie.getTitle());
+            productionCompany.setText(chosenMovie.getProductionCompany().getName());
+            String[] release = chosenMovie.getReleaseDate();
+            releaseYear.setText(release[2]);
+        }
     }
 
     //Everything to do with the ListView (search, choose)
     //region
-
     /**
      * Searches the database for entries that match the search field's information in the database.
      * Writes all results into the list, which can then be chosen by the user.
@@ -95,11 +104,16 @@ public class ModifyMovieController implements Initializable {
      */
     @FXML
     public void handleResultChosen(MouseEvent event){
-        chosenMovie = (IMovie) resultList.getSelectionModel().getSelectedItem();
-        movieName.setText(chosenMovie.getTitle());
-        String[] airDate = chosenMovie.getReleaseDate();
-        releaseYear.setText(String.valueOf(airDate[2]));
-        productionCompany.setText(chosenMovie.getProductionCompany().getName());
+            resultList.setDisable(false);
+            chosenMovie = (IMovie) resultList.getSelectionModel().getSelectedItem();
+            movieName.setText(chosenMovie.getTitle());
+            String[] airDate = chosenMovie.getReleaseDate();
+            releaseYear.setText(String.valueOf(airDate[2]));
+            productionCompany.setText(chosenMovie.getProductionCompany().getName());
+
+            changeCast.setDisable(false);
+            delete.setDisable(false);
+            save.setDisable(false);
     }
 
     //endregion
@@ -136,7 +150,23 @@ public class ModifyMovieController implements Initializable {
     //region
     @FXML
     public void handleDelete(MouseEvent event){
-
+        if(!observableList.isEmpty()){
+            chosenMovie = (IMovie) resultList.getSelectionModel().getSelectedItem();
+            status = chosenMovie.delete();
+            if(status){
+                searchResult.remove(chosenMovie);
+                errorMessage.setText("Film slettet");
+                if(chosenMovie == null){
+                    resultList.getItems().clear();
+                } else{
+                    resultList.setItems(FXCollections.observableArrayList(searchResult));
+                }
+                clearFields();
+            }
+        }else{
+            errorMessage.setText("Fejl opstået, film blev ikke slettet");
+        }
+        resultList.refresh();
     }
     //endregion
 
@@ -144,7 +174,20 @@ public class ModifyMovieController implements Initializable {
     //region
     @FXML
     public void handleSave(MouseEvent event){
-
+        if(!observableList.isEmpty()){
+            chosenMovie = (IMovie) resultList.getSelectionModel().getSelectedItem();
+            String[] airDate = chosenMovie.getReleaseDate();
+            status = chosenMovie.update(movieName.getText(), airDate[2]);
+            if(status){
+                errorMessage.setText("Film opdateret");
+                clearFields();
+            }else{
+                errorMessage.setText("Fejl opstået, udsendelse blev ikke opdateret");
+            }
+        }else{
+            errorMessage.setText("Ingen film valgt");
+        }
+        resultList.refresh();
     }
     //endregion
 
@@ -176,4 +219,5 @@ public class ModifyMovieController implements Initializable {
         releaseYear.clear();
         productionCompany.clear();
     }
+
 }

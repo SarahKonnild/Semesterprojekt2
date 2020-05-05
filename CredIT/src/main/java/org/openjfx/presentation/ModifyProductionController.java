@@ -68,12 +68,22 @@ public class ModifyProductionController implements Initializable {
     private ArrayList<IProduction> searchResult;
     private ObservableList<IProduction> observableList;
 
-    private IProduction chosenProduction;
+    private static IProduction chosenProduction;
+    private IProduction givenProduction;
+    private boolean status;
     //endregion
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
+        givenProduction = ModifyProductionCompanyController.getChosenProduction();
+        if(givenProduction != null){
+            productionName.setText(givenProduction.getName());
+            releaseYear.setText(givenProduction.getYear());
+            productionCompany.setText(givenProduction.getProductionCompany().getName());
+            amountOfEpisodes.setText(String.valueOf(givenProduction.getNumberOfEpisodes()));
+            amountOfSeasons.setText(String.valueOf(givenProduction.getNumberOfSeasons()));
+        }
     }
 
     //Everything to do with the ListView (search, choose)
@@ -104,13 +114,18 @@ public class ModifyProductionController implements Initializable {
      */
     @FXML
     public void handleSearchResultChosen(MouseEvent event){
-        observableList = resultList.getSelectionModel().getSelectedItems();
-        chosenProduction = (IProduction) resultList.getSelectionModel().getSelectedItem();
-        productionName.setText(chosenProduction.getName());
-        productionCompany.setText(String.valueOf(chosenProduction.getProductionCompany()));
-        amountOfSeasons.setText(String.valueOf(chosenProduction.getNumberOfSeasons()));
-        amountOfEpisodes.setText(String.valueOf(chosenProduction.getNumberOfEpisodes()));
-        releaseYear.setText(chosenProduction.getYear());
+            resultList.setDisable(false);
+            observableList = resultList.getSelectionModel().getSelectedItems();
+            chosenProduction = (IProduction) resultList.getSelectionModel().getSelectedItem();
+            productionName.setText(chosenProduction.getName());
+            productionCompany.setText(String.valueOf(chosenProduction.getProductionCompany()));
+            amountOfSeasons.setText(String.valueOf(chosenProduction.getNumberOfSeasons()));
+            amountOfEpisodes.setText(String.valueOf(chosenProduction.getNumberOfEpisodes()));
+            releaseYear.setText(chosenProduction.getYear());
+
+            save.setDisable(false);
+            delete.setDisable(false);
+
     }
     //endregion
 
@@ -125,7 +140,7 @@ public class ModifyProductionController implements Initializable {
     public void handleCreateNew(MouseEvent event){
         String companySearch = productionCompany.getText();
         ArrayList<IProductionCompany> results = new ArrayList<>();
-        results.add(App.getSystemInstance().searchProductionCompany(companySearch));
+        results.addAll(App.getSystemInstance().searchProductionCompany(companySearch));
         IProduction production = LoginSystemController.getAdminUser().addNewProductionToDatabase(productionName.getText(), releaseYear.getText(), results.get(0));
         if (production != null) {
             errorMessage.setText("Produktionen oprettet");
@@ -148,7 +163,25 @@ public class ModifyProductionController implements Initializable {
      */
     @FXML
     public void handleDelete(MouseEvent event){
-
+        if(!observableList.isEmpty()){
+            chosenProduction = (IProduction) resultList.getSelectionModel().getSelectedItem();
+            status = chosenProduction.delete();
+            if(status){
+                searchResult.remove(chosenProduction);
+                errorMessage.setText("Produktion slettet");
+                if(searchResult.isEmpty()){
+                    resultList.getItems().clear();
+                }else{
+                    resultList.setItems(FXCollections.observableArrayList(searchResult));
+                }
+                clearFields();
+            } else{
+                errorMessage.setText("Fejl opstået, produktion blev ikke slettet");
+            }
+        }else{
+            errorMessage.setText("Ingen produktion valgt");
+        }
+        resultList.refresh();
     }
     //endregion
 
@@ -160,7 +193,19 @@ public class ModifyProductionController implements Initializable {
      */
     @FXML
     public void handleSave(MouseEvent event){
-
+        if(!observableList.isEmpty()){
+            chosenProduction = (IProduction) resultList.getSelectionModel().getSelectedItem();
+            status = chosenProduction.update(productionName.getText(), releaseYear.getText());
+            if(status){
+                errorMessage.setText("Produktion opdateret");
+                clearFields();
+            }else{
+                errorMessage.setText("Fejl opstået, produktion blev ikke opdateret");
+            }
+        }else{
+            errorMessage.setText("Ingen produktion valgt");
+        }
+        resultList.refresh();
     }
     //endregion
 
@@ -188,4 +233,7 @@ public class ModifyProductionController implements Initializable {
     public void handleClose(MouseEvent event){App.closeWindow();}
     //endregion
 
+    public static void setChosenProduction(IProduction newChosenProduction){
+        chosenProduction = newChosenProduction;
+    }
 }

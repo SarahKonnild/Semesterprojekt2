@@ -148,6 +148,17 @@ public class App extends Application {
         }
     }
 
+    public static void handleModifyProductionCompanyStage(){
+        try{
+            Parent value = FXMLLoader.load(LoginSystemController.class.getResource("ModifyProductionCompany.fxml"));
+            scene.setRoot(value);
+            stage.sizeToScene();
+            stage.setResizable(false);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public static void handleLoginSystemPage(){
         try{
             Parent value = FXMLLoader.load(App.class.getResource("LoginSystem.fxml"));

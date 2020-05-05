@@ -2,6 +2,8 @@ package org.openjfx.domain;
 
 import org.openjfx.interfaces.*;
 
+import java.util.ArrayList;
+
 public class User implements IUser {
     private int id;
     private String name;
