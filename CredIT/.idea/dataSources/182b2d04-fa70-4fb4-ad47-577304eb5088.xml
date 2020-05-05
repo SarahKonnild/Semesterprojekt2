@@ -8,7 +8,7 @@
     <database id="2" parent="1" name="creditdb">
       <ObjectId>25302</ObjectId>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>1055</IntrospectionStateNumber>
+      <IntrospectionStateNumber>1069</IntrospectionStateNumber>
       <Relations>sequence|table|25403|25405|1
 sequence|table|25411|25413|1
 sequence|table|25419|25421|1
@@ -96,7 +96,7 @@ sequence|table|25259|25261|1
       <Comment>standard public schema</Comment>
       <StateNumber>276</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>1056</IntrospectionStateNumber>
+      <IntrospectionStateNumber>1070</IntrospectionStateNumber>
       <Current>1</Current>
     </schema>
     <access-method id="19" parent="2" name="heap">
