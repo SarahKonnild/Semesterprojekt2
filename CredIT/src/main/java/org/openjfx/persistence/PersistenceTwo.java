@@ -18,7 +18,7 @@ public class PersistenceTwo implements IPersistence {
     private static PersistenceTwo persistence;
     private final String url = "localhost";
     private final int port = 5432;
-    private final String databaseName = "creditdb";
+    private final String databaseName = "credit_db";
     private final String username = "postgres";
     private String password = Password.PASS;
     private Connection connection = null;
