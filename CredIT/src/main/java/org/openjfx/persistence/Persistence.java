@@ -75,6 +75,11 @@ public class Persistence implements IPersistence {
     }
 
     @Override
+    public boolean removeProductionCompanyFromDatabase(int id) {
+        return false;
+    }
+
+    @Override
     public int createNewCastInDatabase(ICast cast) throws IOException {
         return 0;
     }
@@ -166,6 +171,11 @@ public class Persistence implements IPersistence {
 
     @Override
     public boolean updateCastInDatabase(ICast cast) {
+        return false;
+    }
+
+    @Override
+    public boolean updateProductionCompanyInDataBase(IProductionCompany productionCompany) {
         return false;
     }
 

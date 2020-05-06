@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CredITSystem implements ISystem {
-    static CredITSystem instance = null;
+    private static CredITSystem instance = null;
     private static Persistence persistenceLayer;
     private User user;
 
@@ -16,15 +16,15 @@ public class CredITSystem implements ISystem {
      * To use for creating an instance of the System class that can then be used mainly in Presentation.
      */
     public CredITSystem() {
-        this.persistenceLayer = Persistence.getInstance();
-        this.instance = this;
+        persistenceLayer = Persistence.getInstance();
+        instance = this;
     }
 
     //FIXME I do not think we need this constructor.
     public CredITSystem(User user) {
         this.user = user;
-        this.persistenceLayer = Persistence.getInstance();
-        this.instance = this;
+        persistenceLayer = Persistence.getInstance();
+        instance = this;
     }
 
     /*
@@ -34,62 +34,79 @@ public class CredITSystem implements ISystem {
      * It will then create objects based on the information in the list and return an arrayList of the objects.
      */
 
-    //region search methods goes here
 
     public static IPersistence getPersistence() {
         return persistenceLayer;
     }
 
-    //region cast database seach metods here
+    public static CredITSystem getInstance() {
+        return instance;
+    }
+
+    //region cast metods
     @Override
     public ArrayList<ICast> searchCast(String keyword) {
         return makeCastObjects(persistenceLayer.getCastFromDatabase(keyword));
     }
-
-    public HashMap<ICast, String> getCastRolesMovies(int id){
-        return getCastRoles(persistenceLayer.getCastRolesMoviesFromDatabase(id));
-    }
-
-    public HashMap<ICast, String> getCastRolesBroadcast(int id){
-        return getCastRoles(persistenceLayer.getCastRolesBroadcastFromDatabase(id));
-    }
-
-    private HashMap<ICast, String> getCastRoles(List<String> list){
-        HashMap<ICast, String> castMap = new HashMap<>();
-        for(String item : list ){
-            String[] temp = item.split(",");
-            ICast castObj = searchCast(temp[0]).get(1);
-            castMap.put(castObj, temp[1]);
-        };
-        return castMap;
-    };
 
     @Override
     public ArrayList<ICast> searchCast(int castID) {
         return makeCastObjects(persistenceLayer.getCastFromDatabase(castID));
     }
 
-    //endregion
-
     /**
      * This method takes the list returned from the search in the database and creates cast objects from that list.
      *
-     * @param cast
+     * @param list
      * @return an arraylist of Cast object
      */
-    private ArrayList<ICast> makeCastObjects(List<String> cast) {
-        if (cast.size() > 0) {
+    private ArrayList<ICast> makeCastObjects(List<String> list) {
+        if (list.size() > 0) {
             ArrayList<ICast> casts = new ArrayList();
-            for (int i = 0; i < cast.size(); i++) {
-                String[] items = cast.get(i).split(",");
+            //The list is formatted as castID, castName, castRegID
+            for (String item : list) {
+                String[] items = item.split(",");
+                //Creating a new Cast object for each String item in the list.
                 casts.add(new Cast((Integer.parseInt(items[0])), items[1], ((items[2]))));
             }
             return casts;
-        }
-        return null;
+        } else
+            return null;
     }
 
-    //region broadcast database search methods here
+
+
+    //endregion cast search methods ends here
+
+    //region castRoleMaps methods
+    public HashMap<ICast, String> getCastRolesMovies(int id) {
+        List<String> tempList = persistenceLayer.getCastRolesMoviesFromDatabase(id);
+        return makeCastRoleMap(tempList);
+    }
+
+    public HashMap<ICast, String> getCastRolesBroadcast(int id) {
+        List<String> tempList = persistenceLayer.getCastRolesBroadcastFromDatabase(id);
+        return makeCastRoleMap(tempList);
+    }
+    private HashMap<ICast, String> makeCastRoleMap(List<String> list) {
+        HashMap<ICast, String> castMap = new HashMap<>();
+        // Gets a list of string formatted as castID, role
+        for (String item : list) {
+            //For each item in the list, the string gets split so the ID can be used to search for cast members
+            String[] tempArray = item.split(",");
+            int tempCastID = Integer.parseInt(tempArray[0]);
+            String castRole = tempArray[1];
+
+            ICast castObj = searchCast(tempCastID).get(0);
+
+            castMap.put(castObj, castRole);
+        }
+        return castMap;
+    }
+
+    //endregion castRoleMaps ends here
+
+    //region broadcast methods
     @Override
     public ArrayList<IBroadcast> searchBroadcast(String keyword) {
         return makeBroadcastObjects(persistenceLayer.getBroadcastFromDatabase(keyword));
@@ -100,87 +117,126 @@ public class CredITSystem implements ISystem {
         return makeBroadcastObjects(persistenceLayer.getBroadcastFromDatabase((productionID)));
     }
 
-    //endregion
-
     /**
      * This method takes the list returned from the search in the database and creates broadcast objects from that list.
      *
-     * @param broadcast A String list over all the broadcast gotten from the search methods.
+     * @param list A String list over all the broadcast gotten from the search methods.
      * @return an arraylist of broadcast objects
      */
-    private ArrayList<IBroadcast> makeBroadcastObjects(List<String> broadcast) {
+    private ArrayList<IBroadcast> makeBroadcastObjects(List<String> list) {
         ArrayList<IBroadcast> broadcasts = new ArrayList<>();
-        ArrayList<ICast> castObjects = new ArrayList<>();
-        HashMap<String, ArrayList<ICast>> castRolesMap = new HashMap<>();
-        //TODO Take a decision on whatever we use a hashmap with the ICast as the key and a single string with all the roles for that cast member.
-
-        List<String> list = broadcast;
         if (list.size() > 0) {
-            for (int i = 0; i < list.size(); i++) {
-                //Runs though all the elements in the received list and splits to a String Array where each string represent a broadcast
-                String[] items = list.get(i).split(",");
-                if (items[2].length() > 0) {
-                    //Takes the 3rd element in the string array and splits it to its different key. 3rd element represent the hashmap over roles and cast members
-                    //The string Items looks like this = key;value:value:value_key;value:value:value_key;value:value:value_
-                    String[] key = items[2].split("_");
-                }
-                //Need to update this to take the hashmap instead
+            // Each string is formatted as id,name,seasonNumber,episodeNumber,airDate,productionID
+            for (String item : list) {
+                String[] items = item.split(",");
+
                 broadcasts.add(new Broadcast(
                         Integer.parseInt(items[0]),
                         items[1],
+                        Integer.parseInt(items[2]),
                         Integer.parseInt(items[3]),
-                        Integer.parseInt(items[4]),
-                        items[5],
-                        Integer.parseInt(items[6])));
+                        items[4],
+                        Integer.parseInt(items[5])));
             }
             return broadcasts;
-        }
-        return null;
+        } else
+            return null;
     }
 
-    //endregion
+    //endregion Broadcast methods ends here
 
-    //endregion
+    //region production methods
 
-    //region production search methods here
+    public IProduction searchProduction(int productionID) {
+        List<String> list = persistenceLayer.getProductionFromDatabase(productionID);
+        return makeProductionObjects(list).get(0);
+    }
 
-    public IProduction searchProduction(int id){
-        List<String> list = persistenceLayer.getProductionFromDatabase(id);
-        IProduction production = searchProduction(list).get(1);
-        return production;
-    };
-    @Override
-    public ArrayList<IProduction> searchProduction(String keyword){
-        return searchProduction(persistenceLayer.getProductionFromDatabase(keyword));
+    public ArrayList<IProduction> searchProductions(int productionCopmpanyID) {
+        List<String> list = persistenceLayer.getProductionFromDatabase(productionCopmpanyID);
+        return makeProductionObjects(list);
     }
 
     @Override
-    public ArrayList<IMovie> searchMovie(String keyword) {
-        return null;
+    public ArrayList<IProduction> searchProduction(String keyword) {
+        return makeProductionObjects(persistenceLayer.getProductionFromDatabase(keyword));
     }
 
-    ;
-
-    private ArrayList<IProduction> searchProduction(List<String> list) {
+    private ArrayList<IProduction> makeProductionObjects(List<String> list) {
         ArrayList<IProduction> productions = new ArrayList<>();
         if (list.size() > 0) {
-            for (int i = 0; i < list.size(); i++) {
-                String[] items = list.get(i).split(",");
-                productions.add(new Production(Integer.parseInt(items[0]), items[1], Integer.parseInt(items[3]), items[4]));
+            //String is formatted as id,name,productionCompanyID,year
+            for(String item : list){
+                String[] items = item.split(",");
+                productions.add(new Production(
+                        Integer.parseInt(items[0]),
+                        items[1],
+                        Integer.parseInt(items[3]),
+                        items[4]));
             }
             return productions;
-        }
-        return null;
+        }else
+            return null;
+    }
+    //endregion production methods ends here
+
+    //region movie methods
+    @Override
+    public ArrayList<IMovie> searchMovie(String keyword) {
+        List<String> tempList = persistenceLayer.getMovieFromDatabase(keyword);
+        return makeMovieObjects(tempList);
     }
 
-    public IProductionCompany searchProductionCompany(int id){return null;};
+    @Override
+    public ArrayList<IMovie> searchMovies(int productionCompanyID) {
+        List<String> tempList = persistenceLayer.getMoviesFromDatabase(productionCompanyID);
+        return makeMovieObjects(tempList);
+    }
+
+    private ArrayList<IMovie> makeMovieObjects(List<String> list){
+        if(list.size()>0){
+            ArrayList<IMovie> movies = null;
+            //the string is formatted as id,title,releaseDate,productionCompanyID
+            for(String item : list){
+                String[] items = item.split(",");
+                movies.add(new Movie(
+                        Integer.parseInt(items[0]),
+                        items[1],
+                        items[2],
+                        Integer.parseInt(items[3])));
+            }
+            return movies;
+        }else
+            return null;
+    }
+
+    //endregion search movie methods ends here
+
+    //region productionCompnay methods
+    public IProductionCompany searchProductionCompany(int productionCompanyID) {
+        List<String> tempList = persistenceLayer.getProductionCompany(productionCompanyID);
+        return makeProductionCompany(tempList).get(0);
+    }
 
     @Override
-    public ArrayList<IProductionCompany> searchProductionCompany(String keyword){return null;};
+    public ArrayList<IProductionCompany> searchProductionCompany(String keyword) {
+        List<String> tempList = persistenceLayer.getProductionCompany(keyword);
+        return makeProductionCompany(tempList);
+    }
 
-    //endregion
+    private ArrayList<IProductionCompany> makeProductionCompany(List<String> list){
+        if(list.size() > 0){
+            ArrayList<IProductionCompany> productionCompanies = null;
+            for(String item : list){
+                String[] items = item.split(",");
+                productionCompanies.add(new ProductionCompany(Integer.parseInt(items[0]), items[1]));
+            }
+            return productionCompanies;
+        }else
+            return null;
+    }
 
-    //endregion
+    //endregion prodcutionCompany search methods ends here
 
     @Override
     public IUser createNewUser(String username, String password) {
@@ -196,6 +252,6 @@ public class CredITSystem implements ISystem {
 
     @Override
     public Persistence getPersistenceLayer() {
-        return this.persistenceLayer;
+        return persistenceLayer;
     }
 }

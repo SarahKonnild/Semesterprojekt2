@@ -1,14 +1,13 @@
 package org.openjfx.domain;
 
-import org.openjfx.interfaces.ICast;
-import org.openjfx.interfaces.IMovie;
-import org.openjfx.interfaces.IProduction;
-import org.openjfx.interfaces.IProductionCompany;
+import org.openjfx.interfaces.*;
 
 import java.io.IOException;
 import java.util.HashMap;
 
 public class Movie implements IMovie {
+    private final IPersistence persistence = CredITSystem.getPersistence();
+    private final CredITSystem system = CredITSystem.getInstance();
     private String title;
     private String[] releaseDate;
     private int id;
@@ -25,7 +24,8 @@ public class Movie implements IMovie {
         this.id = id;
         this.title = title;
         this.releaseDate = releaseDate.split("-");
-        this.castRoleMap = CredITSystem.instance.getCastRolesMovies(this.id);
+        this.castRoleMap = system.getCastRolesMovies(this.id);
+        //Todo figure out what to do about production company
         //this.productionCompany = CredITSystem.instance.searchProductionCompany(productionCompanyID);
     }
 
@@ -33,7 +33,7 @@ public class Movie implements IMovie {
     public boolean save() {
         int idNumber = -1;
         try {
-            idNumber = CredITSystem.instance.getPersistenceLayer().createNewMovieInDatabase(this);
+            idNumber = persistence.createNewMovieInDatabase(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,22 +46,58 @@ public class Movie implements IMovie {
 
     @Override
     public boolean delete() {
-        return false;
+        if(persistence.removeMovieFromDatabase(this.id))
+            return true;
+        else
+            return false;
     }
 
     @Override
     public boolean update(String title, String releaseYear) {
-        return false;
-    }
-
-    @Override
-    public boolean assignCast(ICast cast, String role) {
-        return false;
+        String tempTitle = this.title;
+        String[] tempYear = this.releaseDate;
+        this.title = title;
+        this.releaseDate = releaseYear.split("-");
+        if (persistence.updateMovieInDatabase(this))
+            return true;
+        else {
+            this.title = tempTitle;
+            this.releaseDate = tempYear;
+            return false;
+        }
     }
 
     @Override
     public boolean unassignCast(ICast cast, String role) {
-        return false;
+        if (castRoleMap.containsKey(cast)) {
+            HashMap<ICast, String> tempRoleMap = this.castRoleMap;
+            castRoleMap.remove(cast);
+            if(persistence.updateMovieInDatabase(this))
+                return true;
+            else {
+                castRoleMap.clear();
+                castRoleMap = tempRoleMap;
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean assignCast(ICast cast, String role) {
+        HashMap<ICast, String> tempRoleMap = this.castRoleMap;
+        castRoleMap.put(cast, role);
+        if(persistence.updateMovieInDatabase(this))
+        {
+            return true;
+        }else
+        {
+            //A mistake in saving to database must have happened. So the data is cleared and the latest data is pulled from database.
+            castRoleMap.clear();
+            castRoleMap = tempRoleMap;
+            return false;
+        }
     }
 
     @Override

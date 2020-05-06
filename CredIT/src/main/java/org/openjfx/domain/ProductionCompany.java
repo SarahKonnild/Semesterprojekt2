@@ -1,6 +1,7 @@
 package org.openjfx.domain;
 
 import org.openjfx.interfaces.IMovie;
+import org.openjfx.interfaces.IPersistence;
 import org.openjfx.interfaces.IProduction;
 import org.openjfx.interfaces.IProductionCompany;
 
@@ -8,31 +9,45 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ProductionCompany implements IProductionCompany {
-
+    private final IPersistence persistence = CredITSystem.getPersistence();
+    private final CredITSystem system = CredITSystem.getInstance();
     private int id;
     private String name;
     private ArrayList<IProduction> productionList;
     private ArrayList<IMovie> movieList;
 
-    ProductionCompany(String name){
+    ProductionCompany(String name) {
         this.name = name;
+        this.movieList = null;
+        this.productionList = null;
     }
 
-    ProductionCompany(int id, String name){
+    ProductionCompany(int id, String name) {
         this.id = id;
         this.name = name;
+        loadProductionList();
+        loadMovieList();
+
+    }
+
+    private void loadProductionList() {
+        this.productionList = system.searchProductions(this.id);
+
+    }
+    private void loadMovieList(){
+        this.movieList = system.searchMovies(this.id);
     }
 
     @Override
     public String toString() {
-        return super.toString();
+        return this.name;
     }
 
     @Override
     public boolean save() {
         int idNumber = -1;
         try {
-            idNumber = CredITSystem.instance.getPersistenceLayer().createNewProductionCompanyInDatabase(this);
+            idNumber = persistence.createNewProductionCompanyInDatabase(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -45,46 +60,91 @@ public class ProductionCompany implements IProductionCompany {
 
     @Override
     public boolean delete() {
-        return false;
+        return persistence.removeProductionCompanyFromDatabase(this.id);
     }
 
     @Override
     public boolean update(String name) {
-        return false;
+        String tempName = this.name;
+        this.name = name;
+        if (persistence.updateProductionCompanyInDataBase(this)) {
+            return true;
+        } else {
+            this.name = tempName;
+            return false;
+        }
     }
 
     @Override
     public boolean assignMovie(IMovie movie) {
-        return false;
+        ArrayList<IMovie> tempList = this.movieList;
+        this.movieList.add(movie);
+        if (persistence.updateProductionCompanyInDataBase(this))
+            return true;
+        else {
+            this.movieList = tempList;
+            return false;
+        }
     }
 
     @Override
     public boolean assignProduction(IProduction production) {
-        return false;
+        ArrayList<IProduction> tempList = this.productionList;
+        this.productionList.add(production);
+        if (persistence.updateProductionCompanyInDataBase(this))
+            return true;
+        else {
+            this.productionList = tempList;
+            return false;
+        }
     }
 
     @Override
     public boolean unassignMovie(IMovie movie) {
-        return false;
+        if(this.movieList.contains(movie)){
+            ArrayList<IMovie> tempList = this.movieList;
+            this.movieList.remove(movie);
+            if(persistence.updateProductionCompanyInDataBase(this))
+                return true;
+            else {
+                this.movieList = tempList;
+                return false;
+            }
+
+        }else
+            return false;
     }
 
     @Override
     public boolean unassignProduction(IProduction production) {
-        return false;
+        if(this.productionList.contains(production)){
+            //Saves the list so it can revert back if anything goes wrong.
+            ArrayList<IProduction> tempList = this.productionList;
+            this.movieList.remove(production);
+            if(persistence.updateProductionCompanyInDataBase(this))
+                return true;
+            else {
+                //Reverts the changes because something went wrong
+                this.productionList = tempList;
+                return false;
+            }
+
+        }else
+            return false;
     }
 
     @Override
     public String getName() {
-        return null;
+        return this.name;
     }
 
     @Override
     public ArrayList<IProduction> getProductionList() {
-        return null;
+        return this.productionList;
     }
 
     @Override
     public ArrayList<IMovie> getMovieList() {
-        return null;
+        return this.movieList;
     }
 }

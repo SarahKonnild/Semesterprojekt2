@@ -63,6 +63,8 @@ public interface IPersistence {
 
     public boolean removeMovieFromDatabase(int id);
 
+    public boolean removeProductionCompanyFromDatabase(int id);
+
     /**
      * Saves a new cast to the persistence layer.
      *
@@ -175,6 +177,8 @@ public interface IPersistence {
      * @return
      */
     public boolean updateCastInDatabase(ICast cast);
+
+    public boolean updateProductionCompanyInDataBase(IProductionCompany productionCompany);
 
     public boolean updateMovieInDatabase(IMovie movie);
 

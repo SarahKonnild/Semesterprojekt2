@@ -5,6 +5,8 @@ import org.openjfx.interfaces.*;
 import java.util.ArrayList;
 
 public class User implements IUser {
+    private final IPersistence persistence = CredITSystem.getPersistence();
+    private final CredITSystem system = CredITSystem.getInstance();
     private int id;
     private String name;
     private String password;

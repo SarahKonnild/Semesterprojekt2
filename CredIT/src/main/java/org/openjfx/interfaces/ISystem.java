@@ -49,6 +49,8 @@ public interface ISystem {
 
     public ArrayList<IMovie> searchMovie(String keyword);
 
+    public ArrayList<IMovie> searchMovies(int productionCompanyID);
+
     public ArrayList<IProductionCompany> searchProductionCompany(String keyword);
 
     public IUser createNewUser(String username, String password);
