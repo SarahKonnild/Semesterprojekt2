@@ -5,28 +5,28 @@ import java.util.HashMap;
 public interface IMovie {
 
 
-    public boolean save();
+    boolean save();
 
-    public boolean delete();
+    boolean delete();
 
-    public boolean update(String title, String releaseYear);
+    boolean update(String title, String releaseYear);
 
-    public boolean assignCast(ICast cast, String role);
+    boolean assignCast(ICast cast, String role);
 
-    public boolean unassignCast(ICast cast, String role);
+    boolean unassignCast(ICast cast, String role);
 
-    public int getId();
+    int getId();
 
-    public String getTitle();
+    String getTitle();
 
-    public HashMap<ICast, String> getCastMap();
+    HashMap<ICast, String> getCastMap();
 
-    public IProductionCompany getProductionCompany();
+    IProductionCompany getProductionCompany();
 
-    public String[] getReleaseDate();
+    String[] getReleaseDate();
 
-    public void setReleaseDate(String[] airDate);
+    void setReleaseDate(String[] airDate);
 
     @Override
-    public String toString();
+    String toString();
 }

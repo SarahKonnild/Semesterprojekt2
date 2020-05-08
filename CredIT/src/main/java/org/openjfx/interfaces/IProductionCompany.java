@@ -4,23 +4,23 @@ import java.util.ArrayList;
 
 public interface IProductionCompany {
 
-    public boolean save();
+    boolean save();
 
-    public boolean delete();
+    boolean delete();
 
-    public boolean update(String name);
+    boolean update(String name);
 
-    public boolean assignMovie(IMovie movie);
+    boolean assignMovie(IMovie movie);
 
-    public boolean assignProduction(IProduction production);
+    boolean assignProduction(IProduction production);
 
-    public boolean unassignMovie(IMovie movie);
+    boolean unassignMovie(IMovie movie);
 
-    public boolean unassignProduction(IProduction production);
+    boolean unassignProduction(IProduction production);
 
-    public String getName();
+    String getName();
 
-    public ArrayList<IProduction> getProductionList();
+    ArrayList<IProduction> getProductionList();
 
-    public ArrayList<IMovie> getMovieList();
+    ArrayList<IMovie> getMovieList();
 }

@@ -8,26 +8,26 @@ public interface IProduction {
      *
      * @return <code>true</code> if it manged to save the production to the database else <code>false</code>
      */
-    public boolean save();
+    boolean save();
 
-    public boolean delete();
+    boolean delete();
 
-    public boolean update(String name, String year);
+    boolean update(String name, String year);
 
-    public int getId();
+    int getId();
 
-    public String getName();
+    String getName();
 
-    public String getYear();
+    String getYear();
 
-    public ArrayList<IBroadcast> getBroadcasts();
+    ArrayList<IBroadcast> getBroadcasts();
 
-    public IProductionCompany getProductionCompany();
+    IProductionCompany getProductionCompany();
 
-    public int getNumberOfSeasons();
+    int getNumberOfSeasons();
 
-    public int getNumberOfEpisodes();
+    int getNumberOfEpisodes();
 
     @Override
-    public String toString();
+    String toString();
 }

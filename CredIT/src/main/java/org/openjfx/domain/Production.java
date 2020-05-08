@@ -68,10 +68,7 @@ public class Production implements IProduction {
 
     @Override
     public boolean delete() {
-        if(persistence.removeProductionFromDatabase(this.id))
-            return true;
-        else
-            return false;
+        return persistence.removeProductionFromDatabase(this.id);
         //Todo What to do about the connections it has?
     }
 

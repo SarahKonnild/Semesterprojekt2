@@ -13,13 +13,13 @@ public interface IBroadcast {
      *
      * @return
      */
-    public boolean save();
+    boolean save();
 
-    public boolean delete();
+    boolean delete();
 
 
 
-    public boolean update(String name, int seasonNumber, int episodeNumber, String airDate);
+    boolean update(String name, int seasonNumber, int episodeNumber, String airDate);
 
     /**
      * Assigns a {@code Cast} object to a specified role value in the HashMap of the broadcast.
@@ -27,7 +27,7 @@ public interface IBroadcast {
      * @param cast the {@code Cast} object that is to be assigned.
      * @param role the role of the given cast member, as a {@code String}.
      */
-    public boolean assignCast(ICast cast, String role);
+    boolean assignCast(ICast cast, String role);
 
     /**
      * Removes a {@code Cast} object from the Broadcast object's HashMap.
@@ -35,59 +35,59 @@ public interface IBroadcast {
      * @param cast the {@code Cast} object that is to be removed.
      * @param role the role of the given cast member, as a {@code String}.
      */
-    public boolean unassignCast(ICast cast, String role);
+    boolean unassignCast(ICast cast, String role);
 
     /**
      * Returns the ID of the broadcast. This ID is given by the persistence layer.
      *
      * @return the ID of the broadcast.
      */
-    public int getId();
+    int getId();
 
     /**
      * Returns the name of the broadcast.
      *
      * @return the name of the broadcast.
      */
-    public String getName();
+    String getName();
 
     /**
      * Returns a map over the roles and their associated cast members on this broadcast.
      *
      * @return a map over the roles and their associated cast members on this broadcast.
      */
-    public HashMap<ICast, String> getCastMap();
+    HashMap<ICast, String> getCastMap();
 
     /**
      * Returns the season number of this broadcast.
      *
      * @return the season number of this broadcast.
      */
-    public int getSeasonNumber();
+    int getSeasonNumber();
 
     /**
      * Returns the episode number of this broadcast.
      *
      * @return the episode number of this broadcast.
      */
-    public int getEpisodeNumber();
+    int getEpisodeNumber();
 
-    public IProduction getProduction();
+    IProduction getProduction();
 
     /**
      * Returns the air date of this broadcast.
      *
      * @return the air date of this broadcast.
      */
-    public String[] getAirDate();
+    String[] getAirDate();
 
-    public void setAirDate(String[] airDate);
+    void setAirDate(String[] airDate);
 
     @Override
-    public String toString();
+    String toString();
 
-    public void setCastRoleMap(HashMap<ICast, String> castRoleMap);
+    void setCastRoleMap(HashMap<ICast, String> castRoleMap);
 
-    public void setProduction(IProduction production);
+    void setProduction(IProduction production);
 }
 

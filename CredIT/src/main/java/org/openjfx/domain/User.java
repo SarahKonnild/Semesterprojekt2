@@ -70,9 +70,7 @@ public class User implements IUser {
     @Override
     public boolean checkRole(String roleKey) {
         //valueOf checks if the inputted role is equal to the role of this user. Is case senitive.
-        if (Role.valueOf(roleKey) == this.role) {
-            return true;
-        } else return false;
+        return Role.valueOf(roleKey) == this.role;
     }
 
     @Override

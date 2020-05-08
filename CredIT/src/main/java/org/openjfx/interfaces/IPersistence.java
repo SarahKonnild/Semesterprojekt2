@@ -12,7 +12,7 @@ public interface IPersistence {
      * @return A boolean that is true if the user was succesfully written to the persistence layer
      * @throws IOException
      */
-    public boolean createNewUserInDatabase(IUser user) throws IOException;
+    boolean createNewUserInDatabase(IUser user) throws IOException;
 
     /**
      * Deletes a user from the persistence/layer(Database).
@@ -20,7 +20,7 @@ public interface IPersistence {
      * @param id The ID on the user you want to delete in the persistence layer.
      * @return returns the boolean value of the delete run.
      */
-    public boolean removeUserFromDatabase(int id);
+    boolean removeUserFromDatabase(int id);
 
     /**
      * Saves a new broadcast to the persistence layer.
@@ -28,9 +28,9 @@ public interface IPersistence {
      * @param broadcast The broadcast object that needs to be saved
      * @return A boolean that is true if the broadcast was succesfully written to the persistence layer
      */
-    public int createNewBroadcastInDatabase(IBroadcast broadcast) throws IOException;
+    int createNewBroadcastInDatabase(IBroadcast broadcast) throws IOException;
 
-    public int createNewMovieInDatabase(IMovie movie) throws IOException;
+    int createNewMovieInDatabase(IMovie movie) throws IOException;
 
     /**
      * Deletes a broadcast from the persistence/layer(Database).
@@ -45,9 +45,9 @@ public interface IPersistence {
      * @param production The production object that needs to be saved
      * @return A boolean that is true if the production was succesfully written to the persistence layer
      */
-    public int createNewProductionInDatabase(IProduction production) throws IOException;
+    int createNewProductionInDatabase(IProduction production) throws IOException;
 
-    public int createNewProductionCompanyInDatabase(IProductionCompany production) throws IOException;
+    int createNewProductionCompanyInDatabase(IProductionCompany production) throws IOException;
     /**
      * Deletes a production from the persistence/layer(Database).
      *
@@ -55,15 +55,15 @@ public interface IPersistence {
      * @return returns the boolean value of the delete run.
      */
 
-    public boolean removeBroadcastFromDatabase(int id);
+    boolean removeBroadcastFromDatabase(int id);
 
-    public boolean removeProductionFromDatabase(int id);
+    boolean removeProductionFromDatabase(int id);
 
-    public boolean removeCastFromDatabase(int id);
+    boolean removeCastFromDatabase(int id);
 
-    public boolean removeMovieFromDatabase(int id);
+    boolean removeMovieFromDatabase(int id);
 
-    public boolean removeProductionCompanyFromDatabase(int id);
+    boolean removeProductionCompanyFromDatabase(int id);
 
     /**
      * Saves a new cast to the persistence layer.
@@ -71,7 +71,7 @@ public interface IPersistence {
      * @param cast The production object that needs to be saved
      * @return A boolean that is true if the cast was succesfully written to the persistence layer
      */
-    public int createNewCastInDatabase(ICast cast) throws IOException;
+    int createNewCastInDatabase(ICast cast) throws IOException;
 
     /**
      * Deletes a cast from the persistence/layer(Database).
@@ -86,7 +86,7 @@ public interface IPersistence {
      * @param keyword The keyword that the broadcasts are selected on
      * @return The list of broadcasts that matched the keyword
      */
-    public List<String> getBroadcastFromDatabase(String keyword);
+    List<String> getBroadcastFromDatabase(String keyword);
 
     /**
      * Finds broadcast that have the id as their production company, return a list of those broadcasts.
@@ -94,15 +94,15 @@ public interface IPersistence {
      * @param productionId The keyword that the broadcasts are selected on
      * @return The list of broadcasts that matched the keyword
      */
-    public List<String> getBroadcastsFromDatabase(int productionId);
+    List<String> getBroadcastsFromDatabase(int productionId);
 
-    public List<String> getBroadcastFromDatabase(int broadcastID);
+    List<String> getBroadcastFromDatabase(int broadcastID);
 
-    public List<String> getMovieFromDatabase(String keyword);
+    List<String> getMovieFromDatabase(String keyword);
 
-    public List<String> getMovieFromDatabase(int movieID);
+    List<String> getMovieFromDatabase(int movieID);
 
-    public List<String> getMoviesFromDatabase(int productionCompanyID);
+    List<String> getMoviesFromDatabase(int productionCompanyID);
 
     /**
      * Finds the production that matches the keyword and returns them in a list
@@ -110,11 +110,11 @@ public interface IPersistence {
      * @param keyword The keyword that the production are selected on
      * @return The list of production that matched the keyword
      */
-    public List<String> getProductionFromDatabase(String keyword);
+    List<String> getProductionFromDatabase(String keyword);
 
-    public List<String> getProductionsFromDatabase(int productionCompanyID);
+    List<String> getProductionsFromDatabase(int productionCompanyID);
 
-    public List<String> getProductionFromDatabase(int productionId);
+    List<String> getProductionFromDatabase(int productionId);
 
     /**
      * Finds the casts that matches the keyword and returns them in a list
@@ -122,7 +122,7 @@ public interface IPersistence {
      * @param keyword The keyword that the casts are selected on
      * @return The list of casts that matched the keyword
      */
-    public List<String> getCastFromDatabase(String keyword);
+    List<String> getCastFromDatabase(String keyword);
 
     /**
      * Finds the casts that matches the keyword and returns them in a list
@@ -130,20 +130,20 @@ public interface IPersistence {
      * @param castID The keyword that the casts are selected on
      * @return The list of casts that matched the keyword
      */
-    public List<String> getCastFromDatabase(int castID);
+    List<String> getCastFromDatabase(int castID);
 
-    public List<String> getProductionCompany(int id);
+    List<String> getProductionCompany(int id);
 
-    public List<String> getProductionCompany(String keyword);
+    List<String> getProductionCompany(String keyword);
 
     /**
      * Search for the id of movie or broadcast, returns a list of castID and a string with their role in this format CastID, role
      * @param id
      * @return
      */
-    public List<String> getCastRolesMoviesFromDatabase(int id);
+    List<String> getCastRolesMoviesFromDatabase(int id);
 
-    public List<String> getCastRolesBroadcastFromDatabase(int id);
+    List<String> getCastRolesBroadcastFromDatabase(int id);
 
     /**
      * Finds the production that matches the keyword and returns them in a list
@@ -157,7 +157,7 @@ public interface IPersistence {
      * @param id
      * @return
      */
-    public String getProductionName(int id);
+    String getProductionName(int id);
 
     /**
      * Merges the two casts in the persistence layer, going through and finding all the references and making sure that the merge is completed correctly
@@ -166,7 +166,7 @@ public interface IPersistence {
      * @param cast2 The second cast member that needs merging
      * @return The boolean value of the merge
      */
-    public boolean mergeCastInDatabase(ICast cast1, ICast cast2);
+    boolean mergeCastInDatabase(ICast cast1, ICast cast2);
 
     /**
      * Update a cast members values to new name and regDKID
@@ -176,15 +176,15 @@ public interface IPersistence {
      * @param regDKID The new regDKID of the cast member
      * @return
      */
-    public boolean updateCastInDatabase(ICast cast);
+    boolean updateCastInDatabase(ICast cast);
 
-    public boolean updateProductionCompanyInDataBase(IProductionCompany productionCompany);
+    boolean updateProductionCompanyInDataBase(IProductionCompany productionCompany);
 
-    public boolean updateMovieInDatabase(IMovie movie);
+    boolean updateMovieInDatabase(IMovie movie);
 
-    public boolean updateBroadcastInDatabase(IBroadcast broadcast);
+    boolean updateBroadcastInDatabase(IBroadcast broadcast);
 
-    public boolean updateProduction(IProduction production);
+    boolean updateProduction(IProduction production);
 
 
 

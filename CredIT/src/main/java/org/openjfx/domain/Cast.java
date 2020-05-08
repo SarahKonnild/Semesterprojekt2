@@ -62,11 +62,8 @@ public class Cast implements ICast {
     @Override
     public boolean save() {
         int idNumber = -1;
-        try {
             idNumber = system.getPersistenceLayer().createNewCastInDatabase(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         if (idNumber != -1) {
             this.id = idNumber;
             return true;

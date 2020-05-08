@@ -46,10 +46,7 @@ public class Movie implements IMovie {
 
     @Override
     public boolean delete() {
-        if(persistence.removeMovieFromDatabase(this.id))
-            return true;
-        else
-            return false;
+        return persistence.removeMovieFromDatabase(this.id);
     }
 
     @Override
