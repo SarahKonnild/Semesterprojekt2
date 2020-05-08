@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public class Cast implements ICast {
     private final IPersistence persistence = CredITSystem.getPersistence();
+    private final CredITSystem system = CredITSystem.getInstance();
     private int id;
     private String name;
     private String regDKID;
@@ -38,32 +39,39 @@ public class Cast implements ICast {
 
     @Override
     public boolean mergeCastMembers(ICast cast) {
-        ICast tempCast = this;
-        return persistence.mergeCastInDatabase(tempCast, cast);
+        //Todo gotta figure out how to update this instance with the new data after the merge. Maybe the method should return a list of strings?
+        return persistence.mergeCastInDatabase(this, cast);
     }
 
     @Override
     public boolean update(String name, String regDKID) {
+        //Saving the current data in case of a failure to save to database, so the object can revert back.
+        String tempName = this.name;
+        String tempReg = this.regDKID;
         this.name = name;
         this.regDKID = regDKID;
-        persistence.updateCastInDatabase(this);
-        return true;
+        if(persistence.updateCastInDatabase(this))
+            return true;
+        else{
+            this.name = tempName;
+            this.regDKID = tempReg;
+            return false;
+        }
     }
 
     @Override
     public boolean save() {
         int idNumber = -1;
         try {
-            idNumber = CredITSystem.getPersistence().createNewCastInDatabase(this);
+            idNumber = system.getPersistenceLayer().createNewCastInDatabase(this);
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (idNumber != -1) {
-                this.id = idNumber;
-                return true;
-            } else
-                return false;
         }
+        if (idNumber != -1) {
+            this.id = idNumber;
+            return true;
+        } else
+            return false;
     }
 
     @Override
@@ -73,7 +81,6 @@ public class Cast implements ICast {
 
     @Override
     public String toString() {
-
         return name;
     }
 

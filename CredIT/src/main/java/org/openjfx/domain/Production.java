@@ -1,6 +1,7 @@
 package org.openjfx.domain;
 
 import org.openjfx.interfaces.IBroadcast;
+import org.openjfx.interfaces.IPersistence;
 import org.openjfx.interfaces.IProduction;
 import org.openjfx.interfaces.IProductionCompany;
 
@@ -8,7 +9,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Production implements IProduction {
-
+    private final IPersistence persistence = CredITSystem.getPersistence();
+    private final CredITSystem system = CredITSystem.getInstance();
     private int id;
     private String name;
     private String year;
@@ -21,15 +23,17 @@ public class Production implements IProduction {
         this.name = name;
         this.year = year;
         this.productionCompany = productionCompany;
+
+        //Todo should we pass a productionCompany to it?
     }
 
-    public Production(int id, String name, IProductionCompany productionCompany, String year) {
+    public Production(int id, String name, int productionCompanyID, String year) {
         this.id = id;
         this.name = name;
         this.year = year;
-        this.productionCompany = productionCompany;
-//        loadBroadcastArray();
-//        numberOfEpisodes = broadcasts.size();
+        this.productionCompany = system.searchProductionCompany(productionCompanyID);
+        numberOfEpisodes = broadcasts.size();
+        loadBroadcastArray();
     }
 
     /**
@@ -37,43 +41,59 @@ public class Production implements IProduction {
      */
 
     private void loadBroadcastArray(){
-        this.broadcasts = CredITSystem.instance.searchBroadcast(this.id);
+        this.broadcasts = system.searchBroadcast(this.id);
+        int tempSeasonNumber = broadcasts.get(0).getSeasonNumber();
+        for(IBroadcast broadcast : this.broadcasts){
+            if(tempSeasonNumber < broadcast.getSeasonNumber()){
+                tempSeasonNumber = broadcast.getSeasonNumber();
+            }
+        }
+        this.numberOfSeasons = tempSeasonNumber;
     }
 
     @Override
     public boolean save() {
         int idNumber = -1;
         try {
-            idNumber = CredITSystem.getPersistence().createNewProductionInDatabase(this);
+            idNumber = persistence.createNewProductionInDatabase(this);
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (idNumber != -1) {
-                this.id = idNumber;
-                return true;
-            } else
-                return false;
         }
+        if (idNumber != -1) {
+            this.id = idNumber;
+            return true;
+        } else
+            return false;
     }
 
     @Override
     public boolean delete() {
-        //Todo call a method in persistence to delete the production in database
-        return false;
+        if(persistence.removeProductionFromDatabase(this.id))
+            return true;
+        else
+            return false;
+        //Todo What to do about the connections it has?
     }
 
     @Override
-    public boolean update(String name, String year, IProductionCompany productionCompany) {
+    public boolean update(String name, String year) {
+        String tempName = this.name;
+        String tempYear = this.year;
+
         this.name = name;
         this.year = year;
-        this.productionCompany = productionCompany;
-        //Todo call a method in persistence to save the changes.
-        return false;
+        if(persistence.updateProduction(this))
+            return true;
+        else
+        {
+            this.name = tempName;
+            this.year = tempYear;
+            return false;
+        }
     }
 
     @Override
     public String toString() {
-
         return this.name + ": " + this.year;
     }
 

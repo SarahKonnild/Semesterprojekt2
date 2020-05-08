@@ -1,5 +1,7 @@
 package org.openjfx.interfaces;
 
+import java.util.ArrayList;
+
 public interface IUser {
     /**
      * Gets parameters from the presentation layer to then create a new cast member in the database.
@@ -10,7 +12,6 @@ public interface IUser {
      * @return if it succeed creating and saving a new cast returns <code>true</code> else <code>false</code>
      */
     public ICast addNewCastToDatabase(String name, String regDKID);
-
     /**
      * Gets parameters from the presentation layer to then create a new broadcast in the database.
      * Creates a new object of the <code>Broadcast</code> class and calls <code>saveBroadcast()</code> on the object
@@ -21,8 +22,7 @@ public interface IUser {
      * @param airDate       the date of which the broadcast aired
      * @return if it succeed creating and saving a new broadcast returns <code>true</code> else <code>false</code>
      */
-    public IBroadcast addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate);
-
+    public IBroadcast addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate, IProduction production);
     /**
      * Gets parameters from the presentation layer to then create a new cast member in the database.
      * Creates a new object of the <code>Cast</code> class and calls <code>saveCast()</code> on the object
@@ -33,14 +33,18 @@ public interface IUser {
      * @return if it succeed creating and saving a new cast returns <code>true</code> else <code>false</code>
      */
     public IProduction addNewProductionToDatabase(String name, String year, IProductionCompany productionCompany);
-
     /**
      * The method is used to see if the user that is currently logged in has the ability to do certain things.
      *
-     * @param roleKey the role of the user thats logged in.
-     * @return Returns <code>true</code> if the straing match the role of this user object else <code>false</code>
+     * @return Returns <code>true</code> if the string match the role of this user object else <code>false</code>
      */
+
+    public IMovie addNewMovieToDatabase(String name, IProductionCompany productionCompany, String releasedate);
     public boolean checkRole(String role);
+
+    public IProductionCompany addNewProductionCompanyToDatabase(String name);
+
+    public IProductionCompany getProductionCompanyFromDatabase(String name);
 
     public int getId();
 

@@ -2,7 +2,11 @@ package org.openjfx.domain;
 
 import org.openjfx.interfaces.*;
 
+import java.util.ArrayList;
+
 public class User implements IUser {
+    private final IPersistence persistence = CredITSystem.getPersistence();
+    private final CredITSystem system = CredITSystem.getInstance();
     private int id;
     private String name;
     private String password;
@@ -45,8 +49,8 @@ public class User implements IUser {
     }
 
     @Override
-    public IBroadcast addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate) {
-        IBroadcast broadcast = new Broadcast(name, seasonNumber, episodeNumber, airDate);
+    public IBroadcast addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate, IProduction production) {
+        IBroadcast broadcast = new Broadcast(name, seasonNumber, episodeNumber, airDate, production);
         broadcast.save();
         return broadcast;
     }
@@ -59,11 +63,26 @@ public class User implements IUser {
     }
 
     @Override
+    public IMovie addNewMovieToDatabase(String name, IProductionCompany productionCompany, String releasedate) {
+        return null;
+    }
+
+    @Override
     public boolean checkRole(String roleKey) {
         //valueOf checks if the inputted role is equal to the role of this user. Is case senitive.
         if (Role.valueOf(roleKey) == this.role) {
             return true;
         } else return false;
+    }
+
+    @Override
+    public IProductionCompany addNewProductionCompanyToDatabase(String name) {
+        return null;
+    }
+
+    @Override
+    public IProductionCompany getProductionCompanyFromDatabase(String name) {
+        return null;
     }
 
     @Override

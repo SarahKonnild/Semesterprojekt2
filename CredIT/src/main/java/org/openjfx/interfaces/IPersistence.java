@@ -47,6 +47,7 @@ public interface IPersistence {
      */
     public int createNewProductionInDatabase(IProduction production) throws IOException;
 
+    public int createNewProductionCompanyInDatabase(IProductionCompany production) throws IOException;
     /**
      * Deletes a production from the persistence/layer(Database).
      *
@@ -61,6 +62,8 @@ public interface IPersistence {
     public boolean removeCastFromDatabase(int id);
 
     public boolean removeMovieFromDatabase(int id);
+
+    public boolean removeProductionCompanyFromDatabase(int id);
 
     /**
      * Saves a new cast to the persistence layer.
@@ -131,6 +134,8 @@ public interface IPersistence {
 
     public List<String> getProductionCompany(int id);
 
+    public List<String> getProductionCompany(String keyword);
+
     /**
      * Search for the id of movie or broadcast, returns a list of castID and a string with their role in this format CastID, role
      * @param id
@@ -172,6 +177,8 @@ public interface IPersistence {
      * @return
      */
     public boolean updateCastInDatabase(ICast cast);
+
+    public boolean updateProductionCompanyInDataBase(IProductionCompany productionCompany);
 
     public boolean updateMovieInDatabase(IMovie movie);
 
