@@ -64,7 +64,9 @@ public class User implements IUser {
 
     @Override
     public IMovie addNewMovieToDatabase(String name, IProductionCompany productionCompany, String releasedate) {
-        return null;
+        IMovie movie = new Movie(name, productionCompany, releasedate);
+        movie.save();
+        return movie;
     }
 
     @Override
@@ -75,12 +77,14 @@ public class User implements IUser {
 
     @Override
     public IProductionCompany addNewProductionCompanyToDatabase(String name) {
-        return null;
+        IProductionCompany productionCompany = new ProductionCompany(name);
+        productionCompany.save();
+        return productionCompany;
     }
 
     @Override
     public IProductionCompany getProductionCompanyFromDatabase(String name) {
-        return null;
+        return CredITSystem.getInstance().searchProductionCompany(name).get(0);
     }
 
     @Override

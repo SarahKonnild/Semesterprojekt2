@@ -50,7 +50,7 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public int createNewBroadcastInDatabase(IBroadcast broadcast) throws IOException {
+    public int createNewBroadcastInDatabase(IBroadcast broadcast){
         try {
             PreparedStatement stmt = connection.prepareStatement(
                     "INSERT into broadcast(name, air_date,episode_number , season_number  )" +
@@ -89,11 +89,11 @@ public class Persistence implements IPersistence {
             throwables.printStackTrace();
             return -1;
         }
-        return 1;
+        return getBroadcastId(broadcast);
     }
 
     @Override
-    public int createNewMovieInDatabase(IMovie movie) throws IOException {
+    public int createNewMovieInDatabase(IMovie movie){
         try {
             PreparedStatement stmt = connection.prepareStatement(
                     "INSERT into movie(name, release_date) " + "values(?,?)"
@@ -111,7 +111,7 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public int createNewProductionInDatabase(IProduction production) throws IOException {
+    public int createNewProductionInDatabase(IProduction production){
         try {
             PreparedStatement stmt = connection.prepareStatement(
                     "insert into production(name, year)" +
@@ -130,7 +130,7 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public int createNewProductionCompanyInDatabase(IProductionCompany production) throws IOException {
+    public int createNewProductionCompanyInDatabase(IProductionCompany production){
         throw new UnsupportedOperationException();
     }
 
@@ -173,7 +173,6 @@ public class Persistence implements IPersistence {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
 
         return 0;
     }

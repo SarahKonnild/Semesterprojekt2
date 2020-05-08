@@ -37,19 +37,9 @@ public class Broadcast implements IBroadcast {
 
     @Override
     public boolean save() {
-        int idNumber = -1;
-        try {
-            idNumber = persistence.createNewBroadcastInDatabase(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (idNumber != -1) {
-                this.id = idNumber;
-                return true;
-            } else
-                return false;
-        }
-
+        int idNumber = persistence.createNewBroadcastInDatabase(this);
+        if(idNumber != -1) this.id = idNumber;
+        return (idNumber != -1) ? false : true;
     }
 
     @Override

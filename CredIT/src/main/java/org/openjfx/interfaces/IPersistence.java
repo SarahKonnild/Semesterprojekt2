@@ -12,7 +12,7 @@ public interface IPersistence {
      * @return A boolean that is true if the user was succesfully written to the persistence layer
      * @throws IOException
      */
-    boolean createNewUserInDatabase(IUser user) throws IOException;
+    boolean createNewUserInDatabase(IUser user);
 
     /**
      * Deletes a user from the persistence/layer(Database).
@@ -28,9 +28,9 @@ public interface IPersistence {
      * @param broadcast The broadcast object that needs to be saved
      * @return A boolean that is true if the broadcast was succesfully written to the persistence layer
      */
-    int createNewBroadcastInDatabase(IBroadcast broadcast) throws IOException;
+    int createNewBroadcastInDatabase(IBroadcast broadcast);
 
-    int createNewMovieInDatabase(IMovie movie) throws IOException;
+    int createNewMovieInDatabase(IMovie movie);
 
     /**
      * Deletes a broadcast from the persistence/layer(Database).
@@ -45,9 +45,9 @@ public interface IPersistence {
      * @param production The production object that needs to be saved
      * @return A boolean that is true if the production was succesfully written to the persistence layer
      */
-    int createNewProductionInDatabase(IProduction production) throws IOException;
+    int createNewProductionInDatabase(IProduction production);
 
-    int createNewProductionCompanyInDatabase(IProductionCompany production) throws IOException;
+    int createNewProductionCompanyInDatabase(IProductionCompany production);
     /**
      * Deletes a production from the persistence/layer(Database).
      *
@@ -71,7 +71,7 @@ public interface IPersistence {
      * @param cast The production object that needs to be saved
      * @return A boolean that is true if the cast was succesfully written to the persistence layer
      */
-    int createNewCastInDatabase(ICast cast) throws IOException;
+    int createNewCastInDatabase(ICast cast);
 
     /**
      * Deletes a cast from the persistence/layer(Database).
