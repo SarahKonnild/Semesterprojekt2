@@ -1,19 +1,20 @@
 package org.openjfx.persistence;
 
-import org.openjfx.domain.*;
+import org.openjfx.domain.CredITSystem;
 import org.openjfx.interfaces.*;
 
-import java.io.IOException;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.*;
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Persistence implements IPersistence {
 
     private static Persistence persistence;
     private final String url = "localhost";
-    private final int port = 5432;
+    private final int port = 5050;
     private final String databaseName = "credIT_db";
     private final String username = "postgres";
     private final String password = Password.PASS;
@@ -28,6 +29,32 @@ public class Persistence implements IPersistence {
             persistence = new Persistence();
         }
         return persistence;
+    }
+
+    public static void main(String[] args) {
+        Persistence pt = Persistence.getInstance();
+        pt.initializePostgresqlDatabase();
+        CredITSystem credITSystem = new CredITSystem();
+//        IBroadcast iBroadcast = new Broadcast(1,"Cast_Test", 50, 2, "1-2-1990",1);
+//
+//        ICast iCast = new Cast("Hans", "25j043");
+//        ICast iCast2 = new Cast("Hanne", "h23sd");
+//        ICast iCast3 = new Cast("Herold", "h56568");
+//        ICast iCast4 = new Cast("Harald", "ghdj321");
+//
+//        HashMap<ICast, String> map = iBroadcast.getCastMap();
+//        map.put(iCast, "Kam");
+//        map.put(iCast2, "Kam1");
+//        map.put(iCast3, "Kam2");
+//        map.put(iCast4, "Kam3");
+
+        System.out.println(pt.getProductionName(1));
+        System.out.println(pt.getProductionsFromDatabase(1));
+        System.out.println(pt.getCastRolesBroadcastFromDatabase(1));
+        System.out.println(pt.getMoviesFromDatabase(1));
+        System.out.println(pt.getBroadcastsFromDatabase(1));
+        System.out.println(pt.getBroadcastFromDatabase("Theis on Ice"));
+
     }
 
     private void initializePostgresqlDatabase() {
@@ -50,7 +77,7 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public int createNewBroadcastInDatabase(IBroadcast broadcast){
+    public int createNewBroadcastInDatabase(IBroadcast broadcast) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
                     "INSERT into broadcast(name, air_date,episode_number , season_number  )" +
@@ -93,7 +120,7 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public int createNewMovieInDatabase(IMovie movie){
+    public int createNewMovieInDatabase(IMovie movie) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
                     "INSERT into movie(name, release_date) " + "values(?,?)"
@@ -111,7 +138,7 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public int createNewProductionInDatabase(IProduction production){
+    public int createNewProductionInDatabase(IProduction production) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
                     "insert into production(name, year)" +
@@ -130,7 +157,7 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public int createNewProductionCompanyInDatabase(IProductionCompany production){
+    public int createNewProductionCompanyInDatabase(IProductionCompany production) {
         throw new UnsupportedOperationException();
     }
 
@@ -191,10 +218,12 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) +", " + resultSet.getString(2) + ", " +
+                resultList.add((resultSet.getInt(1) + ", " + resultSet.getString(2) + ", " +
                         resultSet.getDate(3) + ", " + resultSet.getInt(4)) + ", " +
                         resultSet.getInt(5));
+
             }
+
             return resultList;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -220,7 +249,7 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) +", " + resultSet.getString(2) + ", " +
+                resultList.add((resultSet.getInt(1) + ", " + resultSet.getString(2) + ", " +
                         resultSet.getDate(3) + ", " + resultSet.getInt(4)) + ", " +
                         resultSet.getInt(5));
             }
@@ -233,6 +262,7 @@ public class Persistence implements IPersistence {
 
     /**
      * Searches the database for the specific broadcastID.
+     *
      * @param broadcastID the id of the specific broadcast you want returned
      * @return a {@code List<String>} of the broadcast's parameters. Returns null if no broadcast was found with that broadcastID.
      */
@@ -245,7 +275,7 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) +", " + resultSet.getString(2) + ", " +
+                resultList.add((resultSet.getInt(1) + ", " + resultSet.getString(2) + ", " +
                         resultSet.getDate(3) + ", " + resultSet.getInt(4)) + ", " +
                         resultSet.getInt(5));
             }
@@ -260,6 +290,7 @@ public class Persistence implements IPersistence {
      * Searches the database for movies with the specific title.
      * <br>
      * The search looks for an exact match and can return multiple results, if they all match.
+     *
      * @param keyword the {@code String} the database finds a match of.
      * @return a {@code List<String>} containing the movie's parameters. Returns null if no match was found.
      */
@@ -272,7 +303,7 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) +", " + resultSet.getString(2) +", " +
+                resultList.add((resultSet.getInt(1) + ", " + resultSet.getString(2) + ", " +
                         resultSet.getDate(3)));
             }
         } catch (SQLException throwables) {
@@ -283,6 +314,7 @@ public class Persistence implements IPersistence {
 
     /**
      * Searches the database for movies with the specific movieID.
+     *
      * @param movieID the {@code int} the database finds a match of.
      * @return a {@code List<String>} containing the movie's parameters. Returns null if no match was found.
      */
@@ -295,7 +327,7 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) +", " + resultSet.getString(2) +", "+ resultSet.getDate(3)));
+                resultList.add((resultSet.getInt(1) + ", " + resultSet.getString(2) + ", " + resultSet.getDate(3)));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -305,6 +337,7 @@ public class Persistence implements IPersistence {
 
     /**
      * Searches the database for movies with at matching productionCompanyID
+     *
      * @param productionCompanyID the ID of the production company
      * @return a {@code List<String>} containing the movie's parameters. Returns null if no match was found.
      */
@@ -335,18 +368,20 @@ public class Persistence implements IPersistence {
     @Override
     public List<String> getCastFromDatabase(String keyword) {
         try {
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM cast_members WHERE name = ?");
+
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM cast_members WHERE name ~ ?");
             stmt.setString(1, keyword);
             ResultSet resultSet = stmt.executeQuery();
 
-            if (!resultSet.next()) {
+            if (!resultSet.isBeforeFirst())
                 return null;
-            }
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) + ", " + resultSet.getInt(2) + ", " + resultSet.getString(3)));
+                System.out.println("Something");
+                resultList.add((resultSet.getInt(1) + "," + resultSet.getString(2) + "," + resultSet.getString(3)));
             }
+            System.out.println(resultList.toString());
             return resultList;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -381,6 +416,7 @@ public class Persistence implements IPersistence {
 
     /**
      * Searches the database for production companies matching the ID
+     *
      * @param id the unique key given to every entry in the database.
      * @return a {@code List<String>} containing the production company's name. Returns null if no match was found.
      */
@@ -408,6 +444,7 @@ public class Persistence implements IPersistence {
 
     /**
      * {@inheritDoc}
+     *
      * @param movieID the ID of the movie, for which you want the cast list returned
      * @return a {@code List<String>} containing the movie's cast list. The List is formatted as (id, role).
      * Returns null if no match was found or the movie didn't have an cast members.
@@ -431,6 +468,7 @@ public class Persistence implements IPersistence {
 
     /**
      * Searches the database for every Cast object associated with a Broadcast, given it's id.
+     *
      * @param broadcastID of the Broadcast.
      * @return a {@code List<String>} of all Cast's ids from the database, for the Broadcast.
      */
@@ -480,6 +518,7 @@ public class Persistence implements IPersistence {
 
     /**
      * Searches the database for every entry where the given ID is the owner of a production and returns the ID.
+     *
      * @param productionCompanyID the reference ID in the database for the production company
      * @return a list of ids for every production the production company owns. Can be changed to return the name instead.
      */
@@ -507,6 +546,7 @@ public class Persistence implements IPersistence {
 
     /**
      * Searches the database for a Production and returns it as a {@code List<String>} if successful.
+     *
      * @param id the id {@code int} for the Production that you want returned.
      * @return a {@code List<String>} of the production's attributes from the database.
      */
@@ -535,6 +575,7 @@ public class Persistence implements IPersistence {
 
     /**
      * {@inheritDoc}
+     *
      * @param id the ID of the production to search for
      * @return a {@code String} containing the production's name. Returns null if no match was found.
      */
@@ -574,6 +615,7 @@ public class Persistence implements IPersistence {
 
     /**
      * Updates a given Movie object in the database to the current attributes of the given parameter.
+     *
      * @param movie the current version of the Movie object to be updated.
      * @return {@code true} if the object was updated; {@code false} if the object did not update or if the object could not be found.
      */
@@ -593,9 +635,9 @@ public class Persistence implements IPersistence {
         }
     }
 
-
     /**
      * Updates a given Production object in the database to the current attributes of the given parameter.
+     *
      * @param production the current version of the Production object to be updated.
      * @return {@code true} if the object was updated; {@code false} if the object did not update or if the object could not be found.
      */
@@ -617,6 +659,7 @@ public class Persistence implements IPersistence {
 
     /**
      * updates a given Broadcast object in the database.
+     *
      * @param broadcast the current version of the object that is to overwrite the old version.
      * @return {@code true} if the operation was successful; {@code false} if the operation failed.
      */
@@ -627,7 +670,7 @@ public class Persistence implements IPersistence {
             //finds the old version of the object and replaces it with the current one.
             PreparedStatement stmt = connection.prepareStatement("update broadcast set (name, air_date, episode_number, season_number) = (?,?,?,?) where id = ?");
             stmt.setInt(4, broadcast.getId());
-            stmt.setString(1,broadcast.getName());
+            stmt.setString(1, broadcast.getName());
             LocalDate tempDate = LocalDate.of(Integer.parseInt(broadcast.getAirDate()[2]), Integer.parseInt(broadcast.getAirDate()[1]), Integer.parseInt(broadcast.getAirDate()[0]));
             stmt.setDate(2, Date.valueOf(tempDate));
             stmt.setInt(3, broadcast.getEpisodeNumber());
@@ -659,6 +702,7 @@ public class Persistence implements IPersistence {
 
     /**
      * Searches the database for a production company and returns it as a {@code List<String>} if successful.
+     *
      * @param keyword the name {@code String} for the production compnay that you want returned.
      * @return a {@code List<String>} of the production company's attributes from the database.
      */
@@ -719,32 +763,6 @@ public class Persistence implements IPersistence {
             throwables.printStackTrace();
         }
         return 0;
-
-    }
-
-    public static void main(String[] args) {
-        Persistence pt = Persistence.getInstance();
-        pt.initializePostgresqlDatabase();
-        CredITSystem credITSystem = new CredITSystem();
-//        IBroadcast iBroadcast = new Broadcast(1,"Cast_Test", 50, 2, "1-2-1990",1);
-//
-//        ICast iCast = new Cast("Hans", "25j043");
-//        ICast iCast2 = new Cast("Hanne", "h23sd");
-//        ICast iCast3 = new Cast("Herold", "h56568");
-//        ICast iCast4 = new Cast("Harald", "ghdj321");
-//
-//        HashMap<ICast, String> map = iBroadcast.getCastMap();
-//        map.put(iCast, "Kam");
-//        map.put(iCast2, "Kam1");
-//        map.put(iCast3, "Kam2");
-//        map.put(iCast4, "Kam3");
-
-        System.out.println(pt.getProductionName(1));
-        System.out.println(pt.getProductionsFromDatabase(1));
-        System.out.println(pt.getCastRolesBroadcastFromDatabase(1));
-        System.out.println(pt.getMoviesFromDatabase(1));
-        System.out.println(pt.getBroadcastsFromDatabase(1));
-        System.out.println(pt.getBroadcastFromDatabase("Theis on Ice"));
 
     }
 }

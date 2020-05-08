@@ -31,7 +31,7 @@ public class Cast implements ICast {
      * @param name    The name of the cast member
      * @param regDKID The Registerings Danmark ID that the cast member has
      */
-    public Cast(int id, String name, String regDKID) {
+    public Cast(int id, String regDKID, String name) {
         this.id = id;
         this.name = name;
         this.regDKID = regDKID;

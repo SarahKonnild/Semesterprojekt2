@@ -61,9 +61,9 @@ public class CredITSystem implements ISystem {
      * @return an arraylist of Cast object
      */
     private ArrayList<ICast> makeCastObjects(List<String> list) {
-        if (list.size() > 0) {
+        if (!list.isEmpty()) {
             ArrayList<ICast> casts = new ArrayList();
-            //The list is formatted as castID, castName, castRegID
+            //The list is formatted as castID,castRegID,castName
             for (String item : list) {
                 String[] items = item.split(",");
                 //Creating a new Cast object for each String item in the list.
