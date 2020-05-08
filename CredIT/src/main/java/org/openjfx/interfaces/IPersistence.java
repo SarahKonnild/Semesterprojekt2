@@ -186,7 +186,6 @@ public interface IPersistence {
 
     public boolean updateProduction(IProduction production);
 
-    public List<String> getProductionCompany(String keyword);
 
 
 }

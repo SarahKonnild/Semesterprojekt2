@@ -1,15 +1,13 @@
 package org.openjfx.domain;
 
 import org.openjfx.interfaces.*;
-import org.openjfx.persistence.PersistenceTwo;
+import org.openjfx.persistence.Persistence;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class CredITSystem implements ISystem {
-    static CredITSystem instance = null;
-    private static PersistenceTwo persistenceLayer;
     private static CredITSystem instance = null;
     private static Persistence persistenceLayer;
     private User user;
@@ -18,8 +16,6 @@ public class CredITSystem implements ISystem {
      * To use for creating an instance of the System class that can then be used mainly in Presentation.
      */
     public CredITSystem() {
-        this.persistenceLayer = PersistenceTwo.getInstance();
-        this.instance = this;
         persistenceLayer = Persistence.getInstance();
         instance = this;
     }
@@ -27,8 +23,6 @@ public class CredITSystem implements ISystem {
     //FIXME I do not think we need this constructor.
     public CredITSystem(User user) {
         this.user = user;
-        this.persistenceLayer = PersistenceTwo.getInstance();
-        this.instance = this;
         persistenceLayer = Persistence.getInstance();
         instance = this;
     }
