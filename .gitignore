@@ -21,3 +21,13 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+CredIT/src/main/java/org/openjfx/persistence/Password.java
+
+CredIT/.idea/dataSources.local.xml
+
+CredIT/.idea/dataSources/d2455808-b320-4c3a-8f8f-3d3895857208.xml
+
+CredIT/.idea/dataSources/d2455808-b320-4c3a-8f8f-3d3895857208/storage_v2/_src_/database/credit_db.hLc0KA/schema/public.abK9xQ.meta
+
+CredIT/.idea/dataSources.xml

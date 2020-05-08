@@ -7,14 +7,14 @@ import org.openjfx.interfaces.IProductionCompany;
 import java.util.ArrayList;
 
 public class ProductionCompany implements IProductionCompany {
-
+    private int id;
     private String name;
     private ArrayList<IProduction> productionList;
     private ArrayList<IMovie> movieList;
 
     public ProductionCompany(String name){}
 
-    ProductionCompany(int id, String name){}
+    public ProductionCompany(int id, String name){this.id = id; this.name = name;}
 
     @Override
     public String toString() {

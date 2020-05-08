@@ -17,6 +17,8 @@ public interface IBroadcast {
 
     public boolean delete();
 
+
+
     public boolean update(String name, int seasonNumber, int episodeNumber, String airDate);
 
     /**
@@ -83,5 +85,9 @@ public interface IBroadcast {
 
     @Override
     public String toString();
+
+    public void setCastRoleMap(HashMap<ICast, String> castRoleMap);
+
+    public void setProduction(IProduction production);
 }
 

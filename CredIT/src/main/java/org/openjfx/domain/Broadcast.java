@@ -119,4 +119,12 @@ public class Broadcast implements IBroadcast {
     public void setAirDate(String[] airDate) {
         this.airDate = airDate;
     }
+
+    public void setCastRoleMap(HashMap<ICast, String> castRoleMap) {
+        this.castRoleMap = castRoleMap;
+    }
+
+    public void setProduction(IProduction production) {
+        this.production = production;
+    }
 }

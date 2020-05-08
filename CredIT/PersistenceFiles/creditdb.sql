@@ -11,7 +11,7 @@ create table production_company
     name varchar(250) not null
 );
 
-create table "cast"
+create table cast_members
 (
     id serial not null
         constraint cast_pk
@@ -82,7 +82,7 @@ create table movie_employs
             references movie,
     cast_id integer not null
         constraint movie_employs_cast_id_fkey
-            references "cast",
+            references cast_members,
     role varchar(255) not null,
     constraint movie_employs_pkey
         primary key (movie_id, cast_id)
@@ -95,7 +95,7 @@ create table broadcast_employs
             references broadcast,
     cast_id integer not null
         constraint broadcast_employs_cast_id_fkey
-            references "cast",
+            references cast_members,
     role varchar(255) not null,
     constraint broadcast_employs_pkey
         primary key (broadcast_id, cast_id)
@@ -152,3 +152,15 @@ CREATE TRIGGER update_size_of_broadcast_trigger
 EXECUTE PROCEDURE update_all_broadcast_sizes_trigger();
 
 commit;
+
+create table produces_movie
+(
+    production_company_id integer not null
+        constraint produces_movie_production_company_id_fkey
+            references production_company,
+    movie_id              integer not null
+        constraint produces_movie_movie_id_fkey
+            references movie,
+    constraint produces_movie_pkey
+        primary key (production_company_id, movie_id)
+);

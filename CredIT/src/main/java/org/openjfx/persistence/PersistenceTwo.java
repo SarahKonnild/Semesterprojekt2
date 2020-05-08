@@ -12,25 +12,22 @@ import java.sql.*;
 public class PersistenceTwo implements IPersistence {
 
     private static PersistenceTwo persistence;
-    private String url = "localhost";
-    private int port = 5432;
-    private String databaseName = "credIT_db";
-    private String username = "postgres";
-    private String password;
+    private final String url = "localhost";
+    private final int port = 5432;
+    private final String databaseName = "credit_db";
+    private final String username = "postgres";
+    private String password = Password.PASS;
     private Connection connection = null;
-    private Scanner input;
 
-    public static PersistenceTwo getInstance(){
-        if(persistence == null){
+    private PersistenceTwo() {
+        initializePostgresqlDatabase();
+    }
+
+    public static PersistenceTwo getInstance() {
+        if (persistence == null) {
             persistence = new PersistenceTwo();
         }
         return persistence;
-    };
-
-
-    private PersistenceTwo(){
-        getPassword();
-        initializePostgresqlDatabase();
     }
 
     private void initializePostgresqlDatabase() {
@@ -39,18 +36,7 @@ public class PersistenceTwo implements IPersistence {
             connection = DriverManager.getConnection("jdbc:postgresql://" + url + ":" + port + "/" + databaseName, username, password);
         } catch (SQLException | IllegalArgumentException ex) {
             System.out.println("Sorry... Something is wrong with your password.");
-        } finally {
-            if (connection == null) {
-                getPassword();
-                initializePostgresqlDatabase();
-            }
-
         }
-    }
-    private void getPassword(){
-        input = new Scanner(System.in);
-        System.out.println("Please enter your PostgresDB password");
-        password = input.nextLine();
     }
 
     @Override
@@ -70,33 +56,77 @@ public class PersistenceTwo implements IPersistence {
                     "INSERT into broadcast(name, air_date,episode_number , season_number  )" +
                             "values(?,?,?,?)"
             );
+
             stmt.setString(1, broadcast.getName());
             String[] airdate = broadcast.getAirDate();
-            stmt.setDate(2, new Date(Integer.parseInt(airdate[0]), Integer.parseInt(airdate[1]), Integer.parseInt(airdate[2])));
-            stmt.setInt(3,broadcast.getEpisodeNumber());
-            stmt.setInt(4,broadcast.getSeasonNumber());
-            boolean execute = stmt.execute();
-            if(execute){
-                return 1;
-            } else{
-                return -1;
-            }
+            stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(airdate[2]), Integer.parseInt(airdate[1]), Integer.parseInt(airdate[0]))));
+            stmt.setInt(3, broadcast.getEpisodeNumber());
+            stmt.setInt(4, broadcast.getSeasonNumber());
 
+
+            stmt.execute();
+            int broadCastId = getBroadcastId(broadcast);
+            HashMap<ICast, String> map = broadcast.getCastMap();
+            for (ICast cast : map.keySet()) {
+                PreparedStatement stmt2 = connection.prepareStatement(
+                        "insert into broadcast_employs(broadcast_id, cast_id, role)" +
+                                "values(?,?,?)"
+                );
+                stmt2.setInt(1, broadCastId);
+                stmt2.setInt(2, cast.getId());
+                stmt2.setString(3, map.get(cast));
+                stmt2.execute();
+            }
+            PreparedStatement stmt3 = connection.prepareStatement(
+                    "insert into contains(broadcast_id, production_id)" +
+                            "values(?,?)"
+            );
+            stmt3.setInt(1, broadCastId);
+            stmt3.setInt(2, broadcast.getProduction().getId());
+            stmt3.execute();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return -1;
         }
+        return 1;
     }
 
     @Override
     public int createNewMovieInDatabase(IMovie movie) throws IOException {
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "INSERT into movie(name, release_date) " + "values(?,?)"
+
+            );
+            stmt.setString(1, "test");
+            String[] release = movie.getReleaseDate();
+            stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(release[2]), Integer.parseInt(release[1]), Integer.parseInt(release[0]))));
+            //TODO: Implementer productionCompany
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
         return 0;
     }
 
     @Override
     public int createNewProductionInDatabase(IProduction production) throws IOException {
-        return 0;
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "insert into production(name, year)" +
+                            "values(?,?)"
+            );
+            stmt.setString(1, production.getName());
+            stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(production.getYear()), 01, 01)));
+            stmt.execute();
+
+            //TODO: Implementer productionCompany
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return -1;
+        }
+        return 1;
     }
 
     @Override
@@ -120,7 +150,21 @@ public class PersistenceTwo implements IPersistence {
     }
 
     @Override
-    public int createNewCastInDatabase(ICast cast) throws IOException {
+    public int createNewCastInDatabase(ICast cast) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "insert into cast_members(regdkid, name)" +
+                            "values(?,?)"
+            );
+
+            stmt.setString(1, cast.getRegDKID());
+            stmt.setString(2, cast.getName());
+            stmt.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+
         return 0;
     }
 
@@ -359,6 +403,46 @@ public class PersistenceTwo implements IPersistence {
         }
     }
 
+    private int getBroadcastId(IBroadcast broadcast) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "select id FROM broadcast WHERE name = ? and air_date = ? and episode_number = ? and season_number = ?"
+            );
+            stmt.setString(1, broadcast.getName());
+            String[] airdate = broadcast.getAirDate();
+            stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(airdate[2]), Integer.parseInt(airdate[1]), Integer.parseInt(airdate[0]))));
+            stmt.setInt(3, broadcast.getEpisodeNumber());
+            stmt.setInt(4, broadcast.getSeasonNumber());
+
+            ResultSet result = stmt.executeQuery();
+            result.next();
+            return result.getInt("id");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
+
+    }
+
+    private int getMovieId(IMovie movie) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "select id FROM movie WHERE name = ? and release_date = ?"
+            );
+            stmt.setString(1, movie.getTitle());
+            String[] releaseDate = movie.getReleaseDate();
+            stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(releaseDate[2]), Integer.parseInt(releaseDate[1]), Integer.parseInt(releaseDate[0]))));
+
+            ResultSet result = stmt.executeQuery();
+            result.next();
+            return result.getInt("id");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
+
+    }
+
     public static void main(String[] args) {
         PersistenceTwo pt = PersistenceTwo.getInstance();
         pt.initializePostgresqlDatabase();
@@ -378,6 +462,4 @@ public class PersistenceTwo implements IPersistence {
 
         credITSystem.getPersistenceLayer().updateBroadcastInDatabase(iBroadcast);
     }
-
-
 }
