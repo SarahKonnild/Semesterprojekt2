@@ -101,25 +101,44 @@ create table broadcast_employs
         primary key (broadcast_id, cast_id)
 );
 
+create table produces_movie
+(
+    production_company_id integer not null
+        constraint produces_movie_production_company_id_fkey
+            references production_company,
+    movie_id              integer not null
+        constraint produces_movie_movie_id_fkey
+            references movie,
+    constraint produces_movie_pkey
+        primary key (production_company_id, movie_id)
+);
+
 -- update single broadcast season number
-CREATE OR REPLACE PROCEDURE update_season_number(broadcast_name varchar)
+CREATE OR REPLACE PROCEDURE update_season_number(production_id_variable integer)
 AS $$
 DECLARE
     number_of_seasons_temp integer := 1;
 BEGIN
-    SELECT max(season_number) INTO number_of_seasons_temp FROM broadcast WHERE broadcast.name = broadcast_name;
-    UPDATE production SET number_of_seasons = number_of_seasons_temp WHERE name = broadcast_name;
+    SELECT max(broadcast.season_number) INTO number_of_seasons_temp
+    FROM broadcast, produces, contains
+        where broadcast.id = contains.broadcast_id
+        and contains.production_id = produces.production_id
+        and produces.production_id = production_id_variable;
+    UPDATE production SET number_of_seasons = number_of_seasons_temp WHERE id = production_id_variable;
 END; $$
     LANGUAGE plpgsql;
 
 -- update single broadcast episode number
-CREATE OR REPLACE PROCEDURE update_episode_number(broadcast_name varchar)
+CREATE OR REPLACE PROCEDURE update_episode_number(production_id_variable integer)
 AS $$
 DECLARE
     number_of_episodes_temp integer := 1;
 BEGIN
-    SELECT count(episode_number) INTO number_of_episodes_temp FROM broadcast WHERE broadcast.name = broadcast_name;
-    UPDATE production SET number_of_episodes = number_of_episodes_temp WHERE name = broadcast_name;
+    SELECT count(broadcast.episode_number) INTO number_of_episodes_temp FROM broadcast, produces, contains
+        where broadcast.id = contains.broadcast_id
+        and contains.production_id = produces.production_id
+        and produces.production_id = production_id_variable;
+    UPDATE production SET number_of_episodes = number_of_episodes_temp WHERE id = production_id_variable;
 END; $$
     LANGUAGE plpgsql;
 
@@ -127,11 +146,11 @@ END; $$
 CREATE OR REPLACE PROCEDURE update_all_broadcast_sizes()
 AS $$
 DECLARE
-    broadcasts CURSOR FOR SELECT DISTINCT(name) AS name FROM broadcast;
+    productions CURSOR FOR SELECT DISTINCT(id) AS id FROM production;
 BEGIN
-    FOR broadcast in broadcasts LOOP
-            CALL update_season_number(broadcast.name);
-            CALL update_episode_number(broadcast.name);
+    FOR production in productions LOOP
+            CALL update_season_number(production.id);
+            CALL update_episode_number(production.id);
         END LOOP;
 END; $$
     LANGUAGE plpgsql;
@@ -148,19 +167,5 @@ END; $$
 
 -- Define trigger to update broadcast(number_of_seasons and number_of_episodes)
 CREATE TRIGGER update_size_of_broadcast_trigger
-    AFTER INSERT OR DELETE ON broadcast
+    AFTER INSERT OR DELETE OR UPDATE ON contains
 EXECUTE PROCEDURE update_all_broadcast_sizes_trigger();
-
-commit;
-
-create table produces_movie
-(
-    production_company_id integer not null
-        constraint produces_movie_production_company_id_fkey
-            references production_company,
-    movie_id              integer not null
-        constraint produces_movie_movie_id_fkey
-            references movie,
-    constraint produces_movie_pkey
-        primary key (production_company_id, movie_id)
-);
