@@ -23,8 +23,6 @@ public class Production implements IProduction {
         this.name = name;
         this.year = year;
         this.productionCompany = productionCompany;
-
-        //Todo should we pass a productionCompany to it?
     }
 
     public Production(int id, String name, int productionCompanyID, String year) {
@@ -49,6 +47,7 @@ public class Production implements IProduction {
             }
         }
         this.numberOfSeasons = tempSeasonNumber;
+        //Todo I believe that number of seasons can be found in the database
     }
 
     @Override
@@ -61,7 +60,6 @@ public class Production implements IProduction {
     @Override
     public boolean delete() {
         return persistence.removeProductionFromDatabase(this.id);
-        //Todo What to do about the connections it has?
     }
 
     @Override
@@ -100,22 +98,18 @@ public class Production implements IProduction {
     public String getYear() {
         return this.year;
     }
-
     @Override
     public ArrayList<IBroadcast> getBroadcasts() {
         return this.broadcasts;
     }
-
     @Override
     public IProductionCompany getProductionCompany() {
         return this.productionCompany;
     }
-
     @Override
     public int getNumberOfSeasons() {
         return this.numberOfSeasons;
     }
-
     @Override
     public int getNumberOfEpisodes() {
         return this.numberOfEpisodes;

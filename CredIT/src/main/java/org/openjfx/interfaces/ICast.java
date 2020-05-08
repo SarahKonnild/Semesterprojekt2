@@ -35,6 +35,13 @@ public interface ICast {
      */
     boolean delete();
 
+    /**
+     * Takes the new values of the variables as arguments and update the state of the instance to those.
+     * It then call methods in persistence to save it to the database.
+     * @param name
+     * @param regDKID
+     * @return True if it saves the updates to database and false if not
+     */
     boolean update(String name, String regDKID);
 
     /**
@@ -59,8 +66,6 @@ public interface ICast {
     String getRegDKID();
 
     String getRole();
-
-    void setRole(String role);
 
     @Override
     String toString();

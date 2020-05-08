@@ -75,7 +75,7 @@ public class Persistence implements IPersistence {
     public boolean removeUserFromDatabase(int id) {
         throw new UnsupportedOperationException();
     }
-
+    //Todo make the create methods return the database ID.
     @Override
     public int createNewBroadcastInDatabase(IBroadcast broadcast) {
         try {
@@ -378,10 +378,8 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                System.out.println("Something");
                 resultList.add((resultSet.getInt(1) + "," + resultSet.getString(2) + "," + resultSet.getString(3)));
             }
-            System.out.println(resultList.toString());
             return resultList;
         } catch (SQLException throwables) {
             throwables.printStackTrace();

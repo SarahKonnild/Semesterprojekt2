@@ -10,8 +10,18 @@ public interface IProduction {
      */
     boolean save();
 
+    /**
+     * Method calls methods in persitence to delete the data in the database
+     * @return
+     */
     boolean delete();
 
+    /**
+     * Takes the new values as arguemnts and updates it on the object, call methods to save the update to the database
+     * @param name
+     * @param year
+     * @return
+     */
     boolean update(String name, String year);
 
     int getId();

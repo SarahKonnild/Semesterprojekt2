@@ -20,20 +20,12 @@ public class CredITSystem implements ISystem {
         instance = this;
     }
 
-    //FIXME I do not think we need this constructor.
-    public CredITSystem(User user) {
-        this.user = user;
-        persistenceLayer = Persistence.getInstance();
-        instance = this;
-    }
-
     /*
      * The following search methods are based on 3 different return types. Each of them have 1 overloaded method that just takes another parameter
      * Every search method makes a call to the persistencelayer that then will supply a list based on the result.
      * The search method will then call a private method in the system class, pass the list as a parameter.
      * It will then create objects based on the information in the list and return an arrayList of the objects.
      */
-
 
     public static IPersistence getPersistence() {
         return persistenceLayer;
@@ -43,7 +35,7 @@ public class CredITSystem implements ISystem {
         return instance;
     }
 
-    //region cast metods
+    //region cast methods
     @Override
     public ArrayList<ICast> searchCast(String keyword) {
         return makeCastObjects(persistenceLayer.getCastFromDatabase(keyword));

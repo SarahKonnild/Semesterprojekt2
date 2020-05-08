@@ -9,16 +9,28 @@ import java.util.HashMap;
 public interface IBroadcast {
 
     /**
-     * Saves the broadcast to the persistence.
+     * Saves the broadcast to the database.
      *
      * @return
      */
     boolean save();
 
+    /**
+     * Deletes the broadcast data in the database.
+     * @return
+     */
     boolean delete();
 
 
-
+    /**
+     * Takes the new values of the variables as arguments and sets the variables on the object to those,
+     * afterwards it calls save methods in persistens
+     * @param name
+     * @param seasonNumber
+     * @param episodeNumber
+     * @param airDate
+     * @return
+     */
     boolean update(String name, int seasonNumber, int episodeNumber, String airDate);
 
     /**
@@ -81,13 +93,7 @@ public interface IBroadcast {
      */
     String[] getAirDate();
 
-    void setAirDate(String[] airDate);
-
     @Override
     String toString();
-
-    void setCastRoleMap(HashMap<ICast, String> castRoleMap);
-
-    void setProduction(IProduction production);
 }
 

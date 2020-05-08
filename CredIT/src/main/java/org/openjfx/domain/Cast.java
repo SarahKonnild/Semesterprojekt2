@@ -53,8 +53,6 @@ public class Cast implements ICast {
         if(persistence.updateCastInDatabase(this))
             return true;
         else{
-            this.name = tempName;
-            this.regDKID = tempReg;
             return false;
         }
     }

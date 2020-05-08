@@ -25,15 +25,14 @@ public class Movie implements IMovie {
         this.title = title;
         this.releaseDate = releaseDate.split("-");
         this.castRoleMap = system.getCastRolesMovies(this.id);
-        //Todo figure out what to do about production company
-        //this.productionCompany = CredITSystem.instance.searchProductionCompany(productionCompanyID);
+        this.productionCompany = system.searchProductionCompany(productionCompanyID);
     }
 
     @Override
     public boolean save() {
         int idNumber = persistence.createNewMovieInDatabase(this);
         if(idNumber != -1) this.id = idNumber;
-        return (idNumber == -1) ? false : true;
+        return (idNumber == -1) ? false : true; 
     }
 
     @Override
@@ -114,8 +113,4 @@ public class Movie implements IMovie {
         return this.releaseDate;
     }
 
-    @Override
-    public void setReleaseDate(String[] airDate) {
-
-    }
 }

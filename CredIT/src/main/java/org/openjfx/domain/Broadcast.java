@@ -32,7 +32,7 @@ public class Broadcast implements IBroadcast {
         this.episodeNumber = episodeNumber;
         this.airDate = airDate.split("-");
         this.castRoleMap = null;
-        //todo What to do about Production objects?
+        this.production = production;
     }
 
     @Override
@@ -134,23 +134,8 @@ public class Broadcast implements IBroadcast {
         return this.production;
     }
 
-    public void setProduction(){
-        //Todo decide if it will search for the production itself or if it gets a production object
-    }
-
     public String[] getAirDate() {
         return airDate;
     }
 
-    public void setAirDate(String[] airDate) {
-        this.airDate = airDate;
-    }
-
-    public void setCastRoleMap(HashMap<ICast, String> castRoleMap) {
-        this.castRoleMap = castRoleMap;
-    }
-
-    public void setProduction(IProduction production) {
-        this.production = production;
-    }
 }
