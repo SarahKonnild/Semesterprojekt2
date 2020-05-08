@@ -47,7 +47,7 @@ public class ProductionCompany implements IProductionCompany {
     public boolean save() {
         int idNumber = persistence.createNewProductionCompanyInDatabase(this);
         if(idNumber != -1) this.id = idNumber;
-        return (idNumber != -1) ? false : true;
+        return (idNumber == -1) ? false : true;
     }
 
     @Override
