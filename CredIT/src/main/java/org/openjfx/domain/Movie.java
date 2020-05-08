@@ -32,7 +32,7 @@ public class Movie implements IMovie {
     public boolean save() {
         int idNumber = persistence.createNewMovieInDatabase(this);
         if(idNumber != -1) this.id = idNumber;
-        return (idNumber == -1) ? false : true; 
+        return (idNumber == -1) ? false : true;
     }
 
     @Override

@@ -79,11 +79,6 @@ public class Cast implements ICast {
         return this.role;
     }
 
-    @Override
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public int getId() {
         return id;
     }
