@@ -53,6 +53,8 @@ public interface IProductionCompany {
 
     String getName();
 
+    int getId();
+
     ArrayList<IProduction> getProductionList();
 
     ArrayList<IMovie> getMovieList();

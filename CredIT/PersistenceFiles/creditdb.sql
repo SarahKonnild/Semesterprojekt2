@@ -55,10 +55,12 @@ create table produces
 (
     production_company_id integer not null
         constraint produces_production_company_id_fkey
-            references production_company,
+            references production_company
+            on delete cascade,
     production_id integer not null
         constraint produces_production_id_fkey
-            references production,
+            references production
+            on delete cascade,
     constraint produces_pkey
         primary key (production_company_id, production_id)
 );
@@ -67,10 +69,12 @@ create table contains
 (
     production_id integer not null
         constraint contains_production_id_fkey
-            references production,
+            references production
+            on delete cascade,
     broadcast_id integer not null
         constraint contains_broadcast_id_fkey
-            references broadcast,
+            references broadcast
+            on delete cascade,
     constraint contains_pkey
         primary key (production_id, broadcast_id)
 );
@@ -79,10 +83,12 @@ create table movie_employs
 (
     movie_id integer not null
         constraint movie_employs_movie_id_fkey
-            references movie,
+            references movie
+            on delete cascade,
     cast_id integer not null
         constraint movie_employs_cast_id_fkey
-            references cast_members,
+            references cast_members
+            on delete cascade,
     role varchar(255) not null,
     constraint movie_employs_pkey
         primary key (movie_id, cast_id)
@@ -92,10 +98,12 @@ create table broadcast_employs
 (
     broadcast_id integer not null
         constraint broadcast_employs_broadcast_id_fkey
-            references broadcast,
+            references broadcast
+            on delete cascade,
     cast_id integer not null
         constraint broadcast_employs_cast_id_fkey
-            references cast_members,
+            references cast_members
+            on delete cascade,
     role varchar(255) not null,
     constraint broadcast_employs_pkey
         primary key (broadcast_id, cast_id)
@@ -105,10 +113,12 @@ create table produces_movie
 (
     production_company_id integer not null
         constraint produces_movie_production_company_id_fkey
-            references production_company,
-    movie_id              integer not null
+            references production_company
+            on delete cascade,
+    movie_id integer not null
         constraint produces_movie_movie_id_fkey
-            references movie,
+            references movie
+            on delete cascade,
     constraint produces_movie_pkey
         primary key (production_company_id, movie_id)
 );

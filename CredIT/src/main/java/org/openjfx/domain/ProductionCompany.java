@@ -5,7 +5,6 @@ import org.openjfx.interfaces.IPersistence;
 import org.openjfx.interfaces.IProduction;
 import org.openjfx.interfaces.IProductionCompany;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class ProductionCompany implements IProductionCompany {
@@ -59,7 +58,7 @@ public class ProductionCompany implements IProductionCompany {
     public boolean update(String name) {
         String tempName = this.name;
         this.name = name;
-        if (persistence.updateProductionCompanyInDataBase(this)) {
+        if (persistence.updateProductionCompanyInDatabase(this)) {
             return true;
         } else {
             this.name = tempName;
@@ -71,7 +70,7 @@ public class ProductionCompany implements IProductionCompany {
     public boolean assignMovie(IMovie movie) {
         ArrayList<IMovie> tempList = this.movieList;
         this.movieList.add(movie);
-        if (persistence.updateProductionCompanyInDataBase(this))
+        if (persistence.updateProductionCompanyInDatabase(this))
             return true;
         else {
             this.movieList = tempList;
@@ -83,7 +82,7 @@ public class ProductionCompany implements IProductionCompany {
     public boolean assignProduction(IProduction production) {
         ArrayList<IProduction> tempList = this.productionList;
         this.productionList.add(production);
-        if (persistence.updateProductionCompanyInDataBase(this))
+        if (persistence.updateProductionCompanyInDatabase(this))
             return true;
         else {
             this.productionList = tempList;
@@ -96,7 +95,7 @@ public class ProductionCompany implements IProductionCompany {
         if(this.movieList.contains(movie)){
             ArrayList<IMovie> tempList = this.movieList;
             this.movieList.remove(movie);
-            if(persistence.updateProductionCompanyInDataBase(this))
+            if(persistence.updateProductionCompanyInDatabase(this))
                 return true;
             else {
                 this.movieList = tempList;
@@ -113,7 +112,7 @@ public class ProductionCompany implements IProductionCompany {
             //Saves the list so it can revert back if anything goes wrong.
             ArrayList<IProduction> tempList = this.productionList;
             this.movieList.remove(production);
-            if(persistence.updateProductionCompanyInDataBase(this))
+            if(persistence.updateProductionCompanyInDatabase(this))
                 return true;
             else {
                 //Reverts the changes because something went wrong
@@ -128,6 +127,10 @@ public class ProductionCompany implements IProductionCompany {
     @Override
     public String getName() {
         return this.name;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     @Override

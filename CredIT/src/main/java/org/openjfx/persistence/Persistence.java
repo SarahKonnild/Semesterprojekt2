@@ -144,26 +144,85 @@ public class Persistence implements IPersistence {
 
     @Override
     public boolean removeBroadcastFromDatabase(int id) {
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "delete from broadcast where broadcast.id = ?");
+            stmt.setInt(1, id);
+            stmt.execute();
+
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
     }
 
+    /**
+     * {@inheritDoc}
+     * <br>
+     * Be aware. This method is extremely destructive.
+     * Every broadcast contained in the production and info regarding them will be lost!
+     * no backsies!
+     */
     @Override
     public boolean removeProductionFromDatabase(int id) {
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement deleteBroadcastStatement = connection.prepareStatement(
+                    "delete from broadcast using contains " +
+                            "where broadcast.id = contains.broadcast_id " +
+                            "and contains.production_id = ?");
+            deleteBroadcastStatement.setInt(1, id);
+            deleteBroadcastStatement.execute();
+
+            PreparedStatement deleteProductionStatement = connection.prepareStatement(
+                    "delete from production where production.id = ?");
+            deleteProductionStatement.setInt(1, id);
+            deleteProductionStatement.execute();
+
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
     }
 
     @Override
     public boolean removeCastFromDatabase(int id) {
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "delete from cast_members where id = ?");
+            stmt.setInt(1, id);
+            stmt.execute();
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
     }
 
+    /**
+     * Removes the movie and all references to it in the database.
+     * @param id of the movie you want to remove.
+     * @return {@code true} if successfully removed the movie. {@code false} if the action didn't complete.
+     */
     @Override
     public boolean removeMovieFromDatabase(int id) {
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "delete from movie where id = ?");
+            stmt.setInt(1, id);
+            stmt.execute();
+
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
     }
 
     @Override
     public boolean removeProductionCompanyFromDatabase(int id) {
+        //todo implement this. It's a big one, look at removeProduction for inspiration.
         throw new UnsupportedOperationException();
     }
 
@@ -583,12 +642,35 @@ public class Persistence implements IPersistence {
 
     @Override
     public boolean updateCastInDatabase(ICast cast) {
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "UPDATE cast_members SET (regdkid, name) = (?,?) WHERE id = ?");
+            stmt.setInt(3, cast.getId());
+            stmt.setString(1, cast.getRegDKID());
+            stmt.setString(2, cast.getName());
+            stmt.execute();
+
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
     }
 
     @Override
-    public boolean updateProductionCompanyInDataBase(IProductionCompany productionCompany) {
-        return false;
+    public boolean updateProductionCompanyInDatabase(IProductionCompany productionCompany) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "UPDATE production_company SET (name) = ? WHERE id = ?");
+            stmt.setInt(2, productionCompany.getId());
+            stmt.setString(1, productionCompany.getName());
+            stmt.execute();
+
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
     }
 
     /**
@@ -672,7 +754,6 @@ public class Persistence implements IPersistence {
             //inserts the new version of the cast member Map.
             int id = broadcast.getId();
             //foreach loop that runs through the entire map and inserts it all into the table.
-            //todo add support for the same cast member, having multiple roles.
             for (Map.Entry<ICast, String> entry : broadcast.getCastMap().entrySet()) {
                 PreparedStatement insertCastStatement = connection.prepareStatement(
                         "INSERT INTO broadcast_employs (broadcast_id, cast_id, role) VALUES (?,?,?)");

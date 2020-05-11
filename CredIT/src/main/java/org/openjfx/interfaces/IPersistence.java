@@ -48,15 +48,21 @@ public interface IPersistence {
     int createNewProductionInDatabase(IProduction production);
 
     int createNewProductionCompanyInDatabase(IProductionCompany production);
+
+    /**
+     * Deletes a broadcast from the persistence/layer(Database).
+     *
+     * @param id The ID on the broadcast you want to delete in the persistence layer.
+     * @return returns the boolean value of the delete run.
+     */
+    boolean removeBroadcastFromDatabase(int id);
+
     /**
      * Deletes a production from the persistence/layer(Database).
      *
      * @param id The ID on the production you want to delete in the persistence layer.
      * @return returns the boolean value of the delete run.
      */
-
-    boolean removeBroadcastFromDatabase(int id);
-
     boolean removeProductionFromDatabase(int id);
 
     boolean removeCastFromDatabase(int id);
@@ -178,7 +184,7 @@ public interface IPersistence {
      */
     boolean updateCastInDatabase(ICast cast);
 
-    boolean updateProductionCompanyInDataBase(IProductionCompany productionCompany);
+    boolean updateProductionCompanyInDatabase(IProductionCompany productionCompany);
 
     boolean updateMovieInDatabase(IMovie movie);
 
