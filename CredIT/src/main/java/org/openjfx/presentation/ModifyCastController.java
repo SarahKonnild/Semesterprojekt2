@@ -120,7 +120,8 @@ public class ModifyCastController implements Initializable {
      */
     @FXML
     public void handleSeeRolelist(ActionEvent event){
-        searchField.setText("You gon' goofed");
+
+
     }
 
     //endregion

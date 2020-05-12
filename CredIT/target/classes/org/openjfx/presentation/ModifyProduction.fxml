@@ -86,8 +86,8 @@
                </cursor></Button>
             <Label fx:id="errorMessageSearch" alignment="CENTER" layoutX="12.0" layoutY="67.0" prefHeight="17.0" prefWidth="287.0" text="Fejl, ingen produktioner fundet" textFill="RED" visible="false" />
             <Label fx:id="errorMessage" alignment="CENTER" layoutX="12.0" layoutY="305.0" prefHeight="17.0" prefWidth="287.0" text="Fejlmeddelelse" textFill="RED" visible="false" />
-            <Label fx:id="errorMessage1" alignment="CENTER" layoutX="193.0" layoutY="281.0" prefHeight="17.0" prefWidth="105.0" text="Gå til Udsendelse" textFill="WHITE" underline="true" />
-            <Label fx:id="errorMessage11" alignment="CENTER" layoutX="10.0" layoutY="281.0" prefHeight="17.0" prefWidth="120.0" text="Se alle Udsendelser" textFill="WHITE" underline="true" />
+            <Label fx:id="errorMessage1" alignment="CENTER" layoutX="193.0" layoutY="281.0" onMouseClicked="#goToBroadcast" prefHeight="17.0" prefWidth="105.0" text="Gå til Udsendelse" textFill="WHITE" underline="true" visible="false" />
+            <Label fx:id="errorMessage11" alignment="CENTER" layoutX="10.0" layoutY="281.0" onMouseClicked="#handleShowBroadcasts" prefHeight="17.0" prefWidth="120.0" text="Se alle Udsendelser" textFill="WHITE" underline="true" visible="false" />
          </children>
       </AnchorPane>
       <ListView fx:id="resultList" layoutY="27.0" onMouseClicked="#handleSearchResultChosen" prefHeight="375.0" prefWidth="287.0" style="-fx-background-color: FFFFFF;">
