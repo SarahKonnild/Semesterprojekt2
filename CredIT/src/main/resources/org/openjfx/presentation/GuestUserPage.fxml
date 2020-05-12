@@ -124,13 +124,13 @@
                   <Image url="@../../../Images/Danish_TV_2_logo.png" />
                </image>
             </ImageView>
-            <Label fx:id="help" layoutX="425.0" layoutY="4.0" onMouseClicked="#handleHelp" text="Hjælp" textFill="#f8f8f8">
+            <Label fx:id="help" layoutX="425.0" layoutY="5.0" onMouseClicked="#handleHelp" text="Hjælp" textFill="#f8f8f8">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Label>
             <Label layoutX="285.0" layoutY="5.0" text="CredIT" textFill="WHITE" />
-            <Label fx:id="back" layoutX="495.0" layoutY="4.0" onMouseClicked="#handleBack" text="Tilbage" textFill="WHITE">
+            <Label fx:id="back" layoutX="495.0" layoutY="5.0" onMouseClicked="#handleBack" text="Tilbage" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

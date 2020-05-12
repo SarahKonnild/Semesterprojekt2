@@ -68,22 +68,32 @@ public class ModifyBroadcastController implements Initializable {
 
     //Class Attributes
     //region
-    private static Stage helpStage;
     private ObservableList<IBroadcast> observableList;
     private ArrayList<IBroadcast> searchList;
-    private Object obj;
     private static IBroadcast chosenBroadcast;
+    private static IBroadcast givenBroadcast;
     private boolean status;
     //endregion
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        createNew.setVisible(true);
-        delete.setVisible(true);
-        save.setVisible(true);
-        modifyCast.setVisible(true);
-
         App.handleMoveWindow(basePane);
+
+        if(ModifyProductionController.getChosenBroadcast() != null) {
+            givenBroadcast = ModifyProductionController.getChosenBroadcast();
+            broadcastName.setText(givenBroadcast.getName());
+            production.setText(givenBroadcast.getProduction().getName());
+            String[] airDate = givenBroadcast.getAirDate();
+            day.setText(airDate[0]);
+            month.setText(airDate[1]);
+            year.setText(airDate[2]);
+            season.setText(String.valueOf(givenBroadcast.getSeasonNumber()));
+            episode.setText(String.valueOf(givenBroadcast.getEpisodeNumber()));
+
+            modifyCast.setDisable(false);
+            delete.setDisable(false);
+            save.setDisable(false);
+        }
     }
 
     //Everything do do with manipulating the ListView (search,choose)
@@ -150,6 +160,7 @@ public class ModifyBroadcastController implements Initializable {
             } else {
                 IBroadcast broadcast = LoginSystemController.getAdminUser().addNewBroadcastToDatabase(broadcastName.getText(), Integer.parseInt(season.getText()),
                         Integer.parseInt(episode.getText()), dateVariable, results.get(0));
+                //results.get(0).assignBroadcast(broadcast);
                 clearFields();
                 if (broadcast != null) {
                     errorMessage.setText("Udsendelsen tilføjet");
@@ -183,6 +194,7 @@ public class ModifyBroadcastController implements Initializable {
             status = chosenBroadcast.delete();
             if(status){
                 searchList.remove(chosenBroadcast);
+                //chosenBroadcast.getProduction().unassignBroadcast(chosenBroadcast);
                 errorMessage.setText("Udsendelse slettet");
                 if(searchList.isEmpty()){
                     resultList.getItems().clear();

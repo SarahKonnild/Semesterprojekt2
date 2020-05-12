@@ -67,12 +67,14 @@ public class ModifyMovieController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
-        givenMovie = ModifyProductionCompanyController.getChosenMovie();
-        if(givenMovie != null){
-            movieName.setText(chosenMovie.getTitle());
-            productionCompany.setText(chosenMovie.getProductionCompany().getName());
-            String[] release = chosenMovie.getReleaseDate();
+
+        if(ModifyProductionCompanyController.getChosenMovie() != null) {
+            givenMovie = ModifyProductionCompanyController.getChosenMovie();
+            movieName.setText(givenMovie.getTitle());
+            productionCompany.setText(givenMovie.getProductionCompany().getName());
+            String[] release = givenMovie.getReleaseDate();
             releaseYear.setText(release[2]);
+
         }
     }
 
@@ -128,6 +130,7 @@ public class ModifyMovieController implements Initializable {
         //results.add(App.getSystemInstance().searchProductionCompany(companySearch));
         if(results.get(0).getName().equals(companySearch)) {
             IMovie movie = LoginSystemController.getAdminUser().addNewMovieToDatabase(movieName.getText(), results.get(0), releaseYear.getText());
+            results.get(0).assignMovie(movie);
             clearFields();
             if(movie != null){
                 errorMessage.setText("Filmen tilføjet");
@@ -155,6 +158,7 @@ public class ModifyMovieController implements Initializable {
             status = chosenMovie.delete();
             if(status){
                 searchResult.remove(chosenMovie);
+                chosenMovie.getProductionCompany().unassignMovie(chosenMovie);
                 errorMessage.setText("Film slettet");
                 if(chosenMovie == null){
                     resultList.getItems().clear();
@@ -218,6 +222,10 @@ public class ModifyMovieController implements Initializable {
         movieName.clear();
         releaseYear.clear();
         productionCompany.clear();
+    }
+
+    public static IMovie getChosenMovie(){
+        return chosenMovie;
     }
 
 }

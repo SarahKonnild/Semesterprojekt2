@@ -52,26 +52,26 @@
                   <Cursor fx:constant="TEXT" />
                </cursor></TextField>
             <Label layoutX="14.0" layoutY="97.0" text="Produktionens Navn" textFill="WHITE" />
-            <TextField fx:id="releaseYear" layoutX="14.0" layoutY="188.0" prefHeight="27.0" prefWidth="111.0" style="-fx-background-color: FFFFFF;">
+            <TextField fx:id="releaseYear" layoutX="14.0" layoutY="180.0" prefHeight="27.0" prefWidth="111.0" style="-fx-background-color: FFFFFF;">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor></TextField>
-            <Label layoutX="14.0" layoutY="171.0" text="Udgivelsesår" textFill="WHITE" />
-            <TextField fx:id="productionCompany" layoutX="190.0" layoutY="188.0" prefHeight="27.0" prefWidth="111.0" style="-fx-background-color: FFFFFF;">
+            <Label layoutX="12.0" layoutY="163.0" text="Udgivelsesår" textFill="WHITE" />
+            <TextField fx:id="productionCompany" layoutX="190.0" layoutY="180.0" prefHeight="27.0" prefWidth="111.0" style="-fx-background-color: FFFFFF;">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor></TextField>
-            <Label layoutX="191.0" layoutY="171.0" text="Producent" textFill="WHITE" />
-            <TextField fx:id="amountOfSeasons" editable="false" layoutX="14.0" layoutY="261.0" prefHeight="27.0" prefWidth="111.0" style="-fx-background-color: FFFFFF;">
+            <Label layoutX="191.0" layoutY="163.0" text="Producent" textFill="WHITE" />
+            <TextField fx:id="amountOfSeasons" editable="false" layoutX="14.0" layoutY="243.0" prefHeight="27.0" prefWidth="111.0" style="-fx-background-color: FFFFFF;">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor></TextField>
-            <Label layoutX="14.0" layoutY="244.0" text="Antal Sæsoner" textFill="WHITE" />
-            <TextField fx:id="amountOfEpisodes" editable="false" layoutX="190.0" layoutY="261.0" prefHeight="27.0" prefWidth="111.0" style="-fx-background-color: FFFFFF;">
+            <Label layoutX="14.0" layoutY="226.0" text="Antal Sæsoner" textFill="WHITE" />
+            <TextField fx:id="amountOfEpisodes" editable="false" layoutX="190.0" layoutY="243.0" prefHeight="27.0" prefWidth="111.0" style="-fx-background-color: FFFFFF;">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor></TextField>
-            <Label layoutX="191.0" layoutY="243.0" text="Antal Episoder" textFill="WHITE" />
+            <Label layoutX="191.0" layoutY="226.0" text="Antal Episoder" textFill="WHITE" />
             <Button fx:id="createNew" layoutX="14.0" layoutY="334.0" mnemonicParsing="false" onMouseClicked="#handleCreateNew" style="-fx-background-color: FFFFFF;" text="Opret Ny">
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -86,6 +86,8 @@
                </cursor></Button>
             <Label fx:id="errorMessageSearch" alignment="CENTER" layoutX="12.0" layoutY="67.0" prefHeight="17.0" prefWidth="287.0" text="Fejl, ingen produktioner fundet" textFill="RED" visible="false" />
             <Label fx:id="errorMessage" alignment="CENTER" layoutX="12.0" layoutY="305.0" prefHeight="17.0" prefWidth="287.0" text="Fejlmeddelelse" textFill="RED" visible="false" />
+            <Label fx:id="errorMessage1" alignment="CENTER" layoutX="193.0" layoutY="281.0" onMouseClicked="#goToBroadcast" prefHeight="17.0" prefWidth="105.0" text="Gå til Udsendelse" textFill="WHITE" underline="true" visible="false" />
+            <Label fx:id="errorMessage11" alignment="CENTER" layoutX="10.0" layoutY="281.0" onMouseClicked="#handleShowBroadcasts" prefHeight="17.0" prefWidth="120.0" text="Se alle Udsendelser" textFill="WHITE" underline="true" visible="false" />
          </children>
       </AnchorPane>
       <ListView fx:id="resultList" layoutY="27.0" onMouseClicked="#handleSearchResultChosen" prefHeight="375.0" prefWidth="287.0" style="-fx-background-color: FFFFFF;">
