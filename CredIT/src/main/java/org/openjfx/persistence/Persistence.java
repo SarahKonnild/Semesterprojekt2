@@ -34,8 +34,6 @@ public class Persistence implements IPersistence {
     public static void main(String[] args) {
         Persistence pt = Persistence.getInstance();
         pt.initializePostgresqlDatabase();
-
-
     }
 
     private void initializePostgresqlDatabase() {
@@ -105,7 +103,6 @@ public class Persistence implements IPersistence {
         try {
             PreparedStatement stmt = connection.prepareStatement(
                     "INSERT into movie(name, release_date) " + "values(?,?)"
-
             );
             stmt.setString(1, "test");
             String[] release = movie.getReleaseDate();
@@ -637,11 +634,11 @@ public class Persistence implements IPersistence {
             }
 
             List<String> productionList = new ArrayList<>();
-            productionList.add(resultSet.getString(1));
-            productionList.add(resultSet.getString(2));
-            productionList.add(resultSet.getString(3));
-            productionList.add(resultSet.getString(4));
-            productionList.add(resultSet.getString(5));
+            productionList.add(resultSet.getString(1) + ", " +
+                    resultSet.getString(2) + ", " +
+                    resultSet.getString(3) + ", " +
+                    resultSet.getString(4) + ", " +
+                    resultSet.getString(5));
             return productionList;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -677,6 +674,8 @@ public class Persistence implements IPersistence {
     @Override
     public boolean mergeCastInDatabase(ICast cast1, ICast cast2) {
         throw new UnsupportedOperationException();
+
+        //Todo return id på det nye samlede cast
     }
 
     @Override
