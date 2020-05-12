@@ -22,6 +22,7 @@ public class Production implements IProduction {
         this.name = name;
         this.year = year;
         this.productionCompany = productionCompany;
+        this.broadcasts = new ArrayList<>();
     }
 
     public Production(int id, String name, int productionCompanyID, String year) {

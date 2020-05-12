@@ -18,6 +18,7 @@ public class Movie implements IMovie {
         this.title = title;
         this.releaseDate = releaseDate.split("-");
         this.productionCompany = productionCompany;
+        this.castRoleMap = new HashMap<>();
     }
 
     public Movie(int id, String title, String releaseDate, int productionCompanyID){
