@@ -238,6 +238,8 @@ public class Persistence implements IPersistence {
             removeCompany.setInt(1,company.getId());
             removeCompany.execute();
 
+            return true;
+
 /*            PreparedStatement removeMovies = connection.prepareStatement("delete from movie using contains " +
                     "where movie.id = contains.movie_id " +
                     "and contains.production_company_id = ?");
@@ -257,9 +259,8 @@ public class Persistence implements IPersistence {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            return false;
         }
-
-        throw new UnsupportedOperationException();
     }
 
     @Override
