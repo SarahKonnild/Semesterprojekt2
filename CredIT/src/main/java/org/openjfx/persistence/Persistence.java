@@ -14,7 +14,7 @@ public class Persistence implements IPersistence {
 
     private static Persistence persistence;
     private final String url = "localhost";
-    private final int port = 5432;
+    private final int port = 5050;
     private final String databaseName = "credIT_db";
     private final String username = "postgres";
     private final String password = Password.PASS;
@@ -221,8 +221,47 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public boolean removeProductionCompanyFromDatabase(int id) {
+    public boolean removeProductionCompanyFromDatabase(IProductionCompany company) {
         //todo implement this. It's a big one, look at removeProduction for inspiration.
+        try {
+
+            ArrayList<IMovie> movies = company.getMovieList();
+            ArrayList<IProduction> productions = company.getProductionList();
+            if(!movies.isEmpty()){
+                for(IMovie movie : movies){
+                    removeMovieFromDatabase(movie.getId());
+                }
+            }
+            if(!productions.isEmpty()){
+                for(IProduction production : productions){
+                    removeProductionFromDatabase(production.getId());
+                }
+            }
+            PreparedStatement removeCompany = connection.prepareStatement("delete from production_company where id = ? ");
+            removeCompany.setInt(1,company.getId());
+            removeCompany.execute();
+
+/*            PreparedStatement removeMovies = connection.prepareStatement("delete from movie using contains " +
+                    "where movie.id = contains.movie_id " +
+                    "and contains.production_company_id = ?");
+            removeMovies.setInt(1,id);
+            removeMovies.execute();
+
+            PreparedStatement removeBroadcast = connection.prepareStatement("delete from broadcast using contains " +
+                    "where broadcast.id = contains.broadcast_id " +
+                    "and contains.production_company_id = ?");
+            removeBroadcast.setInt(1,id);
+            removeBroadcast.execute();
+
+            PreparedStatement removeProductionCompany = connection.prepareStatement("delete from production_company where id = ?");
+            removeProductionCompany.setInt(1, id);
+            removeProductionCompany.execute();
+*/
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
         throw new UnsupportedOperationException();
     }
 

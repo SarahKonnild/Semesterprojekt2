@@ -66,8 +66,6 @@ public class CredITSystem implements ISystem {
             return null;
     }
 
-
-
     //endregion cast search methods ends here
 
     //region castRoleMaps methods
@@ -88,9 +86,7 @@ public class CredITSystem implements ISystem {
             String[] tempArray = item.split(",");
             int tempCastID = Integer.parseInt(tempArray[0]);
             String castRole = tempArray[1];
-
             ICast castObj = searchCast(tempCastID).get(0);
-
             castMap.put(castObj, castRole);
         }
         return castMap;
@@ -204,7 +200,7 @@ public class CredITSystem implements ISystem {
 
     //endregion search movie methods ends here
 
-    //region productionCompnay methods
+    //region productionCompany methods
     public IProductionCompany searchProductionCompany(int productionCompanyID) {
         List<String> tempList = persistenceLayer.getProductionCompany(productionCompanyID);
         return makeProductionCompany(tempList).get(0);
@@ -218,6 +214,7 @@ public class CredITSystem implements ISystem {
 
     private ArrayList<IProductionCompany> makeProductionCompany(List<String> list){
         if(list.size() > 0){
+            //String formatted as id,name
             ArrayList<IProductionCompany> productionCompanies = null;
             for(String item : list){
                 String[] items = item.split(",");
@@ -228,7 +225,7 @@ public class CredITSystem implements ISystem {
             return null;
     }
 
-    //endregion prodcutionCompany search methods ends here
+    //endregion productionCompany search methods ends here
 
     @Override
     public IUser createNewUser(String username, String password) {
