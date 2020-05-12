@@ -14,7 +14,7 @@ public class Persistence implements IPersistence {
 
     private static Persistence persistence;
     private final String url = "localhost";
-    private final int port = 5050;
+    private final int port = 5432;
     private final String databaseName = "credIT_db";
     private final String username = "postgres";
     private final String password = Password.PASS;
