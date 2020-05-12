@@ -15,13 +15,13 @@ public class ProductionCompany implements IProductionCompany {
     private ArrayList<IProduction> productionList;
     private ArrayList<IMovie> movieList;
 
-    ProductionCompany(String name) {
+    public ProductionCompany(String name) {
         this.name = name;
         this.movieList = new ArrayList<>();
         this.productionList = new ArrayList<>();
     }
 
-    ProductionCompany(int id, String name) {
+    public ProductionCompany(int id, String name) {
         this.id = id;
         this.name = name;
         loadProductionList();

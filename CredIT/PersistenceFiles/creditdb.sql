@@ -47,8 +47,8 @@ create table production
             primary key,
     name varchar(255) not null,
     year date not null,
-    number_of_seasons integer,
-    number_of_episodes integer
+    number_of_seasons integer default 0,
+    number_of_episodes integer default 0
 );
 
 create table produces
@@ -129,7 +129,7 @@ AS $$
 DECLARE
     number_of_seasons_temp integer := 1;
 BEGIN
-    SELECT max(broadcast.season_number) INTO number_of_seasons_temp
+    SELECT coalesce(max(broadcast.season_number), 0) INTO number_of_seasons_temp
     FROM broadcast, produces, contains
         where broadcast.id = contains.broadcast_id
         and contains.production_id = produces.production_id

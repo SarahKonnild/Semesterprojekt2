@@ -1,6 +1,6 @@
 package org.openjfx.persistence;
 
-import org.openjfx.domain.CredITSystem;
+import org.openjfx.domain.*;
 import org.openjfx.interfaces.*;
 
 import java.sql.*;
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 public class Persistence implements IPersistence {
 
@@ -24,6 +25,12 @@ public class Persistence implements IPersistence {
         initializePostgresqlDatabase();
     }
 
+    /**
+     * @return the one and only persistence layer object in this program.
+     * @author Nichlas & Teis
+     * Signleton implementation of persistence layer together with private constructor.
+     */
+
     public static Persistence getInstance() {
         if (persistence == null) {
             persistence = new Persistence();
@@ -31,7 +38,49 @@ public class Persistence implements IPersistence {
         return persistence;
     }
 
+    public static void main(String[] args) {
+        Persistence pers = Persistence.getInstance();
+        CredITSystem cs = new CredITSystem();
 
+        ProductionCompany pc = new ProductionCompany("Teis Productions");
+
+        pers.createNewProductionCompanyInDatabase(pc);
+
+        Cast c = new Cast("Teis Aalbæk-Nielsen", "1234");
+        Cast c1 = new Cast("Laust Christensen", "666");
+
+        pers.createNewCastInDatabase(c);
+        pers.createNewCastInDatabase(c1);
+
+        Movie m = new Movie("Teis in Wonderland", pc, "12-05-2020");
+
+        pers.createNewMovieInDatabase(m);
+        pc.assignMovie(m);
+
+        m.assignCast(c, "Teis");
+        m.assignCast(c1, "Red Queen");
+
+        Production p = new Production("Sherlock", "2020", pc);
+
+        pc.assignProduction(p);
+
+        Broadcast b = new Broadcast("Sherlock vs. Moriarty", 1,20,"12-05-2020", p);
+        b.assignCast(c, "Sherlock");
+        b.assignCast(c1, "Moriarty");
+
+        p.assignBroadcast(b);
+
+        pers.createNewProductionInDatabase(p);
+
+        pers.createNewBroadcastInDatabase(b);
+
+
+    }
+
+    /**
+     * @author Nichlas & Teis
+     * Initilizes the Database connection with password individual password files.
+     */
     private void initializePostgresqlDatabase() {
         try {
             DriverManager.registerDriver(new org.postgresql.Driver());
@@ -41,49 +90,50 @@ public class Persistence implements IPersistence {
         }
     }
 
-    @Override
-    public boolean createNewUserInDatabase(IUser user) {
-        throw new UnsupportedOperationException();
-    }
+    /**
+     * @param broadcast The broadcast object that needs to be saved
+     * @return The id created by the database.
+     * @author Nichlas & Teis
+     * Creates a new broadcast entry in the database.
+     */
 
     @Override
-    public boolean removeUserFromDatabase(int id) {
-        throw new UnsupportedOperationException();
-    }
-    //Todo make the create methods return the database ID.
-    @Override
     public int createNewBroadcastInDatabase(IBroadcast broadcast) {
+        int id;
+        // this statement inserts the values of the broadcast in to the Database.
         try {
             PreparedStatement stmt = connection.prepareStatement(
                     "INSERT into broadcast(name, air_date,episode_number , season_number  )" +
                             "values(?,?,?,?)"
             );
-
             stmt.setString(1, broadcast.getName());
             String[] airdate = broadcast.getAirDate();
             stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(airdate[2]), Integer.parseInt(airdate[1]), Integer.parseInt(airdate[0]))));
             stmt.setInt(3, broadcast.getEpisodeNumber());
             stmt.setInt(4, broadcast.getSeasonNumber());
-
-
             stmt.execute();
-            int broadCastId = getBroadcastId(broadcast);
+
+            //queries the database for the id on the entry we just created.
+            id = getBroadcastId(broadcast);
             HashMap<ICast, String> map = broadcast.getCastMap();
+            // for each cast inserts the cast into the broadcast employs table.
             for (ICast cast : map.keySet()) {
                 PreparedStatement stmt2 = connection.prepareStatement(
                         "insert into broadcast_employs(broadcast_id, cast_id, role)" +
                                 "values(?,?,?)"
                 );
-                stmt2.setInt(1, broadCastId);
+                stmt2.setInt(1, id);
                 stmt2.setInt(2, cast.getId());
                 stmt2.setString(3, map.get(cast));
                 stmt2.execute();
             }
+
+            //links broadcast with the production in database
             PreparedStatement stmt3 = connection.prepareStatement(
                     "insert into contains(broadcast_id, production_id)" +
                             "values(?,?)"
             );
-            stmt3.setInt(1, broadCastId);
+            stmt3.setInt(1, id);
             stmt3.setInt(2, broadcast.getProduction().getId());
             stmt3.execute();
 
@@ -91,29 +141,58 @@ public class Persistence implements IPersistence {
             throwables.printStackTrace();
             return -1;
         }
-        return getBroadcastId(broadcast);
+        return id;
     }
+
+    /**
+     * @param movie the movie object you want to save in the database
+     * @return the id of the movie entry we just created. Negative if something went wrong.
+     * @author Teis & Nichlas
+     */
 
     @Override
     public int createNewMovieInDatabase(IMovie movie) {
+        int id;
         try {
+            //inserts the values of the movie object into the database.
             PreparedStatement stmt = connection.prepareStatement(
                     "INSERT into movie(name, release_date) " + "values(?,?)"
             );
             stmt.setString(1, "test");
             String[] release = movie.getReleaseDate();
             stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(release[2]), Integer.parseInt(release[1]), Integer.parseInt(release[0]))));
-            //TODO: Implementer productionCompany
+            stmt.execute();
+            int prodID = movie.getProductionCompany().getId();
+            //Insert the link between the production company and the movie.
+            PreparedStatement stmt2 = connection.prepareStatement(
+                    "INSERT INTO produces_movie(production_company_id, movie_id)"
+                            + "values(?,?)"
+            );
+            //query the database for the id on the entry we just created.
+            id = getMovieId(movie);
+            stmt2.setInt(1, prodID);
+            stmt2.setInt(2, id);
+            stmt2.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            return -1;
         }
 
-        return 0;
+        return id;
     }
 
+    /**
+     * Creates a new production entry with the values of the parameter.
+     *
+     * @param production The production object that needs to be saved
+     * @return the id of the production entry you just created.
+     * @author Teis & Nichlas
+     */
     @Override
     public int createNewProductionInDatabase(IProduction production) {
+        int id;
         try {
+            //insert the values of the production object into a new entry in Database.
             PreparedStatement stmt = connection.prepareStatement(
                     "insert into production(name, year)" +
                             "values(?,?)"
@@ -122,17 +201,50 @@ public class Persistence implements IPersistence {
             stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(production.getYear()), 01, 01)));
             stmt.execute();
 
-            //TODO: Implementer productionCompany
+            //Insert the link between the production and the production company.
+            int prodID = production.getProductionCompany().getId();
+            PreparedStatement stmt2 = connection.prepareStatement(
+                    "INSERT INTO produces(production_company_id, production_id)"
+                            + "values(?,?)"
+            );
+
+            //query the database for the id on the production we just created.
+            id = getProductionId(production);
+            stmt2.setInt(1, prodID);
+            stmt2.setInt(2, id);
+            stmt2.execute();
+
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return -1;
         }
-        return 1;
+        return id;
     }
 
+    /**
+     * creates a new productionCompany entry in the databse.
+     *
+     * @param productionCompany the object you want to save
+     * @return the id of the entry in the database you just created.
+     * @author Teis & Nichlas
+     */
     @Override
-    public int createNewProductionCompanyInDatabase(IProductionCompany production) {
-        throw new UnsupportedOperationException();
+    public int createNewProductionCompanyInDatabase(IProductionCompany productionCompany) {
+        //insert the values of the parsed productionCompany
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "INSERT into production_company(name)" + "values(?)"
+            );
+            stmt.setString(1, productionCompany.getName());
+            stmt.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return -1;
+        }
+        // query the database for the id on the created entry.
+        return getProductionCompanyId(productionCompany);
     }
 
     @Override
@@ -195,6 +307,7 @@ public class Persistence implements IPersistence {
 
     /**
      * Removes the movie and all references to it in the database.
+     *
      * @param id of the movie you want to remove.
      * @return {@code true} if successfully removed the movie. {@code false} if the action didn't complete.
      */
@@ -291,9 +404,9 @@ public class Persistence implements IPersistence {
             while (resultSet.next()) {
                 resultList.add((resultSet.getInt(1) + ", " +
                         resultSet.getString(2) + ", " +
-                        resultSet.getDate(3) + ", " +
                         resultSet.getInt(4)) + ", " +
-                        resultSet.getInt(5));
+                        resultSet.getInt(5) + ", " +
+                        resultSet.getDate(3));
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -320,11 +433,12 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) + ", " +
+                resultList.add((
+                        resultSet.getInt(1) + ", " +
                         resultSet.getString(2) + ", " +
-                        resultSet.getDate(3) + ", " +
                         resultSet.getInt(4)) + ", " +
-                        resultSet.getInt(5));
+                        resultSet.getInt(5) + ", " +
+                        resultSet.getDate(3));
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -348,9 +462,11 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) + ", " + resultSet.getString(2) + ", " +
-                        resultSet.getDate(3) + ", " + resultSet.getInt(4)) + ", " +
-                        resultSet.getInt(5));
+                resultList.add((resultSet.getInt(1) + ", " +
+                        resultSet.getString(2) + ", " +
+                        resultSet.getInt(4)) + ", " +
+                        resultSet.getInt(5) + ", " +
+                        resultSet.getDate(3));
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -497,13 +613,13 @@ public class Persistence implements IPersistence {
     @Override
     public List<String> getProductionCompany(int id) {
         try {
-            PreparedStatement stmt = connection.prepareStatement("SELECT name FROM production_company WHERE id = ?");
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM production_company WHERE id = ?");
             stmt.setInt(1, id);
             ResultSet resultSet = stmt.executeQuery();
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add(String.valueOf(resultSet.getInt(1)));
+                resultList.add((resultSet.getInt(1) + ", " + resultSet.getString(2)));
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -577,7 +693,7 @@ public class Persistence implements IPersistence {
             while (resultSet.next()) {
                 productionList.add(resultSet.getString(1) + ", " +
                         resultSet.getString(2) + ", " +
-                        resultSet.getString(3) + ", " +
+                        resultSet.getDate(3).toLocalDate().getYear() + ", " +
                         resultSet.getString(4) + ", " +
                         resultSet.getString(5));
             }
@@ -670,7 +786,24 @@ public class Persistence implements IPersistence {
 
     @Override
     public boolean mergeCastInDatabase(ICast cast1, ICast cast2) {
-        throw new UnsupportedOperationException();
+        if (cast1.getRegDKID().equals(cast2.getRegDKID()) && cast1.getName().equals(cast2.getName())){
+            try {
+                PreparedStatement updateStatement = connection.prepareStatement(
+                        "update broadcast_employs set cast_id = ? where cast_id = ?");
+                updateStatement.setInt(1, cast1.getId());
+                updateStatement.setInt(2, cast2.getId());
+                updateStatement.execute();
+
+                PreparedStatement delStatement = connection.prepareStatement("delete from cast_members where id = ?");
+                delStatement.setInt(1, cast2.getId());
+                delStatement.execute();
+                return true;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                return false;
+            }
+        }
+        return false;
 
         //Todo return id på det nye samlede cast
     }
@@ -701,6 +834,12 @@ public class Persistence implements IPersistence {
             stmt.setInt(2, productionCompany.getId());
             stmt.execute();
 
+            for (IMovie movie: productionCompany.getMovieList()) {
+                updateMovieInDatabase(movie);
+            }
+            for (IProduction production : productionCompany.getProductionList()) {
+                updateProduction(production);
+            }
             return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -727,12 +866,30 @@ public class Persistence implements IPersistence {
                     Integer.parseInt(movie.getReleaseDate()[0]));
             updateMovieStatement.setDate(2, Date.valueOf(tempDate));
             updateMovieStatement.execute();
+
+            //removes the current cast members from the object in another table.
+            PreparedStatement removeCastStatement = connection.prepareStatement(
+                    "DELETE FROM movie_employs WHERE broadcast_id = ?");
+            removeCastStatement.setInt(1, movie.getId());
+            removeCastStatement.execute();
+
+            int id = movie.getId();
+            //foreach loop that runs through the entire map and inserts it all into the table.
+            for (Map.Entry<ICast, String> entry : movie.getCastMap().entrySet()) {
+                PreparedStatement insertCastStatement = connection.prepareStatement(
+                        "INSERT INTO movie_employs (movie_id, cast_id, role) VALUES (?,?,?)");
+                insertCastStatement.setInt(1, id);
+                insertCastStatement.setInt(2, entry.getKey().getId());
+                insertCastStatement.setString(3, entry.getValue());
+                insertCastStatement.execute();
+            };
+
             return true;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return false;
+        } catch(SQLException throwables){
+                throwables.printStackTrace();
+                return false;
+            }
         }
-    }
 
     /**
      * Updates a given Production object in the database to the current attributes of the given parameter.
@@ -749,6 +906,10 @@ public class Persistence implements IPersistence {
             LocalDate tempDate = LocalDate.of(Integer.parseInt(production.getYear()), 1, 1);
             stmt.setDate(2, Date.valueOf(tempDate));
             stmt.execute();
+
+            for (IBroadcast broadcast : production.getBroadcasts()) {
+                updateBroadcastInDatabase(broadcast);
+            }
             return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -797,6 +958,7 @@ public class Persistence implements IPersistence {
                 insertCastStatement.setString(3, entry.getValue());
                 insertCastStatement.execute();
             }
+
             return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -830,12 +992,60 @@ public class Persistence implements IPersistence {
         }
     }
 
+    /** Queries the database to find the movies a cast has been on and his role.
+     * @author Teis & Nichlas & L@WsT
+     * @param cast the cast you want to search for.
+     * @return list of movie id and the corresponding role.
+     */
+
     public List<String> castMovieRoles(ICast cast){
-        throw new UnsupportedOperationException();
+
+        try {
+            List<String> returnList = new ArrayList<>();
+            PreparedStatement stmt = connection.prepareStatement(
+                    "select movie_id, role FROM movie_employs WHERE cast_id = ?"
+            );
+            stmt.setInt(1,cast.getId());
+            ResultSet result = stmt.executeQuery();
+            while(result.next()){
+                int id = result.getInt(1);
+                String role = result.getString(2);
+                String text = String.valueOf(id) + "," + role;
+                returnList.add(text);
+            }
+            return returnList;
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
     }
+    /** Queries the database to find the broadcast a cast has been on and his role.
+     * @author Teis & Nichlas & L@WsT
+     * @param cast the cast you want to search for.
+     * @return list of movie id and the corresponding role.
+     */
 
     public List<String> castBroadcastRoles(ICast cast){
-        throw new UnsupportedOperationException();
+        try {
+            List<String> returnList = new ArrayList<>();
+            PreparedStatement stmt = connection.prepareStatement(
+                    "select broadcast_id, role FROM broadcast_employs WHERE cast_id = ?"
+            );
+            stmt.setInt(1,cast.getId());
+            ResultSet result = stmt.executeQuery();
+            while(result.next()){
+                int id = result.getInt(1);
+                String role = result.getString(2);
+                String text = String.valueOf(id) + "," + role;
+                returnList.add(text);
+            }
+            return returnList;
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -855,9 +1065,9 @@ public class Persistence implements IPersistence {
             stmt.setString(1, broadcast.getName());
             String[] airdate = broadcast.getAirDate();
             stmt.setDate(2, Date.valueOf(LocalDate.of(
-                            Integer.parseInt(airdate[2]),
-                            Integer.parseInt(airdate[1]),
-                            Integer.parseInt(airdate[0]))));
+                    Integer.parseInt(airdate[2]),
+                    Integer.parseInt(airdate[1]),
+                    Integer.parseInt(airdate[0]))));
             stmt.setInt(3, broadcast.getEpisodeNumber());
             stmt.setInt(4, broadcast.getSeasonNumber());
 
@@ -871,6 +1081,15 @@ public class Persistence implements IPersistence {
 
     }
 
+    /**
+     * Queries the database for the id of parsed parameter object.
+     * This is used internally when creating new entries.
+     *
+     * @param movie the object you want to find the id of in the database
+     * @return the id of the entry found.
+     * @author Teis & Nichlas
+     */
+
     private int getMovieId(IMovie movie) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
@@ -883,6 +1102,55 @@ public class Persistence implements IPersistence {
                     Integer.parseInt(releaseDate[1]),
                     Integer.parseInt(releaseDate[0]))));
 
+            ResultSet result = stmt.executeQuery();
+            result.next();
+            return result.getInt("id");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
+
+    }
+
+    /**
+     * Queries the database for the id of parsed parameter object.
+     * This is used internally when creating new entries.
+     *
+     * @param production the object you want to find the id of in the database
+     * @return the id of the entry found.
+     * @author Teis & Nichlas
+     */
+    private int getProductionId(IProduction production) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "select id FROM production WHERE name = ? and production.year = ?"
+            );
+            stmt.setString(1, production.getName());
+            stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(production.getYear()), 1, 1)));
+            ResultSet result = stmt.executeQuery();
+            result.next();
+            return result.getInt("id");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
+
+    }
+
+    /**
+     * Queries the database for the id of parsed parameter object.
+     * This is used internally when creating new entries.
+     *
+     * @param productionCompany the object you want to find the id of in the database
+     * @return the id of the entry found.
+     * @author Teis & Nichlas
+     */
+    private int getProductionCompanyId(IProductionCompany productionCompany) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "select id FROM production_company WHERE name = ?"
+            );
+            stmt.setString(1, productionCompany.getName());
             ResultSet result = stmt.executeQuery();
             result.next();
             return result.getInt("id");
