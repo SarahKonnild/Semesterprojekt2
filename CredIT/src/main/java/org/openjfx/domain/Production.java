@@ -25,12 +25,13 @@ public class Production implements IProduction {
         this.broadcasts = new ArrayList<>();
     }
 
-    public Production(int id, String name, int productionCompanyID, String year) {
+    public Production(int id, String name, int productionCompanyID, String year, int season, int episode) {
         this.id = id;
         this.name = name;
         this.year = year;
         this.productionCompany = system.searchProductionCompany(productionCompanyID);
-        numberOfEpisodes = broadcasts.size();
+        this.numberOfSeasons = season;
+        this.numberOfEpisodes = episode;
         loadBroadcastArray();
     }
 
@@ -41,17 +42,8 @@ public class Production implements IProduction {
     private void loadBroadcastArray() {
         ArrayList<IBroadcast> temp = system.searchBroadcast(this.id);
         if(!temp.isEmpty()) {
-
             this.broadcasts = temp;
-            int tempSeasonNumber = broadcasts.get(0).getSeasonNumber();
-            for (IBroadcast broadcast : this.broadcasts) {
-                if (tempSeasonNumber < broadcast.getSeasonNumber()) {
-                    tempSeasonNumber = broadcast.getSeasonNumber();
-                }
-            }
-            this.numberOfSeasons = tempSeasonNumber;
         }
-        //Todo I believe that number of seasons can be found in the database
     }
 
     @Override
