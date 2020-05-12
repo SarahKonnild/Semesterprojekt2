@@ -32,7 +32,8 @@ public class ProductionCompany implements IProductionCompany {
         this.productionList = system.searchProductions(this.id);
 
     }
-    private void loadMovieList(){
+
+    private void loadMovieList() {
         this.movieList = system.searchMovies(this.id);
     }
 
@@ -44,8 +45,8 @@ public class ProductionCompany implements IProductionCompany {
     @Override
     public boolean save() {
         int idNumber = persistence.createNewProductionCompanyInDatabase(this);
-        if(idNumber != -1) this.id = idNumber;
-        return (idNumber == -1) ? false : true;
+        if (idNumber != -1) this.id = idNumber;
+        return idNumber != -1;
     }
 
     @Override
@@ -67,51 +68,58 @@ public class ProductionCompany implements IProductionCompany {
 
     @Override
     public boolean assignMovie(IMovie movie) {
-        ArrayList<IMovie> tempList = this.movieList;
-        this.movieList.add(movie);
-        if (persistence.updateProductionCompanyInDatabase(this))
+        if (!movieList.contains(movie)) {
+            ArrayList<IMovie> tempList = this.movieList;
+            this.movieList.add(movie);
+            if (persistence.updateProductionCompanyInDatabase(this))
+                return true;
+            else {
+                this.movieList = tempList;
+                return false;
+            }
+        } else
             return true;
-        else {
-            this.movieList = tempList;
-            return false;
-        }
     }
 
     @Override
     public boolean assignProduction(IProduction production) {
-        ArrayList<IProduction> tempList = this.productionList;
-        this.productionList.add(production);
-        if (persistence.updateProductionCompanyInDatabase(this))
+        if (!productionList.contains(production)) {
+            ArrayList<IProduction> tempList = this.productionList;
+            this.productionList.add(production);
+            if (persistence.updateProductionCompanyInDatabase(this))
+                return true;
+            else {
+                this.productionList = tempList;
+                return false;
+            }
+        } else {
             return true;
-        else {
-            this.productionList = tempList;
-            return false;
         }
     }
 
     @Override
     public boolean unassignMovie(IMovie movie) {
-        if(this.movieList.contains(movie)){
+        if (this.movieList.contains(movie)) {
             ArrayList<IMovie> tempList = this.movieList;
             this.movieList.remove(movie);
-            if(persistence.updateProductionCompanyInDatabase(this))
+            if (persistence.updateProductionCompanyInDatabase(this))
                 return true;
             else {
                 this.movieList = tempList;
                 return false;
             }
 
-        }else
+        } else
             return false;
     }
 
     @Override
     public boolean unassignProduction(IProduction production) {
-        if(this.productionList.contains(production)){
+        if (this.productionList.contains(production)) {
             //Saves the list so it can revert back if anything goes wrong.
             ArrayList<IProduction> tempList = this.productionList;
             this.movieList.remove(production);
-            if(persistence.updateProductionCompanyInDatabase(this))
+            if (persistence.updateProductionCompanyInDatabase(this))
                 return true;
             else {
                 //Reverts the changes because something went wrong
@@ -119,7 +127,7 @@ public class ProductionCompany implements IProductionCompany {
                 return false;
             }
 
-        }else
+        } else
             return false;
     }
 
