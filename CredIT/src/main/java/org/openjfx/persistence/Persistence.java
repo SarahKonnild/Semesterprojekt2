@@ -903,12 +903,60 @@ public class Persistence implements IPersistence {
         }
     }
 
+    /** Queries the database to find the movies a cast has been on and his role.
+     * @author Teis & Nichlas & L@WsT
+     * @param cast the cast you want to search for.
+     * @return list of movie id and the corresponding role.
+     */
+
     public List<String> castMovieRoles(ICast cast){
-        throw new UnsupportedOperationException();
+
+        try {
+            List<String> returnList = new ArrayList<>();
+            PreparedStatement stmt = connection.prepareStatement(
+                    "select movie_id, role FROM movie_employs WHERE cast_id = ?"
+            );
+            stmt.setInt(1,cast.getId());
+            ResultSet result = stmt.executeQuery();
+            while(result.next()){
+                int id = result.getInt(1);
+                String role = result.getString(2);
+                String text = String.valueOf(id) + "," + role;
+                returnList.add(text);
+            }
+            return returnList;
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
     }
+    /** Queries the database to find the broadcast a cast has been on and his role.
+     * @author Teis & Nichlas & L@WsT
+     * @param cast the cast you want to search for.
+     * @return list of movie id and the corresponding role.
+     */
 
     public List<String> castBroadcastRoles(ICast cast){
-        throw new UnsupportedOperationException();
+        try {
+            List<String> returnList = new ArrayList<>();
+            PreparedStatement stmt = connection.prepareStatement(
+                    "select broadcast_id, role FROM broadcast_employs WHERE cast_id = ?"
+            );
+            stmt.setInt(1,cast.getId());
+            ResultSet result = stmt.executeQuery();
+            while(result.next()){
+                int id = result.getInt(1);
+                String role = result.getString(2);
+                String text = String.valueOf(id) + "," + role;
+                returnList.add(text);
+            }
+            return returnList;
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
     }
 
     /**
