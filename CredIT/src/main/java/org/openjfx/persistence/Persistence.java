@@ -295,9 +295,9 @@ public class Persistence implements IPersistence {
             while (resultSet.next()) {
                 resultList.add((resultSet.getInt(1) + ", " +
                         resultSet.getString(2) + ", " +
-                        resultSet.getDate(3) + ", " +
                         resultSet.getInt(4)) + ", " +
-                        resultSet.getInt(5));
+                        resultSet.getInt(5) + ", " +
+                        resultSet.getDate(3));
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -324,11 +324,12 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) + ", " +
+                resultList.add((
+                        resultSet.getInt(1) + ", " +
                         resultSet.getString(2) + ", " +
-                        resultSet.getDate(3) + ", " +
                         resultSet.getInt(4)) + ", " +
-                        resultSet.getInt(5));
+                        resultSet.getInt(5) + ", " +
+                        resultSet.getDate(3));
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -352,9 +353,11 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) + ", " + resultSet.getString(2) + ", " +
-                        resultSet.getDate(3) + ", " + resultSet.getInt(4)) + ", " +
-                        resultSet.getInt(5));
+                resultList.add((resultSet.getInt(1) + ", " +
+                        resultSet.getString(2) + ", " +
+                        resultSet.getInt(4)) + ", " +
+                        resultSet.getInt(5) + ", " +
+                        resultSet.getDate(3));
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -501,13 +504,13 @@ public class Persistence implements IPersistence {
     @Override
     public List<String> getProductionCompany(int id) {
         try {
-            PreparedStatement stmt = connection.prepareStatement("SELECT name FROM production_company WHERE id = ?");
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM production_company WHERE id = ?");
             stmt.setInt(1, id);
             ResultSet resultSet = stmt.executeQuery();
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add(String.valueOf(resultSet.getInt(1)));
+                resultList.add((resultSet.getInt(1) + ", " + resultSet.getString(2)));
             }
             return resultList;
         } catch (SQLException throwables) {
