@@ -39,14 +39,18 @@ public class Production implements IProduction {
      */
 
     private void loadBroadcastArray() {
-        this.broadcasts = system.searchBroadcast(this.id);
-        int tempSeasonNumber = broadcasts.get(0).getSeasonNumber();
-        for (IBroadcast broadcast : this.broadcasts) {
-            if (tempSeasonNumber < broadcast.getSeasonNumber()) {
-                tempSeasonNumber = broadcast.getSeasonNumber();
+        ArrayList<IBroadcast> temp = system.searchBroadcast(this.id);
+        if(!temp.isEmpty()) {
+
+            this.broadcasts = temp;
+            int tempSeasonNumber = broadcasts.get(0).getSeasonNumber();
+            for (IBroadcast broadcast : this.broadcasts) {
+                if (tempSeasonNumber < broadcast.getSeasonNumber()) {
+                    tempSeasonNumber = broadcast.getSeasonNumber();
+                }
             }
+            this.numberOfSeasons = tempSeasonNumber;
         }
-        this.numberOfSeasons = tempSeasonNumber;
         //Todo I believe that number of seasons can be found in the database
     }
 

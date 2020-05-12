@@ -29,12 +29,17 @@ public class ProductionCompany implements IProductionCompany {
     }
 
     private void loadProductionList() {
-        this.productionList = system.searchProductions(this.id);
-
+        ArrayList<IProduction> temp = system.searchProductions(this.id);
+        if(!temp.isEmpty()) {
+            this.productionList = temp;
+        }
     }
 
     private void loadMovieList() {
-        this.movieList = system.searchMovies(this.id);
+        ArrayList<IMovie> temp = system.searchMovies(this.id);
+        if(!temp.isEmpty()) {
+            this.movieList = temp;
+        }
     }
 
     @Override
