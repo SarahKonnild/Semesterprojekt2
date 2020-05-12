@@ -157,6 +157,10 @@ public interface IPersistence {
      */
     boolean mergeCastInDatabase(ICast cast1, ICast cast2);
 
+    List<String> castMovieRoles(ICast cast);
+
+    List<String> castBroadcastRoles(ICast cast);
+
     /**
      * Update a cast members values to new name and regDKID
      *

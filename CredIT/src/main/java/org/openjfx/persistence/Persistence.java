@@ -1,5 +1,6 @@
 package org.openjfx.persistence;
 
+import org.openjfx.domain.*;
 import org.openjfx.interfaces.*;
 
 import java.sql.*;
@@ -15,7 +16,7 @@ public class Persistence implements IPersistence {
     private static Persistence persistence;
     private final String url = "localhost";
     private final int port = 5432;
-    private final String databaseName = "credIT_db";
+    private final String databaseName = "credit_db";
     private final String username = "postgres";
     private final String password = Password.PASS;
     private Connection connection = null;
@@ -38,8 +39,42 @@ public class Persistence implements IPersistence {
     }
 
     public static void main(String[] args) {
-        Persistence pt = Persistence.getInstance();
-        pt.initializePostgresqlDatabase();
+        Persistence pers = Persistence.getInstance();
+        CredITSystem cs = new CredITSystem();
+
+        ProductionCompany pc = new ProductionCompany("Teis Productions");
+
+        pers.createNewProductionCompanyInDatabase(pc);
+
+        Cast c = new Cast("Teis Aalbæk-Nielsen", "1234");
+        Cast c1 = new Cast("Laust Christensen", "666");
+
+        pers.createNewCastInDatabase(c);
+        pers.createNewCastInDatabase(c1);
+
+        Movie m = new Movie("Teis in Wonderland", pc, "12-05-2020");
+
+        pers.createNewMovieInDatabase(m);
+        pc.assignMovie(m);
+
+        m.assignCast(c, "Teis");
+        m.assignCast(c1, "Red Queen");
+
+        Production p = new Production("Sherlock", "2020", pc);
+
+        pc.assignProduction(p);
+
+        Broadcast b = new Broadcast("Sherlock vs. Moriarty", 1,20,"12-05-2020", p);
+        b.assignCast(c, "Sherlock");
+        b.assignCast(c1, "Moriarty");
+
+        p.assignBroadcast(b);
+
+        pers.createNewProductionInDatabase(p);
+
+        pers.createNewBroadcastInDatabase(b);
+
+
     }
 
     /**
@@ -735,8 +770,8 @@ public class Persistence implements IPersistence {
         try {
             PreparedStatement stmt = connection.prepareStatement(
                     "UPDATE production_company SET (name) = ? WHERE id = ?");
-            stmt.setInt(2, productionCompany.getId());
             stmt.setString(1, productionCompany.getName());
+            stmt.setInt(2, productionCompany.getId());
             stmt.execute();
 
             return true;
@@ -866,6 +901,14 @@ public class Persistence implements IPersistence {
             throwables.printStackTrace();
             return null;
         }
+    }
+
+    public List<String> castMovieRoles(ICast cast){
+        throw new UnsupportedOperationException();
+    }
+
+    public List<String> castBroadcastRoles(ICast cast){
+        throw new UnsupportedOperationException();
     }
 
     /**
