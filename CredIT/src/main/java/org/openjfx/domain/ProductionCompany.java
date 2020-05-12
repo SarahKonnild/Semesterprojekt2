@@ -17,8 +17,8 @@ public class ProductionCompany implements IProductionCompany {
 
     ProductionCompany(String name) {
         this.name = name;
-        this.movieList = null;
-        this.productionList = null;
+        this.movieList = new ArrayList<>();
+        this.productionList = new ArrayList<>();
     }
 
     ProductionCompany(int id, String name) {
