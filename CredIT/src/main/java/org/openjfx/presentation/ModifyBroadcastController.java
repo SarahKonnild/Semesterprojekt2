@@ -150,6 +150,7 @@ public class ModifyBroadcastController implements Initializable {
             } else {
                 IBroadcast broadcast = LoginSystemController.getAdminUser().addNewBroadcastToDatabase(broadcastName.getText(), Integer.parseInt(season.getText()),
                         Integer.parseInt(episode.getText()), dateVariable, results.get(0));
+                //results.get(0).assignBroadcast(broadcast);
                 clearFields();
                 if (broadcast != null) {
                     errorMessage.setText("Udsendelsen tilføjet");
@@ -183,6 +184,7 @@ public class ModifyBroadcastController implements Initializable {
             status = chosenBroadcast.delete();
             if(status){
                 searchList.remove(chosenBroadcast);
+                //chosenBroadcast.getProduction().unassignBroadcast(chosenBroadcast);
                 errorMessage.setText("Udsendelse slettet");
                 if(searchList.isEmpty()){
                     resultList.getItems().clear();
