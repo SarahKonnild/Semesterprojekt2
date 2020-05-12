@@ -1,6 +1,5 @@
 package org.openjfx.persistence;
 
-import org.openjfx.domain.CredITSystem;
 import org.openjfx.interfaces.*;
 
 import java.sql.*;
@@ -9,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 public class Persistence implements IPersistence {
 
@@ -24,6 +24,12 @@ public class Persistence implements IPersistence {
         initializePostgresqlDatabase();
     }
 
+    /**
+     * @return the one and only persistence layer object in this program.
+     * @author Nichlas & Teis
+     * Signleton implementation of persistence layer together with private constructor.
+     */
+
     public static Persistence getInstance() {
         if (persistence == null) {
             persistence = new Persistence();
@@ -36,6 +42,10 @@ public class Persistence implements IPersistence {
         pt.initializePostgresqlDatabase();
     }
 
+    /**
+     * @author Nichlas & Teis
+     * Initilizes the Database connection with password individual password files.
+     */
     private void initializePostgresqlDatabase() {
         try {
             DriverManager.registerDriver(new org.postgresql.Driver());
@@ -45,49 +55,50 @@ public class Persistence implements IPersistence {
         }
     }
 
-    @Override
-    public boolean createNewUserInDatabase(IUser user) {
-        throw new UnsupportedOperationException();
-    }
+    /**
+     * @param broadcast The broadcast object that needs to be saved
+     * @return The id created by the database.
+     * @author Nichlas & Teis
+     * Creates a new broadcast entry in the database.
+     */
 
     @Override
-    public boolean removeUserFromDatabase(int id) {
-        throw new UnsupportedOperationException();
-    }
-    //Todo make the create methods return the database ID.
-    @Override
     public int createNewBroadcastInDatabase(IBroadcast broadcast) {
+        int id;
+        // this statement inserts the values of the broadcast in to the Database.
         try {
             PreparedStatement stmt = connection.prepareStatement(
                     "INSERT into broadcast(name, air_date,episode_number , season_number  )" +
                             "values(?,?,?,?)"
             );
-
             stmt.setString(1, broadcast.getName());
             String[] airdate = broadcast.getAirDate();
             stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(airdate[2]), Integer.parseInt(airdate[1]), Integer.parseInt(airdate[0]))));
             stmt.setInt(3, broadcast.getEpisodeNumber());
             stmt.setInt(4, broadcast.getSeasonNumber());
-
-
             stmt.execute();
-            int broadCastId = getBroadcastId(broadcast);
+
+            //queries the database for the id on the entry we just created.
+            id = getBroadcastId(broadcast);
             HashMap<ICast, String> map = broadcast.getCastMap();
+            // for each cast inserts the cast into the broadcast employs table.
             for (ICast cast : map.keySet()) {
                 PreparedStatement stmt2 = connection.prepareStatement(
                         "insert into broadcast_employs(broadcast_id, cast_id, role)" +
                                 "values(?,?,?)"
                 );
-                stmt2.setInt(1, broadCastId);
+                stmt2.setInt(1, id);
                 stmt2.setInt(2, cast.getId());
                 stmt2.setString(3, map.get(cast));
                 stmt2.execute();
             }
+
+            //links broadcast with the production in database
             PreparedStatement stmt3 = connection.prepareStatement(
                     "insert into contains(broadcast_id, production_id)" +
                             "values(?,?)"
             );
-            stmt3.setInt(1, broadCastId);
+            stmt3.setInt(1, id);
             stmt3.setInt(2, broadcast.getProduction().getId());
             stmt3.execute();
 
@@ -95,29 +106,58 @@ public class Persistence implements IPersistence {
             throwables.printStackTrace();
             return -1;
         }
-        return getBroadcastId(broadcast);
+        return id;
     }
+
+    /**
+     * @param movie the movie object you want to save in the database
+     * @return the id of the movie entry we just created. Negative if something went wrong.
+     * @author Teis & Nichlas
+     */
 
     @Override
     public int createNewMovieInDatabase(IMovie movie) {
+        int id;
         try {
+            //inserts the values of the movie object into the database.
             PreparedStatement stmt = connection.prepareStatement(
                     "INSERT into movie(name, release_date) " + "values(?,?)"
             );
             stmt.setString(1, "test");
             String[] release = movie.getReleaseDate();
             stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(release[2]), Integer.parseInt(release[1]), Integer.parseInt(release[0]))));
-            //TODO: Implementer productionCompany
+            stmt.execute();
+            int prodID = movie.getProductionCompany().getId();
+            //Insert the link between the production company and the movie.
+            PreparedStatement stmt2 = connection.prepareStatement(
+                    "INSERT INTO produces_movie(production_company_id, movie_id)"
+                            + "values(?,?)"
+            );
+            //query the database for the id on the entry we just created.
+            id = getMovieId(movie);
+            stmt2.setInt(1, prodID);
+            stmt2.setInt(2, id);
+            stmt2.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            return -1;
         }
 
-        return 0;
+        return id;
     }
 
+    /**
+     * Creates a new production entry with the values of the parameter.
+     *
+     * @param production The production object that needs to be saved
+     * @return the id of the production entry you just created.
+     * @author Teis & Nichlas
+     */
     @Override
     public int createNewProductionInDatabase(IProduction production) {
+        int id;
         try {
+            //insert the values of the production object into a new entry in Database.
             PreparedStatement stmt = connection.prepareStatement(
                     "insert into production(name, year)" +
                             "values(?,?)"
@@ -126,17 +166,50 @@ public class Persistence implements IPersistence {
             stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(production.getYear()), 01, 01)));
             stmt.execute();
 
-            //TODO: Implementer productionCompany
+            //Insert the link between the production and the production company.
+            int prodID = production.getProductionCompany().getId();
+            PreparedStatement stmt2 = connection.prepareStatement(
+                    "INSERT INTO produces(production_company_id, production_id)"
+                            + "values(?,?)"
+            );
+
+            //query the database for the id on the production we just created.
+            id = getProductionId(production);
+            stmt2.setInt(1, prodID);
+            stmt2.setInt(2, id);
+            stmt2.execute();
+
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return -1;
         }
-        return 1;
+        return id;
     }
 
+    /**
+     * creates a new productionCompany entry in the databse.
+     *
+     * @param productionCompany the object you want to save
+     * @return the id of the entry in the database you just created.
+     * @author Teis & Nichlas
+     */
     @Override
-    public int createNewProductionCompanyInDatabase(IProductionCompany production) {
-        throw new UnsupportedOperationException();
+    public int createNewProductionCompanyInDatabase(IProductionCompany productionCompany) {
+        //insert the values of the parsed productionCompany
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "INSERT into production_company(name)" + "values(?)"
+            );
+            stmt.setString(1, productionCompany.getName());
+            stmt.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return -1;
+        }
+        // query the database for the id on the created entry.
+        return getProductionCompanyId(productionCompany);
     }
 
     @Override
@@ -199,6 +272,7 @@ public class Persistence implements IPersistence {
 
     /**
      * Removes the movie and all references to it in the database.
+     *
      * @param id of the movie you want to remove.
      * @return {@code true} if successfully removed the movie. {@code false} if the action didn't complete.
      */
@@ -794,6 +868,15 @@ public class Persistence implements IPersistence {
         }
     }
 
+    /**
+     * Queries the database for the id of parsed parameter object.
+     * This is used internally when creating new entries.
+     *
+     * @param broadcast the object you want to find the id of in the database
+     * @return the id of the entry found.
+     * @author Teis & Nichlas
+     */
+
     private int getBroadcastId(IBroadcast broadcast) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
@@ -802,9 +885,9 @@ public class Persistence implements IPersistence {
             stmt.setString(1, broadcast.getName());
             String[] airdate = broadcast.getAirDate();
             stmt.setDate(2, Date.valueOf(LocalDate.of(
-                            Integer.parseInt(airdate[2]),
-                            Integer.parseInt(airdate[1]),
-                            Integer.parseInt(airdate[0]))));
+                    Integer.parseInt(airdate[2]),
+                    Integer.parseInt(airdate[1]),
+                    Integer.parseInt(airdate[0]))));
             stmt.setInt(3, broadcast.getEpisodeNumber());
             stmt.setInt(4, broadcast.getSeasonNumber());
 
@@ -818,6 +901,15 @@ public class Persistence implements IPersistence {
 
     }
 
+    /**
+     * Queries the database for the id of parsed parameter object.
+     * This is used internally when creating new entries.
+     *
+     * @param movie the object you want to find the id of in the database
+     * @return the id of the entry found.
+     * @author Teis & Nichlas
+     */
+
     private int getMovieId(IMovie movie) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
@@ -830,6 +922,55 @@ public class Persistence implements IPersistence {
                     Integer.parseInt(releaseDate[1]),
                     Integer.parseInt(releaseDate[0]))));
 
+            ResultSet result = stmt.executeQuery();
+            result.next();
+            return result.getInt("id");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
+
+    }
+
+    /**
+     * Queries the database for the id of parsed parameter object.
+     * This is used internally when creating new entries.
+     *
+     * @param production the object you want to find the id of in the database
+     * @return the id of the entry found.
+     * @author Teis & Nichlas
+     */
+    private int getProductionId(IProduction production) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "select id FROM production WHERE name = ? and production.year = ?"
+            );
+            stmt.setString(1, production.getName());
+            stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(production.getYear()), 1, 1)));
+            ResultSet result = stmt.executeQuery();
+            result.next();
+            return result.getInt("id");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
+
+    }
+
+    /**
+     * Queries the database for the id of parsed parameter object.
+     * This is used internally when creating new entries.
+     *
+     * @param productionCompany the object you want to find the id of in the database
+     * @return the id of the entry found.
+     * @author Teis & Nichlas
+     */
+    private int getProductionCompanyId(IProductionCompany productionCompany) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "select id FROM production_company WHERE name = ?"
+            );
+            stmt.setString(1, productionCompany.getName());
             ResultSet result = stmt.executeQuery();
             result.next();
             return result.getInt("id");

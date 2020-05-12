@@ -6,23 +6,6 @@ import java.util.List;
 public interface IPersistence {
 
     /**
-     * Saves a new user to the persistence layer.
-     *
-     * @param user the user object that needs to be saved
-     * @return A boolean that is true if the user was succesfully written to the persistence layer
-     * @throws IOException
-     */
-    boolean createNewUserInDatabase(IUser user);
-
-    /**
-     * Deletes a user from the persistence/layer(Database).
-     *
-     * @param id The ID on the user you want to delete in the persistence layer.
-     * @return returns the boolean value of the delete run.
-     */
-    boolean removeUserFromDatabase(int id);
-
-    /**
      * Saves a new broadcast to the persistence layer.
      *
      * @param broadcast The broadcast object that needs to be saved
