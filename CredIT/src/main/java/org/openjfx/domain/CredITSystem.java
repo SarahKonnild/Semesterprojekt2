@@ -53,17 +53,16 @@ public class CredITSystem implements ISystem {
      * @return an arraylist of Cast object
      */
     private ArrayList<ICast> makeCastObjects(List<String> list) {
-        if (!list.isEmpty()) {
-            ArrayList<ICast> casts = new ArrayList();
+        ArrayList<ICast> casts = new ArrayList();
+        if (list != null && !list.isEmpty()) {
             //The list is formatted as castID,castRegID,castName
             for (String item : list) {
                 String[] items = item.split(",");
                 //Creating a new Cast object for each String item in the list.
                 casts.add(new Cast((Integer.parseInt(items[0])), items[1], ((items[2]))));
             }
-            return casts;
-        } else
-            return null;
+        }
+        return casts;
     }
 
     //endregion cast search methods ends here
@@ -126,9 +125,8 @@ public class CredITSystem implements ISystem {
                         items[4],
                         Integer.parseInt(items[5])));
             }
-            return broadcasts;
-        } else
-            return null;
+        }
+        return broadcasts;
     }
 
     //endregion Broadcast methods ends here
@@ -152,7 +150,7 @@ public class CredITSystem implements ISystem {
 
     private ArrayList<IProduction> makeProductionObjects(List<String> list) {
         ArrayList<IProduction> productions = new ArrayList<>();
-        if (list.size() > 0) {
+        if (list != null && list.size() > 0) {
             //String is formatted as id,name,productionCompanyID,year
             for(String item : list){
                 String[] items = item.split(",");
@@ -161,10 +159,8 @@ public class CredITSystem implements ISystem {
                         items[1],
                         Integer.parseInt(items[3]),
                         items[4]));
-            }
-            return productions;
-        }else
-            return null;
+            }}
+        return productions;
     }
     //endregion production methods ends here
 
@@ -182,10 +178,10 @@ public class CredITSystem implements ISystem {
     }
 
     private ArrayList<IMovie> makeMovieObjects(List<String> list){
-        if(list.size()>0){
-            ArrayList<IMovie> movies = null;
+        ArrayList<IMovie> movies = new ArrayList<>();
+        if(list != null && list.size()>0) {
             //the string is formatted as id,title,releaseDate,productionCompanyID
-            for(String item : list){
+            for (String item : list) {
                 String[] items = item.split(",");
                 movies.add(new Movie(
                         Integer.parseInt(items[0]),
@@ -193,9 +189,8 @@ public class CredITSystem implements ISystem {
                         items[2],
                         Integer.parseInt(items[3])));
             }
+        }
             return movies;
-        }else
-            return null;
     }
 
     //endregion search movie methods ends here
@@ -213,16 +208,14 @@ public class CredITSystem implements ISystem {
     }
 
     private ArrayList<IProductionCompany> makeProductionCompany(List<String> list){
-        if(list.size() > 0){
+        ArrayList<IProductionCompany> productionCompanies = new ArrayList<>();
+        if(list != null && list.size() > 0){
             //String formatted as id,name
-            ArrayList<IProductionCompany> productionCompanies = null;
             for(String item : list){
                 String[] items = item.split(",");
                 productionCompanies.add(new ProductionCompany(Integer.parseInt(items[0]), items[1]));
-            }
-            return productionCompanies;
-        }else
-            return null;
+            }}
+        return productionCompanies;
     }
 
     //endregion productionCompany search methods ends here
