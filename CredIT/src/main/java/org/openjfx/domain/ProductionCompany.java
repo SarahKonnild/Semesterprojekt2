@@ -26,7 +26,6 @@ public class ProductionCompany implements IProductionCompany {
         this.name = name;
         loadProductionList();
         loadMovieList();
-
     }
 
     private void loadProductionList() {
@@ -52,7 +51,7 @@ public class ProductionCompany implements IProductionCompany {
 
     @Override
     public boolean delete() {
-        return persistence.removeProductionCompanyFromDatabase(this.id);
+        return persistence.removeProductionCompanyFromDatabase(this);
     }
 
     @Override

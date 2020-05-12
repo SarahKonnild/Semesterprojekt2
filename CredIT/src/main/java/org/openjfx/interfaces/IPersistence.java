@@ -52,7 +52,7 @@ public interface IPersistence {
 
     boolean removeMovieFromDatabase(int id);
 
-    boolean removeProductionCompanyFromDatabase(int id);
+    boolean removeProductionCompanyFromDatabase(IProductionCompany company);
 
     /**
      * Saves a new cast to the persistence layer.

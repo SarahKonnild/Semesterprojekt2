@@ -327,9 +327,49 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public boolean removeProductionCompanyFromDatabase(int id) {
+    public boolean removeProductionCompanyFromDatabase(IProductionCompany company) {
         //todo implement this. It's a big one, look at removeProduction for inspiration.
-        throw new UnsupportedOperationException();
+        try {
+
+            ArrayList<IMovie> movies = company.getMovieList();
+            ArrayList<IProduction> productions = company.getProductionList();
+            if(!movies.isEmpty()){
+                for(IMovie movie : movies){
+                    removeMovieFromDatabase(movie.getId());
+                }
+            }
+            if(!productions.isEmpty()){
+                for(IProduction production : productions){
+                    removeProductionFromDatabase(production.getId());
+                }
+            }
+            PreparedStatement removeCompany = connection.prepareStatement("delete from production_company where id = ? ");
+            removeCompany.setInt(1,company.getId());
+            removeCompany.execute();
+
+            return true;
+
+/*            PreparedStatement removeMovies = connection.prepareStatement("delete from movie using contains " +
+                    "where movie.id = contains.movie_id " +
+                    "and contains.production_company_id = ?");
+            removeMovies.setInt(1,id);
+            removeMovies.execute();
+
+            PreparedStatement removeBroadcast = connection.prepareStatement("delete from broadcast using contains " +
+                    "where broadcast.id = contains.broadcast_id " +
+                    "and contains.production_company_id = ?");
+            removeBroadcast.setInt(1,id);
+            removeBroadcast.execute();
+
+            PreparedStatement removeProductionCompany = connection.prepareStatement("delete from production_company where id = ?");
+            removeProductionCompany.setInt(1, id);
+            removeProductionCompany.execute();
+*/
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
     }
 
     @Override
@@ -364,9 +404,9 @@ public class Persistence implements IPersistence {
             while (resultSet.next()) {
                 resultList.add((resultSet.getInt(1) + ", " +
                         resultSet.getString(2) + ", " +
-                        resultSet.getDate(3) + ", " +
                         resultSet.getInt(4)) + ", " +
-                        resultSet.getInt(5));
+                        resultSet.getInt(5) + ", " +
+                        resultSet.getDate(3));
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -393,11 +433,12 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) + ", " +
+                resultList.add((
+                        resultSet.getInt(1) + ", " +
                         resultSet.getString(2) + ", " +
-                        resultSet.getDate(3) + ", " +
                         resultSet.getInt(4)) + ", " +
-                        resultSet.getInt(5));
+                        resultSet.getInt(5) + ", " +
+                        resultSet.getDate(3));
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -421,9 +462,11 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) + ", " + resultSet.getString(2) + ", " +
-                        resultSet.getDate(3) + ", " + resultSet.getInt(4)) + ", " +
-                        resultSet.getInt(5));
+                resultList.add((resultSet.getInt(1) + ", " +
+                        resultSet.getString(2) + ", " +
+                        resultSet.getInt(4)) + ", " +
+                        resultSet.getInt(5) + ", " +
+                        resultSet.getDate(3));
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -570,13 +613,13 @@ public class Persistence implements IPersistence {
     @Override
     public List<String> getProductionCompany(int id) {
         try {
-            PreparedStatement stmt = connection.prepareStatement("SELECT name FROM production_company WHERE id = ?");
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM production_company WHERE id = ?");
             stmt.setInt(1, id);
             ResultSet resultSet = stmt.executeQuery();
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add(String.valueOf(resultSet.getInt(1)));
+                resultList.add((resultSet.getInt(1) + ", " + resultSet.getString(2)));
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -650,7 +693,7 @@ public class Persistence implements IPersistence {
             while (resultSet.next()) {
                 productionList.add(resultSet.getString(1) + ", " +
                         resultSet.getString(2) + ", " +
-                        resultSet.getString(3) + ", " +
+                        resultSet.getDate(3).toLocalDate().getYear() + ", " +
                         resultSet.getString(4) + ", " +
                         resultSet.getString(5));
             }
@@ -704,11 +747,11 @@ public class Persistence implements IPersistence {
             }
 
             List<String> productionList = new ArrayList<>();
-            productionList.add(resultSet.getString(1));
-            productionList.add(resultSet.getString(2));
-            productionList.add(resultSet.getString(3));
-            productionList.add(resultSet.getString(4));
-            productionList.add(resultSet.getString(5));
+            productionList.add(resultSet.getString(1) + ", " +
+                    resultSet.getString(2) + ", " +
+                    resultSet.getString(3) + ", " +
+                    resultSet.getString(4) + ", " +
+                    resultSet.getString(5));
             return productionList;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -743,7 +786,24 @@ public class Persistence implements IPersistence {
 
     @Override
     public boolean mergeCastInDatabase(ICast cast1, ICast cast2) {
-        throw new UnsupportedOperationException();
+        if (cast1.getRegDKID().equals(cast2.getRegDKID()) && cast1.getName().equals(cast2.getName())){
+            try {
+                PreparedStatement updateStatement = connection.prepareStatement(
+                        "update broadcast_employs set cast_id = ? where cast_id = ?");
+                updateStatement.setInt(1, cast1.getId());
+                updateStatement.setInt(2, cast2.getId());
+                updateStatement.execute();
+
+                PreparedStatement delStatement = connection.prepareStatement("delete from cast_members where id = ?");
+                delStatement.setInt(1, cast2.getId());
+                delStatement.execute();
+                return true;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                return false;
+            }
+        }
+        return false;
 
         //Todo return id på det nye samlede cast
     }
@@ -774,6 +834,12 @@ public class Persistence implements IPersistence {
             stmt.setInt(2, productionCompany.getId());
             stmt.execute();
 
+            for (IMovie movie: productionCompany.getMovieList()) {
+                updateMovieInDatabase(movie);
+            }
+            for (IProduction production : productionCompany.getProductionList()) {
+                updateProduction(production);
+            }
             return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -800,12 +866,30 @@ public class Persistence implements IPersistence {
                     Integer.parseInt(movie.getReleaseDate()[0]));
             updateMovieStatement.setDate(2, Date.valueOf(tempDate));
             updateMovieStatement.execute();
+
+            //removes the current cast members from the object in another table.
+            PreparedStatement removeCastStatement = connection.prepareStatement(
+                    "DELETE FROM movie_employs WHERE broadcast_id = ?");
+            removeCastStatement.setInt(1, movie.getId());
+            removeCastStatement.execute();
+
+            int id = movie.getId();
+            //foreach loop that runs through the entire map and inserts it all into the table.
+            for (Map.Entry<ICast, String> entry : movie.getCastMap().entrySet()) {
+                PreparedStatement insertCastStatement = connection.prepareStatement(
+                        "INSERT INTO movie_employs (movie_id, cast_id, role) VALUES (?,?,?)");
+                insertCastStatement.setInt(1, id);
+                insertCastStatement.setInt(2, entry.getKey().getId());
+                insertCastStatement.setString(3, entry.getValue());
+                insertCastStatement.execute();
+            };
+
             return true;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return false;
+        } catch(SQLException throwables){
+                throwables.printStackTrace();
+                return false;
+            }
         }
-    }
 
     /**
      * Updates a given Production object in the database to the current attributes of the given parameter.
@@ -822,6 +906,10 @@ public class Persistence implements IPersistence {
             LocalDate tempDate = LocalDate.of(Integer.parseInt(production.getYear()), 1, 1);
             stmt.setDate(2, Date.valueOf(tempDate));
             stmt.execute();
+
+            for (IBroadcast broadcast : production.getBroadcasts()) {
+                updateBroadcastInDatabase(broadcast);
+            }
             return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -870,6 +958,7 @@ public class Persistence implements IPersistence {
                 insertCastStatement.setString(3, entry.getValue());
                 insertCastStatement.execute();
             }
+
             return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
