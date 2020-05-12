@@ -68,6 +68,42 @@ public class CredITSystem implements ISystem {
     //endregion cast search methods ends here
 
     //region castRoleMaps methods
+    public HashMap<IMovie, String> getCastRolesMovies(ICast cast) {
+        List<String> tempList = persistenceLayer.castMovieRoles(cast);
+        return makeCastRolesMovie(tempList);
+    }
+    public HashMap<IBroadcast, String> getCastRolesBroadcast(ICast cast) {
+        List<String> tempList = persistenceLayer.castBroadcastRoles(cast);
+        return makeCastRolesBroadcast(tempList);
+    }
+
+    private HashMap<IMovie, String> makeCastRolesMovie(List<String> list) {
+        HashMap<IMovie, String> castMap = new HashMap<>();
+        // Gets a list of string formatted as movieID, role
+        for (String item : list) {
+            //For each item in the list, the string gets split so the ID can be used to search for cast members
+            String[] tempArray = item.split(",");
+            int tempID = Integer.parseInt(tempArray[0]);
+            String movieRole = tempArray[1];
+            IMovie tempObj = searchMovie(tempID).get(0);
+            castMap.put(tempObj, movieRole);
+        }
+        return castMap;
+    }
+    private HashMap<IBroadcast, String> makeCastRolesBroadcast(List<String> list) {
+        HashMap<IBroadcast, String> castMap = new HashMap<>();
+        // Gets a list of string formatted as castID, role
+        for (String item : list) {
+            //For each item in the list, the string gets split so the ID can be used to search for cast members
+            String[] tempArray = item.split(",");
+            int tempID = Integer.parseInt(tempArray[0]);
+            String tempRole = tempArray[1];
+            IBroadcast tempObj = searchBroadcast(tempID).get(0);
+            castMap.put(tempObj, tempRole);
+        }
+        return castMap;
+    }
+
     public HashMap<ICast, String> getCastRolesMovies(int id) {
         List<String> tempList = persistenceLayer.getCastRolesMoviesFromDatabase(id);
         return makeCastRoleMap(tempList);
@@ -98,10 +134,11 @@ public class CredITSystem implements ISystem {
     public ArrayList<IBroadcast> searchBroadcast(String keyword) {
         return makeBroadcastObjects(persistenceLayer.getBroadcastFromDatabase(keyword));
     }
-
-    @Override
-    public ArrayList<IBroadcast> searchBroadcast(int productionID) {
-        return makeBroadcastObjects(persistenceLayer.getBroadcastFromDatabase((productionID)));
+    public ArrayList<IBroadcast> searchBroadcast(int broadcastID) {
+        return makeBroadcastObjects(persistenceLayer.getBroadcastsFromDatabase((broadcastID)));
+    }
+    public ArrayList<IBroadcast> searchBroadcasts(int productionID) {
+        return makeBroadcastObjects(persistenceLayer.getBroadcastsFromDatabase((productionID)));
     }
 
     /**
@@ -112,7 +149,7 @@ public class CredITSystem implements ISystem {
      */
     private ArrayList<IBroadcast> makeBroadcastObjects(List<String> list) {
         ArrayList<IBroadcast> broadcasts = new ArrayList<>();
-        if (list.size() > 0) {
+        if (list != null && list.size() > 0) {
             // Each string is formatted as id,name,seasonNumber,episodeNumber,airDate,productionID
             for (String item : list) {
                 String[] items = item.split(",");
@@ -170,6 +207,10 @@ public class CredITSystem implements ISystem {
     @Override
     public ArrayList<IMovie> searchMovie(String keyword) {
         List<String> tempList = persistenceLayer.getMovieFromDatabase(keyword);
+        return makeMovieObjects(tempList);
+    }
+    public ArrayList<IMovie> searchMovie(int movieID) {
+        List<String> tempList = persistenceLayer.getMovieFromDatabase(movieID);
         return makeMovieObjects(tempList);
     }
 
