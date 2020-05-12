@@ -595,11 +595,11 @@ public class Persistence implements IPersistence {
             }
 
             List<String> productionList = new ArrayList<>();
-            productionList.add(resultSet.getString(1));
-            productionList.add(resultSet.getString(2));
-            productionList.add(resultSet.getString(3));
-            productionList.add(resultSet.getString(4));
-            productionList.add(resultSet.getString(5));
+            productionList.add(resultSet.getString(1) + ", " +
+                    resultSet.getString(2) + ", " +
+                    resultSet.getString(3) + ", " +
+                    resultSet.getString(4) + ", " +
+                    resultSet.getString(5));
             return productionList;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
