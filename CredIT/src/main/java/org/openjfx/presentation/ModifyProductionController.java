@@ -41,6 +41,10 @@ public class ModifyProductionController implements Initializable {
     @FXML
     private Label help;
     @FXML
+    private Label seeBroadcasts;
+    @FXML
+    private Label goToBroadcast;
+    @FXML
     private Label back;
     @FXML
     private Label errorMessageSearch;
@@ -69,15 +73,17 @@ public class ModifyProductionController implements Initializable {
     private ObservableList<IProduction> observableList;
 
     private static IProduction chosenProduction;
-    private IProduction givenProduction;
+    private static IProduction givenProduction;
+    private static IBroadcast chosenBroadcast;
     private boolean status;
+    private Object obj;
     //endregion
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
-        givenProduction = ModifyProductionCompanyController.getChosenProduction();
-        if(givenProduction != null){
+        if(ModifyProductionCompanyController.getChosenProduction() != null) {
+            givenProduction = ModifyProductionCompanyController.getChosenProduction();
             productionName.setText(givenProduction.getName());
             releaseYear.setText(givenProduction.getYear());
             productionCompany.setText(givenProduction.getProductionCompany().getName());
@@ -94,7 +100,7 @@ public class ModifyProductionController implements Initializable {
      * @param event
      */
     @FXML
-    public void handleSearch(MouseEvent event){
+    private void handleSearch(MouseEvent event){
         String searchText = searchField.getText();
         resultList.getItems().clear();
         searchResult = App.getSystemInstance().searchProduction(searchText);
@@ -113,10 +119,10 @@ public class ModifyProductionController implements Initializable {
      * @param event
      */
     @FXML
-    public void handleSearchResultChosen(MouseEvent event){
-            resultList.setDisable(false);
-            observableList = resultList.getSelectionModel().getSelectedItems();
-            chosenProduction = (IProduction) resultList.getSelectionModel().getSelectedItem();
+    private void handleSearchResultChosen(MouseEvent event){
+        obj = resultList.getSelectionModel().getSelectedItem();
+        if(obj instanceof IProduction) {
+            chosenProduction = (IProduction) obj;
             productionName.setText(chosenProduction.getName());
             productionCompany.setText(String.valueOf(chosenProduction.getProductionCompany()));
             amountOfSeasons.setText(String.valueOf(chosenProduction.getNumberOfSeasons()));
@@ -125,6 +131,11 @@ public class ModifyProductionController implements Initializable {
 
             save.setDisable(false);
             delete.setDisable(false);
+            seeBroadcasts.setVisible(true);
+        }else if(obj instanceof IBroadcast){
+            chosenBroadcast = (IBroadcast) obj;
+            goToBroadcast.setVisible(true);
+        }
 
     }
     //endregion
@@ -137,7 +148,7 @@ public class ModifyProductionController implements Initializable {
      * @param event
      */
     @FXML
-    public void handleCreateNew(MouseEvent event){
+    private void handleCreateNew(MouseEvent event){
         String companySearch = productionCompany.getText();
         ArrayList<IProductionCompany> results = new ArrayList<>();
         results.addAll(App.getSystemInstance().searchProductionCompany(companySearch));
@@ -162,7 +173,7 @@ public class ModifyProductionController implements Initializable {
      * @param event
      */
     @FXML
-    public void handleDelete(MouseEvent event){
+    private void handleDelete(MouseEvent event){
         if(!observableList.isEmpty()){
             chosenProduction = (IProduction) resultList.getSelectionModel().getSelectedItem();
             status = chosenProduction.delete();
@@ -192,7 +203,7 @@ public class ModifyProductionController implements Initializable {
      * @param event
      */
     @FXML
-    public void handleSave(MouseEvent event){
+    private void handleSave(MouseEvent event){
         if(!observableList.isEmpty()){
             chosenProduction = (IProduction) resultList.getSelectionModel().getSelectedItem();
             status = chosenProduction.update(productionName.getText(), releaseYear.getText());
@@ -209,6 +220,15 @@ public class ModifyProductionController implements Initializable {
     }
     //endregion
 
+    //Changes to view broadcasts for chosenProduction
+    //region
+    @FXML
+    private void handleShowBroadcasts(MouseEvent event){
+        ArrayList<IBroadcast> broadcastList = chosenProduction.getBroadcasts();
+        resultList.setItems(FXCollections.observableArrayList(broadcastList));
+    }
+    //endregion
+
     //Clears the fields
     //region
     private void clearFields(){
@@ -220,20 +240,34 @@ public class ModifyProductionController implements Initializable {
     //Changes the scene of the primary stage, opens the new Help-stage and closes the entire program.
     //region
     @FXML
-    public void handleHelp(MouseEvent event){
+    private void handleHelp(MouseEvent event){
         App.handleHelpStage();
     }
 
     @FXML
-    public void handleBack(MouseEvent event){
+    private void handleBack(MouseEvent event){
         App.handleAdminPage();
     }
 
     @FXML
-    public void handleClose(MouseEvent event){App.closeWindow();}
+    private void handleClose(MouseEvent event){App.closeWindow();}
+
+    @FXML
+    private void goToBroadcast(MouseEvent event){
+        if(chosenBroadcast != null){
+            App.handleModifyBroadcastPage();
+        }else{
+            errorMessage.setText("Fejl, ingen udsendelse valgt");
+        }
+    }
     //endregion
 
-    public static void setChosenProduction(IProduction newChosenProduction){
-        chosenProduction = newChosenProduction;
+    public static IProduction getChosenProduction(){
+        return chosenProduction;
+    }
+
+    public static IBroadcast getChosenBroadcast(){
+        return chosenBroadcast;
     }
 }
+

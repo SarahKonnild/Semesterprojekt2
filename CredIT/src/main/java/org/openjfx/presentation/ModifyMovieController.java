@@ -67,12 +67,14 @@ public class ModifyMovieController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
-        givenMovie = ModifyProductionCompanyController.getChosenMovie();
-        if(givenMovie != null){
-            movieName.setText(chosenMovie.getTitle());
-            productionCompany.setText(chosenMovie.getProductionCompany().getName());
-            String[] release = chosenMovie.getReleaseDate();
+
+        if(ModifyProductionCompanyController.getChosenMovie() != null) {
+            givenMovie = ModifyProductionCompanyController.getChosenMovie();
+            movieName.setText(givenMovie.getTitle());
+            productionCompany.setText(givenMovie.getProductionCompany().getName());
+            String[] release = givenMovie.getReleaseDate();
             releaseYear.setText(release[2]);
+
         }
     }
 
