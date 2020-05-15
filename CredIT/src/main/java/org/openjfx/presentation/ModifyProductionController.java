@@ -86,7 +86,9 @@ public class ModifyProductionController implements Initializable {
             givenProduction = ModifyProductionCompanyController.getChosenProduction();
             productionName.setText(givenProduction.getName());
             releaseYear.setText(givenProduction.getYear());
-            productionCompany.setText(givenProduction.getProductionCompany().getName());
+
+            IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForProduction(givenProduction);
+            productionCompany.setText(retrievedProductionCompany.getName());
             amountOfEpisodes.setText(String.valueOf(givenProduction.getNumberOfEpisodes()));
             amountOfSeasons.setText(String.valueOf(givenProduction.getNumberOfSeasons()));
         }
@@ -124,7 +126,9 @@ public class ModifyProductionController implements Initializable {
         if(obj instanceof IProduction) {
             chosenProduction = (IProduction) obj;
             productionName.setText(chosenProduction.getName());
-            productionCompany.setText(String.valueOf(chosenProduction.getProductionCompany()));
+
+            IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForProduction(chosenProduction);
+            productionCompany.setText(String.valueOf(retrievedProductionCompany.getName()));
             amountOfSeasons.setText(String.valueOf(chosenProduction.getNumberOfSeasons()));
             amountOfEpisodes.setText(String.valueOf(chosenProduction.getNumberOfEpisodes()));
             releaseYear.setText(chosenProduction.getYear());

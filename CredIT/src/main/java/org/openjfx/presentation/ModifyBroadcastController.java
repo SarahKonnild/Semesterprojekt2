@@ -82,7 +82,9 @@ public class ModifyBroadcastController implements Initializable {
         if(ModifyProductionController.getChosenBroadcast() != null) {
             givenBroadcast = ModifyProductionController.getChosenBroadcast();
             broadcastName.setText(givenBroadcast.getName());
-            production.setText(givenBroadcast.getProduction().getName());
+
+            IProduction retrievedProduction = App.retrieveProduction(givenBroadcast);
+            production.setText(retrievedProduction.getName());
             String[] airDate = givenBroadcast.getAirDate();
             day.setText(airDate[0]);
             month.setText(airDate[1]);
@@ -129,7 +131,9 @@ public class ModifyBroadcastController implements Initializable {
     public void handleSearchResultChosen(MouseEvent event){
             chosenBroadcast = (IBroadcast) resultList.getSelectionModel().getSelectedItem();
             broadcastName.setText(chosenBroadcast.getName());
-            production.setText(chosenBroadcast.getProduction().getName());
+
+            IProduction retrievedProduction = App.retrieveProduction(chosenBroadcast);
+            production.setText(retrievedProduction.getName());
             String[] airDate = chosenBroadcast.getAirDate();
             day.setText(airDate[0]);
             month.setText(airDate[1]);

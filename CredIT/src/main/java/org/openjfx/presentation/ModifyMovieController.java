@@ -71,7 +71,9 @@ public class ModifyMovieController implements Initializable {
         if(ModifyProductionCompanyController.getChosenMovie() != null) {
             givenMovie = ModifyProductionCompanyController.getChosenMovie();
             movieName.setText(givenMovie.getTitle());
-            productionCompany.setText(givenMovie.getProductionCompany().getName());
+
+            IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForMovie(givenMovie);
+            productionCompany.setText(retrievedProductionCompany.getName());
             String[] release = givenMovie.getReleaseDate();
             releaseYear.setText(release[2]);
 
@@ -111,7 +113,9 @@ public class ModifyMovieController implements Initializable {
             movieName.setText(chosenMovie.getTitle());
             String[] airDate = chosenMovie.getReleaseDate();
             releaseYear.setText(String.valueOf(airDate[2]));
-            productionCompany.setText(chosenMovie.getProductionCompany().getName());
+
+            IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForMovie(chosenMovie);
+            productionCompany.setText(retrievedProductionCompany.getName());
 
             changeCast.setDisable(false);
             delete.setDisable(false);
@@ -127,7 +131,7 @@ public class ModifyMovieController implements Initializable {
     public void handleCreateNew(MouseEvent event){
         String companySearch = productionCompany.getText();
         ArrayList<IProductionCompany> results = new ArrayList<>();
-        //results.add(App.getSystemInstance().searchProductionCompany(companySearch));
+        results.add((IProductionCompany) App.getSystemInstance().searchProductionCompany(companySearch));
         if(results.get(0).getName().equals(companySearch)) {
             IMovie movie = LoginSystemController.getAdminUser().addNewMovieToDatabase(movieName.getText(), results.get(0), releaseYear.getText());
             results.get(0).assignMovie(movie);
@@ -158,7 +162,9 @@ public class ModifyMovieController implements Initializable {
             status = chosenMovie.delete();
             if(status){
                 searchResult.remove(chosenMovie);
-                chosenMovie.getProductionCompany().unassignMovie(chosenMovie);
+
+                IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForMovie(chosenMovie);
+                retrievedProductionCompany.unassignMovie(chosenMovie);
                 errorMessage.setText("Film slettet");
                 if(chosenMovie == null){
                     resultList.getItems().clear();
