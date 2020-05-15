@@ -47,23 +47,23 @@ public class User implements IUser {
     }
 
     @Override
-    public IBroadcast addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate, IProduction production) {
+    public IBroadcast addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate, int productionID) {
         IBroadcast broadcast = new Broadcast(name, seasonNumber, episodeNumber, airDate);
-        broadcast.save();
+        broadcast.save(productionID);
         return broadcast;
     }
 
     @Override
-    public IProduction addNewProductionToDatabase(String name, String year, IProductionCompany productionCompany) {
+    public IProduction addNewProductionToDatabase(String name, String year, int productionCompanyID) {
         IProduction production = new Production(name, year);
-        production.save();
+        production.save(productionCompanyID);
         return production;
     }
 
     @Override
-    public IMovie addNewMovieToDatabase(String name, IProductionCompany productionCompany, String releasedate) {
+    public IMovie addNewMovieToDatabase(String name, int productionCompanyID, String releasedate) {
         IMovie movie = new Movie(name, releasedate);
-        movie.save();
+        movie.save(productionCompanyID);
         return movie;
     }
 

@@ -22,7 +22,7 @@ public interface IUser {
      * @param airDate       the date of which the broadcast aired
      * @return if it succeed creating and saving a new broadcast returns <code>true</code> else <code>false</code>
      */
-    IBroadcast addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate, IProduction production);
+    IBroadcast addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate, int productionID);
     /**
      * Gets parameters from the presentation layer to then create a new cast member in the database.
      * Creates a new object of the <code>Cast</code> class and calls <code>saveCast()</code> on the object
@@ -32,14 +32,14 @@ public interface IUser {
      * @param productionCompany the name of the company that produces this production
      * @return if it succeed creating and saving a new cast returns <code>true</code> else <code>false</code>
      */
-    IProduction addNewProductionToDatabase(String name, String year, IProductionCompany productionCompany);
+    IProduction addNewProductionToDatabase(String name, String year, int productionCompanyID);
     /**
      * The method is used to see if the user that is currently logged in has the ability to do certain things.
      *
      * @return Returns <code>true</code> if the string match the role of this user object else <code>false</code>
      */
 
-    IMovie addNewMovieToDatabase(String name, IProductionCompany productionCompany, String releasedate);
+    IMovie addNewMovieToDatabase(String name, int productionCompanyID, String releasedate);
     boolean checkRole(String role);
 
     IProductionCompany addNewProductionCompanyToDatabase(String name);
