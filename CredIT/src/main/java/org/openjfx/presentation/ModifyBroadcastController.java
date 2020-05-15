@@ -155,7 +155,7 @@ public class ModifyBroadcastController implements Initializable {
     public void handleCreateBroadcast(MouseEvent event){
         String productionSearch = production.getText();
         ArrayList<IProduction> results = App.getSystemInstance().searchProduction(productionSearch);
-        if(results.get(0).getName().equals(productionSearch)){
+        if(results.get(0).getName().equalsIgnoreCase(productionSearch)){
             String dateVariable = day.getText() + "-" + month.getText() + "-" + year.getText();
             if (day.getText().length() != 2 && month.getText().length() != 2 && year.getText().length() != 4) {
                 errorMessage.setText("Fejl, ugyldig datoindtastning");
@@ -168,9 +168,10 @@ public class ModifyBroadcastController implements Initializable {
                     errorMessage.setText(broadcast.getName() + " tilføjet");
                     if(searchList == null) {
                         searchList = new ArrayList<>();
-                        searchList.add(broadcast);
-                        resultList.setItems(FXCollections.observableArrayList(searchList));
                     }
+                    searchList.add(broadcast);
+                    resultList.setItems(FXCollections.observableArrayList(searchList));
+
                 } else {
                     errorMessage.setText("Fejl, udsendelsen blev ikke tilføjet");
                 }
