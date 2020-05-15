@@ -137,17 +137,16 @@ public class ModifyMovieController implements Initializable {
         if(results.get(0).getName().equalsIgnoreCase(companySearch)) {
             resultList.setDisable(false);
             IMovie movie = LoginSystemController.getAdminUser().addNewMovieToDatabase(movieName.getText(), results.get(0).getId(), releaseYear.getText());
-            results.get(0).assignMovie(movie);
             clearFields();
             if(movie != null){
                 errorMessage.setText(movie.getTitle() + " tilføjet");
-                if(!searchResult.isEmpty()){
+                if(searchResult == null) {
                     searchResult = new ArrayList<>();
-                    searchResult.add(movie);
-                    resultList.setItems(FXCollections.observableArrayList(searchResult));
-                }else{
-                    errorMessage.setText("Fejl opstået, " + movie.getTitle() + " blev ikke tilføjet");
                 }
+                searchResult.add(movie);
+                resultList.setItems(FXCollections.observableArrayList(searchResult));
+            }else{
+                errorMessage.setText("Fejl opstået, " + movie.getTitle() + " blev ikke tilføjet");
             }
             resultList.refresh();
         }else{

@@ -161,7 +161,8 @@ public class ModifyProductionController implements Initializable {
         if (production != null) {
             resultList.setDisable(false);
             errorMessage.setText("Produktionen oprettet");
-            searchResult = new ArrayList<>();
+            if(searchResult == null){
+                searchResult = new ArrayList<>();}
             searchResult.add(production);
             resultList.setItems(FXCollections.observableArrayList(searchResult));
             clearFields();
