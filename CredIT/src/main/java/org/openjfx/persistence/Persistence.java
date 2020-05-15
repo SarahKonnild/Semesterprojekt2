@@ -415,7 +415,7 @@ public class Persistence implements IPersistence {
                         resultSet.getInt(5) + "," +
                         String.valueOf(date.getDay()) + "-" +
                         String.valueOf(date.getMonth()) + "-" +
-                        String.valueOf(date.getYear())
+                        String.valueOf(date.getYear()+1900)
                          );
             }
             return resultList;
@@ -449,7 +449,7 @@ public class Persistence implements IPersistence {
                         resultSet.getInt(5) + "," +
                         String.valueOf(date.getDay()) + "-" +
                         String.valueOf(date.getMonth()) + "-" +
-                        String.valueOf(date.getYear())
+                        String.valueOf(date.getYear()+1900)
                 );
             }
             return resultList;
@@ -481,7 +481,7 @@ public class Persistence implements IPersistence {
                         resultSet.getInt(5) + "," +
                         String.valueOf(date.getDay()) + "-" +
                         String.valueOf(date.getMonth()) + "-" +
-                        String.valueOf(date.getYear())
+                        String.valueOf(date.getYear()+1900)
                 );
             }
             return resultList;
