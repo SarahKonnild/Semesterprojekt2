@@ -212,6 +212,7 @@ public class GuestUserPageController implements Initializable {
         }
         changeFieldsVisible(searchTopicChosen);
         searchTextInfo.setText(searchText);
+        resultList.setDisable(false);
     }
 
     /**

@@ -90,7 +90,7 @@
             <Label fx:id="errorMessage11" alignment="CENTER" layoutX="10.0" layoutY="281.0" onMouseClicked="#handleShowBroadcasts" prefHeight="17.0" prefWidth="120.0" text="Se alle Udsendelser" textFill="WHITE" underline="true" visible="false" />
          </children>
       </AnchorPane>
-      <ListView fx:id="resultList" layoutY="27.0" onMouseClicked="#handleSearchResultChosen" prefHeight="375.0" prefWidth="287.0" style="-fx-background-color: FFFFFF;">
+      <ListView fx:id="resultList" disable="true" layoutY="27.0" onMouseClicked="#handleSearchResultChosen" prefHeight="375.0" prefWidth="285.0" style="-fx-background-color: FFFFFF;">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ListView>

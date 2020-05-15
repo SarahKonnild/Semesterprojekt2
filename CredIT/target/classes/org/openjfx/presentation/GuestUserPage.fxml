@@ -113,7 +113,7 @@
             <Label fx:id="showProductions" layoutX="153.0" layoutY="399.0" prefHeight="27.0" prefWidth="116.0" text="Skift til at vise serier" textFill="WHITE" underline="true" visible="false" />
          </children>
       </AnchorPane>
-      <ListView fx:id="resultList" layoutX="303.0" layoutY="53.0" onMouseClicked="#handleSearchResultChosen" prefHeight="423.0" prefWidth="304.0">
+      <ListView fx:id="resultList" disable="true" layoutX="303.0" layoutY="53.0" onMouseClicked="#handleSearchResultChosen" prefHeight="423.0" prefWidth="304.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ListView>

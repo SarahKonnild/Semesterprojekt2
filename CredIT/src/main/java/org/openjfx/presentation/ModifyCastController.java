@@ -92,6 +92,7 @@ public class ModifyCastController implements Initializable {
             castObservableList = FXCollections.observableArrayList(castSearchResult);
             resultList.setItems(castObservableList);
             searchField.clear();
+            resultList.setDisable(false);
         }
         else{
             errorMessageSearch.setVisible(true);

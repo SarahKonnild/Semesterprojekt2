@@ -116,10 +116,12 @@ public class ModifyBroadcastController implements Initializable {
         if (searchList != null && !searchField.getText().isEmpty()) {
             observableList = FXCollections.observableArrayList(searchList);
             resultList.setItems(observableList);
+            resultList.setDisable(false);
             clearFields();
         } else {
             errorMessageSearch.setVisible(true);
         }
+
     }
 
     /**

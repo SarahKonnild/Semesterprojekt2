@@ -88,7 +88,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Label>
-      <ListView fx:id="resultList" layoutY="27.0" onMouseClicked="#handleSearchResultChosen" prefHeight="374.0" prefWidth="295.0" style="-fx-background-color: FFFFFF;">
+      <ListView fx:id="resultList" disable="true" layoutY="27.0" onMouseClicked="#handleSearchResultChosen" prefHeight="374.0" prefWidth="295.0" style="-fx-background-color: FFFFFF;">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ListView>

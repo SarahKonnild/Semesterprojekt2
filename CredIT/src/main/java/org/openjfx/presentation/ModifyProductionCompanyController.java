@@ -98,6 +98,7 @@ public class ModifyProductionCompanyController implements Initializable {
             observableList = FXCollections.observableArrayList(searchList);
             resultList.setItems(observableList);
             searchField.clear();
+            resultList.setDisable(false);
         }else{
             errorMessageSearch.setVisible(true);
             if(resultList.getItems().isEmpty()){
