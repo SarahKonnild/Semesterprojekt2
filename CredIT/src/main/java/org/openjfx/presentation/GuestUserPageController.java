@@ -236,8 +236,8 @@ public class GuestUserPageController implements Initializable {
                     changeFieldsVisible("production");
                 }
                 IProduction chosenProduction = (IProduction) obj;
-                productionNameField.setText(chosenProduction.getName());
-                productionProducerField.setText(chosenProduction.getProductionCompany().getName());
+                IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForProduction(chosenProduction);
+                productionProducerField.setText(retrievedProductionCompany.getName());
                 productionReleaseYearField.setText(chosenProduction.getYear());
             } else if (obj instanceof IBroadcast) {
                 searchText = searchField.getText();
@@ -248,7 +248,9 @@ public class GuestUserPageController implements Initializable {
                 broadcastDayField.setText(airDateInput[0]);
                 broadcastMonthField.setText(airDateInput[1]);
                 broadcastYearField.setText(airDateInput[2]);
-                broadcastProducerNameField.setText(chosenBroadcast.getProduction().getName());
+
+                IProduction retrievedProduction = App.retrieveProduction(chosenBroadcast);
+                broadcastProducerNameField.setText(retrievedProduction.getName());
             }
             else if(obj instanceof IMovie){
                 searchText = searchField.getText();
@@ -260,7 +262,9 @@ public class GuestUserPageController implements Initializable {
                 movieNameField.setText(chosenMovie.getTitle());
                 String[] releaseDateInput = chosenMovie.getReleaseDate();
                 movieReleaseYearField.setText(releaseDateInput[2]);
-                movieProductionCompanyField.setText(chosenMovie.getProductionCompany().getName());
+
+                IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForMovie(chosenMovie);
+                movieProductionCompanyField.setText(retrievedProductionCompany.getName());
             }
             else if(obj instanceof IProductionCompany){
                 searchField.setText(searchText);

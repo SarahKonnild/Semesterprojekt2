@@ -27,6 +27,9 @@ public class App extends Application {
     private static Stage helpStage;
     private static String assignCastModifier;
 
+    private static IProduction retrievedProduction;
+    private static IProductionCompany retrievedProductionCompany;
+
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -229,6 +232,23 @@ public class App extends Application {
     }
     //endregion
 
+    //Standardised retrieval of production/production company methods
+    //region
+    public static IProduction retrieveProduction(IBroadcast broadcast){
+        retrievedProduction = getSystemInstance().searchProductionOnBroadcast(broadcast.getId());
+        return retrievedProduction;
+    }
+
+    public static IProductionCompany retrieveProductionCompanyForMovie(IMovie movie){
+        retrievedProductionCompany = getSystemInstance().searchProductionCompanyOnMovie(movie.getId());
+        return retrievedProductionCompany;
+    }
+
+    public static IProductionCompany retrieveProductionCompanyForProduction(IProduction production){
+        retrievedProductionCompany = getSystemInstance().searchProductionCompanyOnProduction(production.getId());
+        return retrievedProductionCompany;
+    }
+    //endregion
 
     public static void closeWindow(){
         App.getStage().close();

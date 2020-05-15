@@ -53,7 +53,7 @@ public interface ISystem {
      * @param broadcastId The id of the Production that is searched for
      * @return The Production that have the broadcast in it.
      */
-    IProduction searchProduction(int broadcastId);
+    IProduction searchProductionOnBroadcast(int broadcastId);
 
     ArrayList<IMovie> searchMovie(String keyword);
 
