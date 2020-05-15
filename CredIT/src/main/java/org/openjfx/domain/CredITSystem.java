@@ -73,6 +73,7 @@ public class CredITSystem implements ISystem {
         List<String> tempList = persistenceLayer.castMovieRoles(cast);
         return makeCastRolesMovie(tempList);
     }
+
     @Override
     public HashMap<IBroadcast, String> getCastRolesBroadcast(ICast cast) {
         List<String> tempList = persistenceLayer.castBroadcastRoles(cast);
@@ -92,6 +93,7 @@ public class CredITSystem implements ISystem {
         }
         return castMap;
     }
+
     private HashMap<IBroadcast, String> makeCastRolesBroadcast(List<String> list) {
         HashMap<IBroadcast, String> castMap = new HashMap<>();
         // Gets a list of string formatted as castID, role
@@ -115,16 +117,19 @@ public class CredITSystem implements ISystem {
         List<String> tempList = persistenceLayer.getCastRolesBroadcastFromDatabase(broadcastId);
         return makeCastRoleMap(tempList);
     }
+
     private HashMap<ICast, String> makeCastRoleMap(List<String> list) {
         HashMap<ICast, String> castMap = new HashMap<>();
         // Gets a list of string formatted as castID, role
-        for (String item : list) {
-            //For each item in the list, the string gets split so the ID can be used to search for cast members
-            String[] tempArray = item.split(",");
-            int tempCastID = Integer.parseInt(tempArray[0]);
-            String castRole = tempArray[1];
-            ICast castObj = searchCast(tempCastID).get(0);
-            castMap.put(castObj, castRole);
+        if (list != null && !list.isEmpty()) {
+            for (String item : list) {
+                //For each item in the list, the string gets split so the ID can be used to search for cast members
+                String[] tempArray = item.split(",");
+                int tempCastID = Integer.parseInt(tempArray[0]);
+                String castRole = tempArray[1];
+                ICast castObj = searchCast(tempCastID).get(0);
+                castMap.put(castObj, castRole);
+            }
         }
         return castMap;
     }
@@ -136,9 +141,11 @@ public class CredITSystem implements ISystem {
     public ArrayList<IBroadcast> searchBroadcast(String keyword) {
         return makeBroadcastObjects(persistenceLayer.getBroadcastFromDatabase(keyword));
     }
+
     public ArrayList<IBroadcast> searchBroadcast(int broadcastID) {
         return makeBroadcastObjects(persistenceLayer.getBroadcastsFromDatabase((broadcastID)));
     }
+
     public ArrayList<IBroadcast> searchBroadcasts(int productionID) {
         return makeBroadcastObjects(persistenceLayer.getBroadcastsFromDatabase((productionID)));
     }
@@ -176,10 +183,10 @@ public class CredITSystem implements ISystem {
     public IProduction searchProductionOnBroadcast(int broadcastId) {
         List<String> list = new ArrayList<>();
         int tempInt = persistenceLayer.getProductionIdOnBroadcast(broadcastId);
-        if(tempInt != -1){
+        if (tempInt != -1) {
             list.add(String.valueOf(tempInt));
             return makeProductionObjects(list).get(0);
-        }else
+        } else
             return null;
 
     }
@@ -204,7 +211,7 @@ public class CredITSystem implements ISystem {
         ArrayList<IProduction> productions = new ArrayList<>();
         if (list != null && list.size() > 0) {
             //String is formatted as id,name,productionCompanyID,year,seasons,episodes
-            for(String item : list){
+            for (String item : list) {
                 String[] items = item.split(",");
                 productions.add(new Production(
                         Integer.parseInt(items[0]),
@@ -223,6 +230,7 @@ public class CredITSystem implements ISystem {
         List<String> tempList = persistenceLayer.getMovieFromDatabase(keyword);
         return makeMovieObjects(tempList);
     }
+
     public ArrayList<IMovie> searchMovie(int movieID) {
         List<String> tempList = persistenceLayer.getMovieFromDatabase(movieID);
         return makeMovieObjects(tempList);
@@ -234,9 +242,9 @@ public class CredITSystem implements ISystem {
         return makeMovieObjects(tempList);
     }
 
-    private ArrayList<IMovie> makeMovieObjects(List<String> list){
+    private ArrayList<IMovie> makeMovieObjects(List<String> list) {
         ArrayList<IMovie> movies = new ArrayList<>();
-        if(list != null && list.size()>0) {
+        if (list != null && list.size() > 0) {
             //the string is formatted as id,title,releaseDate,productionCompanyID
             for (String item : list) {
                 String[] items = item.split(",");
@@ -246,16 +254,16 @@ public class CredITSystem implements ISystem {
                         items[2]));
             }
         }
-            return movies;
+        return movies;
     }
 
     //endregion search movie methods ends here
 
     //region productionCompany methods
-//    public IProductionCompany searchProductionCompany(int productionCompanyID) {
-//        List<String> tempList = persistenceLayer.getProductionCompany(productionCompanyID);
-//        return makeProductionCompany(tempList).get(0);
-//    }
+    public IProductionCompany searchProductionCompany(int productionCompanyID) {
+        List<String> tempList = persistenceLayer.getProductionCompany(productionCompanyID);
+        return makeProductionCompanyObjects(tempList).get(0);
+    }
     //todo Maybe delete this method
 
     @Override
@@ -266,34 +274,31 @@ public class CredITSystem implements ISystem {
 
     @Override
     public IProductionCompany searchProductionCompanyOnProduction(int productionId) {
-        List<String> list = new ArrayList<>();
         int tempInt = persistenceLayer.getProductionCompanyIdOnProduction(productionId);
-        if(tempInt != -1){
-            list.add(String.valueOf(tempInt));
-            return makeProductionCompanyObjects(list).get(0);
-        }else
+        if (tempInt != -1) {
+            return searchProductionCompany(tempInt);
+        } else
             return null;
     }
 
     @Override
     public IProductionCompany searchProductionCompanyOnMovie(int movieId) {
-        List<String> list = new ArrayList<>();
         int tempInt = persistenceLayer.getProductionCompanyIdOnMovie(movieId);
-        if(tempInt != -1){
-            list.add(String.valueOf(tempInt));
-            return makeProductionCompanyObjects(list).get(0);
-        }else
+        if (tempInt != -1) {
+            return searchProductionCompany(tempInt);
+        } else
             return null;
     }
 
-    private ArrayList<IProductionCompany> makeProductionCompanyObjects(List<String> list){
+    private ArrayList<IProductionCompany> makeProductionCompanyObjects(List<String> list) {
         ArrayList<IProductionCompany> productionCompanies = new ArrayList<>();
-        if(list != null && list.size() > 0){
+        if (list != null && list.size() > 0) {
             //String formatted as id,name
-            for(String item : list){
+            for (String item : list) {
                 String[] items = item.split(",");
                 productionCompanies.add(new ProductionCompany(Integer.parseInt(items[0]), items[1]));
-            }}
+            }
+        }
         return productionCompanies;
     }
 
