@@ -131,7 +131,7 @@ public class ModifyMovieController implements Initializable {
     public void handleCreateNew(MouseEvent event){
         String companySearch = productionCompany.getText();
         ArrayList<IProductionCompany> results = new ArrayList<>();
-        results.add((IProductionCompany) App.getSystemInstance().searchProductionCompany(companySearch));
+        results.addAll(App.getSystemInstance().searchProductionCompany(companySearch));
         if(results.get(0).getName().equals(companySearch)) {
             IMovie movie = LoginSystemController.getAdminUser().addNewMovieToDatabase(movieName.getText(), results.get(0).getId(), releaseYear.getText());
             results.get(0).assignMovie(movie);
