@@ -76,7 +76,7 @@
             <Label fx:id="errorMessageSearch" alignment="CENTER" layoutX="12.0" layoutY="64.0" prefHeight="17.0" prefWidth="273.0" text="Fejl, ingen film fundet" textFill="RED" visible="false" />
          </children>
       </AnchorPane>
-      <ListView fx:id="resultList" disable="true" layoutY="27.0" onMouseClicked="#handleResultChosen" prefHeight="373.0" prefWidth="302.0" style="-fx-background-color: FFFFFF;">
+      <ListView fx:id="resultList" disable="true" layoutY="27.0" onMouseClicked="#handleResultChosen" prefHeight="373.0" prefWidth="298.0" style="-fx-background-color: FFFFFF;">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ListView>
