@@ -133,7 +133,7 @@ public class ModifyMovieController implements Initializable {
         ArrayList<IProductionCompany> results = new ArrayList<>();
         results.add((IProductionCompany) App.getSystemInstance().searchProductionCompany(companySearch));
         if(results.get(0).getName().equals(companySearch)) {
-            IMovie movie = LoginSystemController.getAdminUser().addNewMovieToDatabase(movieName.getText(), results.get(0), releaseYear.getText());
+            IMovie movie = LoginSystemController.getAdminUser().addNewMovieToDatabase(movieName.getText(), results.get(0).getId(), releaseYear.getText());
             results.get(0).assignMovie(movie);
             clearFields();
             if(movie != null){
@@ -162,7 +162,6 @@ public class ModifyMovieController implements Initializable {
             status = chosenMovie.delete();
             if(status){
                 searchResult.remove(chosenMovie);
-
                 IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForMovie(chosenMovie);
                 retrievedProductionCompany.unassignMovie(chosenMovie);
                 errorMessage.setText("Film slettet");
