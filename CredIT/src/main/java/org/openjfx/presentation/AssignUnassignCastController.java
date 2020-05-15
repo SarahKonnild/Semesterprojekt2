@@ -93,6 +93,7 @@ public class AssignUnassignCastController implements Initializable {
             castObservableList = FXCollections.observableArrayList(castSearchResult);
             resultList.setItems(castObservableList);
             searchField.clear();
+            resultList.setDisable(false);
         }
         else{
             errorMessage.setVisible(true);

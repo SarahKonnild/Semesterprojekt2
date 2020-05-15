@@ -92,6 +92,7 @@ public class ModifyCastController implements Initializable {
             castObservableList = FXCollections.observableArrayList(castSearchResult);
             resultList.setItems(castObservableList);
             searchField.clear();
+            resultList.setDisable(false);
         }
         else{
             errorMessageSearch.setVisible(true);
@@ -151,7 +152,7 @@ public class ModifyCastController implements Initializable {
     public void handleCreateNew(ActionEvent event){
         ICast cast = LoginSystemController.getAdminUser().addNewCastToDatabase(castName.getText(),regDKID.getText());
         if(cast != null){
-            errorMessage.setText("Medvirkende oprettet");
+            errorMessage.setText(cast.getName() + " oprettet");
             castSearchResult = new ArrayList<>();
             castSearchResult.add(cast);
             //TODO perhaps implement filtered update, i.e. if user searched for Hans but made a new person named Jens, it will clear the Listview and add the new element. If another Hans is made, append.
@@ -182,7 +183,7 @@ public class ModifyCastController implements Initializable {
             if(chosenCastObservable.size() == 2){
                 creationState = chosenCastObservable.get(0).mergeCastMembers(chosenCastObservable.get(1));
                 if(creationState){
-                    errorMessage.setText("Medvirkende sammenflettet");
+                    errorMessage.setText(chosenCastObservable.get(1).getName() + " sammenflettet med " + chosenCastObservable.get(0).getName());
                     clearFields();
                     resultList.refresh();
                 }else{
@@ -217,11 +218,11 @@ public class ModifyCastController implements Initializable {
             chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
             creationState = chosenCast.delete();
             if(creationState){
-                errorMessage.setText("Medvirkende slettet");
+                errorMessage.setText(chosenCast.getName() + " slettet");
                 //TODO implement update of resultList after deleted cast
                 clearFields();
             }else{
-                errorMessage.setText("Fejl, medvirkende blev ikke slettet");
+                errorMessage.setText("Fejl, " + chosenCast.getName() + " blev ikke slettet");
             }
         }else{
             errorMessage.setText("Fejl, ingen medvirkende valgt");
@@ -243,10 +244,10 @@ public class ModifyCastController implements Initializable {
             chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
             creationState = chosenCast.update(castName.getText(), regDKID.getText());
             if(creationState){
-                errorMessage.setText("Medvirkende opdateret");
+                errorMessage.setText(chosenCast.getName() + " opdateret");
                 clearFields();
             }else{
-                errorMessage.setText("Fejl, medvirkende blev ikke opdateret");
+                errorMessage.setText("Fejl, "+ chosenCast.getName() + " blev ikke opdateret");
             }
         }else{
             errorMessage.setText("Fejl, ingen medvirkende valgt");

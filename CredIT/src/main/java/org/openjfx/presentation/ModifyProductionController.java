@@ -110,6 +110,7 @@ public class ModifyProductionController implements Initializable {
             observableList = FXCollections.observableArrayList(searchResult);
             resultList.setItems(observableList);
             searchField.clear();
+            resultList.setDisable(false);
         } else {
             errorMessageSearch.setVisible(true);
         }

@@ -15,7 +15,7 @@
          <children>
             <ImageView fitHeight="17.0" fitWidth="43.0" layoutX="13.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../Images/Danish_TV_2_logo.png" />
+                  <Image url="@../../../img/Danish_TV_2_logo.png" />
                </image>
             </ImageView>
             <Label fx:id="back" layoutX="495.0" layoutY="5.0" onMouseClicked="#handleBack" text="Tilbage" textFill="WHITE">
@@ -97,7 +97,7 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Label>
-      <ListView fx:id="resultList" layoutY="27.0" onMouseClicked="#handleSearchResultChosen" prefHeight="493.0" prefWidth="302.0" style="-fx-background-color: FFFFFF;">
+      <ListView fx:id="resultList" disable="true" layoutY="27.0" onMouseClicked="#handleSearchResultChosen" prefHeight="493.0" prefWidth="302.0" style="-fx-background-color: FFFFFF;">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ListView>

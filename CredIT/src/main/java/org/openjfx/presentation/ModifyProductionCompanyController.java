@@ -98,6 +98,7 @@ public class ModifyProductionCompanyController implements Initializable {
             observableList = FXCollections.observableArrayList(searchList);
             resultList.setItems(observableList);
             searchField.clear();
+            resultList.setDisable(false);
         }else{
             errorMessageSearch.setVisible(true);
             if(resultList.getItems().isEmpty()){
@@ -146,15 +147,16 @@ public class ModifyProductionCompanyController implements Initializable {
     //region
     @FXML
     private void handleCreateNew(MouseEvent event){
+        //TODO Implement check for if the production company already exists
         if(!nameField.getText().isEmpty()) {
             IProductionCompany productionCompany = LoginSystemController.getAdminUser().addNewProductionCompanyToDatabase(nameField.getText());
             if (productionCompany != null) {
-                errorMessage.setText("Produktionsfirma oprettet");
+                errorMessage.setText(productionCompany.getName() + " oprettet");
                 //searchList.add(productionCompany);
                 //resultList.setItems(FXCollections.observableArrayList(searchList));
                 nameField.clear();
             } else {
-                errorMessage.setText("Fejl, produktionsfirma blev ikke oprettet");
+                errorMessage.setText("Fejl, " + productionCompany.getName() + " blev ikke oprettet");
             }
             resultList.refresh();
         }else{
@@ -172,7 +174,7 @@ public class ModifyProductionCompanyController implements Initializable {
             System.out.println(status);
             if(status){
                 searchList.remove(chosenProductionCompany);
-                errorMessage.setText("Produktionsfirma slettet");
+                errorMessage.setText(chosenProductionCompany.getName() + " slettet");
                 if(searchList.isEmpty()){
                     resultList.getItems().clear();
                 }else{
@@ -180,7 +182,7 @@ public class ModifyProductionCompanyController implements Initializable {
                 }
                 nameField.clear();
             }else{
-                errorMessage.setText("Fejl, produktionsfirma blev ikke slettet");
+                errorMessage.setText("Fejl, " + chosenProductionCompany.getName() + " blev ikke slettet");
             }
         }else{
             errorMessage.setText("Intet produktionsfirma valgt");
@@ -196,10 +198,10 @@ public class ModifyProductionCompanyController implements Initializable {
         if(!observableList.isEmpty() && chosenProductionCompany != null){
             status = chosenProductionCompany.update(nameField.getText());
             if(status){
-                errorMessage.setText("Produktionsfirma opdateret");
+                errorMessage.setText(chosenProductionCompany.getName() + " opdateret");
                 nameField.clear();
             }else{
-                errorMessage.setText("Fejl, produktionsfirma blev ikke opdateret");
+                errorMessage.setText("Fejl, " + chosenProductionCompany.getName() + " blev ikke opdateret");
             }
         }else{
             errorMessage.setText("Intet produktionsfirma valgt");
@@ -219,7 +221,7 @@ public class ModifyProductionCompanyController implements Initializable {
                  changeToMovie.setVisible(false);
                  changeToProduction.setVisible(true);
              }else{
-                 errorMessage.setText("Firmaet laver ikke film");
+                 errorMessage.setText(chosenProductionCompany.getName() + " laver ikke film");
              }
         }else{
             errorMessage.setText("Fejl opstået, intet produktionsfirma valgt");
@@ -235,7 +237,7 @@ public class ModifyProductionCompanyController implements Initializable {
                 changeToMovie.setVisible(true);
                 changeToProduction.setVisible(false);
             }else{
-                errorMessage.setText("Firmaet laver ikke produktioner");
+                errorMessage.setText(chosenProductionCompany.getName() + " laver ikke produktioner");
             }
         }else{
             errorMessage.setText("Fejl opstået, intet produktionsfirma valgt");
