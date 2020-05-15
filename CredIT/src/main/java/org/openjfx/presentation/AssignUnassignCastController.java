@@ -90,10 +90,10 @@ public class AssignUnassignCastController implements Initializable {
         resultList.getItems().clear();
         castSearchResult = App.getSystemInstance().searchCast(searchText);
         if(castSearchResult != null && !searchField.getText().isEmpty()){
+            resultList.setDisable(false);
             castObservableList = FXCollections.observableArrayList(castSearchResult);
             resultList.setItems(castObservableList);
             searchField.clear();
-            resultList.setDisable(false);
         }
         else{
             errorMessage.setVisible(true);

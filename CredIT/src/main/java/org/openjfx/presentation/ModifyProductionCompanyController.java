@@ -147,18 +147,23 @@ public class ModifyProductionCompanyController implements Initializable {
     //region
     @FXML
     private void handleCreateNew(MouseEvent event){
-        //TODO Implement check for if the production company already exists
         if(!nameField.getText().isEmpty()) {
-            IProductionCompany productionCompany = LoginSystemController.getAdminUser().addNewProductionCompanyToDatabase(nameField.getText());
-            if (productionCompany != null) {
-                errorMessage.setText(productionCompany.getName() + " oprettet");
-                //searchList.add(productionCompany);
-                //resultList.setItems(FXCollections.observableArrayList(searchList));
-                nameField.clear();
+            ArrayList<IProductionCompany> search = App.getSystemInstance().searchProductionCompany(nameField.getText());
+            if (search.isEmpty()) {
+                IProductionCompany productionCompany = LoginSystemController.getAdminUser().addNewProductionCompanyToDatabase(nameField.getText());
+                if (productionCompany != null) {
+                    errorMessage.setText(productionCompany.getName() + " oprettet");
+//                    searchList.add(productionCompany);
+//                    resultList.setItems(FXCollections.observableArrayList(searchList));
+                    nameField.clear();
+                } else {
+                    errorMessage.setText("Fejl, " + productionCompany.getName() + " blev ikke oprettet");
+                }
+                resultList.refresh();
             } else {
-                errorMessage.setText("Fejl, " + productionCompany.getName() + " blev ikke oprettet");
+                errorMessage.setText("Fejl, " + nameField.getText() + " eksisterer allerede");
+                nameField.clear();
             }
-            resultList.refresh();
         }else{
             errorMessage.setText("Fejl, navnefelt er tomt");
         }
@@ -169,7 +174,7 @@ public class ModifyProductionCompanyController implements Initializable {
     //region
     @FXML
     private void handleDelete(MouseEvent event){
-        if(!observableList.isEmpty() && chosenProductionCompany != null){
+        if(chosenProductionCompany != null){
             status = chosenProductionCompany.delete();
             System.out.println(status);
             if(status){
@@ -216,7 +221,7 @@ public class ModifyProductionCompanyController implements Initializable {
     private void handleChangeToMovies(MouseEvent event){
         //TODO CHECK IF WORKS
         if(chosenProductionCompany != null){
-             if(!movieList.isEmpty()) {
+             if(movieList != null) {
                  resultList.setItems(FXCollections.observableArrayList(movieList));
                  changeToMovie.setVisible(false);
                  changeToProduction.setVisible(true);
@@ -232,7 +237,7 @@ public class ModifyProductionCompanyController implements Initializable {
     private void handleChangeToProductions(MouseEvent event){
         //TODO CHECK IF WORKS
         if(chosenProductionCompany != null){
-            if(!productionList.isEmpty()){
+            if(productionList != null){
                 resultList.setItems(FXCollections.observableArrayList(productionList));
                 changeToMovie.setVisible(true);
                 changeToProduction.setVisible(false);

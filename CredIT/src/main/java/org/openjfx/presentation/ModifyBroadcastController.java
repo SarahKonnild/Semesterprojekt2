@@ -111,9 +111,9 @@ public class ModifyBroadcastController implements Initializable {
         resultList.getItems().clear();
         searchList = App.getSystemInstance().searchBroadcast(searchText);
         if (searchList != null && !searchField.getText().isEmpty()) {
+            resultList.setDisable(false);
             observableList = FXCollections.observableArrayList(searchList);
             resultList.setItems(observableList);
-            resultList.setDisable(false);
             clearFields();
         } else {
             errorMessageSearch.setVisible(true);
@@ -165,6 +165,7 @@ public class ModifyBroadcastController implements Initializable {
                 results.get(0).assignBroadcast(broadcast);
                 clearFields();
                 if (broadcast != null) {
+                    resultList.setDisable(false);
                     errorMessage.setText(broadcast.getName() + " tilføjet");
                     if(!searchList.isEmpty()) {
                         searchList = new ArrayList<>();
