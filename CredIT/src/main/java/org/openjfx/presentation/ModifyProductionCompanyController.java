@@ -149,8 +149,8 @@ public class ModifyProductionCompanyController implements Initializable {
         IProductionCompany productionCompany = LoginSystemController.getAdminUser().addNewProductionCompanyToDatabase(nameField.getText());
         if(productionCompany != null){
             errorMessage.setText("Produktionsfirma oprettet");
-            searchList.add(productionCompany);
-            resultList.setItems(FXCollections.observableArrayList(searchList));
+            //searchList.add(productionCompany);
+            //resultList.setItems(FXCollections.observableArrayList(searchList));
             nameField.clear();
         }else{
             errorMessage.setText("Fejl, produktionsfirma blev ikke oprettet");

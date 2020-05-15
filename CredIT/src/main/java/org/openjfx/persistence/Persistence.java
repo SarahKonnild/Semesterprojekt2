@@ -742,7 +742,7 @@ public class Persistence implements IPersistence {
             PreparedStatement stmt = connection.prepareStatement(
                     "SELECT production.id, production.name, production.year, production.number_of_seasons, production.number_of_seasons " +
                             "FROM production, produces WHERE production.id = produces.production_id" +
-                    "and production_company_id = ?");
+                    "and produces.production_company_id = ?");
             stmt.setInt(1, productionCompanyID);
             ResultSet resultSet = stmt.executeQuery();
 

@@ -8,10 +8,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import org.openjfx.interfaces.IBroadcast;
 import org.openjfx.interfaces.ICast;
+import org.openjfx.interfaces.IMovie;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class ModifyCastController implements Initializable {
@@ -61,6 +64,7 @@ public class ModifyCastController implements Initializable {
     private ICast chosenCast;
     private ArrayList<ICast> chosenCastArray;
     private ArrayList<ICast> castSearchResult;
+    private ArrayList<String> roleArray;
     private Object obj;
     private ArrayList<Object> chosenObjectsList;
     //endregion
@@ -119,11 +123,21 @@ public class ModifyCastController implements Initializable {
      * @param event
      */
     @FXML
-    public void handleSeeRolelist(ActionEvent event){
+    public void handleSeeRoleList(MouseEvent event){
+        HashMap<IBroadcast, String> broadcastRoles = App.getSystemInstance().getCastRolesBroadcast(chosenCast);
+        HashMap<IMovie, String> movieRoles = App.getSystemInstance().getCastRolesMovies(chosenCast);
 
+        for(IMovie movie : movieRoles.keySet()){
+            String temp = movie.getTitle() + movieRoles.get(movie);
+            roleArray.add(temp);
+        }
+        for(IBroadcast broadcast : broadcastRoles.keySet()){
+            String temp = broadcast.getName() + broadcastRoles.get(broadcast);
+            roleArray.add(temp);
+        }
+        resultList.setItems(FXCollections.observableArrayList(roleArray));
 
     }
-
     //endregion
 
     //Create Cast
@@ -204,6 +218,7 @@ public class ModifyCastController implements Initializable {
             creationState = chosenCast.delete();
             if(creationState){
                 errorMessage.setText("Medvirkende slettet");
+                //TODO implement update of resultList after deleted cast
                 clearFields();
             }else{
                 errorMessage.setText("Fejl, medvirkende blev ikke slettet");
