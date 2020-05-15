@@ -78,7 +78,7 @@ public interface IPersistence {
     List<String> getBroadcastFromDatabase(String keyword);
 
     /**
-     * Finds broadcast that have the id as their production company, return a list of those broadcasts.
+     * Finds broadcast that have the id as their production, return a list of those broadcasts.
      *
      * @param productionId The keyword that the broadcasts are selected on
      * @return The list of broadcasts that matched the keyword

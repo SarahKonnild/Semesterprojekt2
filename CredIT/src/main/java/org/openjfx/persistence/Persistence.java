@@ -385,10 +385,9 @@ public class Persistence implements IPersistence {
             //just a long nested SQL query. Looks more complicated than it is.
             PreparedStatement stmt = connection.prepareStatement("" +
                     "SELECT broadcast.id, name, air_date, episode_number, season_number " +
-                    "FROM broadcast, produces, contains " +
+                    "FROM broadcast, contains " +
                     "where broadcast.id = contains.broadcast_id " +
-                    "and contains.production_id = produces.production_id " +
-                    "and production_company_id = ?");
+                    "and contains.production_id =  ?");
             stmt.setInt(1, productionId);
             ResultSet resultSet = stmt.executeQuery();
 
@@ -680,19 +679,25 @@ public class Persistence implements IPersistence {
      * Searches the database for every entry where the given ID is the owner of a production and returns the ID.
      *
      * @param productionCompanyID the reference ID in the database for the production company
-     * @return a list of ids for every production the production company owns. Can be changed to return the name instead.
+     * @return a list for every production the production company owns. Can be changed to return the name instead.
      */
     @Override
     public List<String> getProductionsFromDatabase(int productionCompanyID) {
         try {
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM produces WHERE production_company_id = ?");
+            PreparedStatement stmt = connection.prepareStatement(
+                    "SELECT production.id, production.name, production.year, production.number_of_seasons, production.number_of_seasons " +
+                            "FROM production, produces WHERE production.id = produces.production_id" +
+                    "and production_company_id = ?");
             stmt.setInt(1, productionCompanyID);
             ResultSet resultSet = stmt.executeQuery();
 
-            // can change this to return a list of names instead of ids.
             List<String> productionList = new ArrayList<>();
             while (resultSet.next()) {
-                productionList.add(String.valueOf(resultSet.getInt(2)));
+                productionList.add(resultSet.getString(1) + ", " +
+                        resultSet.getString(2) + ", " +
+                        resultSet.getString(3) + ", " +
+                        resultSet.getString(4) + ", " +
+                        resultSet.getString(5));
             }
             return productionList;
         } catch (SQLException throwables) {
