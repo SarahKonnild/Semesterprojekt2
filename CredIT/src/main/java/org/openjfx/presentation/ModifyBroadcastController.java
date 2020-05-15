@@ -192,7 +192,7 @@ public class ModifyBroadcastController implements Initializable {
      */
     @FXML
     public void handleDeleteBroadcast(MouseEvent event){
-        if(!observableList.isEmpty()){
+        if(observableList != null){
             chosenBroadcast = (IBroadcast) resultList.getSelectionModel().getSelectedItem();
             status = chosenBroadcast.delete();
             if(status){
