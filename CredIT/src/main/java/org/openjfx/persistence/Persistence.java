@@ -15,7 +15,7 @@ public class Persistence implements IPersistence {
     private static Persistence persistence;
     private final String url = "localhost";
     private final int port = 5432;
-    private final String databaseName = "credit_db";
+    private final String databaseName = "credIT_db";
     private final String username = "postgres";
     private final String password = Password.PASS;
     private Connection connection = null;
@@ -402,16 +402,16 @@ public class Persistence implements IPersistence {
     @Override
     public List<String> getBroadcastFromDatabase(String keyword) {
         try {
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM broadcast WHERE name ~ ?");
-            stmt.setString(1, keyword);
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM broadcast WHERE LOWER(name) ~ ?");
+            stmt.setString(1, keyword.toLowerCase());
             ResultSet resultSet = stmt.executeQuery();
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) + ", " +
-                        resultSet.getString(2) + ", " +
-                        resultSet.getInt(4)) + ", " +
-                        resultSet.getInt(5) + ", " +
+                resultList.add((resultSet.getInt(1) + "," +
+                        resultSet.getString(2) + "," +
+                        resultSet.getInt(4)) + "," +
+                        resultSet.getInt(5) + "," +
                         resultSet.getDate(3));
             }
             return resultList;
@@ -439,10 +439,10 @@ public class Persistence implements IPersistence {
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
                 resultList.add((
-                        resultSet.getInt(1) + ", " +
-                                resultSet.getString(2) + ", " +
-                                resultSet.getInt(4)) + ", " +
-                        resultSet.getInt(5) + ", " +
+                        resultSet.getInt(1) + "," +
+                                resultSet.getString(2) + "," +
+                                resultSet.getInt(4)) + "," +
+                        resultSet.getInt(5) + "," +
                         resultSet.getDate(3));
             }
             return resultList;
@@ -467,10 +467,10 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) + ", " +
-                        resultSet.getString(2) + ", " +
-                        resultSet.getInt(4)) + ", " +
-                        resultSet.getInt(5) + ", " +
+                resultList.add((resultSet.getInt(1) + "," +
+                        resultSet.getString(2) + "," +
+                        resultSet.getInt(4)) + "," +
+                        resultSet.getInt(5) + "," +
                         resultSet.getDate(3));
             }
             return resultList;
@@ -491,14 +491,14 @@ public class Persistence implements IPersistence {
     @Override
     public List<String> getMovieFromDatabase(String keyword) {
         try {
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM movie WHERE name ~ ?");
-            stmt.setString(1, keyword);
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM movie WHERE LOWER(name) ~ ?");
+            stmt.setString(1, keyword.toLowerCase());
             ResultSet resultSet = stmt.executeQuery();
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) + ", " +
-                        resultSet.getString(2) + ", " +
+                resultList.add((resultSet.getInt(1) + "," +
+                        resultSet.getString(2) + "," +
                         resultSet.getDate(3)));
             }
             return resultList;
@@ -523,8 +523,8 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) + ", " +
-                        resultSet.getString(2) + ", " +
+                resultList.add((resultSet.getInt(1) + "," +
+                        resultSet.getString(2) + "," +
                         resultSet.getDate(3)));
             }
             return resultList;
@@ -552,8 +552,8 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) + ", " +
-                        resultSet.getString(2) + ", " +
+                resultList.add((resultSet.getInt(1) + "," +
+                        resultSet.getString(2) + "," +
                         resultSet.getDate(3)));
             }
             return resultList;
@@ -569,8 +569,8 @@ public class Persistence implements IPersistence {
     @Override
     public List<String> getCastFromDatabase(String keyword) {
         try {
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM cast_members WHERE name ~ ?");
-            stmt.setString(1, keyword);
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM cast_members WHERE LOWER(name) ~ ?");
+            stmt.setString(1, keyword.toLowerCase());
             ResultSet resultSet = stmt.executeQuery();
 
             List<String> resultList = new ArrayList<>();
@@ -598,8 +598,8 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) + ", " +
-                        resultSet.getInt(2) + ", " +
+                resultList.add((resultSet.getInt(1) + "," +
+                        resultSet.getInt(2) + "," +
                         resultSet.getString(3)));
             }
             return resultList;
@@ -624,7 +624,7 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) + ", " + resultSet.getString(2)));
+                resultList.add((resultSet.getInt(1) + "," + resultSet.getString(2)));
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -649,7 +649,7 @@ public class Persistence implements IPersistence {
 
             ArrayList<String> roleList = new ArrayList<>();
             while (resultSet.next()) {
-                roleList.add((resultSet.getInt(2)) + ", " +
+                roleList.add((resultSet.getInt(2)) + "," +
                         resultSet.getString(3));
             }
             return roleList;
@@ -674,7 +674,7 @@ public class Persistence implements IPersistence {
 
             ArrayList<String> roleList = new ArrayList<>();
             while (resultSet.next()) {
-                roleList.add((resultSet.getInt(2)) + ", " +
+                roleList.add((resultSet.getInt(2)) + "," +
                         resultSet.getString(3));
             }
             return roleList;
@@ -690,16 +690,16 @@ public class Persistence implements IPersistence {
     @Override
     public List<String> getProductionFromDatabase(String keyword) {
         try {
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM production WHERE name ~ ?");
-            stmt.setString(1, keyword);
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM production WHERE LOWER(name) ~ ?");
+            stmt.setString(1, keyword.toLowerCase());
             ResultSet resultSet = stmt.executeQuery();
 
             List<String> productionList = new ArrayList<>();
             while (resultSet.next()) {
-                productionList.add(resultSet.getString(1) + ", " +
-                        resultSet.getString(2) + ", " +
-                        resultSet.getDate(3).toLocalDate().getYear() + ", " +
-                        resultSet.getString(4) + ", " +
+                productionList.add(resultSet.getString(1) + "," +
+                        resultSet.getString(2) + "," +
+                        resultSet.getDate(3).toLocalDate().getYear() + "," +
+                        resultSet.getString(4) + "," +
                         resultSet.getString(5));
             }
             return productionList;
@@ -740,18 +740,16 @@ public class Persistence implements IPersistence {
     public List<String> getProductionsFromDatabase(int productionCompanyID) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT production.id, production.name, production.year, production.number_of_seasons, production.number_of_seasons " +
-                            "FROM production, produces WHERE production.id = produces.production_id" +
-                    "and production_company_id = ?");
+                    "SELECT production.id, name, year, number_of_seasons, number_of_episodes FROM production, produces WHERE production.id = produces.production_id AND production_company_id = ?");
             stmt.setInt(1, productionCompanyID);
             ResultSet resultSet = stmt.executeQuery();
 
             List<String> productionList = new ArrayList<>();
             while (resultSet.next()) {
-                productionList.add(resultSet.getString(1) + ", " +
-                        resultSet.getString(2) + ", " +
-                        resultSet.getString(3) + ", " +
-                        resultSet.getString(4) + ", " +
+                productionList.add(resultSet.getString(1) + "," +
+                        resultSet.getString(2) + "," +
+                        resultSet.getString(3) + "," +
+                        resultSet.getString(4) + "," +
                         resultSet.getString(5));
             }
             return productionList;
@@ -779,10 +777,10 @@ public class Persistence implements IPersistence {
             }
 
             List<String> productionList = new ArrayList<>();
-            productionList.add(resultSet.getString(1) + ", " +
-                    resultSet.getString(2) + ", " +
-                    resultSet.getString(3) + ", " +
-                    resultSet.getString(4) + ", " +
+            productionList.add(resultSet.getString(1) + "," +
+                    resultSet.getString(2) + "," +
+                    resultSet.getString(3) + "," +
+                    resultSet.getString(4) + "," +
                     resultSet.getString(5));
             return productionList;
         } catch (SQLException throwables) {
@@ -1033,13 +1031,13 @@ public class Persistence implements IPersistence {
     public List<String> getProductionCompany(String keyword) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM production_company WHERE name ~ ?");
-            stmt.setString(1, keyword);
+                    "SELECT * FROM production_company WHERE LOWER(production_company.name) ~ ?");
+            stmt.setString(1, keyword.toLowerCase());
             ResultSet sqlReturnValues = stmt.executeQuery();
 
             List<String> resultList = new ArrayList<>();
             while (sqlReturnValues.next()) {
-                resultList.add(sqlReturnValues.getInt(1) + ", " +
+                resultList.add(sqlReturnValues.getInt(1) + "," +
                         (sqlReturnValues.getString(2)));
             }
             return resultList;
