@@ -21,6 +21,9 @@
                   <Cursor fx:constant="HAND" />
                </cursor></Label>
          </children>
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor>
       </AnchorPane>
       <AnchorPane layoutY="27.0" prefHeight="246.0" prefWidth="321.0" style="-fx-background-color: #84a9ac;">
          <children>
