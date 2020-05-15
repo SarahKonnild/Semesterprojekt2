@@ -154,7 +154,9 @@ public class ModifyCastController implements Initializable {
         if(cast != null){
             resultList.setDisable(false);
             errorMessage.setText(cast.getName() + " oprettet");
-            castSearchResult = new ArrayList<>();
+            if(castSearchResult == null) {
+                castSearchResult = new ArrayList<>();
+            }
             castSearchResult.add(cast);
             //TODO perhaps implement filtered update, i.e. if user searched for Hans but made a new person named Jens, it will clear the Listview and add the new element. If another Hans is made, append.
             resultList.setItems(FXCollections.observableArrayList(castSearchResult));
@@ -220,7 +222,9 @@ public class ModifyCastController implements Initializable {
             creationState = chosenCast.delete();
             if(creationState){
                 errorMessage.setText(chosenCast.getName() + " slettet");
-                //TODO implement update of resultList after deleted cast
+                //TODO Check if it updates the list after it gets deleted
+                castObservableList.remove(chosenCast);
+                resultList.setItems(FXCollections.observableArrayList(castSearchResult));
                 clearFields();
             }else{
                 errorMessage.setText("Fejl, " + chosenCast.getName() + " blev ikke slettet");
