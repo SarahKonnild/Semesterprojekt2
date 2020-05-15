@@ -408,11 +408,15 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
+                Date date = resultSet.getDate(3);
                 resultList.add((resultSet.getInt(1) + "," +
                         resultSet.getString(2) + "," +
                         resultSet.getInt(4)) + "," +
                         resultSet.getInt(5) + "," +
-                        resultSet.getDate(3));
+                        String.valueOf(date.getDay()) + "-" +
+                        String.valueOf(date.getMonth()) + "-" +
+                        String.valueOf(date.getYear())
+                         );
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -438,12 +442,15 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((
-                        resultSet.getInt(1) + "," +
-                                resultSet.getString(2) + "," +
-                                resultSet.getInt(4)) + "," +
+                Date date = resultSet.getDate(3);
+                resultList.add((resultSet.getInt(1) + "," +
+                        resultSet.getString(2) + "," +
+                        resultSet.getInt(4)) + "," +
                         resultSet.getInt(5) + "," +
-                        resultSet.getDate(3));
+                        String.valueOf(date.getDay()) + "-" +
+                        String.valueOf(date.getMonth()) + "-" +
+                        String.valueOf(date.getYear())
+                );
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -467,11 +474,15 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
+                Date date = resultSet.getDate(3);
                 resultList.add((resultSet.getInt(1) + "," +
                         resultSet.getString(2) + "," +
                         resultSet.getInt(4)) + "," +
                         resultSet.getInt(5) + "," +
-                        resultSet.getDate(3));
+                        String.valueOf(date.getDay()) + "-" +
+                        String.valueOf(date.getMonth()) + "-" +
+                        String.valueOf(date.getYear())
+                );
             }
             return resultList;
         } catch (SQLException throwables) {
