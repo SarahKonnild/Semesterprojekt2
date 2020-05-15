@@ -169,6 +169,7 @@ public class ModifyProductionCompanyController implements Initializable {
     private void handleDelete(MouseEvent event){
         if(!observableList.isEmpty() && chosenProductionCompany != null){
             status = chosenProductionCompany.delete();
+            System.out.println(status);
             if(status){
                 searchList.remove(chosenProductionCompany);
                 errorMessage.setText("Produktionsfirma slettet");
@@ -211,7 +212,8 @@ public class ModifyProductionCompanyController implements Initializable {
     //region
     @FXML
     private void handleChangeToMovies(MouseEvent event){
-        if(chosenItem.equals("movie") && chosenProductionCompany != null){
+        //TODO CHECK IF WORKS
+        if(chosenProductionCompany != null){
              if(!movieList.isEmpty()) {
                  resultList.setItems(FXCollections.observableArrayList(movieList));
                  changeToMovie.setVisible(false);
@@ -220,13 +222,14 @@ public class ModifyProductionCompanyController implements Initializable {
                  errorMessage.setText("Firmaet laver ikke film");
              }
         }else{
-            errorMessage.setText("Fejl opstået");
+            errorMessage.setText("Fejl opstået, intet produktionsfirma valgt");
         }
     }
 
     @FXML
     private void handleChangeToProductions(MouseEvent event){
-        if(chosenItem.equals("production") && chosenProductionCompany != null){
+        //TODO CHECK IF WORKS
+        if(chosenProductionCompany != null){
             if(!productionList.isEmpty()){
                 resultList.setItems(FXCollections.observableArrayList(productionList));
                 changeToMovie.setVisible(true);
@@ -235,7 +238,7 @@ public class ModifyProductionCompanyController implements Initializable {
                 errorMessage.setText("Firmaet laver ikke produktioner");
             }
         }else{
-            errorMessage.setText("Fejl opstået");
+            errorMessage.setText("Fejl opstået, intet produktionsfirma valgt");
         }
     }
     //endregion

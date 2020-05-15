@@ -209,9 +209,9 @@ public class CredITSystem implements ISystem {
                 productions.add(new Production(
                         Integer.parseInt(items[0]),
                         items[1],
-                        items[4],
-                        Integer.parseInt(items[5]),
-                        Integer.parseInt(items[6])));
+                        items[2],
+                        Integer.parseInt(items[3]),
+                        Integer.parseInt(items[4])));
             }}
         return productions;
     }
