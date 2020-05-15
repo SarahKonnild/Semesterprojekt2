@@ -89,10 +89,10 @@ public class ModifyCastController implements Initializable {
         resultList.getItems().clear();
         castSearchResult = App.getSystemInstance().searchCast(searchText);
         if(castSearchResult != null && !searchField.getText().isEmpty()){
+            resultList.setDisable(false);
             castObservableList = FXCollections.observableArrayList(castSearchResult);
             resultList.setItems(castObservableList);
             searchField.clear();
-            resultList.setDisable(false);
         }
         else{
             errorMessageSearch.setVisible(true);
@@ -152,6 +152,7 @@ public class ModifyCastController implements Initializable {
     public void handleCreateNew(ActionEvent event){
         ICast cast = LoginSystemController.getAdminUser().addNewCastToDatabase(castName.getText(),regDKID.getText());
         if(cast != null){
+            resultList.setDisable(false);
             errorMessage.setText(cast.getName() + " oprettet");
             castSearchResult = new ArrayList<>();
             castSearchResult.add(cast);

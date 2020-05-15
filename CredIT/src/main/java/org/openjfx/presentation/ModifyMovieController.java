@@ -93,10 +93,10 @@ public class ModifyMovieController implements Initializable {
         resultList.getItems().clear();
         searchResult = App.getSystemInstance().searchMovie(searchText);
         if(searchResult != null && !searchField.getText().isEmpty()){
+            resultList.setDisable(false);
             observableList = FXCollections.observableArrayList(searchResult);
             resultList.setItems(observableList);
             searchField.clear();
-            resultList.setDisable(false);
         }else{
             errorMessageSearch.setVisible(true);
         }
@@ -135,6 +135,7 @@ public class ModifyMovieController implements Initializable {
         ArrayList<IProductionCompany> results = new ArrayList<>();
         results.addAll(App.getSystemInstance().searchProductionCompany(companySearch));
         if(results.get(0).getName().equalsIgnoreCase(companySearch)) {
+            resultList.setDisable(false);
             IMovie movie = LoginSystemController.getAdminUser().addNewMovieToDatabase(movieName.getText(), results.get(0).getId(), releaseYear.getText());
             results.get(0).assignMovie(movie);
             clearFields();

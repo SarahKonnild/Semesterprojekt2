@@ -107,10 +107,10 @@ public class ModifyProductionController implements Initializable {
         resultList.getItems().clear();
         searchResult = App.getSystemInstance().searchProduction(searchText);
         if (searchResult != null && !searchField.getText().isEmpty()) {
+            resultList.setDisable(false);
             observableList = FXCollections.observableArrayList(searchResult);
             resultList.setItems(observableList);
             searchField.clear();
-            resultList.setDisable(false);
         } else {
             errorMessageSearch.setVisible(true);
         }
@@ -159,6 +159,7 @@ public class ModifyProductionController implements Initializable {
         results.addAll(App.getSystemInstance().searchProductionCompany(companySearch));
         IProduction production = LoginSystemController.getAdminUser().addNewProductionToDatabase(productionName.getText(), releaseYear.getText(), results.get(0).getId());
         if (production != null) {
+            resultList.setDisable(false);
             errorMessage.setText("Produktionen oprettet");
             searchResult = new ArrayList<>();
             searchResult.add(production);
@@ -179,7 +180,7 @@ public class ModifyProductionController implements Initializable {
      */
     @FXML
     private void handleDelete(MouseEvent event){
-        if(!observableList.isEmpty()){
+        if(observableList != null){
             chosenProduction = (IProduction) resultList.getSelectionModel().getSelectedItem();
             status = chosenProduction.delete();
             if(status){
@@ -209,7 +210,7 @@ public class ModifyProductionController implements Initializable {
      */
     @FXML
     private void handleSave(MouseEvent event){
-        if(!observableList.isEmpty()){
+        if(observableList != null){
             chosenProduction = (IProduction) resultList.getSelectionModel().getSelectedItem();
             status = chosenProduction.update(productionName.getText(), releaseYear.getText());
             if(status){
@@ -239,6 +240,9 @@ public class ModifyProductionController implements Initializable {
     private void clearFields(){
         productionName.clear();
         productionCompany.clear();
+        releaseYear.clear();
+        amountOfEpisodes.clear();
+        amountOfSeasons.clear();
     }
     //endregion
 
