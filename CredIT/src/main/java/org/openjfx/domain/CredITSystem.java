@@ -181,21 +181,18 @@ public class CredITSystem implements ISystem {
 
     @Override
     public IProduction searchProductionOnBroadcast(int broadcastId) {
-        List<String> list = new ArrayList<>();
-        int tempInt = persistenceLayer.getProductionIdOnBroadcast(broadcastId);
-        if (tempInt != -1) {
-            list.add(String.valueOf(tempInt));
-            return makeProductionObjects(list).get(0);
+        int productionID = persistenceLayer.getProductionIdOnBroadcast(broadcastId);
+        if (productionID != -1) {
+            return searchProduction(productionID);
         } else
             return null;
 
     }
 
-//    public IProduction searchProduction(int productionID) {
-//        List<String> list = persistenceLayer.getProductionFromDatabase(productionID);
-//        return makeProductionObjects(list).get(0);
-//    }
-    //Todo Maybe delete this method
+    public IProduction searchProduction(int productionID) {
+        List<String> list = persistenceLayer.getProductionFromDatabase(productionID);
+        return makeProductionObjects(list).get(0);
+    }
 
     public ArrayList<IProduction> searchProductions(int productionCopmpanyID) {
         List<String> list = persistenceLayer.getProductionsFromDatabase(productionCopmpanyID);
