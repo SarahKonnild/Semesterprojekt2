@@ -212,6 +212,7 @@ public class GuestUserPageController implements Initializable {
         }
         changeFieldsVisible(searchTopicChosen);
         searchTextInfo.setText(searchText);
+        resultList.setDisable(false);
     }
 
     /**
@@ -248,7 +249,6 @@ public class GuestUserPageController implements Initializable {
                 broadcastDayField.setText(airDateInput[0]);
                 broadcastMonthField.setText(airDateInput[1]);
                 broadcastYearField.setText(airDateInput[2]);
-
                 IProduction retrievedProduction = App.retrieveProduction(chosenBroadcast);
                 broadcastProducerNameField.setText(retrievedProduction.getName());
             }
@@ -262,7 +262,6 @@ public class GuestUserPageController implements Initializable {
                 movieNameField.setText(chosenMovie.getTitle());
                 String[] releaseDateInput = chosenMovie.getReleaseDate();
                 movieReleaseYearField.setText(releaseDateInput[2]);
-
                 IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForMovie(chosenMovie);
                 movieProductionCompanyField.setText(retrievedProductionCompany.getName());
             }
@@ -285,7 +284,20 @@ public class GuestUserPageController implements Initializable {
                 }else{ //If the company has neither movies nor productions, the user is informed of this.
                     errorMessage.setText("Firmaet har ingen film/serier");
                 }
-                //TODO specify a handler for showMovies/showProductions, which changes the resultList to show the appropriate elements and fields.
+                showMovies.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        resultList.setItems(movieObsList);
+                        changeFieldsVisible("movie");
+                    }
+                });
+                showProductions.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        resultList.setItems(prodObsList);
+                        changeFieldsVisible("production");
+                    }
+                });
             }
         }
     }

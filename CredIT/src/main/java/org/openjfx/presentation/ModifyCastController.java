@@ -8,10 +8,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import org.openjfx.interfaces.IBroadcast;
 import org.openjfx.interfaces.ICast;
+import org.openjfx.interfaces.IMovie;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class ModifyCastController implements Initializable {
@@ -61,6 +64,7 @@ public class ModifyCastController implements Initializable {
     private ICast chosenCast;
     private ArrayList<ICast> chosenCastArray;
     private ArrayList<ICast> castSearchResult;
+    private ArrayList<String> roleArray;
     private Object obj;
     private ArrayList<Object> chosenObjectsList;
     //endregion
@@ -88,6 +92,7 @@ public class ModifyCastController implements Initializable {
             castObservableList = FXCollections.observableArrayList(castSearchResult);
             resultList.setItems(castObservableList);
             searchField.clear();
+            resultList.setDisable(false);
         }
         else{
             errorMessageSearch.setVisible(true);
@@ -119,11 +124,21 @@ public class ModifyCastController implements Initializable {
      * @param event
      */
     @FXML
-    public void handleSeeRolelist(ActionEvent event){
+    public void handleSeeRoleList(MouseEvent event){
+        HashMap<IBroadcast, String> broadcastRoles = App.getSystemInstance().getCastRolesBroadcast(chosenCast);
+        HashMap<IMovie, String> movieRoles = App.getSystemInstance().getCastRolesMovies(chosenCast);
 
+        for(IMovie movie : movieRoles.keySet()){
+            String temp = movie.getTitle() + movieRoles.get(movie);
+            roleArray.add(temp);
+        }
+        for(IBroadcast broadcast : broadcastRoles.keySet()){
+            String temp = broadcast.getName() + broadcastRoles.get(broadcast);
+            roleArray.add(temp);
+        }
+        resultList.setItems(FXCollections.observableArrayList(roleArray));
 
     }
-
     //endregion
 
     //Create Cast
@@ -137,7 +152,7 @@ public class ModifyCastController implements Initializable {
     public void handleCreateNew(ActionEvent event){
         ICast cast = LoginSystemController.getAdminUser().addNewCastToDatabase(castName.getText(),regDKID.getText());
         if(cast != null){
-            errorMessage.setText("Medvirkende oprettet");
+            errorMessage.setText(cast.getName() + " oprettet");
             castSearchResult = new ArrayList<>();
             castSearchResult.add(cast);
             //TODO perhaps implement filtered update, i.e. if user searched for Hans but made a new person named Jens, it will clear the Listview and add the new element. If another Hans is made, append.
@@ -168,7 +183,7 @@ public class ModifyCastController implements Initializable {
             if(chosenCastObservable.size() == 2){
                 creationState = chosenCastObservable.get(0).mergeCastMembers(chosenCastObservable.get(1));
                 if(creationState){
-                    errorMessage.setText("Medvirkende sammenflettet");
+                    errorMessage.setText(chosenCastObservable.get(1).getName() + " sammenflettet med " + chosenCastObservable.get(0).getName());
                     clearFields();
                     resultList.refresh();
                 }else{
@@ -203,10 +218,11 @@ public class ModifyCastController implements Initializable {
             chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
             creationState = chosenCast.delete();
             if(creationState){
-                errorMessage.setText("Medvirkende slettet");
+                errorMessage.setText(chosenCast.getName() + " slettet");
+                //TODO implement update of resultList after deleted cast
                 clearFields();
             }else{
-                errorMessage.setText("Fejl, medvirkende blev ikke slettet");
+                errorMessage.setText("Fejl, " + chosenCast.getName() + " blev ikke slettet");
             }
         }else{
             errorMessage.setText("Fejl, ingen medvirkende valgt");
@@ -228,10 +244,10 @@ public class ModifyCastController implements Initializable {
             chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
             creationState = chosenCast.update(castName.getText(), regDKID.getText());
             if(creationState){
-                errorMessage.setText("Medvirkende opdateret");
+                errorMessage.setText(chosenCast.getName() + " opdateret");
                 clearFields();
             }else{
-                errorMessage.setText("Fejl, medvirkende blev ikke opdateret");
+                errorMessage.setText("Fejl, "+ chosenCast.getName() + " blev ikke opdateret");
             }
         }else{
             errorMessage.setText("Fejl, ingen medvirkende valgt");

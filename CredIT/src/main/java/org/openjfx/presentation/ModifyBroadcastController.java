@@ -78,11 +78,9 @@ public class ModifyBroadcastController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
-
         if(ModifyProductionController.getChosenBroadcast() != null) {
             givenBroadcast = ModifyProductionController.getChosenBroadcast();
             broadcastName.setText(givenBroadcast.getName());
-
             IProduction retrievedProduction = App.retrieveProduction(givenBroadcast);
             production.setText(retrievedProduction.getName());
             String[] airDate = givenBroadcast.getAirDate();
@@ -91,7 +89,6 @@ public class ModifyBroadcastController implements Initializable {
             year.setText(airDate[2]);
             season.setText(String.valueOf(givenBroadcast.getSeasonNumber()));
             episode.setText(String.valueOf(givenBroadcast.getEpisodeNumber()));
-
             modifyCast.setDisable(false);
             delete.setDisable(false);
             save.setDisable(false);
@@ -116,10 +113,12 @@ public class ModifyBroadcastController implements Initializable {
         if (searchList != null && !searchField.getText().isEmpty()) {
             observableList = FXCollections.observableArrayList(searchList);
             resultList.setItems(observableList);
+            resultList.setDisable(false);
             clearFields();
         } else {
             errorMessageSearch.setVisible(true);
         }
+
     }
 
     /**
@@ -131,7 +130,6 @@ public class ModifyBroadcastController implements Initializable {
     public void handleSearchResultChosen(MouseEvent event){
             chosenBroadcast = (IBroadcast) resultList.getSelectionModel().getSelectedItem();
             broadcastName.setText(chosenBroadcast.getName());
-
             IProduction retrievedProduction = App.retrieveProduction(chosenBroadcast);
             production.setText(retrievedProduction.getName());
             String[] airDate = chosenBroadcast.getAirDate();
@@ -167,7 +165,7 @@ public class ModifyBroadcastController implements Initializable {
                 results.get(0).assignBroadcast(broadcast);
                 clearFields();
                 if (broadcast != null) {
-                    errorMessage.setText("Udsendelsen tilføjet");
+                    errorMessage.setText(broadcast.getName() + " tilføjet");
                     if(!searchList.isEmpty()) {
                         searchList = new ArrayList<>();
                         searchList.add(broadcast);
@@ -200,7 +198,7 @@ public class ModifyBroadcastController implements Initializable {
                 searchList.remove(chosenBroadcast);
                 IProduction retrievedProduction = App.retrieveProduction(chosenBroadcast);
                 retrievedProduction.unassignBroadcast(chosenBroadcast);
-                errorMessage.setText("Udsendelse slettet");
+                errorMessage.setText(chosenBroadcast.getName() + " slettet");
                 if(searchList.isEmpty()){
                     resultList.getItems().clear();
                 } else{
@@ -208,10 +206,10 @@ public class ModifyBroadcastController implements Initializable {
                 }
                 clearFields();
             }else{
-                errorMessage.setText("Fejl, udsendelse blev ikke slettet");
+                errorMessage.setText("Fejl, " + chosenBroadcast.getName() + " blev ikke slettet");
             }
         }else{
-            errorMessage.setText("Ingen medvirkende valgt");
+            errorMessage.setText("Ingen udsendelse valgt");
         }
         resultList.refresh();
     }
@@ -226,10 +224,10 @@ public class ModifyBroadcastController implements Initializable {
             String[] airDate = chosenBroadcast.getAirDate();
             status = chosenBroadcast.update(broadcastName.getText(), Integer.parseInt(season.getText()), Integer.parseInt(episode.getText()), airDate[2]);
             if(status){
-                errorMessage.setText("Udsendelse opdateret");
+                errorMessage.setText(chosenBroadcast.getName() + " opdateret");
                 clearFields();
             }else{
-                errorMessage.setText("Fejl, udsendelse blev ikke opdateret");
+                errorMessage.setText("Fejl, " + chosenBroadcast.getName() + " blev ikke opdateret");
             }
         }else{
             errorMessage.setText("Ingen udsendelse valgt");

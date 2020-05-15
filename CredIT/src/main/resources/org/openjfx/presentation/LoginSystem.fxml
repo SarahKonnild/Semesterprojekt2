@@ -57,12 +57,12 @@
       <Label layoutX="75.0" layoutY="221.0" text="Et TV-Krediteringssystem" />
       <ImageView fx:id="tv2Logo" fitHeight="40.0" fitWidth="68.0" layoutX="104.0" layoutY="338.0" onMouseClicked="#handleBypassLogin" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../Images/Danish_TV_2_logo.png" />
+            <Image url="@../../../img/Danish_TV_2_logo.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="74.0" fitWidth="218.0" layoutX="40.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../Images/CredIT%20Logo.png" />
+            <Image url="@../../../img/CredITLogo.png" />
          </image>
       </ImageView>
    </children>

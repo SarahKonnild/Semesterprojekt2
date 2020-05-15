@@ -96,9 +96,11 @@ public class ModifyMovieController implements Initializable {
             observableList = FXCollections.observableArrayList(searchResult);
             resultList.setItems(observableList);
             searchField.clear();
+            resultList.setDisable(false);
         }else{
             errorMessageSearch.setVisible(true);
         }
+
     }
 
     /**
@@ -131,19 +133,19 @@ public class ModifyMovieController implements Initializable {
     public void handleCreateNew(MouseEvent event){
         String companySearch = productionCompany.getText();
         ArrayList<IProductionCompany> results = new ArrayList<>();
-        results.add((IProductionCompany) App.getSystemInstance().searchProductionCompany(companySearch));
-        if(results.get(0).getName().equals(companySearch)) {
+        results.addAll(App.getSystemInstance().searchProductionCompany(companySearch));
+        if(results.get(0).getName().equalsIgnoreCase(companySearch)) {
             IMovie movie = LoginSystemController.getAdminUser().addNewMovieToDatabase(movieName.getText(), results.get(0).getId(), releaseYear.getText());
             results.get(0).assignMovie(movie);
             clearFields();
             if(movie != null){
-                errorMessage.setText("Filmen tilføjet");
+                errorMessage.setText(movie.getTitle() + " tilføjet");
                 if(!searchResult.isEmpty()){
                     searchResult = new ArrayList<>();
                     searchResult.add(movie);
                     resultList.setItems(FXCollections.observableArrayList(searchResult));
                 }else{
-                    errorMessage.setText("Fejl opstået, udsendelsen blev ikke tilføjet");
+                    errorMessage.setText("Fejl opstået, " + movie.getTitle() + " blev ikke tilføjet");
                 }
             }
             resultList.refresh();
@@ -164,7 +166,7 @@ public class ModifyMovieController implements Initializable {
                 searchResult.remove(chosenMovie);
                 IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForMovie(chosenMovie);
                 retrievedProductionCompany.unassignMovie(chosenMovie);
-                errorMessage.setText("Film slettet");
+                errorMessage.setText(chosenMovie.getTitle() + " slettet");
                 if(chosenMovie == null){
                     resultList.getItems().clear();
                 } else{
@@ -173,7 +175,7 @@ public class ModifyMovieController implements Initializable {
                 clearFields();
             }
         }else{
-            errorMessage.setText("Fejl opstået, film blev ikke slettet");
+            errorMessage.setText("Fejl opstået, " + chosenMovie.getTitle() + " blev ikke slettet");
         }
         resultList.refresh();
     }
@@ -188,10 +190,10 @@ public class ModifyMovieController implements Initializable {
             String[] airDate = chosenMovie.getReleaseDate();
             status = chosenMovie.update(movieName.getText(), airDate[2]);
             if(status){
-                errorMessage.setText("Film opdateret");
+                errorMessage.setText(chosenMovie.getTitle() + " opdateret");
                 clearFields();
             }else{
-                errorMessage.setText("Fejl opstået, udsendelse blev ikke opdateret");
+                errorMessage.setText("Fejl opstået, " + chosenMovie.getTitle() + " blev ikke opdateret");
             }
         }else{
             errorMessage.setText("Ingen film valgt");

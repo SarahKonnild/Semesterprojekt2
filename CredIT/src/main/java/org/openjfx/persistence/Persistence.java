@@ -128,9 +128,9 @@ public class Persistence implements IPersistence {
             PreparedStatement stmt = connection.prepareStatement(
                     "INSERT into movie(name, release_date) " + "values(?,?)"
             );
-            stmt.setString(1, "test");
+            stmt.setString(1, movie.getTitle());
             String[] release = movie.getReleaseDate();
-            stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(release[2]), Integer.parseInt(release[1]), Integer.parseInt(release[0]))));
+            stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(release[0]), 1, 1)));
             stmt.execute();
             int prodID = productionCompanyId;
             //Insert the link between the production company and the movie.
@@ -178,7 +178,7 @@ public class Persistence implements IPersistence {
                             "values(?,?)"
             );
             stmt.setString(1, production.getName());
-            stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(production.getYear()), 01, 01)));
+            stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(production.getYear()), 1, 1)));
             stmt.execute();
 
             //Insert the link between the production and the production company.
@@ -816,7 +816,7 @@ public class Persistence implements IPersistence {
 
     @Override
     public boolean mergeCastInDatabase(ICast cast1, ICast cast2) {
-        if (cast1.getRegDKID().equals(cast2.getRegDKID()) && cast1.getName().equals(cast2.getName())) {
+        if (cast1.getRegDKID().equals(cast2.getRegDKID())) {
             try {
                 connection.setAutoCommit(false);
                 PreparedStatement updateStatement = connection.prepareStatement(
@@ -1194,14 +1194,12 @@ public class Persistence implements IPersistence {
     private int getMovieId(IMovie movie) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
-                    "select id FROM movie WHERE name = ? and release_date = ?"
+                    "select id FROM movie WHERE LOWER(name) ~ ? and release_date = ?"
             );
-            stmt.setString(1, movie.getTitle());
+            stmt.setString(1, movie.getTitle().toLowerCase());
             String[] releaseDate = movie.getReleaseDate();
             stmt.setDate(2, Date.valueOf(LocalDate.of(
-                    Integer.parseInt(releaseDate[2]),
-                    Integer.parseInt(releaseDate[1]),
-                    Integer.parseInt(releaseDate[0]))));
+                    Integer.parseInt(releaseDate[0]),1,1)));
 
             ResultSet result = stmt.executeQuery();
             result.next();
