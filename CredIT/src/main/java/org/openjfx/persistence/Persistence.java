@@ -411,8 +411,8 @@ public class Persistence implements IPersistence {
                 Date date = resultSet.getDate(3);
                 resultList.add((resultSet.getInt(1) + "," +
                         resultSet.getString(2) + "," +
-                        resultSet.getInt(4)) + "," +
-                        resultSet.getInt(5) + "," +
+                        resultSet.getInt(5)) + "," +
+                        resultSet.getInt(4) + "," +
                         String.valueOf(date.getDay()) + "-" +
                         String.valueOf(date.getMonth()) + "-" +
                         String.valueOf(date.getYear()+1900)
@@ -445,8 +445,8 @@ public class Persistence implements IPersistence {
                 Date date = resultSet.getDate(3);
                 resultList.add((resultSet.getInt(1) + "," +
                         resultSet.getString(2) + "," +
-                        resultSet.getInt(4)) + "," +
-                        resultSet.getInt(5) + "," +
+                        resultSet.getInt(5)) + "," +
+                        resultSet.getInt(4) + "," +
                         String.valueOf(date.getDay()) + "-" +
                         String.valueOf(date.getMonth()) + "-" +
                         String.valueOf(date.getYear()+1900)
@@ -477,8 +477,8 @@ public class Persistence implements IPersistence {
                 Date date = resultSet.getDate(3);
                 resultList.add((resultSet.getInt(1) + "," +
                         resultSet.getString(2) + "," +
-                        resultSet.getInt(4)) + "," +
-                        resultSet.getInt(5) + "," +
+                        resultSet.getInt(5)) + "," +
+                        resultSet.getInt(4) + "," +
                         String.valueOf(date.getDay()) + "-" +
                         String.valueOf(date.getMonth()) + "-" +
                         String.valueOf(date.getYear()+1900)
