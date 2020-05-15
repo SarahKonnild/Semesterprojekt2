@@ -15,7 +15,7 @@ public class Persistence implements IPersistence {
     private static Persistence persistence;
     private final String url = "localhost";
     private final int port = 5432;
-    private final String databaseName = "credIT_db";
+    private final String databaseName = "credit_db";
     private final String username = "postgres";
     private final String password = Password.PASS;
     private Connection connection = null;
@@ -414,7 +414,7 @@ public class Persistence implements IPersistence {
                         resultSet.getInt(5)) + "," +
                         resultSet.getInt(4) + "," +
                         String.valueOf(date.getDayOfMonth()) + "-" +
-                        String.valueOf(date.getMonth()) + "-" +
+                        String.valueOf(date.getMonth().getValue()) + "-" +
                         String.valueOf(date.getYear())
                          );
             }
@@ -448,7 +448,7 @@ public class Persistence implements IPersistence {
                         resultSet.getInt(5)) + "," +
                         resultSet.getInt(4) + "," +
                         String.valueOf(date.getDayOfMonth()) + "-" +
-                        String.valueOf(date.getMonth()) + "-" +
+                        String.valueOf(date.getMonth().getValue()) + "-" +
                         String.valueOf(date.getYear())
                 );
             }
@@ -480,7 +480,7 @@ public class Persistence implements IPersistence {
                         resultSet.getInt(5)) + "," +
                         resultSet.getInt(4) + "," +
                         String.valueOf(date.getDayOfMonth()) + "-" +
-                        String.valueOf(date.getMonth()) + "-" +
+                        String.valueOf(date.getMonth().getValue()) + "-" +
                         String.valueOf(date.getYear())
                 );
             }
