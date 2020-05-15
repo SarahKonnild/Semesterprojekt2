@@ -62,6 +62,7 @@ public class Persistence implements IPersistence {
         int id;
         // this statement inserts the values of the broadcast in to the Database.
         try {
+            connection.setAutoCommit(false);
             PreparedStatement stmt = connection.prepareStatement(
                     "INSERT into broadcast(name, air_date,episode_number , season_number  )" +
                             "values(?,?,?,?)"
@@ -97,8 +98,16 @@ public class Persistence implements IPersistence {
             stmt3.setInt(2, productionId);
             stmt3.execute();
 
+            connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            try {
+                connection.rollback();
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             return -1;
         }
         return id;
@@ -114,6 +123,7 @@ public class Persistence implements IPersistence {
     public int createNewMovieInDatabase(IMovie movie, int productionCompanyId) {
         int id;
         try {
+            connection.setAutoCommit(false);
             //inserts the values of the movie object into the database.
             PreparedStatement stmt = connection.prepareStatement(
                     "INSERT into movie(name, release_date) " + "values(?,?)"
@@ -133,8 +143,17 @@ public class Persistence implements IPersistence {
             stmt2.setInt(1, prodID);
             stmt2.setInt(2, id);
             stmt2.execute();
+
+            connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            try {
+                connection.rollback();
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             return -1;
         }
 
@@ -152,6 +171,7 @@ public class Persistence implements IPersistence {
     public int createNewProductionInDatabase(IProduction production, int productionCompanyId) {
         int id;
         try {
+            connection.setAutoCommit(false);
             //insert the values of the production object into a new entry in Database.
             PreparedStatement stmt = connection.prepareStatement(
                     "insert into production(name, year)" +
@@ -174,9 +194,17 @@ public class Persistence implements IPersistence {
             stmt2.setInt(2, id);
             stmt2.execute();
 
-
+            connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            try {
+                connection.rollback();
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
             return -1;
         }
         return id;
@@ -210,14 +238,24 @@ public class Persistence implements IPersistence {
     @Override
     public boolean removeBroadcastFromDatabase(int id) {
         try {
+            connection.setAutoCommit(false);
+
             PreparedStatement stmt = connection.prepareStatement(
                     "delete from broadcast where broadcast.id = ?");
             stmt.setInt(1, id);
             stmt.execute();
 
+            connection.commit();
+            connection.setAutoCommit(false);
             return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            try {
+                connection.rollback();
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             return false;
         }
     }
@@ -232,6 +270,7 @@ public class Persistence implements IPersistence {
     @Override
     public boolean removeProductionFromDatabase(int id) {
         try {
+            connection.setAutoCommit(false);
             PreparedStatement deleteBroadcastStatement = connection.prepareStatement(
                     "delete from broadcast using contains " +
                             "where broadcast.id = contains.broadcast_id " +
@@ -244,9 +283,17 @@ public class Persistence implements IPersistence {
             deleteProductionStatement.setInt(1, id);
             deleteProductionStatement.execute();
 
+            connection.commit();
+            connection.setAutoCommit(false);
             return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            try {
+                connection.rollback();
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             return false;
         }
     }
@@ -274,60 +321,59 @@ public class Persistence implements IPersistence {
     @Override
     public boolean removeMovieFromDatabase(int id) {
         try {
+            connection.setAutoCommit(false);
             PreparedStatement stmt = connection.prepareStatement(
                     "delete from movie where id = ?");
             stmt.setInt(1, id);
             stmt.execute();
 
+            connection.commit();
+            connection.setAutoCommit(true);
             return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            try {
+                connection.rollback();
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
             return false;
         }
     }
 
     @Override
     public boolean removeProductionCompanyFromDatabase(IProductionCompany company) {
-        //todo implement this. It's a big one, look at removeProduction for inspiration.
         try {
-
+            connection.setAutoCommit(false);
             ArrayList<IMovie> movies = company.getMovieList();
             ArrayList<IProduction> productions = company.getProductionList();
             if (!movies.isEmpty()) {
                 for (IMovie movie : movies) {
-                    removeMovieFromDatabase(movie.getId());
+                    removeMovie(movie.getId());
                 }
             }
             if (!productions.isEmpty()) {
                 for (IProduction production : productions) {
-                    removeProductionFromDatabase(production.getId());
+                    removeProduction(production.getId());
                 }
             }
             PreparedStatement removeCompany = connection.prepareStatement("delete from production_company where id = ? ");
             removeCompany.setInt(1, company.getId());
             removeCompany.execute();
 
+            connection.commit();
+            connection.setAutoCommit(true);
             return true;
-
-/*            PreparedStatement removeMovies = connection.prepareStatement("delete from movie using contains " +
-                    "where movie.id = contains.movie_id " +
-                    "and contains.production_company_id = ?");
-            removeMovies.setInt(1,id);
-            removeMovies.execute();
-
-            PreparedStatement removeBroadcast = connection.prepareStatement("delete from broadcast using contains " +
-                    "where broadcast.id = contains.broadcast_id " +
-                    "and contains.production_company_id = ?");
-            removeBroadcast.setInt(1,id);
-            removeBroadcast.execute();
-
-            PreparedStatement removeProductionCompany = connection.prepareStatement("delete from production_company where id = ?");
-            removeProductionCompany.setInt(1, id);
-            removeProductionCompany.execute();
-*/
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            try {
+                connection.rollback();
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             return false;
         }
     }
@@ -774,6 +820,7 @@ public class Persistence implements IPersistence {
     public boolean mergeCastInDatabase(ICast cast1, ICast cast2) {
         if (cast1.getRegDKID().equals(cast2.getRegDKID()) && cast1.getName().equals(cast2.getName())) {
             try {
+                connection.setAutoCommit(false);
                 PreparedStatement updateStatement = connection.prepareStatement(
                         "update broadcast_employs set cast_id = ? where cast_id = ?");
                 updateStatement.setInt(1, cast1.getId());
@@ -783,9 +830,18 @@ public class Persistence implements IPersistence {
                 PreparedStatement delStatement = connection.prepareStatement("delete from cast_members where id = ?");
                 delStatement.setInt(1, cast2.getId());
                 delStatement.execute();
+
+                connection.commit();
+                connection.setAutoCommit(true);
                 return true;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
+                try {
+                    connection.rollback();
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 return false;
             }
         }
@@ -840,6 +896,7 @@ public class Persistence implements IPersistence {
     @Override
     public boolean updateMovieInDatabase(IMovie movie) {
         try {
+            connection.setAutoCommit(false);
             PreparedStatement updateMovieStatement = connection.prepareStatement(
                     "UPDATE movie SET (name, release_date) = (?,?) WHERE id = ?");
             updateMovieStatement.setInt(3, movie.getId());
@@ -867,11 +924,17 @@ public class Persistence implements IPersistence {
                 insertCastStatement.setString(3, entry.getValue());
                 insertCastStatement.execute();
             }
-            ;
-
+            connection.commit();
+            connection.setAutoCommit(true);
             return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            try {
+                connection.rollback();
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             return false;
         }
     }
@@ -912,8 +975,9 @@ public class Persistence implements IPersistence {
     @Override
     public boolean updateBroadcastInDatabase(IBroadcast broadcast) {
         try {
+            connection.setAutoCommit(false);
             //finds the old version of the object and replaces it with the current one.
-            PreparedStatement stmt = connection.prepareStatement("" +
+            PreparedStatement stmt = connection.prepareStatement(
                     "update broadcast set (name, air_date, episode_number, season_number) = (?,?,?,?) where id = ?");
             stmt.setInt(4, broadcast.getId());
             stmt.setString(1, broadcast.getName());
@@ -943,12 +1007,20 @@ public class Persistence implements IPersistence {
                 insertCastStatement.setString(3, entry.getValue());
                 insertCastStatement.execute();
             }
-
+            connection.commit();
+            connection.setAutoCommit(true);
             return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            try {
+                connection.rollback();
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             return false;
         }
+
     }
 
     /**
@@ -1191,4 +1263,34 @@ public class Persistence implements IPersistence {
         return 0;
 
     }
-}
+
+    private void removeMovie(int id) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "delete from movie where id = ?");
+            stmt.setInt(1, id);
+            stmt.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    private void removeProduction(int id) {
+        try {
+            PreparedStatement deleteBroadcastStatement = connection.prepareStatement(
+                    "delete from broadcast using contains " +
+                            "where broadcast.id = contains.broadcast_id " +
+                            "and contains.production_id = ?");
+            deleteBroadcastStatement.setInt(1, id);
+            deleteBroadcastStatement.execute();
+
+            PreparedStatement deleteProductionStatement = connection.prepareStatement(
+                    "delete from production where production.id = ?");
+            deleteProductionStatement.setInt(1, id);
+            deleteProductionStatement.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            }
+        }
+    }
