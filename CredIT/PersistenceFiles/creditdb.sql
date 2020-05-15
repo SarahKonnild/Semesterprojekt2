@@ -8,7 +8,7 @@ create table production_company
     id serial not null
         constraint production_company_pk
             primary key,
-    name varchar(250) not null
+    name varchar(250) unique not null
 );
 
 create table cast_members
