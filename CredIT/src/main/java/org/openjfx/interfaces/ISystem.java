@@ -48,11 +48,32 @@ public interface ISystem {
      */
     ArrayList<IProduction> searchProduction(String keyword);
 
+    /**
+     * The method returns the production that a broadcast is connected to
+     * @param broadcastId The id of the Production that is searched for
+     * @return The Production that have the broadcast in it.
+     */
+    IProduction searchProduction(int broadcastId);
+
     ArrayList<IMovie> searchMovie(String keyword);
 
     ArrayList<IMovie> searchMovies(int productionCompanyID);
 
     ArrayList<IProductionCompany> searchProductionCompany(String keyword);
+
+    /**
+     * Searches the database for a ProductionCompany that produced the Production
+     * @param productionId the id of the Production you want the productionCompany of
+     * @return returns the productionComapany object.
+     */
+    IProductionCompany searchProductionCompanyOnProduction(int productionId);
+
+    /**
+     * Searches the database for a ProductionCompany that produced the movie
+     * @param movieId the id of the movie you want the productionComapany of
+     * @return returns the productionCompany object
+     */
+    IProductionCompany searchProductionCompanyOnMovie(int movieId);
 
     IUser createNewUser(String username, String password);
 

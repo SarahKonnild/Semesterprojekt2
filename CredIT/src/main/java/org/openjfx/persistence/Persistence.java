@@ -38,45 +38,6 @@ public class Persistence implements IPersistence {
         return persistence;
     }
 
-    public static void main(String[] args) {
-        Persistence pers = Persistence.getInstance();
-        CredITSystem cs = new CredITSystem();
-
-        ProductionCompany pc = new ProductionCompany("Teis Productions");
-
-        pers.createNewProductionCompanyInDatabase(pc);
-
-        Cast c = new Cast("Teis Aalbæk-Nielsen", "1234");
-        Cast c1 = new Cast("Laust Christensen", "666");
-
-        pers.createNewCastInDatabase(c);
-        pers.createNewCastInDatabase(c1);
-
-        Movie m = new Movie("Teis in Wonderland", "12-05-2020");
-
-        pers.createNewMovieInDatabase(m);
-        pc.assignMovie(m);
-
-        m.assignCast(c, "Teis");
-        m.assignCast(c1, "Red Queen");
-
-        Production p = new Production("Sherlock", "2020");
-
-        pc.assignProduction(p);
-
-        Broadcast b = new Broadcast("Sherlock vs. Moriarty", 1,20,"12-05-2020");
-        b.assignCast(c, "Sherlock");
-        b.assignCast(c1, "Moriarty");
-
-        p.assignBroadcast(b);
-
-        pers.createNewProductionInDatabase(p);
-
-        pers.createNewBroadcastInDatabase(b);
-
-
-    }
-
     /**
      * @author Nichlas & Teis
      * Initilizes the Database connection with password individual password files.
@@ -98,7 +59,7 @@ public class Persistence implements IPersistence {
      */
 
     @Override
-    public int createNewBroadcastInDatabase(IBroadcast broadcast) {
+    public int createNewBroadcastInDatabase(IBroadcast broadcast, int productionId) {
         int id;
         // this statement inserts the values of the broadcast in to the Database.
         try {
@@ -134,7 +95,7 @@ public class Persistence implements IPersistence {
                             "values(?,?)"
             );
             stmt3.setInt(1, id);
-            stmt3.setInt(2, broadcast.getProduction().getId());
+            stmt3.setInt(2, productionId);
             stmt3.execute();
 
         } catch (SQLException throwables) {
@@ -151,7 +112,7 @@ public class Persistence implements IPersistence {
      */
 
     @Override
-    public int createNewMovieInDatabase(IMovie movie) {
+    public int createNewMovieInDatabase(IMovie movie, int productionCompanyId) {
         int id;
         try {
             //inserts the values of the movie object into the database.
@@ -162,7 +123,7 @@ public class Persistence implements IPersistence {
             String[] release = movie.getReleaseDate();
             stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(release[2]), Integer.parseInt(release[1]), Integer.parseInt(release[0]))));
             stmt.execute();
-            int prodID = movie.getProductionCompany().getId();
+            int prodID = productionCompanyId;
             //Insert the link between the production company and the movie.
             PreparedStatement stmt2 = connection.prepareStatement(
                     "INSERT INTO produces_movie(production_company_id, movie_id)"
@@ -189,7 +150,7 @@ public class Persistence implements IPersistence {
      * @author Teis & Nichlas
      */
     @Override
-    public int createNewProductionInDatabase(IProduction production) {
+    public int createNewProductionInDatabase(IProduction production, int productionCompanyId) {
         int id;
         try {
             //insert the values of the production object into a new entry in Database.
@@ -202,7 +163,7 @@ public class Persistence implements IPersistence {
             stmt.execute();
 
             //Insert the link between the production and the production company.
-            int prodID = production.getProductionCompany().getId();
+            int prodID = productionCompanyId;
             PreparedStatement stmt2 = connection.prepareStatement(
                     "INSERT INTO produces(production_company_id, production_id)"
                             + "values(?,?)"
@@ -705,6 +666,17 @@ public class Persistence implements IPersistence {
     }
 
     /**
+     * Searches the database for the id of the production that the broadcast is produced by
+     *
+     * @param broadcastId the id of the broadcast you want to search based on
+     * @return returns the id of the production
+     */
+    @Override
+    public int getProductionIdOnBroadcast(int broadcastId) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
      * Searches the database for every entry where the given ID is the owner of a production and returns the ID.
      *
      * @param productionCompanyID the reference ID in the database for the production company
@@ -804,8 +776,6 @@ public class Persistence implements IPersistence {
             }
         }
         return false;
-
-        //Todo return id på det nye samlede cast
     }
 
     @Override
@@ -990,6 +960,28 @@ public class Persistence implements IPersistence {
             throwables.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * Searches the database for the id of the productionCompany that the Production is produced by
+     *
+     * @param productionId the id of the production you want to search based on
+     * @return returns the id of the productionCompany
+     */
+    @Override
+    public int getProductionCompanyIdOnProduction(int productionId) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Searches the database for the id of the productionCompany that the movie is produced by
+     *
+     * @param movieId the id of the movie you want to search based on
+     * @return returns the id of the productionCompany
+     */
+    @Override
+    public int getProductionCompanyIdOnMovie(int movieId) {
+        throw new UnsupportedOperationException();
     }
 
     /** Queries the database to find the movies a cast has been on and his role.

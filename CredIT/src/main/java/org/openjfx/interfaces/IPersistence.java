@@ -11,9 +11,9 @@ public interface IPersistence {
      * @param broadcast The broadcast object that needs to be saved
      * @return A boolean that is true if the broadcast was succesfully written to the persistence layer
      */
-    int createNewBroadcastInDatabase(IBroadcast broadcast);
+    int createNewBroadcastInDatabase(IBroadcast broadcast, int productionId);
 
-    int createNewMovieInDatabase(IMovie movie);
+    int createNewMovieInDatabase(IMovie movie, int productionCompanyId);
 
     /**
      * Deletes a broadcast from the persistence/layer(Database).
@@ -28,7 +28,7 @@ public interface IPersistence {
      * @param production The production object that needs to be saved
      * @return A boolean that is true if the production was succesfully written to the persistence layer
      */
-    int createNewProductionInDatabase(IProduction production);
+    int createNewProductionInDatabase(IProduction production, int productionCompanyId);
 
     int createNewProductionCompanyInDatabase(IProductionCompany production);
 
@@ -101,6 +101,13 @@ public interface IPersistence {
      */
     List<String> getProductionFromDatabase(String keyword);
 
+    /**
+     * Searches the database for the id of the production that the broadcast is produced by
+     * @param broadcastId the id of the broadcast you want to search based on
+     * @return returns the id of the production
+     */
+    int getProductionIdOnBroadcast(int broadcastId);
+
     List<String> getProductionsFromDatabase(int productionCompanyID);
 
     List<String> getProductionFromDatabase(int productionId);
@@ -124,6 +131,20 @@ public interface IPersistence {
     List<String> getProductionCompany(int id);
 
     List<String> getProductionCompany(String keyword);
+
+    /**
+     * Searches the database for the id of the productionCompany that the Production is produced by
+     * @param productionId the id of the production you want to search based on
+     * @return returns the id of the productionCompany
+     */
+    int getProductionCompanyIdOnProduction(int productionId);
+
+    /**
+     * Searches the database for the id of the productionCompany that the movie is produced by
+     * @param movieId the id of the movie you want to search based on
+     * @return returns the id of the productionCompany
+     */
+    int getProductionCompanyIdOnMovie(int movieId);
 
     /**
      * Search for the id of movie or broadcast, returns a list of castID and a string with their role in this format CastID, role
@@ -164,10 +185,6 @@ public interface IPersistence {
     /**
      * Update a cast members values to new name and regDKID
      *
-     * @param id      The id of the cast member
-     * @param name    The new name of the cast member
-     * @param regDKID The new regDKID of the cast member
-     * @return
      */
     boolean updateCastInDatabase(ICast cast);
 

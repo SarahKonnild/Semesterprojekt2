@@ -13,7 +13,7 @@ public interface IBroadcast {
      *
      * @return
      */
-    boolean save();
+    boolean save(int productionId);
 
     /**
      * Deletes the broadcast data in the database.

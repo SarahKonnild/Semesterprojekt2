@@ -8,7 +8,7 @@ public interface IProduction {
      *
      * @return <code>true</code> if it manged to save the production to the database else <code>false</code>
      */
-    boolean save();
+    boolean save(int productionCompanyId);
 
     /**
      * Method calls methods in persitence to delete the data in the database

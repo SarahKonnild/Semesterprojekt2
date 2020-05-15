@@ -9,7 +9,7 @@ public interface IMovie {
      * Saves the object to the database
      * @return True if its saved to the database and false if not
      */
-    boolean save();
+    boolean save(int productionCompanyId);
 
     /**
      * Deletes the object, or data acosited with it in the database
