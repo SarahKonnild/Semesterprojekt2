@@ -13,7 +13,7 @@
          <children>
             <ImageView fitHeight="17.0" fitWidth="43.0" layoutX="13.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../Images/Danish_TV_2_logo.png" />
+                  <Image url="@../../../img/Danish_TV_2_logo.png" />
                </image>
             </ImageView>
             <Label fx:id="help" layoutX="425.0" layoutY="5.0" onMouseClicked="#handleHelp" text="Hjælp" textFill="WHITE">

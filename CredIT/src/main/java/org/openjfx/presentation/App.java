@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -15,6 +16,7 @@ import org.openjfx.interfaces.*;
 import org.openjfx.domain.CredITSystem;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 /**
  * JavaFX App
@@ -38,8 +40,10 @@ public class App extends Application {
         App.getStage().initStyle(StageStyle.TRANSPARENT);
         stage.setResizable(false);
         stage.setScene(scene);
+//        stage.getIcons().clear();
+//        Image icon = new Image(App.class.getResource("CredITMiniLogo.png").toExternalForm());
+//        stage.getIcons().add(icon);
         stage.show();
-
     }
 
     static void setRoot(String fxml) throws IOException {
