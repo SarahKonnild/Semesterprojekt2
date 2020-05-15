@@ -162,12 +162,11 @@ public class ModifyBroadcastController implements Initializable {
             } else {
                 IBroadcast broadcast = LoginSystemController.getAdminUser().addNewBroadcastToDatabase(broadcastName.getText(), Integer.parseInt(season.getText()),
                         Integer.parseInt(episode.getText()), dateVariable, results.get(0).getId());
-                results.get(0).assignBroadcast(broadcast);
                 clearFields();
                 if (broadcast != null) {
                     resultList.setDisable(false);
                     errorMessage.setText(broadcast.getName() + " tilføjet");
-                    if(!searchList.isEmpty()) {
+                    if(searchList == null) {
                         searchList = new ArrayList<>();
                         searchList.add(broadcast);
                         resultList.setItems(FXCollections.observableArrayList(searchList));
