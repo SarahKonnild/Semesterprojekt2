@@ -2,7 +2,6 @@ package org.openjfx.domain;
 
 import org.openjfx.interfaces.*;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 public class Broadcast implements IBroadcast {
@@ -14,25 +13,22 @@ public class Broadcast implements IBroadcast {
     private int seasonNumber;
     private int episodeNumber;
     private String[] airDate;
-    private IProduction production;
 
-    public Broadcast(int id, String name, int seasonNumber, int episodeNumber, String airDate, int productionID) {
+    public Broadcast(int id, String name, int seasonNumber, int episodeNumber, String airDate) {
         this.id = id;
         this.name = name;
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.airDate = airDate.split("-");
         this.castRoleMap = system.getCastRolesBroadcast(this.id);
-        this.production = system.searchProduction(productionID);
     }
 
-    public Broadcast(String name, int seasonNumber, int episodeNumber, String airDate, IProduction production) {
+    public Broadcast(String name, int seasonNumber, int episodeNumber, String airDate) {
         this.name = name;
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.airDate = airDate.split("-");
         this.castRoleMap = new HashMap<>();
-        this.production = production;
     }
 
     @Override
@@ -106,7 +102,7 @@ public class Broadcast implements IBroadcast {
     @Override
     public String toString() {
         return
-                this.name + ": " + this.airDate[0] + "-" + this.airDate[1] + "-" + this.airDate[2] + " : " + this.production.getName();
+                this.name + ": " + this.airDate[0] + "-" + this.airDate[1] + "-" + this.airDate[2];
     }
 
     public int getId() {
@@ -127,11 +123,6 @@ public class Broadcast implements IBroadcast {
 
     public int getEpisodeNumber() {
         return episodeNumber;
-    }
-
-    @Override
-    public IProduction getProduction() {
-        return this.production;
     }
 
     public String[] getAirDate() {

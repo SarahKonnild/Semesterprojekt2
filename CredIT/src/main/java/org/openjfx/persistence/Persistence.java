@@ -52,7 +52,7 @@ public class Persistence implements IPersistence {
         pers.createNewCastInDatabase(c);
         pers.createNewCastInDatabase(c1);
 
-        Movie m = new Movie("Teis in Wonderland", pc, "12-05-2020");
+        Movie m = new Movie("Teis in Wonderland", "12-05-2020");
 
         pers.createNewMovieInDatabase(m);
         pc.assignMovie(m);
@@ -60,11 +60,11 @@ public class Persistence implements IPersistence {
         m.assignCast(c, "Teis");
         m.assignCast(c1, "Red Queen");
 
-        Production p = new Production("Sherlock", "2020", pc);
+        Production p = new Production("Sherlock", "2020");
 
         pc.assignProduction(p);
 
-        Broadcast b = new Broadcast("Sherlock vs. Moriarty", 1,20,"12-05-2020", p);
+        Broadcast b = new Broadcast("Sherlock vs. Moriarty", 1,20,"12-05-2020");
         b.assignCast(c, "Sherlock");
         b.assignCast(c1, "Moriarty");
 

@@ -2,7 +2,6 @@ package org.openjfx.domain;
 
 import org.openjfx.interfaces.*;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 public class Movie implements IMovie {
@@ -12,21 +11,18 @@ public class Movie implements IMovie {
     private String[] releaseDate;
     private int id;
     private HashMap<ICast, String> castRoleMap;
-    private IProductionCompany productionCompany;
 
-    public Movie(String title, IProductionCompany productionCompany, String releaseDate){
+    public Movie(String title, String releaseDate){
         this.title = title;
         this.releaseDate = releaseDate.split("-");
-        this.productionCompany = productionCompany;
         this.castRoleMap = new HashMap<>();
     }
 
-    public Movie(int id, String title, String releaseDate, int productionCompanyID){
+    public Movie(int id, String title, String releaseDate){
         this.id = id;
         this.title = title;
         this.releaseDate = releaseDate.split("-");
         this.castRoleMap = system.getCastRolesMovies(this.id);
-        this.productionCompany = system.searchProductionCompany(productionCompanyID);
     }
 
     @Override
@@ -102,11 +98,6 @@ public class Movie implements IMovie {
     @Override
     public HashMap<ICast, String> getCastMap() {
         return this.castRoleMap;
-    }
-
-    @Override
-    public IProductionCompany getProductionCompany() {
-        return this.productionCompany;
     }
 
     @Override

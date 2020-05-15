@@ -48,8 +48,6 @@ public interface IMovie {
 
     HashMap<ICast, String> getCastMap();
 
-    IProductionCompany getProductionCompany();
-
     String[] getReleaseDate();
 
     @Override

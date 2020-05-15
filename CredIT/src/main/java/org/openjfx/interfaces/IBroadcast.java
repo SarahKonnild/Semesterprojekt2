@@ -84,8 +84,6 @@ public interface IBroadcast {
      */
     int getEpisodeNumber();
 
-    IProduction getProduction();
-
     /**
      * Returns the air date of this broadcast.
      *

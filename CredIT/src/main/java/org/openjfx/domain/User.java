@@ -2,8 +2,6 @@ package org.openjfx.domain;
 
 import org.openjfx.interfaces.*;
 
-import java.util.ArrayList;
-
 public class User implements IUser {
     private final IPersistence persistence = CredITSystem.getPersistence();
     private final CredITSystem system = CredITSystem.getInstance();
@@ -50,21 +48,21 @@ public class User implements IUser {
 
     @Override
     public IBroadcast addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate, IProduction production) {
-        IBroadcast broadcast = new Broadcast(name, seasonNumber, episodeNumber, airDate, production);
+        IBroadcast broadcast = new Broadcast(name, seasonNumber, episodeNumber, airDate);
         broadcast.save();
         return broadcast;
     }
 
     @Override
     public IProduction addNewProductionToDatabase(String name, String year, IProductionCompany productionCompany) {
-        IProduction production = new Production(name, year, productionCompany);
+        IProduction production = new Production(name, year);
         production.save();
         return production;
     }
 
     @Override
     public IMovie addNewMovieToDatabase(String name, IProductionCompany productionCompany, String releasedate) {
-        IMovie movie = new Movie(name, productionCompany, releasedate);
+        IMovie movie = new Movie(name, releasedate);
         movie.save();
         return movie;
     }

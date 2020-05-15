@@ -36,8 +36,6 @@ public interface IProduction {
 
     ArrayList<IBroadcast> getBroadcasts();
 
-    IProductionCompany getProductionCompany();
-
     int getNumberOfSeasons();
 
     int getNumberOfEpisodes();
