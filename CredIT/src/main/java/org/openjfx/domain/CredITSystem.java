@@ -210,15 +210,15 @@ public class CredITSystem implements ISystem {
     private ArrayList<IProduction> makeProductionObjects(List<String> list) {
         ArrayList<IProduction> productions = new ArrayList<>();
         if (list != null && list.size() > 0) {
-            //String is formatted as id,name,productionCompanyID,year,seasons,episodes
+            //String is formatted as id,name,year,seasons,episodes
             for (String item : list) {
                 String[] items = item.split(",");
                 productions.add(new Production(
                         Integer.parseInt(items[0]),
                         items[1],
                         items[2],
-                        Integer.parseInt(items[3]),
-                        Integer.parseInt(items[4])));
+                        items[3].equals("null") ? 0 : Integer.parseInt(items[3]),
+                        items[4].equals("null") ? 0 : Integer.parseInt(items[4])));
             }}
         return productions;
     }

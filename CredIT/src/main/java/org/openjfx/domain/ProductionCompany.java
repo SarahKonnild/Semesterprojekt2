@@ -30,7 +30,7 @@ public class ProductionCompany implements IProductionCompany {
 
     private void loadProductionList() {
         ArrayList<IProduction> temp = system.searchProductions(this.id);
-        if(!temp.isEmpty()) {
+        if(temp != null && !temp.isEmpty()) {
             this.productionList = temp;
         }
     }
