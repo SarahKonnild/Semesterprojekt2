@@ -260,10 +260,10 @@ public class CredITSystem implements ISystem {
     //endregion search movie methods ends here
 
     //region productionCompany methods
-//    public IProductionCompany searchProductionCompany(int productionCompanyID) {
-//        List<String> tempList = persistenceLayer.getProductionCompany(productionCompanyID);
-//        return makeProductionCompany(tempList).get(0);
-//    }
+    public IProductionCompany searchProductionCompany(int productionCompanyID) {
+        List<String> tempList = persistenceLayer.getProductionCompany(productionCompanyID);
+        return makeProductionCompanyObjects(tempList).get(0);
+    }
     //todo Maybe delete this method
 
     @Override
@@ -274,22 +274,18 @@ public class CredITSystem implements ISystem {
 
     @Override
     public IProductionCompany searchProductionCompanyOnProduction(int productionId) {
-        List<String> list = new ArrayList<>();
         int tempInt = persistenceLayer.getProductionCompanyIdOnProduction(productionId);
         if (tempInt != -1) {
-            list.add(String.valueOf(tempInt));
-            return makeProductionCompanyObjects(list).get(0);
+            return searchProductionCompany(tempInt);
         } else
             return null;
     }
 
     @Override
     public IProductionCompany searchProductionCompanyOnMovie(int movieId) {
-        List<String> list = new ArrayList<>();
         int tempInt = persistenceLayer.getProductionCompanyIdOnMovie(movieId);
         if (tempInt != -1) {
-            list.add(String.valueOf(tempInt));
-            return makeProductionCompanyObjects(list).get(0);
+            return searchProductionCompany(tempInt);
         } else
             return null;
     }
