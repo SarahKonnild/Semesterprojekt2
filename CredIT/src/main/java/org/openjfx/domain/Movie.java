@@ -2,6 +2,7 @@ package org.openjfx.domain;
 
 import org.openjfx.interfaces.*;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Movie implements IMovie {
@@ -83,6 +84,11 @@ public class Movie implements IMovie {
             castRoleMap = tempRoleMap;
             return false;
         }
+    }
+
+    @Override
+    public String toString() {
+        return title + " (" + releaseDate[0] + ")";
     }
 
     @Override

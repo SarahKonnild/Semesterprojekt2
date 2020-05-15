@@ -132,7 +132,7 @@ public class ModifyMovieController implements Initializable {
         String companySearch = productionCompany.getText();
         ArrayList<IProductionCompany> results = new ArrayList<>();
         results.addAll(App.getSystemInstance().searchProductionCompany(companySearch));
-        if(results.get(0).getName().equals(companySearch)) {
+        if(results.get(0).getName().equalsIgnoreCase(companySearch)) {
             IMovie movie = LoginSystemController.getAdminUser().addNewMovieToDatabase(movieName.getText(), results.get(0).getId(), releaseYear.getText());
             results.get(0).assignMovie(movie);
             clearFields();
