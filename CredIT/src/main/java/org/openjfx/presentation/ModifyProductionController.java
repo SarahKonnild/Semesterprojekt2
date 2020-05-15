@@ -156,7 +156,7 @@ public class ModifyProductionController implements Initializable {
         String companySearch = productionCompany.getText();
         ArrayList<IProductionCompany> results = new ArrayList<>();
         results.addAll(App.getSystemInstance().searchProductionCompany(companySearch));
-        IProduction production = LoginSystemController.getAdminUser().addNewProductionToDatabase(productionName.getText(), releaseYear.getText(), results.get(0));
+        IProduction production = LoginSystemController.getAdminUser().addNewProductionToDatabase(productionName.getText(), releaseYear.getText(), results.get(0).getId());
         if (production != null) {
             errorMessage.setText("Produktionen oprettet");
             searchResult = new ArrayList<>();
