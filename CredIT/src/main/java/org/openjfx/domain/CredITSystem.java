@@ -159,8 +159,7 @@ public class CredITSystem implements ISystem {
                         items[1],
                         Integer.parseInt(items[2]),
                         Integer.parseInt(items[3]),
-                        items[4],
-                        Integer.parseInt(items[5])));
+                        items[4]));
             }
         }
         return broadcasts;
@@ -170,13 +169,27 @@ public class CredITSystem implements ISystem {
 
     //region production methods
 
-    public IProduction searchProduction(int productionID) {
-        List<String> list = persistenceLayer.getProductionFromDatabase(productionID);
-        return makeProductionObjects(list).get(0);
+
+    @Override
+    public IProduction searchProductionOnBroadcast(int broadcastId) {
+        List<String> list = new ArrayList<>();
+        int tempInt = persistenceLayer.getProductionIdOnBroadcast(broadcastId);
+        if(tempInt != -1){
+            list.add(String.valueOf(tempInt));
+            return makeProductionObjects(list).get(0);
+        }else
+            return null;
+
     }
 
+//    public IProduction searchProduction(int productionID) {
+//        List<String> list = persistenceLayer.getProductionFromDatabase(productionID);
+//        return makeProductionObjects(list).get(0);
+//    }
+    //Todo Maybe delete this method
+
     public ArrayList<IProduction> searchProductions(int productionCopmpanyID) {
-        List<String> list = persistenceLayer.getProductionFromDatabase(productionCopmpanyID);
+        List<String> list = persistenceLayer.getProductionsFromDatabase(productionCopmpanyID);
         return makeProductionObjects(list);
     }
 
@@ -194,7 +207,6 @@ public class CredITSystem implements ISystem {
                 productions.add(new Production(
                         Integer.parseInt(items[0]),
                         items[1],
-                        Integer.parseInt(items[3]),
                         items[4],
                         Integer.parseInt(items[5]),
                         Integer.parseInt(items[6])));
@@ -229,8 +241,7 @@ public class CredITSystem implements ISystem {
                 movies.add(new Movie(
                         Integer.parseInt(items[0]),
                         items[1],
-                        items[2],
-                        Integer.parseInt(items[3])));
+                        items[2]));
             }
         }
             return movies;
@@ -239,18 +250,41 @@ public class CredITSystem implements ISystem {
     //endregion search movie methods ends here
 
     //region productionCompany methods
-    public IProductionCompany searchProductionCompany(int productionCompanyID) {
-        List<String> tempList = persistenceLayer.getProductionCompany(productionCompanyID);
-        return makeProductionCompany(tempList).get(0);
-    }
+//    public IProductionCompany searchProductionCompany(int productionCompanyID) {
+//        List<String> tempList = persistenceLayer.getProductionCompany(productionCompanyID);
+//        return makeProductionCompany(tempList).get(0);
+//    }
+    //todo Maybe delete this method
 
     @Override
     public ArrayList<IProductionCompany> searchProductionCompany(String keyword) {
         List<String> tempList = persistenceLayer.getProductionCompany(keyword);
-        return makeProductionCompany(tempList);
+        return makeProductionCompanyObjects(tempList);
     }
 
-    private ArrayList<IProductionCompany> makeProductionCompany(List<String> list){
+    @Override
+    public IProductionCompany searchProductionCompanyOnProduction(int productionId) {
+        List<String> list = new ArrayList<>();
+        int tempInt = persistenceLayer.getProductionCompanyIdOnProduction(productionId);
+        if(tempInt != -1){
+            list.add(String.valueOf(tempInt));
+            return makeProductionCompanyObjects(list).get(0);
+        }else
+            return null;
+    }
+
+    @Override
+    public IProductionCompany searchProductionCompanyOnMovie(int movieId) {
+        List<String> list = new ArrayList<>();
+        int tempInt = persistenceLayer.getProductionCompanyIdOnMovie(movieId);
+        if(tempInt != -1){
+            list.add(String.valueOf(tempInt));
+            return makeProductionCompanyObjects(list).get(0);
+        }else
+            return null;
+    }
+
+    private ArrayList<IProductionCompany> makeProductionCompanyObjects(List<String> list){
         ArrayList<IProductionCompany> productionCompanies = new ArrayList<>();
         if(list != null && list.size() > 0){
             //String formatted as id,name

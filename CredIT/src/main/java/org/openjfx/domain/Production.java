@@ -43,8 +43,8 @@ public class Production implements IProduction {
     }
 
     @Override
-    public boolean save() {
-        int idNumber = persistence.createNewProductionInDatabase(this);
+    public boolean save(int productionCompanyID) {
+        int idNumber = persistence.createNewProductionInDatabase(this, productionCompanyID);
         if (idNumber != -1) this.id = idNumber;
         return idNumber != -1;
     }

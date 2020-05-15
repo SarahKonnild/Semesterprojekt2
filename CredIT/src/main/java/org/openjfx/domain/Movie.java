@@ -26,8 +26,8 @@ public class Movie implements IMovie {
     }
 
     @Override
-    public boolean save() {
-        int idNumber = persistence.createNewMovieInDatabase(this);
+    public boolean save(int productionCompanyId) {
+        int idNumber = persistence.createNewMovieInDatabase(this,productionCompanyId);
         if(idNumber != -1) this.id = idNumber;
         return (idNumber == -1) ? false : true;
     }
