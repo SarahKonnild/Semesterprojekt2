@@ -146,16 +146,20 @@ public class ModifyProductionCompanyController implements Initializable {
     //region
     @FXML
     private void handleCreateNew(MouseEvent event){
-        IProductionCompany productionCompany = LoginSystemController.getAdminUser().addNewProductionCompanyToDatabase(nameField.getText());
-        if(productionCompany != null){
-            errorMessage.setText("Produktionsfirma oprettet");
-            //searchList.add(productionCompany);
-            //resultList.setItems(FXCollections.observableArrayList(searchList));
-            nameField.clear();
+        if(!nameField.getText().isEmpty()) {
+            IProductionCompany productionCompany = LoginSystemController.getAdminUser().addNewProductionCompanyToDatabase(nameField.getText());
+            if (productionCompany != null) {
+                errorMessage.setText("Produktionsfirma oprettet");
+                //searchList.add(productionCompany);
+                //resultList.setItems(FXCollections.observableArrayList(searchList));
+                nameField.clear();
+            } else {
+                errorMessage.setText("Fejl, produktionsfirma blev ikke oprettet");
+            }
+            resultList.refresh();
         }else{
-            errorMessage.setText("Fejl, produktionsfirma blev ikke oprettet");
+            errorMessage.setText("Fejl, navnefelt er tomt");
         }
-        resultList.refresh();
     }
     //endregion
 
