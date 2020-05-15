@@ -68,10 +68,12 @@ public class CredITSystem implements ISystem {
     //endregion cast search methods ends here
 
     //region castRoleMaps methods
+    @Override
     public HashMap<IMovie, String> getCastRolesMovies(ICast cast) {
         List<String> tempList = persistenceLayer.castMovieRoles(cast);
         return makeCastRolesMovie(tempList);
     }
+    @Override
     public HashMap<IBroadcast, String> getCastRolesBroadcast(ICast cast) {
         List<String> tempList = persistenceLayer.castBroadcastRoles(cast);
         return makeCastRolesBroadcast(tempList);
@@ -104,13 +106,13 @@ public class CredITSystem implements ISystem {
         return castMap;
     }
 
-    public HashMap<ICast, String> getCastRolesMovies(int id) {
-        List<String> tempList = persistenceLayer.getCastRolesMoviesFromDatabase(id);
+    public HashMap<ICast, String> getCastRolesMovies(int movieId) {
+        List<String> tempList = persistenceLayer.getCastRolesMoviesFromDatabase(movieId);
         return makeCastRoleMap(tempList);
     }
 
-    public HashMap<ICast, String> getCastRolesBroadcast(int id) {
-        List<String> tempList = persistenceLayer.getCastRolesBroadcastFromDatabase(id);
+    public HashMap<ICast, String> getCastRolesBroadcast(int broadcastId) {
+        List<String> tempList = persistenceLayer.getCastRolesBroadcastFromDatabase(broadcastId);
         return makeCastRoleMap(tempList);
     }
     private HashMap<ICast, String> makeCastRoleMap(List<String> list) {

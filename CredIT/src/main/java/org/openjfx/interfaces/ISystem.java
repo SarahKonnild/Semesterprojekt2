@@ -4,8 +4,13 @@ package org.openjfx.interfaces;
 import org.openjfx.persistence.Persistence;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface ISystem {
+
+    HashMap<IMovie, String> getCastRolesMovies(ICast cast);
+
+    HashMap<IBroadcast, String> getCastRolesBroadcast(ICast cast);
     /**
      * The method makes a call to the persistence layer and gives it a keyword to be used in the search in the database.
      *
