@@ -172,7 +172,7 @@ public class ModifyMovieController implements Initializable {
             String companySearch = productionCompany.getText();
             ArrayList<IProductionCompany> results = new ArrayList<>();
             results.addAll(App.getSystemInstance().searchProductionCompany(companySearch));
-            if (results.get(0).getName().equalsIgnoreCase(companySearch)) {
+            if (results.get(0).getName().equalsIgnoreCase(companySearch) == true) {
                 resultList.setDisable(false);
                 IMovie movie = LoginSystemController.getAdminUser().addNewMovieToDatabase(movieName.getText(), results.get(0).getId(), releaseYear.getText());
                 clearFields();
@@ -228,7 +228,6 @@ public class ModifyMovieController implements Initializable {
     /**
      * Takes the movie that was chosen from the ListView and updates its attributes in the database with the text that is
      * entered into the TextFields.
-     *
      * @param event
      * @author Sarah
      */
@@ -272,8 +271,7 @@ public class ModifyMovieController implements Initializable {
 
     /**
      * Sets a String variable that ensures that the assign/unassign cast methods are run correctly with the Movie-related
-     * methods.
-     *
+     * methods
      * @param event
      * @author Sarah
      */
