@@ -5,6 +5,7 @@ import org.openjfx.interfaces.IPersistence;
 import org.openjfx.interfaces.IProduction;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Production implements IProduction {
     private final IPersistence persistence = CredITSystem.getPersistence();
@@ -37,9 +38,7 @@ public class Production implements IProduction {
 
     private void loadBroadcastArray() {
         ArrayList<IBroadcast> temp = system.searchBroadcast(this.id);
-        if(!temp.isEmpty()) {
-            this.broadcasts = temp;
-        }
+        this.broadcasts = Objects.requireNonNullElseGet(temp, ArrayList::new);
     }
 
     @Override
