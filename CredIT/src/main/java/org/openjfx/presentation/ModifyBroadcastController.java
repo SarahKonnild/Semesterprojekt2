@@ -166,33 +166,37 @@ public class ModifyBroadcastController implements Initializable {
     @FXML
     public void handleCreateBroadcast(MouseEvent event){
         resultList.setDisable(false);
-        String productionSearch = production.getText();
-        ArrayList<IProduction> results = App.getSystemInstance().searchProduction(productionSearch);
-        if(results.get(0).getName().equalsIgnoreCase(productionSearch)){
-            String dateVariable = day.getText() + "-" + month.getText() + "-" + year.getText();
-            if (day.getText().length() != 2 && month.getText().length() != 2 && year.getText().length() != 4) {
-                errorMessage.setText("Fejl, ugyldig datoindtastning");
-            } else {
-                IBroadcast broadcast = LoginSystemController.getAdminUser().addNewBroadcastToDatabase(broadcastName.getText(), Integer.parseInt(season.getText()),
-                        Integer.parseInt(episode.getText()), dateVariable, results.get(0).getId());
-                clearFields();
-                if (broadcast != null) {
-                    resultList.setDisable(false);
-                    errorMessage.setText(broadcast.getName() + " tilføjet");
-                    if(searchList == null) {
-                        searchList = new ArrayList<>();
-                    }
-                    searchList.clear();
-                    searchList.add(broadcast);
-                    resultList.setItems(FXCollections.observableArrayList(searchList));
-
+        if(!production.getText().isEmpty() && !broadcastName.getText().isEmpty() && !season.getText().isEmpty() && !episode.getText().isEmpty()) {
+            String productionSearch = production.getText();
+            ArrayList<IProduction> results = App.getSystemInstance().searchProduction(productionSearch);
+            if (results.get(0).getName().equalsIgnoreCase(productionSearch)) {
+                String dateVariable = day.getText() + "-" + month.getText() + "-" + year.getText();
+                if (day.getText().length() != 2 && month.getText().length() != 2 && year.getText().length() != 4) {
+                    errorMessage.setText("Fejl, ugyldig datoindtastning");
                 } else {
-                    errorMessage.setText("Fejl, udsendelsen blev ikke tilføjet");
+                    IBroadcast broadcast = LoginSystemController.getAdminUser().addNewBroadcastToDatabase(broadcastName.getText(), Integer.parseInt(season.getText()),
+                            Integer.parseInt(episode.getText()), dateVariable, results.get(0).getId());
+                    clearFields();
+                    if (broadcast != null) {
+                        resultList.setDisable(false);
+                        errorMessage.setText(broadcast.getName() + " tilføjet");
+                        if (searchList == null) {
+                            searchList = new ArrayList<>();
+                        }
+                        searchList.clear();
+                        searchList.add(broadcast);
+                        resultList.setItems(FXCollections.observableArrayList(searchList));
+
+                    } else {
+                        errorMessage.setText("Fejl, udsendelsen blev ikke tilføjet");
+                    }
                 }
+                resultList.refresh();
+            } else {
+                errorMessage.setText("Fejl, ingen produktion at tilføje til");
             }
-            resultList.refresh();
         }else{
-            errorMessage.setText("Fejl, ingen produktion at tilføje til");
+            errorMessage.setText("Fejl, venligst udfyld alle felter");
         }
     }
     //endregion
@@ -213,8 +217,6 @@ public class ModifyBroadcastController implements Initializable {
             status = chosenBroadcast.delete();
             if(status){
                 searchList.remove(chosenBroadcast);
-                IProduction retrievedProduction = App.retrieveProduction(chosenBroadcast);
-                retrievedProduction.unassignBroadcast(chosenBroadcast);
                 errorMessage.setText(chosenBroadcast.getName() + " slettet");
                 if(searchList.isEmpty()){
                     resultList.getItems().clear();
@@ -243,13 +245,16 @@ public class ModifyBroadcastController implements Initializable {
      */
     @FXML
     public void handleSaveBroadcast(MouseEvent event){
-            String[] airDate = chosenBroadcast.getAirDate();
-            status = chosenBroadcast.update(broadcastName.getText(), Integer.parseInt(season.getText()), Integer.parseInt(episode.getText()), airDate[2]);
-            if(status){
-                errorMessage.setText(chosenBroadcast.getName() + " opdateret");
-                clearFields();
+            if(!broadcastName.getText().isEmpty() && !production.getText().isEmpty() && !season.getText().isEmpty() & !episode.getText().isEmpty()) {
+                status = chosenBroadcast.update(broadcastName.getText(), Integer.parseInt(season.getText()), Integer.parseInt(episode.getText()), year.getText());
+                if (status) {
+                    errorMessage.setText(chosenBroadcast.getName() + " opdateret");
+                    clearFields();
+                } else {
+                    errorMessage.setText("Fejl, " + chosenBroadcast.getName() + " blev ikke opdateret");
+                }
             }else{
-                errorMessage.setText("Fejl, " + chosenBroadcast.getName() + " blev ikke opdateret");
+                errorMessage.setText("Fejl, udfyld venligst alle felter");
             }
     }
 

@@ -160,21 +160,25 @@ public class ModifyCastController implements Initializable {
      */
     @FXML
     public void handleCreateNew(ActionEvent event){
-        ICast cast = LoginSystemController.getAdminUser().addNewCastToDatabase(castName.getText(),regDKID.getText());
-        if(cast != null){
-            resultList.setDisable(false);
-            errorMessage.setText(cast.getName() + " oprettet");
-            if(castSearchResult == null) {
-                castSearchResult = new ArrayList<>();
+        if(!castName.getText().isEmpty() && !regDKID.getText().isEmpty()) {
+            ICast cast = LoginSystemController.getAdminUser().addNewCastToDatabase(castName.getText(), regDKID.getText());
+            if (cast != null) {
+                resultList.setDisable(false);
+                errorMessage.setText(cast.getName() + " oprettet");
+                if (castSearchResult == null) {
+                    castSearchResult = new ArrayList<>();
+                }
+                castSearchResult.clear();
+                castSearchResult.add(cast);
+                resultList.setItems(FXCollections.observableArrayList(castSearchResult));
+                clearFields();
+            } else {
+                errorMessage.setText("Medvirkende blev ikke oprettet");
             }
-            castSearchResult.clear();
-            castSearchResult.add(cast);
-            resultList.setItems(FXCollections.observableArrayList(castSearchResult));
-            clearFields();
+            resultList.refresh();
         }else{
-            errorMessage.setText("Medvirkende blev ikke oprettet");
+            errorMessage.setText("Fejl, venligst udfyld alle felter");
         }
-        resultList.refresh();
     }
     //endregion
 
@@ -254,14 +258,18 @@ public class ModifyCastController implements Initializable {
      */
     @FXML
     public void handleSave(ActionEvent event){
+        if(!castName.getText().isEmpty() && !regDKID.getText().isEmpty()) {
             creationState = chosenCast.update(castName.getText(), regDKID.getText());
-            if(creationState){
+            if (creationState) {
                 errorMessage.setText(chosenCast.getName() + " opdateret");
                 clearFields();
-            }else{
-                errorMessage.setText("Fejl, "+ chosenCast.getName() + " blev ikke opdateret");
+            } else {
+                errorMessage.setText("Fejl, " + chosenCast.getName() + " blev ikke opdateret");
             }
-        resultList.refresh();
+            resultList.refresh();
+        }else{
+            errorMessage.setText("Fejl, udfyld venligst alle felter");
+        }
     }
     //endregion
 

@@ -230,7 +230,7 @@ public class ModifyProductionCompanyController implements Initializable {
      */
     @FXML
     private void handleSaveChanges(MouseEvent event){
-        if(chosenProductionCompany != null){
+        if(chosenProductionCompany != null && !nameField.getText().isEmpty()){
             status = chosenProductionCompany.update(nameField.getText());
             if(status){
                 errorMessage.setText(chosenProductionCompany.getName() + " opdateret");
