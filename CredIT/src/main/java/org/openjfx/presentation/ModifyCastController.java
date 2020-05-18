@@ -133,13 +133,11 @@ public class ModifyCastController implements Initializable {
         HashMap<IMovie, String> movieRoles = App.getSystemInstance().getCastRolesMovies(chosenCast);
 
         for(IMovie movie : movieRoles.keySet()){
-            String temp = movie.getTitle() + movieRoles.get(movie);
-            System.out.println(temp);
+            String temp = movie.getTitle() + " : " + movieRoles.get(movie);
             roleArray.add(temp);
         }
         for(IBroadcast broadcast : broadcastRoles.keySet()){
             String temp = broadcast.getName() + " : " + broadcastRoles.get(broadcast);
-            System.out.println(temp);
             roleArray.add(temp);
         }
 

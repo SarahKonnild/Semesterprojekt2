@@ -211,8 +211,7 @@ public class ModifyMovieController implements Initializable {
      */
     @FXML
     public void handleSave(MouseEvent event){
-            String[] airDate = chosenMovie.getReleaseDate();
-            status = chosenMovie.update(movieName.getText(), airDate[2]);
+            status = chosenMovie.update(movieName.getText(), releaseYear.getText());
             if(status){
                 errorMessage.setText(chosenMovie.getTitle() + " opdateret");
                 clearFields();

@@ -36,11 +36,15 @@
                </cursor></PasswordField>
             <Label fx:id="usernameLabel" layoutX="69.0" layoutY="153.0" text="Brugernavn" textFill="WHITE" visible="false" />
             <Label fx:id="passwordLabel" layoutX="69.0" layoutY="222.0" text="Adgangskode" textFill="WHITE" visible="false" />
-            <Button fx:id="login" layoutX="133.0" layoutY="289.0" mnemonicParsing="false" onAction="#handleLoginButton" style="-fx-background-color: FFFFFF;" text="Log Ind" visible="false">
+            <Button fx:id="login" layoutX="174.0" layoutY="289.0" mnemonicParsing="false" onAction="#handleLoginButton" style="-fx-background-color: FFFFFF;" text="Log Ind" visible="false">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
             <Label fx:id="errorMessage" layoutX="49.0" layoutY="339.0" text="Forkerte oplysninger indtastet. Prøv igen." textFill="RED" visible="false" />
+            <Label fx:id="cancel" layoutX="85.0" layoutY="289.0" onMouseClicked="#handleCancel" prefHeight="25.0" prefWidth="43.0" text="Fortryd" textFill="WHITE" underline="true" visible="false">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Label>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="basePane" prefHeight="30.0" prefWidth="600.0">

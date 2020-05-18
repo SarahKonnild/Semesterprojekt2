@@ -38,6 +38,8 @@ public class LoginSystemController implements Initializable {
     @FXML
     private Label close;
     @FXML
+    private Label cancel;
+    @FXML
     private Label guestUserLogin;
     @FXML
     private Label adminUserLogin;
@@ -109,13 +111,8 @@ public class LoginSystemController implements Initializable {
      */
     @FXML
     public void handleAdminLoginClicked(MouseEvent event) {
-        guestUserLogin.setVisible(false);
-        adminUserLogin.setVisible(false);
-        usernameLabel.setVisible(true);
-        username.setVisible(true);
-        passwordLabel.setVisible(true);
-        password.setVisible(true);
-        login.setVisible(true);
+        changeChooseSystemVisible(false);
+        changeLoginFieldsVisible(true);
     }
 
     /**
@@ -135,6 +132,12 @@ public class LoginSystemController implements Initializable {
        }
     }
 
+    @FXML
+    public void handleCancel(MouseEvent event){
+        changeChooseSystemVisible(true);
+        changeLoginFieldsVisible(false);
+    }
+
     /**
      * Permits closing of the borderless window.
      * @author Sarah
@@ -150,5 +153,19 @@ public class LoginSystemController implements Initializable {
 
     public static IUser getAdminUser(){
         return adminUser;
+    }
+
+    private void changeLoginFieldsVisible(boolean value){
+        usernameLabel.setVisible(value);
+        username.setVisible(value);
+        passwordLabel.setVisible(value);
+        password.setVisible(value);
+        login.setVisible(value);
+        cancel.setVisible(value);
+    }
+
+    private void changeChooseSystemVisible(boolean value){
+        guestUserLogin.setVisible(value);
+        adminUserLogin.setVisible(value);
     }
 }
