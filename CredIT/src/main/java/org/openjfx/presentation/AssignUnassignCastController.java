@@ -68,7 +68,8 @@ public class AssignUnassignCastController implements Initializable {
     private ArrayList<ICast> castSearchResult;
     private ObservableList<ICast> castObservableList;
     private ICast chosenCast;
-    private ArrayList<String> roleArray;
+    private ArrayList<PCast> roleArray;
+    private PCast chosenPCast;
 
     //endregion
 
@@ -89,6 +90,8 @@ public class AssignUnassignCastController implements Initializable {
             broadcast = ModifyBroadcastController.getChosenBroadcast();
             movie = null;
         }
+
+        roleArray = new ArrayList<>();
     }
 
     //Everything do do with manipulating the ListView (search,choose)
@@ -125,9 +128,17 @@ public class AssignUnassignCastController implements Initializable {
      */
     @FXML
     public void handleResultChosen(MouseEvent event){
-        chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
-        nameField.setText(chosenCast.getName());
-        regDKField.setText(chosenCast.getRegDKID());
+        Object obj = resultList.getSelectionModel().getSelectedItem();
+        if(obj instanceof ICast) {
+            chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
+            nameField.setText(chosenCast.getName());
+            regDKField.setText(chosenCast.getRegDKID());
+        }else if(obj instanceof PCast){
+            chosenPCast = (PCast) obj;
+            nameField.setText(chosenPCast.getCast().getName());
+            regDKField.setText(chosenPCast.getCast().getRegDKID());
+            rolenameField.setText(chosenPCast.getRole());
+        }
     }
     //endregion
 
@@ -143,10 +154,21 @@ public class AssignUnassignCastController implements Initializable {
     @FXML
     public void handleAssignNewCast(MouseEvent event){
         if(App.getAssignCastModifier().equals("movie")){
-            ModifyMovieController.getChosenMovie().assignCast(chosenCast, rolenameField.getText());
-        }else if(App.getAssignCastModifier().equals("broadcast")){
-            ModifyBroadcastController.getChosenBroadcast().assignCast(chosenCast,rolenameField.getText());
+            if(ModifyMovieController.getChosenMovie().getCastMap().containsKey(chosenCast)){
+                errorMessage.setText(chosenCast.getName() + "er allerede på filmen");
+            }else{
+                ModifyMovieController.getChosenMovie().assignCast(chosenCast, rolenameField.getText());
+                errorMessage.setText(chosenCast.getName() + " tilføjet");
+            }
+        }else if(App.getAssignCastModifier().equals("broadcast")) {
+            if(ModifyBroadcastController.getChosenBroadcast().getCastMap().containsKey(chosenCast)){
+                errorMessage.setText(chosenCast.getName() + "er allerede på udsendelsen");
+            }else {
+                ModifyBroadcastController.getChosenBroadcast().assignCast(chosenCast, rolenameField.getText());
+                errorMessage.setText(chosenCast.getName() + " tilføjet");
+            }
         }
+        //TODO ensure that the resultList is updated to reflect the changes.
     }
 
     /**
@@ -158,11 +180,12 @@ public class AssignUnassignCastController implements Initializable {
     @FXML
     public void handleUnassignCast(MouseEvent event){
         if(App.getAssignCastModifier().equals("movie")){
-            ModifyMovieController.getChosenMovie().unassignCast(chosenCast,rolenameField.getText());
+            ModifyMovieController.getChosenMovie().unassignCast(chosenPCast.getCast(),chosenPCast.getRole());
         }else if(App.getAssignCastModifier().equals("broadcast")){
-            ModifyBroadcastController.getChosenBroadcast().unassignCast(chosenCast,role.getText());
+            ModifyBroadcastController.getChosenBroadcast().unassignCast(chosenPCast.getCast(),chosenPCast.getRole());
         }
-
+        errorMessage.setText(chosenPCast.getCast().getName() + " fjernet");
+        //TODO ensure that the resultList is updated to reflect the changes.
     }
     //endregion
 
@@ -178,10 +201,14 @@ public class AssignUnassignCastController implements Initializable {
     @FXML
     public void handleSave(MouseEvent event){
         if(App.getAssignCastModifier().equals("movie")){
-            //TODO update the assigned cast's role for the movie, by first unassigning the cast and then reassigning it with the new role.
+            ModifyMovieController.getChosenMovie().unassignCast(chosenPCast.getCast(),chosenPCast.getRole());
+            ModifyMovieController.getChosenMovie().assignCast(chosenPCast.getCast(), rolenameField.getText());
         }else if(App.getAssignCastModifier().equals("broadcast")){
-            //TODO update the assigned cast's role for the broadcast, by first unassigning the cast and then reassigning it with the new role.
+            ModifyBroadcastController.getChosenBroadcast().unassignCast(chosenPCast.getCast(),chosenPCast.getRole());
+            ModifyBroadcastController.getChosenBroadcast().assignCast(chosenPCast.getCast(), rolenameField.getText());
         }
+        errorMessage.setText(chosenPCast.getCast().getName() + " opdateret");
+        //TODO ensure that the resultList is updated to reflect the changes.
     }
 
     //endregion
@@ -234,6 +261,8 @@ public class AssignUnassignCastController implements Initializable {
      */
     @FXML
     public void handleAssignCastOption(MouseEvent event){
+        resultList.getItems().clear();
+        clearFields();
         setFieldsAndLabelsVisible(true);
         assignButton.setVisible(true);
         unassignButton.setVisible(false);
@@ -247,27 +276,33 @@ public class AssignUnassignCastController implements Initializable {
      */
     @FXML
     public void handleUnassignCastOption(MouseEvent event){
+        clearFields();
+        resultList.setDisable(false);
         setFieldsAndLabelsVisible(true);
         unassignButton.setVisible(true);
         save.setVisible(true);
         assignButton.setVisible(false);
         if(App.getAssignCastModifier().equals("movie")) {
-            HashMap<IMovie, String> movieRoles = App.getSystemInstance().getCastRolesMovies(chosenCast);
+            roleArray.clear();
+            HashMap<ICast, String> movieRoles = ModifyMovieController.getChosenMovie().getCastMap();
 
-            for(IMovie movie : movieRoles.keySet()){
-                String temp = movie.getTitle() + movieRoles.get(movie);
-                roleArray.add(temp);
+            for(ICast cast : movieRoles.keySet()){
+                PCast newCast = new PCast(cast, movieRoles.get(cast));
+                roleArray.add(newCast);
             }
 
             resultList.setItems(FXCollections.observableArrayList(roleArray));
         } else if(App.getAssignCastModifier().equals("broadcast")){
-            HashMap<IBroadcast, String> broadcastRoles = App.getSystemInstance().getCastRolesBroadcast(chosenCast);
+            roleArray.clear();
+            HashMap<ICast, String> broadcastRoles = ModifyBroadcastController.getChosenBroadcast().getCastMap();
 
-            for(IBroadcast broadcast : broadcastRoles.keySet()){
-                String temp = broadcast.getName() + broadcastRoles.get(broadcast);
-                roleArray.add(temp);
+            for(ICast cast : broadcastRoles.keySet()){
+                PCast newCast = new PCast(cast, broadcastRoles.get(cast));
+                roleArray.add(newCast);
             }
+            resultList.setItems(FXCollections.observableArrayList(roleArray));
         }
+
     }
 
     /**
@@ -285,6 +320,12 @@ public class AssignUnassignCastController implements Initializable {
         regDKField.setVisible(value);
         role.setVisible(value);
         rolenameField.setVisible(value);
+    }
+
+    public void clearFields(){
+        nameField.clear();
+        regDKField.clear();
+        rolenameField.clear();
     }
     //endregion
 }

@@ -166,6 +166,7 @@ public class ModifyProductionController implements Initializable {
      */
     @FXML
     private void handleCreateNew(MouseEvent event){
+        resultList.setDisable(false);
         String companySearch = productionCompany.getText();
         ArrayList<IProductionCompany> results = new ArrayList<>();
         results.addAll(App.getSystemInstance().searchProductionCompany(companySearch));

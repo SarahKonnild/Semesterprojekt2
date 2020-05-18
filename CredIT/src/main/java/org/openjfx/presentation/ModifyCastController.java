@@ -139,7 +139,11 @@ public class ModifyCastController implements Initializable {
             String temp = broadcast.getName() + broadcastRoles.get(broadcast);
             roleArray.add(temp);
         }
-        resultList.setItems(FXCollections.observableArrayList(roleArray));
+        if(!roleArray.isEmpty()) {
+            resultList.setItems(FXCollections.observableArrayList(roleArray));
+        } else{
+            errorMessage.setText("Fejl, ingen roller fundet");
+        }
 
     }
     //endregion

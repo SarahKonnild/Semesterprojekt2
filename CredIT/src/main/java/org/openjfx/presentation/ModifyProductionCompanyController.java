@@ -159,6 +159,7 @@ public class ModifyProductionCompanyController implements Initializable {
      */
     @FXML
     private void handleCreateNew(MouseEvent event){
+        resultList.setDisable(false);
         if(!nameField.getText().isEmpty()) {
             ArrayList<IProductionCompany> search = App.getSystemInstance().searchProductionCompany(nameField.getText());
             if (search.isEmpty()) {
@@ -254,7 +255,6 @@ public class ModifyProductionCompanyController implements Initializable {
      */
     @FXML
     private void handleChangeToMovies(MouseEvent event){
-        //TODO CHECK IF WORKS
         if(chosenProductionCompany != null){
              if(movieList != null) {
                  resultList.setItems(FXCollections.observableArrayList(movieList));

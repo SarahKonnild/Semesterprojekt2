@@ -147,6 +147,7 @@ public class ModifyMovieController implements Initializable {
      */
     @FXML
     public void handleCreateNew(MouseEvent event){
+        resultList.setDisable(false);
         String companySearch = productionCompany.getText();
         ArrayList<IProductionCompany> results = new ArrayList<>();
         results.addAll(App.getSystemInstance().searchProductionCompany(companySearch));

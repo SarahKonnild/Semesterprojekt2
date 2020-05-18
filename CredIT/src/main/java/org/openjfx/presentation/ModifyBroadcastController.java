@@ -165,6 +165,7 @@ public class ModifyBroadcastController implements Initializable {
      */
     @FXML
     public void handleCreateBroadcast(MouseEvent event){
+        resultList.setDisable(false);
         String productionSearch = production.getText();
         ArrayList<IProduction> results = App.getSystemInstance().searchProduction(productionSearch);
         if(results.get(0).getName().equalsIgnoreCase(productionSearch)){
