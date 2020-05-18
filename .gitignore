@@ -37,3 +37,13 @@ CredIT/.idea/dataSources.xml
 CredIT/.idea/dataSources/182b2d04-fa70-4fb4-ad47-577304eb5088.xml
 
 CredIT/.idea/dataSources/2e9ec1ef-5080-409b-b7ae-7798a89cb1b3.xml
+
+CredIT/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+
+CredIT/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+
+CredIT/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+
+CredIT/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
+
+CredIT/target/surefire-reports/TEST-persistence.PersistenceTest.xml

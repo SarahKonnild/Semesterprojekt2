@@ -22,6 +22,7 @@ public class PersistenceTest {
         List<String> castList = new ArrayList<>();
         castList.add("1\tdaniel1999\tDaniel Radcliffe");
         Assert.assertArrayEquals(castList.toArray(), instance.getCastFromDatabase(1).toArray());
+        Assert.assertArrayEquals(castList.toArray(), instance.getCastFromDatabase("daniel radcliffe").toArray());
     }
 
     @Test

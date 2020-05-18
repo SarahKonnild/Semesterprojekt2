@@ -596,7 +596,6 @@ public class Persistence implements IPersistence {
         try {
             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM cast_members WHERE LOWER(name) ~ ? ORDER BY name");
             stmt.setString(1, keyword.toLowerCase());
-            stmt.setString(2, keyword.toLowerCase());
             ResultSet resultSet = stmt.executeQuery();
 
             List<String> resultList = new ArrayList<>();
