@@ -117,7 +117,7 @@ create table contains (
 INSERT INTO production_company VALUES (1, 'Warner Bros.');
 INSERT INTO movie VALUES (1, 'Harry Potter and the Sorcerer''s Stone', date'2001-01-01');
 INSERT INTO produces_movie VALUES (1, 1);
-INSERT INTO cast_members VALUES (1, 'daneie1999', 'Daniel Radcliffe');
+INSERT INTO cast_members VALUES (1, 'daniel1999', 'Daniel Radcliffe');
 INSERT INTO cast_members VALUES (2, 'tomell2000', 'Tom Ellis');
 INSERT INTO movie_employs VALUES (1, 1, 'Harry Potter');
 INSERT INTO production VALUES (1, 'Lucifer', date'2015-01-01');
@@ -125,6 +125,7 @@ INSERT INTO produces VALUES (1, 1);
 INSERT INTO broadcast VALUES (1, 'Pilot', date'2016-01-25', 1, 1);
 INSERT INTO broadcast VALUES (2, 'Lucifer, Stay. Good Devil', date'2016-02-01', 2, 1);
 INSERT INTO broadcast_employs VALUES (1, 2, 'Lucifer');
+INSERT INTO broadcast_employs VALUES (2, 2, 'Lucifer');
 INSERT INTO contains VALUES (1, 1);
 INSERT INTO contains VALUES (1, 2);
 

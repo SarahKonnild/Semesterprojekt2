@@ -19,48 +19,48 @@ public class PersistenceTest {
     @org.junit.Test
     public void getCastFromDatabase() {
         castList = new ArrayList<>();
-        castList.add("2,1234,Greta Tunfisk");
-        Assert.assertArrayEquals(castList.toArray(), instance.getCastFromDatabase(2).toArray());
+        castList.add("1,daniel1999,Daniel Radcliffe");
+        Assert.assertArrayEquals(castList.toArray(), instance.getCastFromDatabase(1).toArray());
     }
 
     @Test
     public void getProductionFromDatabase() {
         List<String> productionList = new ArrayList<>();
-        productionList.add("3,Lost,2009,2,6");
-        Assert.assertArrayEquals(productionList.toArray(), instance.getProductionFromDatabase(3).toArray());
-        Assert.assertArrayEquals(productionList.toArray(), instance.getProductionFromDatabase("lost").toArray());
+        productionList.add("1,Lucifer,2015,1,2");
+        Assert.assertArrayEquals(productionList.toArray(), instance.getProductionFromDatabase(1).toArray());
+        Assert.assertArrayEquals(productionList.toArray(), instance.getProductionFromDatabase("lucifer").toArray());
     }
 
     @Test
     public void getProductionCompanyFromDatabase() {
         List<String> productionCompanyList = new ArrayList<>();
-        productionCompanyList.add("2,Disney");
-        Assert.assertArrayEquals(productionCompanyList.toArray(), instance.getProductionCompany(2).toArray());
-        Assert.assertArrayEquals(productionCompanyList.toArray(), instance.getProductionCompany("disney").toArray());
+        productionCompanyList.add("1,Warner Bros.");
+        Assert.assertArrayEquals(productionCompanyList.toArray(), instance.getProductionCompany(1).toArray());
+        Assert.assertArrayEquals(productionCompanyList.toArray(), instance.getProductionCompany("warner").toArray());
     }
 
     @Test
     public void getCastRolesMoviesFromDatabase() {
         List<String> movieCastList = new ArrayList<>();
-        movieCastList.add("4,The Bee");
+        movieCastList.add("1,Harry Potter");
         Assert.assertArrayEquals(movieCastList.toArray(), instance.getCastRolesMoviesFromDatabase(1).toArray());
     }
 
     @Test
     public void getCastRolesBroadcastFromDatabase() {
         List<String> broadcastCastList = new ArrayList<>();
-        broadcastCastList.add("2,Actor");
-        Assert.assertArrayEquals(broadcastCastList.toArray(), instance.getCastRolesBroadcastFromDatabase(6).toArray());
+        broadcastCastList.add("2,Lucifer");
+        Assert.assertArrayEquals(broadcastCastList.toArray(), instance.getCastRolesBroadcastFromDatabase(2).toArray());
     }
 
     @Test
     public void getProductionName() {
-        Assert.assertEquals("Lost", instance.getProductionName(3));
+        Assert.assertEquals("Lucifer", instance.getProductionName(1));
     }
 
     @Test
     public void getProductionCompanyIdOnProduction() {
-        Assert.assertEquals(2, instance.getProductionCompanyIdOnProduction(3));
+        Assert.assertEquals(1, instance.getProductionCompanyIdOnProduction(1));
     }
 
 
