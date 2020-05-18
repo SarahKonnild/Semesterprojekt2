@@ -920,7 +920,7 @@ public class Persistence implements IPersistence {
             updateMovieStatement.setInt(3, movie.getId());
             updateMovieStatement.setString(1, movie.getTitle());
             LocalDate tempDate = LocalDate.of(
-                    Integer.parseInt(movie.getReleaseDate()[0]), 1, 1);
+                    Integer.parseInt(movie.getReleaseDate()[2]), 1, 1);
             updateMovieStatement.setDate(2, Date.valueOf(tempDate));
             updateMovieStatement.execute();
 
