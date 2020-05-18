@@ -186,8 +186,6 @@ public class ModifyCastController implements Initializable {
      */
     @FXML
     public void handleMerge(ActionEvent event){
-        if(castObservableList != null){
-            chosenCastObservable = resultList.getSelectionModel().getSelectedItems();
             if(chosenCastObservable.size() == 2){
                 creationState = chosenCastObservable.get(0).mergeCastMembers(chosenCastObservable.get(1));
                 if(creationState){
@@ -202,10 +200,6 @@ public class ModifyCastController implements Initializable {
             } else{
                 errorMessage.setText("Fejl, for mange medvirkende valgt");
             }
-        } else{
-            errorMessage.setText("Fejl, ingen medvirkende valgt");
-        }
-
     }
 
     //endregion
@@ -223,8 +217,6 @@ public class ModifyCastController implements Initializable {
      */
     @FXML
     public void handleDelete(ActionEvent event){
-        if(!castObservableList.isEmpty()){
-            chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
             creationState = chosenCast.delete();
             if(creationState){
                 errorMessage.setText(chosenCast.getName() + " slettet");
@@ -235,9 +227,6 @@ public class ModifyCastController implements Initializable {
             }else{
                 errorMessage.setText("Fejl, " + chosenCast.getName() + " blev ikke slettet");
             }
-        }else{
-            errorMessage.setText("Fejl, ingen medvirkende valgt");
-        }
         resultList.refresh();
     }
     //endregion
@@ -252,8 +241,6 @@ public class ModifyCastController implements Initializable {
      */
     @FXML
     public void handleSave(ActionEvent event){
-        if(!castObservableList.isEmpty()){
-            chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
             creationState = chosenCast.update(castName.getText(), regDKID.getText());
             if(creationState){
                 errorMessage.setText(chosenCast.getName() + " opdateret");
@@ -261,9 +248,6 @@ public class ModifyCastController implements Initializable {
             }else{
                 errorMessage.setText("Fejl, "+ chosenCast.getName() + " blev ikke opdateret");
             }
-        }else{
-            errorMessage.setText("Fejl, ingen medvirkende valgt");
-        }
         resultList.refresh();
     }
     //endregion
