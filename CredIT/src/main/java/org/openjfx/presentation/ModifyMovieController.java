@@ -168,7 +168,7 @@ public class ModifyMovieController implements Initializable {
     @FXML
     public void handleCreateNew(MouseEvent event) {
         resultList.setDisable(false);
-        if(!movieName.getText().isEmpty() && !productionCompany.getText().isEmpty() && !releaseYear.getText().isEmpty()) {
+        if (!movieName.getText().isEmpty() && !productionCompany.getText().isEmpty() && !releaseYear.getText().isEmpty()) {
             String companySearch = productionCompany.getText();
             ArrayList<IProductionCompany> results = new ArrayList<>();
             results.addAll(App.getSystemInstance().searchProductionCompany(companySearch));
@@ -190,14 +190,12 @@ public class ModifyMovieController implements Initializable {
                 searchResult.clear();
                 searchResult.add(movie);
                 resultList.setItems(FXCollections.observableArrayList(searchResult));
-            } else {
-                errorMessage.setText("Fejl opstået, " + movie.getTitle() + " blev ikke tilføjet");
+            }else {
+                errorMessage.setText("Fejl opstået, intet firma at tilføje til");
             }
-            resultList.refresh();
-        } else {
-            errorMessage.setText("Fejl opstået, intet firma at tilføje til");
         }else{
             errorMessage.setText("Fejl, venligst udfyld alle felter");
+
         }
     }
     //endregion
@@ -211,20 +209,19 @@ public class ModifyMovieController implements Initializable {
      * @author Sarah
      */
     @FXML
-    public void handleDelete(MouseEvent event){
-            status = chosenMovie.delete();
-            if(status){
-                searchResult.remove(chosenMovie);
-                errorMessage.setText(chosenMovie.getTitle() + " slettet");
-                if(chosenMovie == null){
-                    resultList.getItems().clear();
-                } else{
-                    resultList.setItems(FXCollections.observableArrayList(searchResult));
-                }
-                clearFields();
+    public void handleDelete(MouseEvent event) {
+        status = chosenMovie.delete();
+        if (status) {
+            searchResult.remove(chosenMovie);
+            errorMessage.setText(chosenMovie.getTitle() + " slettet");
+            if (chosenMovie == null) {
+                resultList.getItems().clear();
+            } else {
+                resultList.setItems(FXCollections.observableArrayList(searchResult));
             }
             clearFields();
         }
+        clearFields();
         resultList.refresh();
     }
 
