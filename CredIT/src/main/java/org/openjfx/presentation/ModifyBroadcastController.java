@@ -246,7 +246,7 @@ public class ModifyBroadcastController implements Initializable {
     @FXML
     public void handleSaveBroadcast(MouseEvent event){
             if(!broadcastName.getText().isEmpty() && !production.getText().isEmpty() && !season.getText().isEmpty() & !episode.getText().isEmpty()) {
-                status = chosenBroadcast.update(broadcastName.getText(), Integer.parseInt(season.getText()), Integer.parseInt(episode.getText()), year.getText());
+                status = chosenBroadcast.update(broadcastName.getText(), Integer.parseInt(season.getText()), Integer.parseInt(episode.getText()), day.getText() + "-" + month.getText() + "-" + year.getText());
                 if (status) {
                     errorMessage.setText(chosenBroadcast.getName() + " opdateret");
                     clearFields();
