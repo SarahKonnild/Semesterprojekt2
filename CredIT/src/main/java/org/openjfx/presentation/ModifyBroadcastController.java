@@ -213,8 +213,6 @@ public class ModifyBroadcastController implements Initializable {
             status = chosenBroadcast.delete();
             if(status){
                 searchList.remove(chosenBroadcast);
-                IProduction retrievedProduction = App.retrieveProduction(chosenBroadcast);
-                retrievedProduction.unassignBroadcast(chosenBroadcast);
                 errorMessage.setText(chosenBroadcast.getName() + " slettet");
                 if(searchList.isEmpty()){
                     resultList.getItems().clear();
