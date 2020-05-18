@@ -130,7 +130,7 @@ public class Persistence implements IPersistence {
             );
             stmt.setString(1, movie.getTitle());
             String[] release = movie.getReleaseDate();
-            stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(release[0]), 1, 1)));
+            stmt.setDate(2, Date.valueOf(LocalDate.of(Integer.parseInt(release[2]), 1, 1)));
             stmt.execute();
             int prodID = productionCompanyId;
             //Insert the link between the production company and the movie.
@@ -619,7 +619,7 @@ public class Persistence implements IPersistence {
             List<String> resultList = new ArrayList<>();
             resultSet.next();
             resultList.add((resultSet.getInt(1) + "," +
-                    resultSet.getInt(2) + "," +
+                    resultSet.getString(2) + "," +
                     resultSet.getString(3)));
 
             return resultList;
@@ -669,7 +669,7 @@ public class Persistence implements IPersistence {
 
             ArrayList<String> roleList = new ArrayList<>();
             while (resultSet.next()) {
-                roleList.add((resultSet.getInt(2)) + "," +
+                roleList.add((resultSet.getString(2)) + "," +
                         resultSet.getString(3));
             }
             return roleList;

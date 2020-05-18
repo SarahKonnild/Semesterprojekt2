@@ -1,27 +1,15 @@
 -- run me first
-CREATE DATABASE credIT_db;
-
+CREATE DATABASE credit_db;
 
 -- the rest can be run at once
-create table production_company
-(
+create table production_company (
     id serial not null
         constraint production_company_pk
             primary key,
     name varchar(250) unique not null
 );
 
-create table cast_members
-(
-    id serial not null
-        constraint cast_pk
-            primary key,
-    regdkid varchar(10) not null,
-    name varchar(255) not null
-);
-
-create table movie
-(
+create table movie (
     id serial not null
         constraint movie_pk
             primary key,
@@ -29,58 +17,28 @@ create table movie
     release_date date not null
 );
 
-create table broadcast
-(
-    id serial not null
-        constraint broadcast_pk
-            primary key,
-    name varchar(250) not null,
-    air_date date not null,
-    episode_number integer not null,
-    season_number integer not null
-);
-
-create table production
-(
-    id serial not null
-        constraint production_pk
-            primary key,
-    name varchar(255) not null,
-    year date not null,
-    number_of_seasons integer default 0,
-    number_of_episodes integer default 0
-);
-
-create table produces
-(
+create table produces_movie (
     production_company_id integer not null
-        constraint produces_production_company_id_fkey
+        constraint produces_movie_production_company_id_fkey
             references production_company
             on delete cascade,
-    production_id integer not null
-        constraint produces_production_id_fkey
-            references production
+    movie_id integer not null
+        constraint produces_movie_movie_id_fkey
+            references movie
             on delete cascade,
-    constraint produces_pkey
-        primary key (production_company_id, production_id)
+    constraint produces_movie_pkey
+        primary key (production_company_id, movie_id)
 );
 
-create table contains
-(
-    production_id integer not null
-        constraint contains_production_id_fkey
-            references production
-            on delete cascade,
-    broadcast_id integer not null
-        constraint contains_broadcast_id_fkey
-            references broadcast
-            on delete cascade,
-    constraint contains_pkey
-        primary key (production_id, broadcast_id)
+create table cast_members (
+    id serial not null
+        constraint cast_pk
+            primary key,
+    regdkid varchar(10) not null,
+    name varchar(255) not null
 );
 
-create table movie_employs
-(
+create table movie_employs (
     movie_id integer not null
         constraint movie_employs_movie_id_fkey
             references movie
@@ -94,8 +52,27 @@ create table movie_employs
         primary key (movie_id, cast_id)
 );
 
-create table broadcast_employs
-(
+create table production (
+    id serial not null
+        constraint production_pk
+            primary key,
+    name varchar(255) not null,
+    year date not null,
+    number_of_seasons integer default 0,
+    number_of_episodes integer default 0
+);
+
+create table broadcast (
+    id serial not null
+        constraint broadcast_pk
+            primary key,
+    name varchar(250) not null,
+    air_date date not null,
+    episode_number integer not null,
+    season_number integer not null
+);
+
+create table broadcast_employs (
     broadcast_id integer not null
         constraint broadcast_employs_broadcast_id_fkey
             references broadcast
@@ -109,19 +86,49 @@ create table broadcast_employs
         primary key (broadcast_id, cast_id)
 );
 
-create table produces_movie
-(
+create table produces (
     production_company_id integer not null
-        constraint produces_movie_production_company_id_fkey
+        constraint produces_production_company_id_fkey
             references production_company
             on delete cascade,
-    movie_id integer not null
-        constraint produces_movie_movie_id_fkey
-            references movie
+    production_id integer not null
+        constraint produces_production_id_fkey
+            references production
             on delete cascade,
-    constraint produces_movie_pkey
-        primary key (production_company_id, movie_id)
+    constraint produces_pkey
+        primary key (production_company_id, production_id)
 );
+
+create table contains (
+    production_id integer not null
+        constraint contains_production_id_fkey
+            references production
+            on delete cascade,
+    broadcast_id integer not null
+        constraint contains_broadcast_id_fkey
+            references broadcast
+            on delete cascade,
+    constraint contains_pkey
+        primary key (production_id, broadcast_id)
+);
+
+-- Inserts to have baseline data. Is used for the tests.
+-- Insert order is important.
+INSERT INTO production_company VALUES (1, 'Warner Bros.');
+INSERT INTO movie VALUES (1, 'Harry Potter and the Sorcerer''s Stone', date'2001-01-01');
+INSERT INTO produces_movie VALUES (1, 1);
+INSERT INTO cast_members VALUES (1, 'daniel1999', 'Daniel Radcliffe');
+INSERT INTO cast_members VALUES (2, 'tomell2000', 'Tom Ellis');
+INSERT INTO movie_employs VALUES (1, 1, 'Harry Potter');
+INSERT INTO production VALUES (1, 'Lucifer', date'2015-01-01');
+INSERT INTO produces VALUES (1, 1);
+INSERT INTO broadcast VALUES (1, 'Pilot', date'2016-01-25', 1, 1);
+INSERT INTO broadcast VALUES (2, 'Lucifer, Stay. Good Devil', date'2016-02-01', 2, 1);
+INSERT INTO broadcast_employs VALUES (1, 2, 'Lucifer');
+INSERT INTO broadcast_employs VALUES (2, 2, 'Lucifer');
+INSERT INTO contains VALUES (1, 1);
+INSERT INTO contains VALUES (1, 2);
+
 
 -- update single broadcast season number
 CREATE OR REPLACE PROCEDURE update_season_number(production_id_variable integer)
