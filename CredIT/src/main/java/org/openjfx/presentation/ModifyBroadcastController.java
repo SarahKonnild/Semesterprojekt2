@@ -249,6 +249,7 @@ public class ModifyBroadcastController implements Initializable {
                 status = chosenBroadcast.update(broadcastName.getText(), Integer.parseInt(season.getText()), Integer.parseInt(episode.getText()), day.getText() + "-" + month.getText() + "-" + year.getText());
                 if (status) {
                     errorMessage.setText(chosenBroadcast.getName() + " opdateret");
+                    resultList.setItems(FXCollections.observableArrayList(searchList));
                     clearFields();
                 } else {
                     errorMessage.setText("Fejl, " + chosenBroadcast.getName() + " blev ikke opdateret");
