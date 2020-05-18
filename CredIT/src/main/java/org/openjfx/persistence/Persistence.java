@@ -44,7 +44,7 @@ public class Persistence implements IPersistence {
     private void initializePostgresqlDatabase() {
         try {
             DriverManager.registerDriver(new org.postgresql.Driver());
-            connection = DriverManager.getConnection("jdbc:postgresql://"+url+":"+port+"/"+databaseName, username, password);
+            connection = DriverManager.getConnection("jdbc:postgresql://" + url + ":" + port + "/" + databaseName, username, password);
         } catch (SQLException | IllegalArgumentException ex) {
             System.out.println("Sorry... Something is wrong with your password.");
         }
@@ -413,10 +413,10 @@ public class Persistence implements IPersistence {
                         resultSet.getString(2) + "," +
                         resultSet.getInt(5)) + "," +
                         resultSet.getInt(4) + "," +
-                        String.valueOf(date.getDayOfMonth()) + "-" +
-                        String.valueOf(date.getMonth().getValue()) + "-" +
-                        String.valueOf(date.getYear())
-                         );
+                        date.getDayOfMonth() + "-" +
+                        date.getMonth().getValue() + "-" +
+                        date.getYear()
+                );
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -447,9 +447,9 @@ public class Persistence implements IPersistence {
                         resultSet.getString(2) + "," +
                         resultSet.getInt(5)) + "," +
                         resultSet.getInt(4) + "," +
-                        String.valueOf(date.getDayOfMonth()) + "-" +
-                        String.valueOf(date.getMonth().getValue()) + "-" +
-                        String.valueOf(date.getYear())
+                        (date.getDayOfMonth()) + "-" +
+                        (date.getMonth().getValue()) + "-" +
+                        (date.getYear())
                 );
             }
             return resultList;
@@ -479,9 +479,9 @@ public class Persistence implements IPersistence {
                         resultSet.getString(2) + "," +
                         resultSet.getInt(5)) + "," +
                         resultSet.getInt(4) + "," +
-                        String.valueOf(date.getDayOfMonth()) + "-" +
-                        String.valueOf(date.getMonth().getValue()) + "-" +
-                        String.valueOf(date.getYear())
+                        date.getDayOfMonth() + "-" +
+                        date.getMonth().getValue() + "-" +
+                        date.getYear()
                 );
             }
             return resultList;
@@ -576,7 +576,6 @@ public class Persistence implements IPersistence {
                         (resultSet.getDate(3).toLocalDate().getYear())
                 ));
             }
-            System.out.println(resultList);
             return resultList;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -921,7 +920,7 @@ public class Persistence implements IPersistence {
             updateMovieStatement.setInt(3, movie.getId());
             updateMovieStatement.setString(1, movie.getTitle());
             LocalDate tempDate = LocalDate.of(
-                    Integer.parseInt(movie.getReleaseDate()[0]),1,1);
+                    Integer.parseInt(movie.getReleaseDate()[0]), 1, 1);
             updateMovieStatement.setDate(2, Date.valueOf(tempDate));
             updateMovieStatement.execute();
 
@@ -971,11 +970,11 @@ public class Persistence implements IPersistence {
             LocalDate tempDate = LocalDate.of(Integer.parseInt(production.getYear()), 1, 1);
             stmt.setDate(2, Date.valueOf(tempDate));
             stmt.execute();
-        if(!production.getBroadcasts().isEmpty()){
-            for (IBroadcast broadcast : production.getBroadcasts()) {
-                updateBroadcastInDatabase(broadcast);
+            if (!production.getBroadcasts().isEmpty()) {
+                for (IBroadcast broadcast : production.getBroadcasts()) {
+                    updateBroadcastInDatabase(broadcast);
+                }
             }
-        }
             return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
