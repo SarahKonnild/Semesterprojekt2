@@ -186,7 +186,7 @@ public class ModifyCastController implements Initializable {
      */
     @FXML
     public void handleMerge(ActionEvent event){
-        if(!castObservableList.isEmpty()){
+        if(castObservableList != null){
             chosenCastObservable = resultList.getSelectionModel().getSelectedItems();
             if(chosenCastObservable.size() == 2){
                 creationState = chosenCastObservable.get(0).mergeCastMembers(chosenCastObservable.get(1));
