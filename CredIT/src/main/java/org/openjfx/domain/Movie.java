@@ -16,7 +16,10 @@ public class Movie implements IMovie {
 
     public Movie(String title, String releaseDate){
         this.title = title;
-        this.releaseDate = releaseDate.split("-");
+        this.releaseDate = new String[3];
+        this.releaseDate[0] = "01";
+        this.releaseDate[1] = "01";
+        this.releaseDate[2] = releaseDate;
         this.castRoleMap = new HashMap<>();
     }
 
