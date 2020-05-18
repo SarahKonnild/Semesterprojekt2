@@ -917,7 +917,7 @@ public class Persistence implements IPersistence {
 
             //removes the current cast members from the object in another table.
             PreparedStatement removeCastStatement = connection.prepareStatement(
-                    "DELETE FROM movie_employs WHERE broadcast_id = ?");
+                    "DELETE FROM movie_employs WHERE movie_id = ?");
             removeCastStatement.setInt(1, movie.getId());
             removeCastStatement.execute();
 
@@ -961,10 +961,11 @@ public class Persistence implements IPersistence {
             LocalDate tempDate = LocalDate.of(Integer.parseInt(production.getYear()), 1, 1);
             stmt.setDate(2, Date.valueOf(tempDate));
             stmt.execute();
-
+        if(!production.getBroadcasts().isEmpty()){
             for (IBroadcast broadcast : production.getBroadcasts()) {
                 updateBroadcastInDatabase(broadcast);
             }
+        }
             return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
