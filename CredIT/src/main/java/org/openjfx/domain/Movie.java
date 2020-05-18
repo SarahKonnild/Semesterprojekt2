@@ -93,7 +93,7 @@ public class Movie implements IMovie {
 
     @Override
     public String toString() {
-        return title + " (" + releaseDate[0] + ")";
+        return title + " (" + releaseDate[2] + ")";
     }
 
     @Override
