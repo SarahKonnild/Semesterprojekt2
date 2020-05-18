@@ -1,4 +1,4 @@
-package test.presentation;
+package persistence;
 
 import org.junit.Assert;
 import org.junit.Test;
