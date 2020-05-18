@@ -9,7 +9,6 @@ import java.util.List;
 
 public class PersistenceTest {
     private Persistence instance;
-    private List<String> castList;
 
     @org.junit.Before
     public void setUp() throws Exception {
@@ -18,7 +17,7 @@ public class PersistenceTest {
 
     @org.junit.Test
     public void getCastFromDatabase() {
-        castList = new ArrayList<>();
+        List<String> castList = new ArrayList<>();
         castList.add("1,daniel1999,Daniel Radcliffe");
         Assert.assertArrayEquals(castList.toArray(), instance.getCastFromDatabase(1).toArray());
     }
@@ -63,5 +62,22 @@ public class PersistenceTest {
         Assert.assertEquals(1, instance.getProductionCompanyIdOnProduction(1));
     }
 
+    @Test
+    public void getBroadcast() {
+        List<String> broadcastList = new ArrayList<>();
+        broadcastList.add("1,Pilot,1,1,25-1-2016");
+        Assert.assertArrayEquals(broadcastList.toArray(), instance.getBroadcastFromDatabase(1).toArray());
+        Assert.assertArrayEquals(broadcastList.toArray(), instance.getBroadcastFromDatabase("PILOT").toArray());
+        broadcastList.add("2,Lucifer, Stay. Good Devil,1,2,1-2-2016");
+        Assert.assertArrayEquals(broadcastList.toArray(), instance.getBroadcastsFromDatabase(1).toArray());
+    }
 
+    @Test
+    public void getMovie() {
+        List<String> movieList = new ArrayList<>();
+        movieList.add("1,Harry Potter and the Sorcerer's Stone,1-1-2001");
+        Assert.assertArrayEquals(movieList.toArray(), instance.getMovieFromDatabase(1).toArray());
+        Assert.assertArrayEquals(movieList.toArray(), instance.getMovieFromDatabase("potter").toArray());
+        Assert.assertArrayEquals(movieList.toArray(), instance.getMoviesFromDatabase(1).toArray());
+    }
 }

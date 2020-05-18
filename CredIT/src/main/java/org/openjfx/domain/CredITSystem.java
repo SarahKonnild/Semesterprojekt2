@@ -57,9 +57,9 @@ public class CredITSystem implements ISystem {
         if (list != null && !list.isEmpty()) {
             //The list is formatted as castID,castRegID,castName
             for (String item : list) {
-                String[] items = item.split(",");
+                String[] items = item.split("\t");
                 //Creating a new Cast object for each String item in the list.
-                casts.add(new Cast((Integer.parseInt(items[0])), items[1], ((items[2]))));
+                casts.add(new Cast((Integer.parseInt(items[0].strip())), items[1], ((items[2]))));
             }
         }
         return casts;
@@ -85,8 +85,8 @@ public class CredITSystem implements ISystem {
         // Gets a list of string formatted as movieID, role
         for (String item : list) {
             //For each item in the list, the string gets split so the ID can be used to search for cast members
-            String[] tempArray = item.split(",");
-            int tempID = Integer.parseInt(tempArray[0]);
+            String[] tempArray = item.split("\t");
+            int tempID = Integer.parseInt(tempArray[0].strip());
             String movieRole = tempArray[1];
             IMovie tempObj = searchMovie(tempID).get(0);
             castMap.put(tempObj, movieRole);
@@ -99,8 +99,8 @@ public class CredITSystem implements ISystem {
         // Gets a list of string formatted as castID, role
         for (String item : list) {
             //For each item in the list, the string gets split so the ID can be used to search for cast members
-            String[] tempArray = item.split(",");
-            int tempID = Integer.parseInt(tempArray[0]);
+            String[] tempArray = item.split("\t");
+            int tempID = Integer.parseInt(tempArray[0].strip());
             String tempRole = tempArray[1];
             IBroadcast tempObj = searchBroadcast(tempID).get(0);
             castMap.put(tempObj, tempRole);
@@ -124,8 +124,8 @@ public class CredITSystem implements ISystem {
         if (list != null && !list.isEmpty()) {
             for (String item : list) {
                 //For each item in the list, the string gets split so the ID can be used to search for cast members
-                String[] tempArray = item.split(",");
-                int tempCastID = Integer.parseInt(tempArray[0]);
+                String[] tempArray = item.split("\t");
+                int tempCastID = Integer.parseInt(tempArray[0].strip());
                 String castRole = tempArray[1];
                 ICast castObj = searchCast(tempCastID).get(0);
                 castMap.put(castObj, castRole);
@@ -161,13 +161,13 @@ public class CredITSystem implements ISystem {
         if (list != null && list.size() > 0) {
             // Each string is formatted as id,name,seasonNumber,episodeNumber,airDate,productionID
             for (String item : list) {
-                String[] items = item.split(",");
+                String[] items = item.split("\t");
 
                 broadcasts.add(new Broadcast(
-                        Integer.parseInt(items[0]),
+                        Integer.parseInt(items[0].strip()),
                         items[1],
-                        Integer.parseInt(items[2]),
-                        Integer.parseInt(items[3]),
+                        Integer.parseInt(items[2].strip()),
+                        Integer.parseInt(items[3].strip()),
                         items[4]));
             }
         }
@@ -209,13 +209,13 @@ public class CredITSystem implements ISystem {
         if (list != null && list.size() > 0) {
             //String is formatted as id,name,year,seasons,episodes
             for (String item : list) {
-                String[] items = item.split(",");
+                String[] items = item.split("\t");
                 productions.add(new Production(
-                        Integer.parseInt(items[0]),
+                        Integer.parseInt(items[0].strip()),
                         items[1],
                         items[2],
-                        items[3].equals("null") ? 0 : Integer.parseInt(items[3]),
-                        items[4].equals("null") ? 0 : Integer.parseInt(items[4])));
+                        items[3].equals("null") ? 0 : Integer.parseInt(items[3].strip()),
+                        items[4].equals("null") ? 0 : Integer.parseInt(items[4].strip())));
             }}
         return productions;
     }
@@ -244,9 +244,9 @@ public class CredITSystem implements ISystem {
         if (list != null && list.size() > 0) {
             //the string is formatted as id,title,releaseDate
             for (String item : list) {
-                String[] items = item.split(",");
+                String[] items = item.split("\t");
                 movies.add(new Movie(
-                        Integer.parseInt(items[0]),
+                        Integer.parseInt(items[0].strip()),
                         items[1],
                         items[2]));
             }
@@ -261,7 +261,6 @@ public class CredITSystem implements ISystem {
         List<String> tempList = persistenceLayer.getProductionCompany(productionCompanyID);
         return makeProductionCompanyObjects(tempList).get(0);
     }
-    //todo Maybe delete this method
 
     @Override
     public ArrayList<IProductionCompany> searchProductionCompany(String keyword) {
@@ -292,8 +291,8 @@ public class CredITSystem implements ISystem {
         if (list != null && list.size() > 0) {
             //String formatted as id,name
             for (String item : list) {
-                String[] items = item.split(",");
-                productionCompanies.add(new ProductionCompany(Integer.parseInt(items[0]), items[1]));
+                String[] items = item.split("\t");
+                productionCompanies.add(new ProductionCompany(Integer.parseInt(items[0].strip()), items[1].strip()));
             }
         }
         return productionCompanies;

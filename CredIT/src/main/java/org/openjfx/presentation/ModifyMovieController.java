@@ -160,6 +160,7 @@ public class ModifyMovieController implements Initializable {
                 if(searchResult == null) {
                     searchResult = new ArrayList<>();
                 }
+                searchResult.clear();
                 searchResult.add(movie);
                 resultList.setItems(FXCollections.observableArrayList(searchResult));
             }else{
@@ -213,6 +214,7 @@ public class ModifyMovieController implements Initializable {
     public void handleSave(MouseEvent event){
             status = chosenMovie.update(movieName.getText(), releaseYear.getText());
             if(status){
+                resultList.setItems(FXCollections.observableArrayList(searchResult));
                 errorMessage.setText(chosenMovie.getTitle() + " opdateret");
                 clearFields();
             }else{

@@ -182,6 +182,7 @@ public class ModifyBroadcastController implements Initializable {
                     if(searchList == null) {
                         searchList = new ArrayList<>();
                     }
+                    searchList.clear();
                     searchList.add(broadcast);
                     resultList.setItems(FXCollections.observableArrayList(searchList));
 

@@ -409,10 +409,10 @@ public class Persistence implements IPersistence {
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
                 LocalDate date = resultSet.getDate(3).toLocalDate();
-                resultList.add((resultSet.getInt(1) + "," +
-                        resultSet.getString(2) + "," +
-                        resultSet.getInt(5)) + "," +
-                        resultSet.getInt(4) + "," +
+                resultList.add((resultSet.getInt(1) + "\t" +
+                        resultSet.getString(2) + "\t" +
+                        resultSet.getInt(5)) + "\t" +
+                        resultSet.getInt(4) + "\t" +
                         date.getDayOfMonth() + "-" +
                         date.getMonth().getValue() + "-" +
                         date.getYear()
@@ -443,10 +443,10 @@ public class Persistence implements IPersistence {
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
                 LocalDate date = resultSet.getDate(3).toLocalDate();
-                resultList.add((resultSet.getInt(1) + "," +
-                        resultSet.getString(2) + "," +
-                        resultSet.getInt(5)) + "," +
-                        resultSet.getInt(4) + "," +
+                resultList.add((resultSet.getInt(1) + "\t" +
+                        resultSet.getString(2) + "\t" +
+                        resultSet.getInt(5)) + "\t" +
+                        resultSet.getInt(4) + "\t" +
                         (date.getDayOfMonth()) + "-" +
                         (date.getMonth().getValue()) + "-" +
                         (date.getYear())
@@ -475,10 +475,10 @@ public class Persistence implements IPersistence {
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
                 LocalDate date = resultSet.getDate(3).toLocalDate();
-                resultList.add((resultSet.getInt(1) + "," +
-                        resultSet.getString(2) + "," +
-                        resultSet.getInt(5)) + "," +
-                        resultSet.getInt(4) + "," +
+                resultList.add((resultSet.getInt(1) + "\t" +
+                        resultSet.getString(2) + "\t" +
+                        resultSet.getInt(5)) + "\t" +
+                        resultSet.getInt(4) + "\t" +
                         date.getDayOfMonth() + "-" +
                         date.getMonth().getValue() + "-" +
                         date.getYear()
@@ -508,8 +508,8 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) + "," +
-                        resultSet.getString(2) + "," +
+                resultList.add((resultSet.getInt(1) + "\t" +
+                        resultSet.getString(2) + "\t" +
                         (resultSet.getDate(3).toLocalDate().getDayOfMonth()) + "-" +
                         (resultSet.getDate(3).toLocalDate().getMonth().getValue()) + "-" +
                         (resultSet.getDate(3).toLocalDate().getYear())
@@ -537,8 +537,8 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) + "," +
-                        resultSet.getString(2) + "," +
+                resultList.add((resultSet.getInt(1) + "\t" +
+                        resultSet.getString(2) + "\t" +
                         (resultSet.getDate(3).toLocalDate().getDayOfMonth()) + "-" +
                         (resultSet.getDate(3).toLocalDate().getMonth().getValue()) + "-" +
                         (resultSet.getDate(3).toLocalDate().getYear())
@@ -569,8 +569,8 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) + "," +
-                        resultSet.getString(2) + "," +
+                resultList.add((resultSet.getInt(1) + "\t" +
+                        resultSet.getString(2) + "\t" +
                         (resultSet.getDate(3).toLocalDate().getDayOfMonth()) + "-" +
                         (resultSet.getDate(3).toLocalDate().getMonth().getValue()) + "-" +
                         (resultSet.getDate(3).toLocalDate().getYear())
@@ -595,8 +595,8 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) + "," +
-                        resultSet.getString(2) + "," +
+                resultList.add((resultSet.getInt(1) + "\t" +
+                        resultSet.getString(2) + "\t" +
                         resultSet.getString(3)));
             }
             return resultList;
@@ -618,8 +618,8 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             resultSet.next();
-            resultList.add((resultSet.getInt(1) + "," +
-                    resultSet.getString(2) + "," +
+            resultList.add((resultSet.getInt(1) + "\t" +
+                    resultSet.getString(2) + "\t" +
                     resultSet.getString(3)));
 
             return resultList;
@@ -644,7 +644,7 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (resultSet.next()) {
-                resultList.add((resultSet.getInt(1) + "," + resultSet.getString(2)));
+                resultList.add((resultSet.getInt(1) + "\t" + resultSet.getString(2)));
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -669,7 +669,7 @@ public class Persistence implements IPersistence {
 
             ArrayList<String> roleList = new ArrayList<>();
             while (resultSet.next()) {
-                roleList.add((resultSet.getString(2)) + "," +
+                roleList.add((resultSet.getString(2)) + "\t" +
                         resultSet.getString(3));
             }
             return roleList;
@@ -694,7 +694,7 @@ public class Persistence implements IPersistence {
 
             ArrayList<String> roleList = new ArrayList<>();
             while (resultSet.next()) {
-                roleList.add((resultSet.getInt(2)) + "," +
+                roleList.add((resultSet.getInt(2)) + "\t" +
                         resultSet.getString(3));
             }
             return roleList;
@@ -716,10 +716,10 @@ public class Persistence implements IPersistence {
 
             List<String> productionList = new ArrayList<>();
             while (resultSet.next()) {
-                productionList.add(resultSet.getInt(1) + "," +
-                        resultSet.getString(2) + "," +
-                        resultSet.getDate(3).toLocalDate().getYear() + "," +
-                        resultSet.getInt(4) + "," +
+                productionList.add(resultSet.getInt(1) + "\t" +
+                        resultSet.getString(2) + "\t" +
+                        resultSet.getDate(3).toLocalDate().getYear() + "\t" +
+                        resultSet.getInt(4) + "\t" +
                         resultSet.getInt(5));
             }
             return productionList;
@@ -766,10 +766,10 @@ public class Persistence implements IPersistence {
 
             List<String> productionList = new ArrayList<>();
             while (resultSet.next()) {
-                productionList.add(resultSet.getInt(1) + "," +
-                        resultSet.getString(2) + "," +
-                        resultSet.getDate(3).toLocalDate().getYear() + "," +
-                        resultSet.getInt(4) + "," +
+                productionList.add(resultSet.getInt(1) + "\t" +
+                        resultSet.getString(2) + "\t" +
+                        resultSet.getDate(3).toLocalDate().getYear() + "\t" +
+                        resultSet.getInt(4) + "\t" +
                         resultSet.getInt(5));
             }
             return productionList;
@@ -797,10 +797,10 @@ public class Persistence implements IPersistence {
             }
 
             List<String> productionList = new ArrayList<>();
-            productionList.add(resultSet.getInt(1) + "," +
-                    resultSet.getString(2) + "," +
-                    resultSet.getDate(3).toLocalDate().getYear() + "," +
-                    resultSet.getInt(4) + "," +
+            productionList.add(resultSet.getInt(1) + "\t" +
+                    resultSet.getString(2) + "\t" +
+                    resultSet.getDate(3).toLocalDate().getYear() + "\t" +
+                    resultSet.getInt(4) + "\t" +
                     resultSet.getInt(5));
             return productionList;
         } catch (SQLException throwables) {
@@ -920,7 +920,7 @@ public class Persistence implements IPersistence {
             updateMovieStatement.setInt(3, movie.getId());
             updateMovieStatement.setString(1, movie.getTitle());
             LocalDate tempDate = LocalDate.of(
-                    Integer.parseInt(movie.getReleaseDate()[0]), 1, 1);
+                    Integer.parseInt(movie.getReleaseDate()[2]), 1, 1);
             updateMovieStatement.setDate(2, Date.valueOf(tempDate));
             updateMovieStatement.execute();
 
@@ -1056,7 +1056,7 @@ public class Persistence implements IPersistence {
 
             List<String> resultList = new ArrayList<>();
             while (sqlReturnValues.next()) {
-                resultList.add(sqlReturnValues.getInt(1) + "," +
+                resultList.add(sqlReturnValues.getInt(1) + "\t" +
                         (sqlReturnValues.getString(2)));
             }
             return resultList;
@@ -1127,7 +1127,7 @@ public class Persistence implements IPersistence {
             while (result.next()) {
                 int id = result.getInt(1);
                 String role = result.getString(2);
-                String text = id + "," + role;
+                String text = id + "\t" + role;
                 returnList.add(text);
             }
             return returnList;
@@ -1157,7 +1157,7 @@ public class Persistence implements IPersistence {
             while (result.next()) {
                 int id = result.getInt(1);
                 String role = result.getString(2);
-                String text = id + "," + role;
+                String text = id + "\t" + role;
                 returnList.add(text);
             }
             return returnList;
@@ -1218,7 +1218,7 @@ public class Persistence implements IPersistence {
             stmt.setString(1, movie.getTitle().toLowerCase());
             String[] releaseDate = movie.getReleaseDate();
             stmt.setDate(2, Date.valueOf(LocalDate.of(
-                    Integer.parseInt(releaseDate[0]), 1, 1)));
+                    Integer.parseInt(releaseDate[2]), 1, 1)));
 
             ResultSet result = stmt.executeQuery();
             result.next();
