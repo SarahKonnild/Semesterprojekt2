@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class Persistence implements IPersistence {
 
     private static Persistence persistence;
@@ -418,6 +417,7 @@ public class Persistence implements IPersistence {
                         date.getYear()
                 );
             }
+            resultList.sort(new SortComparator());
             return resultList;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -452,6 +452,7 @@ public class Persistence implements IPersistence {
                         (date.getYear())
                 );
             }
+            resultList.sort(new SortComparator());
             return resultList;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -484,6 +485,7 @@ public class Persistence implements IPersistence {
                         date.getYear()
                 );
             }
+            resultList.sort(new SortComparator());
             return resultList;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -515,6 +517,7 @@ public class Persistence implements IPersistence {
                         (resultSet.getDate(3).toLocalDate().getYear())
                 ));
             }
+            resultList.sort(new SortComparator());
             return resultList;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -544,6 +547,7 @@ public class Persistence implements IPersistence {
                         (resultSet.getDate(3).toLocalDate().getYear())
                 ));
             }
+            resultList.sort(new SortComparator());
             return resultList;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -576,6 +580,7 @@ public class Persistence implements IPersistence {
                         (resultSet.getDate(3).toLocalDate().getYear())
                 ));
             }
+            resultList.sort(new SortComparator());
             return resultList;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -589,8 +594,9 @@ public class Persistence implements IPersistence {
     @Override
     public List<String> getCastFromDatabase(String keyword) {
         try {
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM cast_members WHERE LOWER(name) ~ ?");
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM cast_members WHERE LOWER(name) ~ ? ORDER BY name");
             stmt.setString(1, keyword.toLowerCase());
+            stmt.setString(2, keyword.toLowerCase());
             ResultSet resultSet = stmt.executeQuery();
 
             List<String> resultList = new ArrayList<>();
@@ -710,7 +716,7 @@ public class Persistence implements IPersistence {
     @Override
     public List<String> getProductionFromDatabase(String keyword) {
         try {
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM production WHERE LOWER(name) ~ ?");
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM production WHERE LOWER(name) ~ ? ORDER BY name");
             stmt.setString(1, keyword.toLowerCase());
             ResultSet resultSet = stmt.executeQuery();
 
@@ -1050,7 +1056,7 @@ public class Persistence implements IPersistence {
     public List<String> getProductionCompany(String keyword) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM production_company WHERE LOWER(production_company.name) ~ ?");
+                    "SELECT * FROM production_company WHERE LOWER(production_company.name) ~ ? ORDER BY name");
             stmt.setString(1, keyword.toLowerCase());
             ResultSet sqlReturnValues = stmt.executeQuery();
 
