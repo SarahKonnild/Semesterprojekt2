@@ -215,6 +215,7 @@ public class ModifyMovieController implements Initializable {
             String[] airDate = chosenMovie.getReleaseDate();
             status = chosenMovie.update(movieName.getText(), airDate[2]);
             if(status){
+                resultList.setItems(FXCollections.observableArrayList(searchResult));
                 errorMessage.setText(chosenMovie.getTitle() + " opdateret");
                 clearFields();
             }else{

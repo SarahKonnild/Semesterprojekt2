@@ -168,7 +168,6 @@ public class AssignUnassignCastController implements Initializable {
                 errorMessage.setText(chosenCast.getName() + " tilføjet");
             }
         }
-        //TODO ensure that the resultList is updated to reflect the changes.
     }
 
     /**
@@ -184,8 +183,9 @@ public class AssignUnassignCastController implements Initializable {
         }else if(App.getAssignCastModifier().equals("broadcast")){
             ModifyBroadcastController.getChosenBroadcast().unassignCast(chosenPCast.getCast(),chosenPCast.getRole());
         }
+        roleArray.remove(chosenPCast);
+        resultList.setItems(FXCollections.observableArrayList(roleArray));
         errorMessage.setText(chosenPCast.getCast().getName() + " fjernet");
-        //TODO ensure that the resultList is updated to reflect the changes.
     }
     //endregion
 
@@ -208,7 +208,11 @@ public class AssignUnassignCastController implements Initializable {
             ModifyBroadcastController.getChosenBroadcast().assignCast(chosenPCast.getCast(), rolenameField.getText());
         }
         errorMessage.setText(chosenPCast.getCast().getName() + " opdateret");
-        //TODO ensure that the resultList is updated to reflect the changes.
+
+        //Setting the new role on the PCast so it updates on the fly
+        chosenPCast.setRole(rolenameField.getText());
+        resultList.setItems(FXCollections.observableArrayList(roleArray));
+
     }
 
     //endregion

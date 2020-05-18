@@ -236,9 +236,8 @@ public class ModifyCastController implements Initializable {
             creationState = chosenCast.delete();
             if(creationState){
                 errorMessage.setText(chosenCast.getName() + " slettet");
-                //TODO Check if it updates the list after it gets deleted
                 castObservableList.remove(chosenCast);
-                resultList.setItems(FXCollections.observableArrayList(castSearchResult));
+                resultList.setItems(FXCollections.observableArrayList(castObservableList));
                 clearFields();
             }else{
                 errorMessage.setText("Fejl, " + chosenCast.getName() + " blev ikke slettet");
