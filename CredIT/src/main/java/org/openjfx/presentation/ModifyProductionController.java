@@ -286,6 +286,10 @@ public class ModifyProductionController implements Initializable {
         return chosenBroadcast;
     }
 
+    public static void setChosenBroadcast(IBroadcast newValue){
+        chosenBroadcast = newValue;
+    }
+
     public static void setChosenProduction(IProduction chosenProduction){
         givenProduction = chosenProduction;
     }
