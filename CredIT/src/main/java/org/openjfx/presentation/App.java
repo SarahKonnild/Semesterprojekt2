@@ -40,9 +40,6 @@ public class App extends Application {
         App.getStage().initStyle(StageStyle.TRANSPARENT);
         stage.setResizable(false);
         stage.setScene(scene);
-//        stage.getIcons().clear();
-//        Image icon = new Image(App.class.getResource("CredITMiniLogo.png").toExternalForm());
-//        stage.getIcons().add(icon);
         stage.show();
     }
 

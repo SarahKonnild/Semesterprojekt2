@@ -132,11 +132,13 @@ public class ModifyProductionCompanyController implements Initializable {
             delete.setDisable(false);
             saveChanges.setDisable(false);
         } else if(obj instanceof IProduction){
+            chosenProduction = (IProduction) obj;
             goTo.setVisible(true);
             goTo.setText("Gå til Produktion");
             toggleButtons(true);
             chosenItem = "production";
         } else if(obj instanceof IMovie){
+            chosenMovie = (IMovie) obj;
             goTo.setVisible(true);
             goTo.setText("Gå til Film");
             toggleButtons(true);
