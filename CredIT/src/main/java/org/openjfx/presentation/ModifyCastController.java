@@ -169,8 +169,8 @@ public class ModifyCastController implements Initializable {
             if(castSearchResult == null) {
                 castSearchResult = new ArrayList<>();
             }
+            castSearchResult.clear();
             castSearchResult.add(cast);
-            //TODO perhaps implement filtered update, i.e. if user searched for Hans but made a new person named Jens, it will clear the Listview and add the new element. If another Hans is made, append.
             resultList.setItems(FXCollections.observableArrayList(castSearchResult));
             clearFields();
         }else{
@@ -195,9 +195,17 @@ public class ModifyCastController implements Initializable {
     @FXML
     public void handleMerge(ActionEvent event){
             if(chosenCastObservable.size() == 2){
+                int tempCastId = chosenCastObservable.get(0).getId();
                 creationState = chosenCastObservable.get(0).mergeCastMembers(chosenCastObservable.get(1));
                 if(creationState){
                     errorMessage.setText(chosenCastObservable.get(1).getName() + " sammenflettet med " + chosenCastObservable.get(0).getName());
+                    ArrayList newCast = App.getSystemInstance().searchCast(tempCastId);
+                    if(newCast != null)
+                    {
+                        castSearchResult.clear();
+                        castSearchResult.add((ICast)newCast.get(0));
+                        resultList.setItems(FXCollections.observableArrayList(castSearchResult));
+                    }
                     clearFields();
                     resultList.refresh();
                 }else{

@@ -51,10 +51,13 @@ public class Movie implements IMovie {
         String tempTitle = this.title;
         String[] tempYear = this.releaseDate;
         this.title = title;
-        this.releaseDate = releaseYear.split("-");
-        if (persistence.updateMovieInDatabase(this))
+        this.releaseDate[0] = "01";
+        this.releaseDate[1] = "01";
+        this.releaseDate[2] = releaseYear;
+        if (persistence.updateMovieInDatabase(this)) {
+            System.out.println(true);
             return true;
-        else {
+        }else {
             this.title = tempTitle;
             this.releaseDate = tempYear;
             return false;

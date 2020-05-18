@@ -168,6 +168,7 @@ public class ModifyProductionCompanyController implements Initializable {
                     if(searchList == null){
                         searchList = new ArrayList<>();}
                     errorMessage.setText(productionCompany.getName() + " oprettet");
+                    searchList.clear();
                     searchList.add(productionCompany);
                     resultList.setItems(FXCollections.observableArrayList(searchList));
                     nameField.clear();

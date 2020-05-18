@@ -1218,7 +1218,7 @@ public class Persistence implements IPersistence {
             stmt.setString(1, movie.getTitle().toLowerCase());
             String[] releaseDate = movie.getReleaseDate();
             stmt.setDate(2, Date.valueOf(LocalDate.of(
-                    Integer.parseInt(releaseDate[0]), 1, 1)));
+                    Integer.parseInt(releaseDate[2]), 1, 1)));
 
             ResultSet result = stmt.executeQuery();
             result.next();

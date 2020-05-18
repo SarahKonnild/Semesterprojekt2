@@ -160,6 +160,7 @@ public class ModifyMovieController implements Initializable {
                 if(searchResult == null) {
                     searchResult = new ArrayList<>();
                 }
+                searchResult.clear();
                 searchResult.add(movie);
                 resultList.setItems(FXCollections.observableArrayList(searchResult));
             }else{
