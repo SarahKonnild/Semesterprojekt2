@@ -72,7 +72,7 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Label fx:id="errorMessage" alignment="CENTER" layoutX="12.0" layoutY="298.0" prefHeight="17.0" prefWidth="273.0" text="Fejlmeddelelse" textFill="RED" visible="false" />
+            <Label fx:id="errorMessage" alignment="CENTER" layoutX="12.0" layoutY="298.0" prefHeight="17.0" prefWidth="273.0" textFill="RED" />
             <Label fx:id="errorMessageSearch" alignment="CENTER" layoutX="12.0" layoutY="64.0" prefHeight="17.0" prefWidth="273.0" text="Fejl, ingen film fundet" textFill="RED" visible="false" />
          </children>
       </AnchorPane>

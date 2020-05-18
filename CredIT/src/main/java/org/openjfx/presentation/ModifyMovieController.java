@@ -148,27 +148,31 @@ public class ModifyMovieController implements Initializable {
     @FXML
     public void handleCreateNew(MouseEvent event){
         resultList.setDisable(false);
-        String companySearch = productionCompany.getText();
-        ArrayList<IProductionCompany> results = new ArrayList<>();
-        results.addAll(App.getSystemInstance().searchProductionCompany(companySearch));
-        if(results.get(0).getName().equalsIgnoreCase(companySearch)) {
-            resultList.setDisable(false);
-            IMovie movie = LoginSystemController.getAdminUser().addNewMovieToDatabase(movieName.getText(), results.get(0).getId(), releaseYear.getText());
-            clearFields();
-            if(movie != null){
-                errorMessage.setText(movie.getTitle() + " tilføjet");
-                if(searchResult == null) {
-                    searchResult = new ArrayList<>();
+        if(!movieName.getText().isEmpty() && !productionCompany.getText().isEmpty() && !releaseYear.getText().isEmpty()) {
+            String companySearch = productionCompany.getText();
+            ArrayList<IProductionCompany> results = new ArrayList<>();
+            results.addAll(App.getSystemInstance().searchProductionCompany(companySearch));
+            if (results.get(0).getName().equalsIgnoreCase(companySearch)) {
+                resultList.setDisable(false);
+                IMovie movie = LoginSystemController.getAdminUser().addNewMovieToDatabase(movieName.getText(), results.get(0).getId(), releaseYear.getText());
+                clearFields();
+                if (movie != null) {
+                    errorMessage.setText(movie.getTitle() + " tilføjet");
+                    if (searchResult == null) {
+                        searchResult = new ArrayList<>();
+                    }
+                    searchResult.clear();
+                    searchResult.add(movie);
+                    resultList.setItems(FXCollections.observableArrayList(searchResult));
+                } else {
+                    errorMessage.setText("Fejl opstået, " + movie.getTitle() + " blev ikke tilføjet");
                 }
-                searchResult.clear();
-                searchResult.add(movie);
-                resultList.setItems(FXCollections.observableArrayList(searchResult));
-            }else{
-                errorMessage.setText("Fejl opstået, " + movie.getTitle() + " blev ikke tilføjet");
+                resultList.refresh();
+            } else {
+                errorMessage.setText("Fejl opstået, intet firma at tilføje til");
             }
-            resultList.refresh();
         }else{
-            errorMessage.setText("Fejl opstået, intet firma at tilføje til");
+            errorMessage.setText("Fejl, venligst udfyld alle felter");
         }
     }
     //endregion
@@ -188,8 +192,6 @@ public class ModifyMovieController implements Initializable {
             status = chosenMovie.delete();
             if(status){
                 searchResult.remove(chosenMovie);
-                IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForMovie(chosenMovie);
-                retrievedProductionCompany.unassignMovie(chosenMovie);
                 errorMessage.setText(chosenMovie.getTitle() + " slettet");
                 if(chosenMovie == null){
                     resultList.getItems().clear();
@@ -212,15 +214,19 @@ public class ModifyMovieController implements Initializable {
      */
     @FXML
     public void handleSave(MouseEvent event){
+        if(!movieName.getText().isEmpty() && !productionCompany.getText().isEmpty() && !releaseYear.getText().isEmpty()) {
             status = chosenMovie.update(movieName.getText(), releaseYear.getText());
-            if(status){
+            if (status) {
                 resultList.setItems(FXCollections.observableArrayList(searchResult));
                 errorMessage.setText(chosenMovie.getTitle() + " opdateret");
                 clearFields();
-            }else{
+            } else {
                 errorMessage.setText("Fejl opstået, " + chosenMovie.getTitle() + " blev ikke opdateret");
             }
-        resultList.refresh();
+            resultList.refresh();
+        }else{
+            errorMessage.setText("Fejl, udfyld venligst alle felter");
+        }
     }
     //endregion
 

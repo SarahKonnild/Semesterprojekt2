@@ -167,23 +167,28 @@ public class ModifyProductionController implements Initializable {
     @FXML
     private void handleCreateNew(MouseEvent event){
         resultList.setDisable(false);
-        String companySearch = productionCompany.getText();
-        ArrayList<IProductionCompany> results = new ArrayList<>();
-        results.addAll(App.getSystemInstance().searchProductionCompany(companySearch));
-        IProduction production = LoginSystemController.getAdminUser().addNewProductionToDatabase(productionName.getText(), releaseYear.getText(), results.get(0).getId());
-        if (production != null) {
-            resultList.setDisable(false);
-            errorMessage.setText("Produktionen oprettet");
-            if(searchResult == null){
-                searchResult = new ArrayList<>();}
-            searchResult.clear();
-            searchResult.add(production);
-            resultList.setItems(FXCollections.observableArrayList(searchResult));
-            clearFields();
-        } else {
-            errorMessage.setText("Fejl opstået, produktionen blev ikke oprettet");
+        if(!productionName.getText().isEmpty() && !releaseYear.getText().isEmpty() && !productionCompany.getText().isEmpty()) {
+            String companySearch = productionCompany.getText();
+            ArrayList<IProductionCompany> results = new ArrayList<>();
+            results.addAll(App.getSystemInstance().searchProductionCompany(companySearch));
+            IProduction production = LoginSystemController.getAdminUser().addNewProductionToDatabase(productionName.getText(), releaseYear.getText(), results.get(0).getId());
+            if (production != null) {
+                resultList.setDisable(false);
+                errorMessage.setText("Produktionen oprettet");
+                if (searchResult == null) {
+                    searchResult = new ArrayList<>();
+                }
+                searchResult.clear();
+                searchResult.add(production);
+                resultList.setItems(FXCollections.observableArrayList(searchResult));
+                clearFields();
+            } else {
+                errorMessage.setText("Fejl opstået, produktionen blev ikke oprettet");
+            }
+            resultList.refresh();
+        }else{
+            errorMessage.setText("Fejl, venligst udfyld alle felter");
         }
-        resultList.refresh();
     }
     //endregion
 
@@ -224,14 +229,18 @@ public class ModifyProductionController implements Initializable {
      */
     @FXML
     private void handleSave(MouseEvent event){
-        status = chosenProduction.update(productionName.getText(), releaseYear.getText());
-            if(status){
+        if(!productionName.getText().isEmpty() && !releaseYear.getText().isEmpty()) {
+            status = chosenProduction.update(productionName.getText(), releaseYear.getText());
+            if (status) {
                 errorMessage.setText("Produktion opdateret");
                 clearFields();
-            }else{
+            } else {
                 errorMessage.setText("Fejl opstået, produktion blev ikke opdateret");
             }
-        resultList.refresh();
+            resultList.refresh();
+        }else{
+            errorMessage.setText("Fejl, udfyld venligst alle felter");
+        }
     }
     //endregion
 
