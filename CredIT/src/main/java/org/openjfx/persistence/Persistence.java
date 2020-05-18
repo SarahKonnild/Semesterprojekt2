@@ -987,7 +987,7 @@ public class Persistence implements IPersistence {
             //finds the old version of the object and replaces it with the current one.
             PreparedStatement stmt = connection.prepareStatement(
                     "update broadcast set (name, air_date, episode_number, season_number) = (?,?,?,?) where id = ?");
-            stmt.setInt(4, broadcast.getId());
+            stmt.setInt(5, broadcast.getId());
             stmt.setString(1, broadcast.getName());
             LocalDate tempDate = LocalDate.of(
                     Integer.parseInt(broadcast.getAirDate()[2]),
