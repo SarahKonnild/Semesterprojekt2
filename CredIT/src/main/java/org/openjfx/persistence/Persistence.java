@@ -510,7 +510,10 @@ public class Persistence implements IPersistence {
             while (resultSet.next()) {
                 resultList.add((resultSet.getInt(1) + "," +
                         resultSet.getString(2) + "," +
-                        resultSet.getDate(3)));
+                        (resultSet.getDate(3).toLocalDate().getDayOfMonth()) + "-" +
+                        (resultSet.getDate(3).toLocalDate().getMonth().getValue()) + "-" +
+                        (resultSet.getDate(3).toLocalDate().getYear())
+                ));
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -536,7 +539,10 @@ public class Persistence implements IPersistence {
             while (resultSet.next()) {
                 resultList.add((resultSet.getInt(1) + "," +
                         resultSet.getString(2) + "," +
-                        resultSet.getDate(3)));
+                        (resultSet.getDate(3).toLocalDate().getDayOfMonth()) + "-" +
+                        (resultSet.getDate(3).toLocalDate().getMonth().getValue()) + "-" +
+                        (resultSet.getDate(3).toLocalDate().getYear())
+                ));
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -565,8 +571,12 @@ public class Persistence implements IPersistence {
             while (resultSet.next()) {
                 resultList.add((resultSet.getInt(1) + "," +
                         resultSet.getString(2) + "," +
-                        resultSet.getDate(3)));
+                        (resultSet.getDate(3).toLocalDate().getDayOfMonth()) + "-" +
+                        (resultSet.getDate(3).toLocalDate().getMonth().getValue()) + "-" +
+                        (resultSet.getDate(3).toLocalDate().getYear())
+                ));
             }
+            System.out.println(resultList);
             return resultList;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -911,7 +921,7 @@ public class Persistence implements IPersistence {
             updateMovieStatement.setInt(3, movie.getId());
             updateMovieStatement.setString(1, movie.getTitle());
             LocalDate tempDate = LocalDate.of(
-                    Integer.parseInt(movie.getReleaseDate()[2]),1,1);
+                    Integer.parseInt(movie.getReleaseDate()[0]),1,1);
             updateMovieStatement.setDate(2, Date.valueOf(tempDate));
             updateMovieStatement.execute();
 
