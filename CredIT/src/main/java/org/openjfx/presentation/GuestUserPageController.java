@@ -140,7 +140,6 @@ public class GuestUserPageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
-        search.setDisable(true);
     }
 
     //Everything do do with manipulating the ListView (search,choose)
@@ -152,6 +151,7 @@ public class GuestUserPageController implements Initializable {
      * method in the domain layer's System class. If the list has items, and the searchfield isn't empty,
      * the items returned from the persistence layer will be written to a list which can be printed into
      * the ListView.
+     * @author Sarah
      * @param event
      */
     @FXML
@@ -216,7 +216,9 @@ public class GuestUserPageController implements Initializable {
     }
 
     /**
-     * Handles the picking of an item in the searchlist and writes that object's information to the relevant fields.
+     * Writes the chosen result to an Object variable and performs a check on the Object-variable's nature, to see
+     * which fields that should be made available/visible and then written to with the object's attributes
+     * @author Sarah
      * @param event
      */
     @FXML
@@ -306,8 +308,9 @@ public class GuestUserPageController implements Initializable {
     //Choose searchtopic
     //region
     /**
-     * A method which creates a String-value that can be used to specify the search method used and the fields that should be
-     * visible
+     * When the user chooses a searchTopic, a String variable is written to, which specifies in the Search-handler, which
+     * method that should be run on the input from the user.
+     * @author Sarah
      * @param event
      */
     @FXML
@@ -363,6 +366,7 @@ public class GuestUserPageController implements Initializable {
      * - Close the window (and thus the main process)
      * - Open the help-window
      * - Return to the past scene
+     * @author Sarah
      * @param event
      */
     @FXML
@@ -385,6 +389,7 @@ public class GuestUserPageController implements Initializable {
      * Method that can be used to specify which fields should be rendered visible in the GUI based on the search topic.
      * This method can then be called upon to specify the fields and labels that should be shown to the user based on the search topic.
      * Utilises the changeXFields-methods.
+     * @author Sarah
      * @param searchTopicChosen referring to the variable that gets set using the dropdown menu
      */
     private void changeFieldsVisible(String searchTopicChosen) {

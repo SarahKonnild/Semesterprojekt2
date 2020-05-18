@@ -64,6 +64,13 @@ public class ModifyMovieController implements Initializable {
     private boolean status;
     //endregion
 
+    /**
+     * Checks if the scene has been given a movie from the previous scene. If so, it will write that Movie's information
+     * to the fields.
+     * @author Sarah
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
@@ -85,6 +92,7 @@ public class ModifyMovieController implements Initializable {
     /**
      * Searches the database for entries that match the search field's information in the database.
      * Writes all results into the list, which can then be chosen by the user.
+     * @author Sarah
      * @param event
      */
     @FXML
@@ -106,6 +114,7 @@ public class ModifyMovieController implements Initializable {
     /**
      * When the user chooses an object from the search list, this method is run. It will always write the
      * data associated with the LAST object chosen to the fields.
+     * @author Sarah
      * @param event
      */
     @FXML
@@ -129,6 +138,14 @@ public class ModifyMovieController implements Initializable {
 
     //Create Movie
     //region
+
+    /**
+     * Takes the entered ProductionCompany's name and performs a search in the database for that company. If it exists,
+     * the Movie can be created, adding it to that Company's list of created movies. If the Company does not exist,
+     * an error message is written to the user.
+     * @author Sarah
+     * @param event
+     */
     @FXML
     public void handleCreateNew(MouseEvent event){
         String companySearch = productionCompany.getText();
@@ -157,10 +174,16 @@ public class ModifyMovieController implements Initializable {
 
     //Delete Movie
     //region
+
+    /**
+     * Takes the movie that has been chosen from the ListView and deletes the object that is chosen. Provided that the
+     * Movie is deleted in the instance of the program, it is also removed from the database, and unassigned from the
+     * company's page.
+     * @author Sarah
+     * @param event
+     */
     @FXML
     public void handleDelete(MouseEvent event){
-        if(!observableList.isEmpty()){
-            chosenMovie = (IMovie) resultList.getSelectionModel().getSelectedItem();
             status = chosenMovie.delete();
             if(status){
                 searchResult.remove(chosenMovie);
@@ -174,19 +197,20 @@ public class ModifyMovieController implements Initializable {
                 }
                 clearFields();
             }
-        }else{
-            errorMessage.setText("Fejl opstået, " + chosenMovie.getTitle() + " blev ikke slettet");
-        }
         resultList.refresh();
     }
     //endregion
 
     //Save Movie
     //region
+    /**
+     * Takes the movie that was chosen from the ListView and updates its attributes in the database with the text that is
+     * entered into the TextFields.
+     * @author Sarah
+     * @param event
+     */
     @FXML
     public void handleSave(MouseEvent event){
-        if(!observableList.isEmpty()){
-            chosenMovie = (IMovie) resultList.getSelectionModel().getSelectedItem();
             String[] airDate = chosenMovie.getReleaseDate();
             status = chosenMovie.update(movieName.getText(), airDate[2]);
             if(status){
@@ -195,9 +219,6 @@ public class ModifyMovieController implements Initializable {
             }else{
                 errorMessage.setText("Fejl opstået, " + chosenMovie.getTitle() + " blev ikke opdateret");
             }
-        }else{
-            errorMessage.setText("Ingen film valgt");
-        }
         resultList.refresh();
     }
     //endregion
@@ -218,6 +239,12 @@ public class ModifyMovieController implements Initializable {
     @FXML
     public void handleClose(MouseEvent event){App.closeWindow();}
 
+    /**
+     * Sets a String variable that ensures that the assign/unassign cast methods are run correctly with the Movie-related
+     * methods.
+     * @author Sarah
+     * @param event
+     */
     @FXML
     public void handleChangeCast(ActionEvent event){
         App.setAssignCastModifier("movie");
@@ -233,6 +260,10 @@ public class ModifyMovieController implements Initializable {
 
     public static IMovie getChosenMovie(){
         return chosenMovie;
+    }
+
+    public static void setChosenMovie(IMovie chosenMovie){
+        givenMovie = chosenMovie;
     }
 
 }
