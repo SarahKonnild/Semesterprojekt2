@@ -72,6 +72,7 @@ public class ModifyCastController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
+        roleArray = new ArrayList<>();
     }
 
     //Everything do do with manipulating the ListView
@@ -133,12 +134,15 @@ public class ModifyCastController implements Initializable {
 
         for(IMovie movie : movieRoles.keySet()){
             String temp = movie.getTitle() + movieRoles.get(movie);
+            System.out.println(temp);
             roleArray.add(temp);
         }
         for(IBroadcast broadcast : broadcastRoles.keySet()){
-            String temp = broadcast.getName() + broadcastRoles.get(broadcast);
+            String temp = broadcast.getName() + " : " + broadcastRoles.get(broadcast);
+            System.out.println(temp);
             roleArray.add(temp);
         }
+
         if(!roleArray.isEmpty()) {
             resultList.setItems(FXCollections.observableArrayList(roleArray));
         } else{
@@ -267,6 +271,7 @@ public class ModifyCastController implements Initializable {
     @FXML
     public void handleBack(MouseEvent event){
         App.handleAdminPage();
+
     }
 
     @FXML

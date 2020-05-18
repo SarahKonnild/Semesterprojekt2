@@ -85,6 +85,7 @@ public class ModifyBroadcastController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
+
         if(ModifyProductionController.getChosenBroadcast() != null) {
             givenBroadcast = ModifyProductionController.getChosenBroadcast();
             broadcastName.setText(givenBroadcast.getName());
@@ -104,7 +105,6 @@ public class ModifyBroadcastController implements Initializable {
 
     //Everything do do with manipulating the ListView (search,choose)
     //region
-
     /**
      * Takes the text that is written in the searchfield and uses that to run the searchBroadcast
      * method in the domain layer's System class. If the list has items, and the searchfield isn't empty,
@@ -258,6 +258,9 @@ public class ModifyBroadcastController implements Initializable {
     //region
     @FXML
     public void handleBack(MouseEvent event){
+        if(ModifyProductionController.getChosenBroadcast() != null){
+            ModifyProductionController.setChosenBroadcast(null);
+        }
         App.handleAdminPage();
     }
 
