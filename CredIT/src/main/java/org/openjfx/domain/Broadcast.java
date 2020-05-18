@@ -3,6 +3,7 @@ package org.openjfx.domain;
 import org.openjfx.interfaces.*;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Broadcast implements IBroadcast {
     private final IPersistence persistence = CredITSystem.getPersistence();
@@ -20,7 +21,7 @@ public class Broadcast implements IBroadcast {
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.airDate = airDate.split("-");
-        this.castRoleMap = system.getCastRolesBroadcast(this.id);
+        loadBroadcastRoles();
     }
 
     public Broadcast(String name, int seasonNumber, int episodeNumber, String airDate) {
@@ -29,6 +30,11 @@ public class Broadcast implements IBroadcast {
         this.episodeNumber = episodeNumber;
         this.airDate = airDate.split("-");
         this.castRoleMap = new HashMap<>();
+    }
+
+    private void loadBroadcastRoles(){
+        HashMap<ICast, String> castMap = system.getCastRolesBroadcast(this.id);
+        this.castRoleMap = Objects.requireNonNullElseGet(castMap, HashMap::new);
     }
 
     @Override

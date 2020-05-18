@@ -19,6 +19,7 @@ import org.openjfx.interfaces.IMovie;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class AssignUnassignCastController implements Initializable {
@@ -67,9 +68,17 @@ public class AssignUnassignCastController implements Initializable {
     private ArrayList<ICast> castSearchResult;
     private ObservableList<ICast> castObservableList;
     private ICast chosenCast;
+    private ArrayList<String> roleArray;
 
     //endregion
 
+    /**
+     * Checks if the controller has been given either a movie or broadcast from the previous scene, to ensure that
+     * the correct object is being assigned/unassigned to/from.
+     * @author Sarah
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
@@ -84,8 +93,16 @@ public class AssignUnassignCastController implements Initializable {
 
     //Everything do do with manipulating the ListView (search,choose)
     //region
+
+    /**
+     * Takes the string that the user has entered into the searchfield and runs a search in the database, using the
+     * searchCast()-method, and adding the ArrayList of results into an ObservableList, so the results can be presented
+     * to the user in the ListView.
+     * @author Sarah
+     * @param event
+     */
     @FXML
-    public void handleSearch(ActionEvent event){
+    public void handleSearch(MouseEvent event){
         String searchText = searchField.getText();
         resultList.getItems().clear();
         castSearchResult = App.getSystemInstance().searchCast(searchText);
@@ -100,18 +117,31 @@ public class AssignUnassignCastController implements Initializable {
         }
     }
 
+    /**
+     * Takes the Object that has been selected in the ListView and casts it to an ICast type-object, and sets the
+     * object's attributes to be written into the TextFields that are related to the attributes.
+     * @author Sarah
+     * @param event
+     */
     @FXML
     public void handleResultChosen(MouseEvent event){
         chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
-        name.setText(chosenCast.getName());
-        regDKID.setText(chosenCast.getRegDKID());
+        nameField.setText(chosenCast.getName());
+        regDKField.setText(chosenCast.getRegDKID());
     }
     //endregion
 
     //Assign/Unassign Cast
     //region
+
+    /**
+     * First performs a check on whether or not the object that was chosen in the prior scene was a movie or a broadcast
+     * and then performs the assignment of the cast-member to that specific object, using the appropriate method.
+     * @author Sarah
+     * @param event
+     */
     @FXML
-    public void handleAssignNewCast(ActionEvent event){
+    public void handleAssignNewCast(MouseEvent event){
         if(App.getAssignCastModifier().equals("movie")){
             ModifyMovieController.getChosenMovie().assignCast(chosenCast, rolenameField.getText());
         }else if(App.getAssignCastModifier().equals("broadcast")){
@@ -119,8 +149,14 @@ public class AssignUnassignCastController implements Initializable {
         }
     }
 
+    /**
+     * First performs a check on whether or not the object that was chosen in the prior scene was a movie or a broadcast
+     * and then performs the unassignment of the cast-member from that specific object, using the appropriate method.
+     * @author Sarah
+     * @param event
+     */
     @FXML
-    public void handleUnassignCast(ActionEvent event){
+    public void handleUnassignCast(MouseEvent event){
         if(App.getAssignCastModifier().equals("movie")){
             ModifyMovieController.getChosenMovie().unassignCast(chosenCast,rolenameField.getText());
         }else if(App.getAssignCastModifier().equals("broadcast")){
@@ -132,12 +168,19 @@ public class AssignUnassignCastController implements Initializable {
 
     //Save Changes
     //region
+
+    /**
+     * Saves the changes that are made to a specific cast, s.a. role, on the broadcast/movie without making changes
+     * to their assignment to the broadcast/movie.
+     * @author Sarah
+     * @param event
+     */
     @FXML
-    public void handleSave(ActionEvent event){
+    public void handleSave(MouseEvent event){
         if(App.getAssignCastModifier().equals("movie")){
-            //To update the assigned cast's role for the movie
+            //TODO update the assigned cast's role for the movie, by first unassigning the cast and then reassigning it with the new role.
         }else if(App.getAssignCastModifier().equals("broadcast")){
-            //To update the assigned cast's role for the broadcast
+            //TODO update the assigned cast's role for the broadcast, by first unassigning the cast and then reassigning it with the new role.
         }
     }
 
@@ -145,11 +188,23 @@ public class AssignUnassignCastController implements Initializable {
 
     //Change the scenes and close the stage
     //region
+
+    /**
+     * Opens the Help-stage
+     * @author Sarah
+     * @param event
+     */
     @FXML
     public void handleHelp(MouseEvent event){
         App.handleHelpStage();
     }
 
+    /**
+     * Performs a check on whether it was a movie or a broadcast that was chosen in the prior stage, and returns to
+     * the scene that is related to the result of that check.
+     * @author Sarah
+     * @param event
+     */
     @FXML
     public void handleBack(MouseEvent event){
         if(App.getAssignCastModifier().equals("movie")) {
@@ -159,14 +214,24 @@ public class AssignUnassignCastController implements Initializable {
         }
     }
 
+    /**
+     * Closes the program/primary stage
+     * @author Sarah
+     * @param event
+     */
     @FXML
-    public void handleClose(ActionEvent event){
+    public void handleClose(MouseEvent event){
         App.closeWindow();
     }
     //endregion
 
     //Show the desired Labels and Fields/Buttons
     //region
+    /**
+     * Sets visible the fields and Buttons that are related to the assign-cast operations
+     * @author Sarah
+     * @param event
+     */
     @FXML
     public void handleAssignCastOption(MouseEvent event){
         setFieldsAndLabelsVisible(true);
@@ -175,15 +240,41 @@ public class AssignUnassignCastController implements Initializable {
         save.setVisible(false);
     }
 
-
+    /**
+     * Sets visible the fields and Buttons that are related to the unassign-cast operations
+     * @author Sarah
+     * @param event
+     */
     @FXML
     public void handleUnassignCastOption(MouseEvent event){
         setFieldsAndLabelsVisible(true);
         unassignButton.setVisible(true);
         save.setVisible(true);
         assignButton.setVisible(false);
+        if(App.getAssignCastModifier().equals("movie")) {
+            HashMap<IMovie, String> movieRoles = App.getSystemInstance().getCastRolesMovies(chosenCast);
+
+            for(IMovie movie : movieRoles.keySet()){
+                String temp = movie.getTitle() + movieRoles.get(movie);
+                roleArray.add(temp);
+            }
+
+            resultList.setItems(FXCollections.observableArrayList(roleArray));
+        } else if(App.getAssignCastModifier().equals("broadcast")){
+            HashMap<IBroadcast, String> broadcastRoles = App.getSystemInstance().getCastRolesBroadcast(chosenCast);
+
+            for(IBroadcast broadcast : broadcastRoles.keySet()){
+                String temp = broadcast.getName() + broadcastRoles.get(broadcast);
+                roleArray.add(temp);
+            }
+        }
     }
 
+    /**
+     * Allows for toggling the fields and Labels in the scene
+     * @author Sarah
+     * @param value
+     */
     public void setFieldsAndLabelsVisible(boolean value){
         search.setVisible(value);
         searchField.setVisible(value);

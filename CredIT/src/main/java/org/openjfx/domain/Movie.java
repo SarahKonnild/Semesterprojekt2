@@ -4,6 +4,7 @@ import org.openjfx.interfaces.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Movie implements IMovie {
     private final IPersistence persistence = CredITSystem.getPersistence();
@@ -23,7 +24,11 @@ public class Movie implements IMovie {
         this.id = id;
         this.title = title;
         this.releaseDate = releaseDate.split("-");
-        this.castRoleMap = system.getCastRolesMovies(this.id);
+        loadCastRolesMovies();
+    }
+    private void loadCastRolesMovies(){
+        HashMap<ICast, String> castMap = system.getCastRolesMovies(this.id);
+        this.castRoleMap = Objects.requireNonNullElseGet(castMap, HashMap::new);
     }
 
     @Override
@@ -88,7 +93,7 @@ public class Movie implements IMovie {
 
     @Override
     public String toString() {
-        return title + " (" + releaseDate[0] + ")";
+        return title + " (" + releaseDate[2] + ")";
     }
 
     @Override

@@ -143,7 +143,7 @@ public class CredITSystem implements ISystem {
     }
 
     public ArrayList<IBroadcast> searchBroadcast(int broadcastID) {
-        return makeBroadcastObjects(persistenceLayer.getBroadcastsFromDatabase((broadcastID)));
+        return makeBroadcastObjects(persistenceLayer.getBroadcastFromDatabase((broadcastID)));
     }
 
     public ArrayList<IBroadcast> searchBroadcasts(int productionID) {
@@ -242,7 +242,7 @@ public class CredITSystem implements ISystem {
     private ArrayList<IMovie> makeMovieObjects(List<String> list) {
         ArrayList<IMovie> movies = new ArrayList<>();
         if (list != null && list.size() > 0) {
-            //the string is formatted as id,title,releaseDate,productionCompanyID
+            //the string is formatted as id,title,releaseDate
             for (String item : list) {
                 String[] items = item.split(",");
                 movies.add(new Movie(

@@ -413,10 +413,10 @@ public class Persistence implements IPersistence {
                         resultSet.getString(2) + "," +
                         resultSet.getInt(5)) + "," +
                         resultSet.getInt(4) + "," +
-                        String.valueOf(date.getDayOfMonth()) + "-" +
-                        String.valueOf(date.getMonth().getValue()) + "-" +
-                        String.valueOf(date.getYear())
-                         );
+                        date.getDayOfMonth() + "-" +
+                        date.getMonth().getValue() + "-" +
+                        date.getYear()
+                );
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -447,9 +447,9 @@ public class Persistence implements IPersistence {
                         resultSet.getString(2) + "," +
                         resultSet.getInt(5)) + "," +
                         resultSet.getInt(4) + "," +
-                        String.valueOf(date.getDayOfMonth()) + "-" +
-                        String.valueOf(date.getMonth().getValue()) + "-" +
-                        String.valueOf(date.getYear())
+                        (date.getDayOfMonth()) + "-" +
+                        (date.getMonth().getValue()) + "-" +
+                        (date.getYear())
                 );
             }
             return resultList;
@@ -479,9 +479,9 @@ public class Persistence implements IPersistence {
                         resultSet.getString(2) + "," +
                         resultSet.getInt(5)) + "," +
                         resultSet.getInt(4) + "," +
-                        String.valueOf(date.getDayOfMonth()) + "-" +
-                        String.valueOf(date.getMonth().getValue()) + "-" +
-                        String.valueOf(date.getYear())
+                        date.getDayOfMonth() + "-" +
+                        date.getMonth().getValue() + "-" +
+                        date.getYear()
                 );
             }
             return resultList;
@@ -510,7 +510,10 @@ public class Persistence implements IPersistence {
             while (resultSet.next()) {
                 resultList.add((resultSet.getInt(1) + "," +
                         resultSet.getString(2) + "," +
-                        resultSet.getDate(3)));
+                        (resultSet.getDate(3).toLocalDate().getDayOfMonth()) + "-" +
+                        (resultSet.getDate(3).toLocalDate().getMonth().getValue()) + "-" +
+                        (resultSet.getDate(3).toLocalDate().getYear())
+                ));
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -536,7 +539,10 @@ public class Persistence implements IPersistence {
             while (resultSet.next()) {
                 resultList.add((resultSet.getInt(1) + "," +
                         resultSet.getString(2) + "," +
-                        resultSet.getDate(3)));
+                        (resultSet.getDate(3).toLocalDate().getDayOfMonth()) + "-" +
+                        (resultSet.getDate(3).toLocalDate().getMonth().getValue()) + "-" +
+                        (resultSet.getDate(3).toLocalDate().getYear())
+                ));
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -565,7 +571,10 @@ public class Persistence implements IPersistence {
             while (resultSet.next()) {
                 resultList.add((resultSet.getInt(1) + "," +
                         resultSet.getString(2) + "," +
-                        resultSet.getDate(3)));
+                        (resultSet.getDate(3).toLocalDate().getDayOfMonth()) + "-" +
+                        (resultSet.getDate(3).toLocalDate().getMonth().getValue()) + "-" +
+                        (resultSet.getDate(3).toLocalDate().getYear())
+                ));
             }
             return resultList;
         } catch (SQLException throwables) {
@@ -878,7 +887,7 @@ public class Persistence implements IPersistence {
     public boolean updateProductionCompanyInDatabase(IProductionCompany productionCompany) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
-                    "UPDATE production_company SET (name) = ? WHERE id = ?");
+                    "UPDATE production_company SET name = ? FROM(SELECT id FROM production_company) AS subquery WHERE production_company.id = ? ");
             stmt.setString(1, productionCompany.getName());
             stmt.setInt(2, productionCompany.getId());
             stmt.execute();
@@ -911,15 +920,13 @@ public class Persistence implements IPersistence {
             updateMovieStatement.setInt(3, movie.getId());
             updateMovieStatement.setString(1, movie.getTitle());
             LocalDate tempDate = LocalDate.of(
-                    Integer.parseInt(movie.getReleaseDate()[2]),
-                    Integer.parseInt(movie.getReleaseDate()[1]),
-                    Integer.parseInt(movie.getReleaseDate()[0]));
+                    Integer.parseInt(movie.getReleaseDate()[0]), 1, 1);
             updateMovieStatement.setDate(2, Date.valueOf(tempDate));
             updateMovieStatement.execute();
 
             //removes the current cast members from the object in another table.
             PreparedStatement removeCastStatement = connection.prepareStatement(
-                    "DELETE FROM movie_employs WHERE broadcast_id = ?");
+                    "DELETE FROM movie_employs WHERE movie_id = ?");
             removeCastStatement.setInt(1, movie.getId());
             removeCastStatement.execute();
 
@@ -963,9 +970,10 @@ public class Persistence implements IPersistence {
             LocalDate tempDate = LocalDate.of(Integer.parseInt(production.getYear()), 1, 1);
             stmt.setDate(2, Date.valueOf(tempDate));
             stmt.execute();
-
-            for (IBroadcast broadcast : production.getBroadcasts()) {
-                updateBroadcastInDatabase(broadcast);
+            if (!production.getBroadcasts().isEmpty()) {
+                for (IBroadcast broadcast : production.getBroadcasts()) {
+                    updateBroadcastInDatabase(broadcast);
+                }
             }
             return true;
         } catch (SQLException throwables) {
@@ -988,7 +996,7 @@ public class Persistence implements IPersistence {
             //finds the old version of the object and replaces it with the current one.
             PreparedStatement stmt = connection.prepareStatement(
                     "update broadcast set (name, air_date, episode_number, season_number) = (?,?,?,?) where id = ?");
-            stmt.setInt(4, broadcast.getId());
+            stmt.setInt(5, broadcast.getId());
             stmt.setString(1, broadcast.getName());
             LocalDate tempDate = LocalDate.of(
                     Integer.parseInt(broadcast.getAirDate()[2]),
@@ -1088,7 +1096,7 @@ public class Persistence implements IPersistence {
     @Override
     public int getProductionCompanyIdOnMovie(int movieId) {
         try {
-            PreparedStatement stmt = connection.prepareStatement("SELECT production_company_id FROM produces_movie WHERE production_id = ?");
+            PreparedStatement stmt = connection.prepareStatement("SELECT production_company_id FROM produces_movie WHERE movie_id = ?");
             stmt.setInt(1, movieId);
 
             ResultSet resultSet = stmt.executeQuery();
