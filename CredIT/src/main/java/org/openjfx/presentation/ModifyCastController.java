@@ -81,6 +81,7 @@ public class ModifyCastController implements Initializable {
      * method in the domain layer's System class. If the list has items, and the searchfield isn't empty,
      * the items returned from the persistence layer will be written to a list which can be printed into
      * the ListView.
+     * @author Sarah
      * @param event
      */
     @FXML
@@ -103,6 +104,7 @@ public class ModifyCastController implements Initializable {
      * Enables the ability to choose multiple items from the ListView, and writes the ObservableList
      * to it. From this list of multiple choices, the first chosen object will have its information
      * written to the related fields.
+     * @author Sarah
      * @param event
      */
     @FXML
@@ -121,6 +123,7 @@ public class ModifyCastController implements Initializable {
 
     /**
      * Displays the rolelist for each cast member in the resultList view.
+     * @author Sarah
      * @param event
      */
     @FXML
@@ -146,6 +149,7 @@ public class ModifyCastController implements Initializable {
     /**
      * Takes the information written in the fields and uses those as the parameters for the createCast method
      * in the domain layer. Thus creates a new entry into the database.
+     * @author Sarah
      * @param event
      */
     @FXML
@@ -177,12 +181,11 @@ public class ModifyCastController implements Initializable {
      * If exactly 2, the mergeCast method is run on the object, and merges the second cast member into the
      * first cast member that was chosen. If successful, the cast members will be merged; if unsuccessful, an
      * error message is printed.
+     * @author Sarah
      * @param event
      */
     @FXML
     public void handleMerge(ActionEvent event){
-        if(!castObservableList.isEmpty()){
-            chosenCastObservable = resultList.getSelectionModel().getSelectedItems();
             if(chosenCastObservable.size() == 2){
                 creationState = chosenCastObservable.get(0).mergeCastMembers(chosenCastObservable.get(1));
                 if(creationState){
@@ -197,10 +200,6 @@ public class ModifyCastController implements Initializable {
             } else{
                 errorMessage.setText("Fejl, for mange medvirkende valgt");
             }
-        } else{
-            errorMessage.setText("Fejl, ingen medvirkende valgt");
-        }
-
     }
 
     //endregion
@@ -213,12 +212,11 @@ public class ModifyCastController implements Initializable {
      * If successful, the user is given a success message.
      * If unsuccessful, the user is given an error message.
      * If no objects are chosen and the button is pressed, an error message is written.
+     * @author Sarah
      * @param event
      */
     @FXML
     public void handleDelete(ActionEvent event){
-        if(!castObservableList.isEmpty()){
-            chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
             creationState = chosenCast.delete();
             if(creationState){
                 errorMessage.setText(chosenCast.getName() + " slettet");
@@ -229,9 +227,6 @@ public class ModifyCastController implements Initializable {
             }else{
                 errorMessage.setText("Fejl, " + chosenCast.getName() + " blev ikke slettet");
             }
-        }else{
-            errorMessage.setText("Fejl, ingen medvirkende valgt");
-        }
         resultList.refresh();
     }
     //endregion
@@ -241,12 +236,11 @@ public class ModifyCastController implements Initializable {
     /**
      * Saves the changes that are made to a cast object into the databases. Reads the values of all the fields
      * and saves the changes to the object that was originally chosen.
+     * @author Sarah
      * @param event
      */
     @FXML
     public void handleSave(ActionEvent event){
-        if(!castObservableList.isEmpty()){
-            chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
             creationState = chosenCast.update(castName.getText(), regDKID.getText());
             if(creationState){
                 errorMessage.setText(chosenCast.getName() + " opdateret");
@@ -254,9 +248,6 @@ public class ModifyCastController implements Initializable {
             }else{
                 errorMessage.setText("Fejl, "+ chosenCast.getName() + " blev ikke opdateret");
             }
-        }else{
-            errorMessage.setText("Fejl, ingen medvirkende valgt");
-        }
         resultList.refresh();
     }
     //endregion

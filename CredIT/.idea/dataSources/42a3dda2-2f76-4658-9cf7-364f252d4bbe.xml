@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dataSource name="credIT_db@localhost">
+<dataSource name="credit_db@localhost">
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.18">
     <root id="1">
       <ServerVersion>12.1</ServerVersion>
       <StartupTime>1589524912</StartupTime>
     </root>
-    <database id="2" parent="1" name="credIT_db">
+    <database id="2" parent="1" name="credit_db">
       <ObjectId>40960</ObjectId>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>562</IntrospectionStateNumber>
+      <IntrospectionStateNumber>576</IntrospectionStateNumber>
       <Current>1</Current>
       <Relations>sequence|table|41085|41087|1
 sequence|table|41093|41095|1
@@ -25,7 +25,6 @@ sequence|table|41117|41119|1
       <ObjectId>13318</ObjectId>
       <Comment>default administrative connection database</Comment>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>528</IntrospectionStateNumber>
     </database>
     <role id="5" parent="1" name="pg_execute_server_program">
       <ObjectId>4571</ObjectId>
@@ -76,7 +75,7 @@ sequence|table|41117|41119|1
       <Comment>standard public schema</Comment>
       <StateNumber>276</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>563</IntrospectionStateNumber>
+      <IntrospectionStateNumber>577</IntrospectionStateNumber>
       <Current>1</Current>
     </schema>
     <access-method id="17" parent="2" name="heap">

@@ -68,6 +68,7 @@ public class LoginSystemController implements Initializable {
 
     /**
      * Allows for bypassing the login system to speed shit up
+     * @author Sarah
      * @param event
      */
     @FXML
@@ -86,6 +87,7 @@ public class LoginSystemController implements Initializable {
 
     /**
      * Changes the stage for guest users when pressing the "Continue as Guest User" label
+     * @author Sarah
      * @param event
      */
     @FXML
@@ -102,6 +104,7 @@ public class LoginSystemController implements Initializable {
 
     /**
      * Changes the visibility of the labels/textfields when pressing to continue as an admin.
+     * @author Sarah
      * @param event
      */
     @FXML
@@ -117,12 +120,12 @@ public class LoginSystemController implements Initializable {
 
     /**
      * Checks if the pseudo-login criteria are met, and if so, the scene will change to the admin-page.
+     * @author Sarah
      * @param event
      */
     @FXML
     public void handleLoginButton(ActionEvent event) {
         if(username.getText().equals("admin") && password.getText().equals("admin")){
-            //TODO make a decision on whether the user should be created here, or if it should be system that creates the class and then returns IUser
             usernameString = "admin";
             adminUser = App.getSystemInstance().createNewUser(username.getText(), password.getText());
             System.out.println("hej3");
@@ -134,6 +137,7 @@ public class LoginSystemController implements Initializable {
 
     /**
      * Permits closing of the borderless window.
+     * @author Sarah
      */
     @FXML
     public void handleClose(MouseEvent event){

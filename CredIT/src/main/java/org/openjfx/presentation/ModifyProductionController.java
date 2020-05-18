@@ -79,6 +79,13 @@ public class ModifyProductionController implements Initializable {
     private Object obj;
     //endregion
 
+    /**
+     * Checks if a production has been given from the previous scene. If so, the fields will be set to show
+     * the given production's information.
+     * @author Sarah
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
@@ -99,6 +106,7 @@ public class ModifyProductionController implements Initializable {
     /**
      * Searches the database for entries that match the search field's information in the database.
      * Writes all results into the list, which can then be chosen by the user.
+     * @author Sarah
      * @param event
      */
     @FXML
@@ -119,6 +127,7 @@ public class ModifyProductionController implements Initializable {
     /**
      * When the user chooses an object from the search list, this method is run. It will always write the
      * data associated with the LAST object chosen to the fields.
+     * @author Sarah
      * @param event
      */
     @FXML
@@ -149,7 +158,9 @@ public class ModifyProductionController implements Initializable {
     //region
     /**
      * Takes the information written in the fields and uses those as the parameters for the createProduction method
-     * in the domain layer. Thus creates a new entry into the database.
+     * in the domain layer. Thus creates a new entry into the database, and assigns it to the Production Company that has
+     * been entered into the company-name field, if it exists.
+     * @author Sarah
      * @param event
      */
     @FXML
@@ -176,14 +187,14 @@ public class ModifyProductionController implements Initializable {
     //Delete Production
     //region
     /**
-     *
+     * Takes the production that has been chosen from the ListView and deletes it from the application instance.
+     * If that is successful, it will be removed from the database and unassigned from the Production.
+     * @author Sarah
      * @param event
      */
     @FXML
     private void handleDelete(MouseEvent event){
-        if(observableList != null){
-            chosenProduction = (IProduction) resultList.getSelectionModel().getSelectedItem();
-            status = chosenProduction.delete();
+       status = chosenProduction.delete();
             if(status){
                 searchResult.remove(chosenProduction);
                 errorMessage.setText("Produktion slettet");
@@ -196,9 +207,6 @@ public class ModifyProductionController implements Initializable {
             } else{
                 errorMessage.setText("Fejl opstået, produktion blev ikke slettet");
             }
-        }else{
-            errorMessage.setText("Ingen produktion valgt");
-        }
         resultList.refresh();
     }
     //endregion
@@ -206,23 +214,20 @@ public class ModifyProductionController implements Initializable {
     //Save Production
     //region
     /**
-     *
+     * Takes the production that has been chosen from the ListView and updates its information with the text
+     * that has been entered into the relevant Fields.
+     * @author Sarah
      * @param event
      */
     @FXML
     private void handleSave(MouseEvent event){
-        if(observableList != null){
-            chosenProduction = (IProduction) resultList.getSelectionModel().getSelectedItem();
-            status = chosenProduction.update(productionName.getText(), releaseYear.getText());
+        status = chosenProduction.update(productionName.getText(), releaseYear.getText());
             if(status){
                 errorMessage.setText("Produktion opdateret");
                 clearFields();
             }else{
                 errorMessage.setText("Fejl opstået, produktion blev ikke opdateret");
             }
-        }else{
-            errorMessage.setText("Ingen produktion valgt");
-        }
         resultList.refresh();
     }
     //endregion
@@ -272,12 +277,12 @@ public class ModifyProductionController implements Initializable {
     }
     //endregion
 
-    public static IProduction getChosenProduction(){
-        return chosenProduction;
-    }
-
     public static IBroadcast getChosenBroadcast(){
         return chosenBroadcast;
+    }
+
+    public static void setChosenProduction(IProduction chosenProduction){
+        givenProduction = chosenProduction;
     }
 }
 

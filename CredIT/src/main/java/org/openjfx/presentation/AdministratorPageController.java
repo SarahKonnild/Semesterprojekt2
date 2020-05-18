@@ -45,6 +45,7 @@ public class AdministratorPageController implements Initializable {
 
     /**
      * All these handlers work to change the scene of the primary stage based on the label that is being clicked on
+     * @author Sarah
      * @param event
      */
     //region

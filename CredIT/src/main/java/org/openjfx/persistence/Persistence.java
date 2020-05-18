@@ -44,7 +44,7 @@ public class Persistence implements IPersistence {
     private void initializePostgresqlDatabase() {
         try {
             DriverManager.registerDriver(new org.postgresql.Driver());
-            connection = DriverManager.getConnection("jdbc:postgresql://" + url + ":" + port + "/" + databaseName, username, password);
+            connection = DriverManager.getConnection("jdbc:postgresql://"+url+":"+port+"/"+databaseName, username, password);
         } catch (SQLException | IllegalArgumentException ex) {
             System.out.println("Sorry... Something is wrong with your password.");
         }
@@ -1088,7 +1088,7 @@ public class Persistence implements IPersistence {
     @Override
     public int getProductionCompanyIdOnMovie(int movieId) {
         try {
-            PreparedStatement stmt = connection.prepareStatement("SELECT production_company_id FROM produces_movie WHERE production_id = ?");
+            PreparedStatement stmt = connection.prepareStatement("SELECT production_company_id FROM produces_movie WHERE movie_id = ?");
             stmt.setInt(1, movieId);
 
             ResultSet resultSet = stmt.executeQuery();
