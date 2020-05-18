@@ -19,6 +19,7 @@ import org.openjfx.interfaces.IMovie;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class AssignUnassignCastController implements Initializable {
@@ -67,6 +68,7 @@ public class AssignUnassignCastController implements Initializable {
     private ArrayList<ICast> castSearchResult;
     private ObservableList<ICast> castObservableList;
     private ICast chosenCast;
+    private ArrayList<String> roleArray;
 
     //endregion
 
@@ -100,7 +102,7 @@ public class AssignUnassignCastController implements Initializable {
      * @param event
      */
     @FXML
-    public void handleSearch(ActionEvent event){
+    public void handleSearch(MouseEvent event){
         String searchText = searchField.getText();
         resultList.getItems().clear();
         castSearchResult = App.getSystemInstance().searchCast(searchText);
@@ -124,8 +126,8 @@ public class AssignUnassignCastController implements Initializable {
     @FXML
     public void handleResultChosen(MouseEvent event){
         chosenCast = (ICast) resultList.getSelectionModel().getSelectedItem();
-        name.setText(chosenCast.getName());
-        regDKID.setText(chosenCast.getRegDKID());
+        nameField.setText(chosenCast.getName());
+        regDKField.setText(chosenCast.getRegDKID());
     }
     //endregion
 
@@ -139,7 +141,7 @@ public class AssignUnassignCastController implements Initializable {
      * @param event
      */
     @FXML
-    public void handleAssignNewCast(ActionEvent event){
+    public void handleAssignNewCast(MouseEvent event){
         if(App.getAssignCastModifier().equals("movie")){
             ModifyMovieController.getChosenMovie().assignCast(chosenCast, rolenameField.getText());
         }else if(App.getAssignCastModifier().equals("broadcast")){
@@ -154,7 +156,7 @@ public class AssignUnassignCastController implements Initializable {
      * @param event
      */
     @FXML
-    public void handleUnassignCast(ActionEvent event){
+    public void handleUnassignCast(MouseEvent event){
         if(App.getAssignCastModifier().equals("movie")){
             ModifyMovieController.getChosenMovie().unassignCast(chosenCast,rolenameField.getText());
         }else if(App.getAssignCastModifier().equals("broadcast")){
@@ -174,7 +176,7 @@ public class AssignUnassignCastController implements Initializable {
      * @param event
      */
     @FXML
-    public void handleSave(ActionEvent event){
+    public void handleSave(MouseEvent event){
         if(App.getAssignCastModifier().equals("movie")){
             //TODO update the assigned cast's role for the movie, by first unassigning the cast and then reassigning it with the new role.
         }else if(App.getAssignCastModifier().equals("broadcast")){
@@ -218,7 +220,7 @@ public class AssignUnassignCastController implements Initializable {
      * @param event
      */
     @FXML
-    public void handleClose(ActionEvent event){
+    public void handleClose(MouseEvent event){
         App.closeWindow();
     }
     //endregion
@@ -249,6 +251,23 @@ public class AssignUnassignCastController implements Initializable {
         unassignButton.setVisible(true);
         save.setVisible(true);
         assignButton.setVisible(false);
+        if(App.getAssignCastModifier().equals("movie")) {
+            HashMap<IMovie, String> movieRoles = App.getSystemInstance().getCastRolesMovies(chosenCast);
+
+            for(IMovie movie : movieRoles.keySet()){
+                String temp = movie.getTitle() + movieRoles.get(movie);
+                roleArray.add(temp);
+            }
+
+            resultList.setItems(FXCollections.observableArrayList(roleArray));
+        } else if(App.getAssignCastModifier().equals("broadcast")){
+            HashMap<IBroadcast, String> broadcastRoles = App.getSystemInstance().getCastRolesBroadcast(chosenCast);
+
+            for(IBroadcast broadcast : broadcastRoles.keySet()){
+                String temp = broadcast.getName() + broadcastRoles.get(broadcast);
+                roleArray.add(temp);
+            }
+        }
     }
 
     /**

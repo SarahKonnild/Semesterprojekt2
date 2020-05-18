@@ -47,7 +47,10 @@
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor></TextField>
-            <Button fx:id="search" layoutX="260.0" layoutY="53.0" mnemonicParsing="false" onAction="#handleSave" style="-fx-background-color: FFFFFF;" text="Søg" visible="false" />
+            <Button fx:id="search" layoutX="260.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#handleSearch" style="-fx-background-color: FFFFFF;" text="Søg" visible="false">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
             <Label fx:id="name" layoutX="14.0" layoutY="111.0" text="Medvirkendes Navn" textFill="WHITE" visible="false" />
             <TextField fx:id="nameField" editable="false" layoutX="14.0" layoutY="128.0" prefHeight="27.0" prefWidth="289.0" style="-fx-background-color: FFFFFF;" visible="false">
                <cursor>
@@ -63,15 +66,15 @@
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor></TextField>
-            <Button fx:id="assignButton" layoutX="14.0" layoutY="343.0" mnemonicParsing="false" onAction="#handleAssignNewCast" style="-fx-background-color: FFFFFF;" text="Tilknyt Medvirkende" visible="false">
+            <Button fx:id="assignButton" layoutX="14.0" layoutY="343.0" mnemonicParsing="false" onMouseClicked="#handleAssignNewCast" style="-fx-background-color: FFFFFF;" text="Tilknyt Medvirkende" visible="false">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="save" layoutX="198.0" layoutY="343.0" mnemonicParsing="false" onAction="#handleSave" style="-fx-background-color: FFFFFF;" text="Gem Ændringer" visible="false">
+            <Button fx:id="save" layoutX="198.0" layoutY="343.0" mnemonicParsing="false" onAction="#handleSave" onMouseClicked="#handleSave" style="-fx-background-color: FFFFFF;" text="Gem Ændringer" visible="false">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="unassignButton" layoutX="16.0" layoutY="343.0" mnemonicParsing="false" onAction="#handleUnassignCast" style="-fx-background-color: FFFFFF;" text="Fjern Medvirkende" visible="false">
+            <Button fx:id="unassignButton" layoutX="16.0" layoutY="343.0" mnemonicParsing="false" onAction="#handleUnassignCast" onMouseClicked="#handleUnassignCast" style="-fx-background-color: FFFFFF;" text="Fjern Medvirkende" visible="false">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
