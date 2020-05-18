@@ -4,6 +4,7 @@ import org.openjfx.interfaces.ICast;
 import org.openjfx.interfaces.IPersistence;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Cast implements ICast {
     private final IPersistence persistence = CredITSystem.getPersistence();
@@ -39,8 +40,21 @@ public class Cast implements ICast {
 
     @Override
     public boolean mergeCastMembers(ICast cast) {
-        //Todo gotta figure out how to update this instance with the new data after the merge. Maybe the method should return a list of strings?
-        return persistence.mergeCastInDatabase(this, cast);
+        if(persistence.mergeCastInDatabase(this, cast))
+        {
+            ArrayList<ICast> listCast = system.searchCast(this.id);
+            if(listCast != null && !listCast.isEmpty()){
+                ICast newCast = listCast.get(0);
+                this.name = newCast.getName();
+                this.regDKID = newCast.getRegDKID();
+                return  true;
+            }
+            else {
+                return false;
+            }
+        }else{
+            return false;
+        }
     }
 
     @Override
