@@ -32,6 +32,8 @@ public class ProductionCompany implements IProductionCompany {
         ArrayList<IProduction> temp = system.searchProductions(this.id);
         if(temp != null && !temp.isEmpty()) {
             this.productionList = temp;
+        } else {
+             this.productionList = new ArrayList<>();
         }
     }
 
@@ -39,6 +41,8 @@ public class ProductionCompany implements IProductionCompany {
         ArrayList<IMovie> temp = system.searchMovies(this.id);
         if(!temp.isEmpty()) {
             this.movieList = temp;
+        } else{
+            this.movieList = new ArrayList<>();
         }
     }
 

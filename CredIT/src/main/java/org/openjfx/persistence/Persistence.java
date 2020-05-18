@@ -878,7 +878,7 @@ public class Persistence implements IPersistence {
     public boolean updateProductionCompanyInDatabase(IProductionCompany productionCompany) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
-                    "UPDATE production_company SET (name) = ? WHERE id = ?");
+                    "UPDATE production_company SET name = ? FROM(SELECT id FROM production_company) AS subquery WHERE production_company.id = ?");
             stmt.setString(1, productionCompany.getName());
             stmt.setInt(2, productionCompany.getId());
             stmt.execute();
