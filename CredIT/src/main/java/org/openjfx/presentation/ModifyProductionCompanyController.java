@@ -96,10 +96,10 @@ public class ModifyProductionCompanyController implements Initializable {
         resultList.getItems().clear();
         searchList = App.getSystemInstance().searchProductionCompany(searchText);
         if(searchList != null && !searchField.getText().isEmpty()){
+            resultList.setDisable(false);
             observableList = FXCollections.observableArrayList(searchList);
             resultList.setItems(observableList);
             searchField.clear();
-            resultList.setDisable(false);
         }else{
             errorMessageSearch.setVisible(true);
             if(resultList.getItems().isEmpty()){
@@ -196,7 +196,6 @@ public class ModifyProductionCompanyController implements Initializable {
     private void handleDelete(MouseEvent event){
         if(chosenProductionCompany != null){
             status = chosenProductionCompany.delete();
-            System.out.println(status);
             if(status){
                 searchList.remove(chosenProductionCompany);
                 errorMessage.setText(chosenProductionCompany.getName() + " slettet");
