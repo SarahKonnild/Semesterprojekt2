@@ -216,7 +216,8 @@ public class CredITSystem implements ISystem {
                         items[2],
                         items[3].equals("null") ? 0 : Integer.parseInt(items[3].strip()),
                         items[4].equals("null") ? 0 : Integer.parseInt(items[4].strip())));
-            }}
+            }
+        }
         return productions;
     }
     //endregion production methods ends here

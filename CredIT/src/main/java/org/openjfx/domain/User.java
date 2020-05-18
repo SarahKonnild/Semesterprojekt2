@@ -7,8 +7,8 @@ public class User implements IUser {
     private final CredITSystem system = CredITSystem.getInstance();
     private int id;
     private String name;
-    private String password;
-    private String username;
+    private final String password;
+    private final String username;
     private Role role;
 
     /**

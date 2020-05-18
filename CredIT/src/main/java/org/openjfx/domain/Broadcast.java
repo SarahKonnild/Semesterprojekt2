@@ -1,6 +1,8 @@
 package org.openjfx.domain;
 
-import org.openjfx.interfaces.*;
+import org.openjfx.interfaces.IBroadcast;
+import org.openjfx.interfaces.ICast;
+import org.openjfx.interfaces.IPersistence;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -32,7 +34,7 @@ public class Broadcast implements IBroadcast {
         this.castRoleMap = new HashMap<>();
     }
 
-    private void loadBroadcastRoles(){
+    private void loadBroadcastRoles() {
         HashMap<ICast, String> castMap = system.getCastRolesBroadcast(this.id);
         this.castRoleMap = Objects.requireNonNullElseGet(castMap, HashMap::new);
     }
@@ -40,8 +42,8 @@ public class Broadcast implements IBroadcast {
     @Override
     public boolean save(int productionId) {
         int idNumber = persistence.createNewBroadcastInDatabase(this, productionId);
-        if(idNumber != -1) this.id = idNumber;
-        return (idNumber == -1) ? false : true;
+        if (idNumber != -1) this.id = idNumber;
+        return idNumber != -1;
     }
 
     @Override
@@ -61,9 +63,9 @@ public class Broadcast implements IBroadcast {
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
 
-        if(persistence.updateBroadcastInDatabase(this))
+        if (persistence.updateBroadcastInDatabase(this))
             return true;
-        else{
+        else {
             this.name = tempName;
             this.airDate = tempDate;
             this.seasonNumber = tempSeason;
@@ -77,7 +79,7 @@ public class Broadcast implements IBroadcast {
         if (castRoleMap.containsKey(cast)) {
             HashMap<ICast, String> tempRoleMap = this.castRoleMap;
             castRoleMap.remove(cast);
-            if(persistence.updateBroadcastInDatabase(this))
+            if (persistence.updateBroadcastInDatabase(this))
                 return true;
             else {
                 castRoleMap.clear();
@@ -93,11 +95,9 @@ public class Broadcast implements IBroadcast {
     public boolean assignCast(ICast cast, String role) {
         HashMap<ICast, String> tempRoleMap = this.castRoleMap;
         castRoleMap.put(cast, role);
-        if(persistence.updateBroadcastInDatabase(this))
-        {
+        if (persistence.updateBroadcastInDatabase(this)) {
             return true;
-        }else
-        {
+        } else {
             //A mistake in saving to database must have happened. So the data is cleared and the latest data is pulled from database.
             castRoleMap.clear();
             castRoleMap = tempRoleMap;

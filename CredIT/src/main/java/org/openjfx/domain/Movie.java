@@ -1,8 +1,9 @@
 package org.openjfx.domain;
 
-import org.openjfx.interfaces.*;
+import org.openjfx.interfaces.ICast;
+import org.openjfx.interfaces.IMovie;
+import org.openjfx.interfaces.IPersistence;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -14,7 +15,7 @@ public class Movie implements IMovie {
     private int id;
     private HashMap<ICast, String> castRoleMap;
 
-    public Movie(String title, String releaseDate){
+    public Movie(String title, String releaseDate) {
         this.title = title;
         this.releaseDate = new String[3];
         this.releaseDate[0] = "01";
@@ -23,22 +24,23 @@ public class Movie implements IMovie {
         this.castRoleMap = new HashMap<>();
     }
 
-    public Movie(int id, String title, String releaseDate){
+    public Movie(int id, String title, String releaseDate) {
         this.id = id;
         this.title = title;
         this.releaseDate = releaseDate.split("-");
         loadCastRolesMovies();
     }
-    private void loadCastRolesMovies(){
+
+    private void loadCastRolesMovies() {
         HashMap<ICast, String> castMap = system.getCastRolesMovies(this.id);
         this.castRoleMap = Objects.requireNonNullElseGet(castMap, HashMap::new);
     }
 
     @Override
     public boolean save(int productionCompanyId) {
-        int idNumber = persistence.createNewMovieInDatabase(this,productionCompanyId);
-        if(idNumber != -1) this.id = idNumber;
-        return (idNumber == -1) ? false : true;
+        int idNumber = persistence.createNewMovieInDatabase(this, productionCompanyId);
+        if (idNumber != -1) this.id = idNumber;
+        return idNumber != -1;
     }
 
     @Override
@@ -57,7 +59,7 @@ public class Movie implements IMovie {
         if (persistence.updateMovieInDatabase(this)) {
             System.out.println(true);
             return true;
-        }else {
+        } else {
             this.title = tempTitle;
             this.releaseDate = tempYear;
             return false;
@@ -69,7 +71,7 @@ public class Movie implements IMovie {
         if (castRoleMap.containsKey(cast)) {
             HashMap<ICast, String> tempRoleMap = this.castRoleMap;
             castRoleMap.remove(cast);
-            if(persistence.updateMovieInDatabase(this))
+            if (persistence.updateMovieInDatabase(this))
                 return true;
             else {
                 castRoleMap.clear();
@@ -85,11 +87,9 @@ public class Movie implements IMovie {
     public boolean assignCast(ICast cast, String role) {
         HashMap<ICast, String> tempRoleMap = this.castRoleMap;
         castRoleMap.put(cast, role);
-        if(persistence.updateMovieInDatabase(this))
-        {
+        if (persistence.updateMovieInDatabase(this)) {
             return true;
-        }else
-        {
+        } else {
             //A mistake in saving to database must have happened. So the data is cleared and the latest data is pulled from database.
             castRoleMap.clear();
             castRoleMap = tempRoleMap;

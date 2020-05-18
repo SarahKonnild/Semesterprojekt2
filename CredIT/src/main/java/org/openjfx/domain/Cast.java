@@ -3,7 +3,6 @@ package org.openjfx.domain;
 import org.openjfx.interfaces.ICast;
 import org.openjfx.interfaces.IPersistence;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Cast implements ICast {
@@ -40,19 +39,17 @@ public class Cast implements ICast {
 
     @Override
     public boolean mergeCastMembers(ICast cast) {
-        if(persistence.mergeCastInDatabase(this, cast))
-        {
+        if (persistence.mergeCastInDatabase(this, cast)) {
             ArrayList<ICast> listCast = system.searchCast(this.id);
-            if(listCast != null && !listCast.isEmpty()){
+            if (listCast != null && !listCast.isEmpty()) {
                 ICast newCast = listCast.get(0);
                 this.name = newCast.getName();
                 this.regDKID = newCast.getRegDKID();
-                return  true;
-            }
-            else {
+                return true;
+            } else {
                 return false;
             }
-        }else{
+        } else {
             return false;
         }
     }
@@ -64,18 +61,14 @@ public class Cast implements ICast {
         String tempReg = this.regDKID;
         this.name = name;
         this.regDKID = regDKID;
-        if(persistence.updateCastInDatabase(this))
-            return true;
-        else{
-            return false;
-        }
+        return persistence.updateCastInDatabase(this);
     }
 
     @Override
     public boolean save() {
         int idNumber = persistence.createNewCastInDatabase(this);
-        if(idNumber != -1) this.id = idNumber;
-        return (idNumber == -1) ? false : true;
+        if (idNumber != -1) this.id = idNumber;
+        return idNumber != -1;
     }
 
     @Override
