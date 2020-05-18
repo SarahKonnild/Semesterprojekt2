@@ -344,8 +344,16 @@ public class ModifyProductionCompanyController implements Initializable {
         return chosenMovie;
     }
 
+    public static void setChosenMovie(IMovie newValue){
+        chosenMovie = newValue;
+    }
+
     public static IProduction getChosenProduction(){
         return chosenProduction;
+    }
+
+    public static void setChosenProduction(IProduction newValue){
+        chosenProduction = newValue;
     }
 
     //endregion

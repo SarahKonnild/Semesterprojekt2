@@ -83,7 +83,6 @@ public class ModifyMovieController implements Initializable {
             productionCompany.setText(retrievedProductionCompany.getName());
             String[] release = givenMovie.getReleaseDate();
             releaseYear.setText(release[2]);
-
         }
     }
 
@@ -233,6 +232,9 @@ public class ModifyMovieController implements Initializable {
 
     @FXML
     public void handleBack(MouseEvent event){
+        if(ModifyProductionCompanyController.getChosenMovie() != null){
+            ModifyProductionCompanyController.setChosenMovie(null);
+        }
         App.handleAdminPage();
     }
 

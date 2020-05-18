@@ -89,6 +89,7 @@ public class ModifyProductionController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
+
         if(ModifyProductionCompanyController.getChosenProduction() != null) {
             givenProduction = ModifyProductionCompanyController.getChosenProduction();
             productionName.setText(givenProduction.getName());
@@ -261,6 +262,9 @@ public class ModifyProductionController implements Initializable {
 
     @FXML
     private void handleBack(MouseEvent event){
+        if(ModifyProductionCompanyController.getChosenProduction() != null){
+            ModifyProductionCompanyController.setChosenProduction(null);
+        }
         App.handleAdminPage();
     }
 
