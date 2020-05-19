@@ -212,7 +212,7 @@ public class CredITSystem implements ISystem {
             //String is formatted as id,name,year,seasons,episodes
             for (String item : list) {
                 String[] items = item.split("\t");
-                ArrayList<IBroadcast> temp = searchBroadcast(Integer.parseInt(items[0]));
+                ArrayList<IBroadcast> temp = searchBroadcasts(Integer.parseInt(items[0]));
                 ArrayList<IBroadcast> broadcasts = Objects.requireNonNullElseGet(temp, ArrayList::new);
                 productions.add(new Production(
                         Integer.parseInt(items[0]),

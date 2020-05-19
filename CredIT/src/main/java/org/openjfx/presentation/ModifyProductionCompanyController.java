@@ -278,7 +278,6 @@ public class ModifyProductionCompanyController implements Initializable {
      */
     @FXML
     private void handleChangeToProductions(MouseEvent event){
-        //TODO CHECK IF WORKS
         if(chosenProductionCompany != null){
             if(productionList != null){
                 resultList.setItems(FXCollections.observableArrayList(productionList));

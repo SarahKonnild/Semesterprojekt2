@@ -52,7 +52,6 @@ public class Movie implements IMovie {
         this.releaseDate[1] = "01";
         this.releaseDate[2] = releaseYear;
         if (persistence.updateMovieInDatabase(this)) {
-            System.out.println(true);
             return true;
         } else {
             this.title = tempTitle;

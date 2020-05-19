@@ -78,16 +78,18 @@ public class ModifyBroadcastController implements Initializable {
     /**
      * Checks if the scene has been given an IBroadcast-object from the previous scene, and if so, it will write this
      * object's information to the relevant fields.
-     * @author Sarah
+     *
      * @param location
      * @param resources
+     * @author Sarah
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
 
-        if(ModifyProductionController.getChosenBroadcast() != null) {
+        if (ModifyProductionController.getChosenBroadcast() != null) {
             givenBroadcast = ModifyProductionController.getChosenBroadcast();
+            chosenBroadcast = givenBroadcast;
             broadcastName.setText(givenBroadcast.getName());
             IProduction retrievedProduction = App.retrieveProduction(givenBroadcast);
             production.setText(retrievedProduction.getName());
@@ -105,16 +107,18 @@ public class ModifyBroadcastController implements Initializable {
 
     //Everything do do with manipulating the ListView (search,choose)
     //region
+
     /**
      * Takes the text that is written in the searchfield and uses that to run the searchBroadcast
      * method in the domain layer's System class. If the list has items, and the searchfield isn't empty,
      * the items returned from the persistence layer will be written to a list which can be printed into
      * the ListView.
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
-    public void handleSearch(MouseEvent event){
+    public void handleSearch(MouseEvent event) {
         String searchText = searchField.getText();
         resultList.getItems().clear();
         searchList = App.getSystemInstance().searchBroadcast(searchText);
@@ -132,41 +136,44 @@ public class ModifyBroadcastController implements Initializable {
     /**
      * When the user chooses an object from the search list, this method is run. It will always write the
      * data associated with the LAST object chosen to the fields.
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
-    public void handleSearchResultChosen(MouseEvent event){
-            chosenBroadcast = (IBroadcast) resultList.getSelectionModel().getSelectedItem();
-            broadcastName.setText(chosenBroadcast.getName());
-            IProduction retrievedProduction = App.retrieveProduction(chosenBroadcast);
-            production.setText(retrievedProduction.getName());
-            String[] airDate = chosenBroadcast.getAirDate();
-            day.setText(airDate[0]);
-            month.setText(airDate[1]);
-            year.setText(airDate[2]);
-            season.setText(String.valueOf(chosenBroadcast.getSeasonNumber()));
-            episode.setText(String.valueOf(chosenBroadcast.getEpisodeNumber()));
+    public void handleSearchResultChosen(MouseEvent event) {
+        chosenBroadcast = (IBroadcast) resultList.getSelectionModel().getSelectedItem();
+        broadcastName.setText(chosenBroadcast.getName());
+        IProduction retrievedProduction = App.retrieveProduction(chosenBroadcast);
+        production.setText(retrievedProduction.getName());
+        String[] airDate = chosenBroadcast.getAirDate();
+        day.setText(airDate[0]);
+        month.setText(airDate[1]);
+        year.setText(airDate[2]);
+        season.setText(String.valueOf(chosenBroadcast.getSeasonNumber()));
+        episode.setText(String.valueOf(chosenBroadcast.getEpisodeNumber()));
 
-            modifyCast.setDisable(false);
-            delete.setDisable(false);
-            save.setDisable(false);
+        modifyCast.setDisable(false);
+        delete.setDisable(false);
+        save.setDisable(false);
     }
     //endregion
 
     //Create Broadcast
     //region
+
     /**
      * First, a check on the Production that the user has entered as the "parent" for the Broadcast exists. If it exists,
      * it will take the first element in the ArrayList that is returned with Productions and add the Broadcast that is being
      * created to that Production's list of Broadcasts. If the Production doesn't exist, an error message is printed to the user.
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
-    public void handleCreateBroadcast(MouseEvent event){
+    public void handleCreateBroadcast(MouseEvent event) {
         resultList.setDisable(false);
-        if(!production.getText().isEmpty() && !broadcastName.getText().isEmpty() && !season.getText().isEmpty() && !episode.getText().isEmpty()) {
+        if (!production.getText().isEmpty() && !broadcastName.getText().isEmpty() && !season.getText().isEmpty() && !episode.getText().isEmpty()) {
             String productionSearch = production.getText();
             ArrayList<IProduction> results = App.getSystemInstance().searchProduction(productionSearch);
             if (results.get(0).getName().equalsIgnoreCase(productionSearch)) {
@@ -195,7 +202,7 @@ public class ModifyBroadcastController implements Initializable {
             } else {
                 errorMessage.setText("Fejl, ingen produktion at tilføje til");
             }
-        }else{
+        } else {
             errorMessage.setText("Fejl, venligst udfyld alle felter");
         }
     }
@@ -203,33 +210,38 @@ public class ModifyBroadcastController implements Initializable {
 
     //Delete Broadcast
     //region
+
     /**
      * When the user chooses an object from the search list, and they press the "delete"-button, this method
      * is run. It will delete the object that is chosen from the database, as well as unassigning it from the Production
      * that it was given upon creation.
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
-    public void handleDeleteBroadcast(MouseEvent event){
-        if(observableList != null){
+    public void handleDeleteBroadcast(MouseEvent event) {
+        if(givenBroadcast != null) {
+            chosenBroadcast = givenBroadcast;
+        }
+        if(!observableList.isEmpty()){
             chosenBroadcast = (IBroadcast) resultList.getSelectionModel().getSelectedItem();
             status = chosenBroadcast.delete();
-            if(status){
+            if (status) {
                 searchList.remove(chosenBroadcast);
                 errorMessage.setText(chosenBroadcast.getName() + " slettet");
-                if(searchList.isEmpty()){
+                if (searchList.isEmpty()) {
                     resultList.getItems().clear();
-                } else{
+                } else if(givenBroadcast == null){
                     resultList.setItems(FXCollections.observableArrayList(searchList));
                 }
                 clearFields();
-            }else{
+            } else {
                 errorMessage.setText("Fejl, " + chosenBroadcast.getName() + " blev ikke slettet");
             }
         }else{
-            errorMessage.setText("Ingen udsendelse valgt");
-        }
+        errorMessage.setText("Ingen udsendelse valgt");
+    }
         resultList.refresh();
     }
     //endregion
@@ -245,11 +257,13 @@ public class ModifyBroadcastController implements Initializable {
      */
     @FXML
     public void handleSaveBroadcast(MouseEvent event){
+        if(givenBroadcast != null){
+            chosenBroadcast = givenBroadcast;
+        }
             if(!broadcastName.getText().isEmpty() && !production.getText().isEmpty() && !season.getText().isEmpty() & !episode.getText().isEmpty()) {
                 status = chosenBroadcast.update(broadcastName.getText(), Integer.parseInt(season.getText()), Integer.parseInt(episode.getText()), day.getText() + "-" + month.getText() + "-" + year.getText());
                 if (status) {
                     errorMessage.setText(chosenBroadcast.getName() + " opdateret");
-                    resultList.setItems(FXCollections.observableArrayList(searchList));
                     clearFields();
                 } else {
                     errorMessage.setText("Fejl, " + chosenBroadcast.getName() + " blev ikke opdateret");
@@ -257,6 +271,7 @@ public class ModifyBroadcastController implements Initializable {
             }else{
                 errorMessage.setText("Fejl, udfyld venligst alle felter");
             }
+            resultList.getItems().clear();
     }
 
     //endregion
@@ -267,6 +282,7 @@ public class ModifyBroadcastController implements Initializable {
     public void handleBack(MouseEvent event){
         if(ModifyProductionController.getChosenBroadcast() != null){
             ModifyProductionController.setChosenBroadcast(null);
+            chosenBroadcast = null;
         }
         App.handleAdminPage();
     }
@@ -314,5 +330,6 @@ public class ModifyBroadcastController implements Initializable {
     public static IBroadcast getChosenBroadcast(){
         return chosenBroadcast;
     }
+
     //endregion
 }

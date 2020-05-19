@@ -94,6 +94,10 @@ public class ModifyMovieController implements Initializable {
             productionCompany.setText(retrievedProductionCompany.getName());
             String[] release = givenMovie.getReleaseDate();
             releaseYear.setText(release[2]);
+
+            changeCast.setDisable(false);
+            delete.setDisable(false);
+            save.setDisable(false);
         }
     }
 
@@ -212,13 +216,16 @@ public class ModifyMovieController implements Initializable {
      */
     @FXML
     public void handleDelete(MouseEvent event) {
+        if(givenMovie != null){
+            chosenMovie = givenMovie;
+        }
         status = chosenMovie.delete();
         if (status) {
-            searchResult.remove(chosenMovie);
+            if(givenMovie == null) {
+                searchResult.remove(chosenMovie);
+            }
             errorMessage.setText(chosenMovie.getTitle() + " slettet");
-            if (chosenMovie == null) {
-                resultList.getItems().clear();
-            } else {
+            if(givenMovie == null){
                 resultList.setItems(FXCollections.observableArrayList(searchResult));
             }
             clearFields();
@@ -236,10 +243,15 @@ public class ModifyMovieController implements Initializable {
      */
     @FXML
     public void handleSave(MouseEvent event) {
+        if(givenMovie != null){
+            chosenMovie = givenMovie;
+        }
         if (!movieName.getText().isEmpty() && !productionCompany.getText().isEmpty() && !releaseYear.getText().isEmpty()) {
             status = chosenMovie.update(movieName.getText(), releaseYear.getText());
             if (status) {
-                resultList.setItems(FXCollections.observableArrayList(searchResult));
+                if(givenMovie == null) {
+                    resultList.setItems(FXCollections.observableArrayList(searchResult));
+                }
                 errorMessage.setText(chosenMovie.getTitle() + " opdateret");
                 clearFields();
             } else {
