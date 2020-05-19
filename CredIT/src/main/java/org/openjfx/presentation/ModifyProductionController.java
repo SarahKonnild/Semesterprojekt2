@@ -171,18 +171,20 @@ public class ModifyProductionController implements Initializable {
             String companySearch = productionCompany.getText();
             ArrayList<IProductionCompany> results = new ArrayList<>();
             results.addAll(App.getSystemInstance().searchProductionCompany(companySearch));
-            IProduction production = LoginSystemController.getAdminUser().addNewProductionToDatabase(productionName.getText(), releaseYear.getText(), results.get(0).getId());
-            if (production != null) {
-                resultList.setDisable(false);
-                errorMessage.setText("Produktionen oprettet");
-                if (searchResult == null) {
-                    searchResult = new ArrayList<>();
-                }
-                searchResult.clear();
-                searchResult.add(production);
-                resultList.setItems(FXCollections.observableArrayList(searchResult));
-                clearFields();
-            } else {
+            if(!results.isEmpty()){
+                IProduction production = LoginSystemController.getAdminUser().addNewProductionToDatabase(productionName.getText(), releaseYear.getText(), results.get(0).getId());
+                    if (production != null) {
+                        resultList.setDisable(false);
+                        errorMessage.setText("Produktionen oprettet");
+                        if (searchResult == null) {
+                            searchResult = new ArrayList<>();
+                        }
+                        searchResult.clear();
+                        searchResult.add(production);
+                        resultList.setItems(FXCollections.observableArrayList(searchResult));
+                        clearFields();
+                    }
+            } else{
                 errorMessage.setText("Fejl opstået, produktionen blev ikke oprettet");
             }
             resultList.refresh();

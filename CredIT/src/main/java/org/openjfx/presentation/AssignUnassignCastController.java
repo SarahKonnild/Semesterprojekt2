@@ -111,8 +111,7 @@ public class AssignUnassignCastController implements Initializable {
         castSearchResult = App.getSystemInstance().searchCast(searchText);
         if(castSearchResult != null && !searchField.getText().isEmpty()){
             resultList.setDisable(false);
-            castObservableList = FXCollections.observableArrayList(castSearchResult);
-            resultList.setItems(castObservableList);
+            resultList.setItems(FXCollections.observableArrayList(castSearchResult));
             searchField.clear();
         }
         else{
@@ -168,6 +167,7 @@ public class AssignUnassignCastController implements Initializable {
                 errorMessage.setText(chosenCast.getName() + " tilføjet");
             }
         }
+        clearFields();
     }
 
     /**
@@ -186,6 +186,7 @@ public class AssignUnassignCastController implements Initializable {
         roleArray.remove(chosenPCast);
         resultList.setItems(FXCollections.observableArrayList(roleArray));
         errorMessage.setText(chosenPCast.getCast().getName() + " fjernet");
+        clearFields();
     }
     //endregion
 
@@ -212,6 +213,7 @@ public class AssignUnassignCastController implements Initializable {
         //Setting the new role on the PCast so it updates on the fly
         chosenPCast.setRole(rolenameField.getText());
         resultList.setItems(FXCollections.observableArrayList(roleArray));
+        clearFields();
 
     }
 
