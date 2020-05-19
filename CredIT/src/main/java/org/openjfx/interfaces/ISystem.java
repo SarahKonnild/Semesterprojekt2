@@ -80,6 +80,16 @@ public interface ISystem {
      */
     IProductionCompany searchProductionCompanyOnMovie(int movieId);
 
+    IBroadcast addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate, int productionID);
+
+    IProductionCompany addNewProductionCompanyToDatabase(String name);
+
+    ICast addNewCastToDatabase(String name, String regDKID);
+
+    IMovie addNewMovieToDatabase(String name, int productionCompanyID, String releasedate);
+
+    IProduction addNewProductionToDatabase(String name, String year, int productionCompanyID);
+
     IUser createNewUser(String username, String password);
 
     IUser getUser();

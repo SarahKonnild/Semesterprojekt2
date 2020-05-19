@@ -320,6 +320,41 @@ public class CredITSystem implements ISystem {
     //endregion productionCompany search methods ends here
 
     @Override
+    public ICast addNewCastToDatabase(String name, String regDKID) {
+        ICast cast = new Cast(name, regDKID);
+        cast.save();
+        return cast;
+    }
+
+    @Override
+    public IBroadcast addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate, int productionID) {
+        IBroadcast broadcast = new Broadcast(name, seasonNumber, episodeNumber, airDate);
+        broadcast.save(productionID);
+        return broadcast;
+    }
+
+    @Override
+    public IProduction addNewProductionToDatabase(String name, String year, int productionCompanyID) {
+        IProduction production = new Production(name, year);
+        production.save(productionCompanyID);
+        return production;
+    }
+
+    @Override
+    public IMovie addNewMovieToDatabase(String name, int productionCompanyID, String releasedate) {
+        IMovie movie = new Movie(name, releasedate);
+        movie.save(productionCompanyID);
+        return movie;
+    }
+
+    @Override
+    public IProductionCompany addNewProductionCompanyToDatabase(String name) {
+        IProductionCompany productionCompany = new ProductionCompany(name);
+        productionCompany.save();
+        return productionCompany;
+    }
+
+    @Override
     public IUser createNewUser(String username, String password) {
         IUser userAccount = new User(username, password);
         return userAccount;

@@ -33,13 +33,14 @@ public interface IUser {
      * @return if it succeed creating and saving a new cast returns <code>true</code> else <code>false</code>
      */
     IProduction addNewProductionToDatabase(String name, String year, int productionCompanyID);
+
     /**
      * The method is used to see if the user that is currently logged in has the ability to do certain things.
      *
      * @return Returns <code>true</code> if the string match the role of this user object else <code>false</code>
      */
-
     IMovie addNewMovieToDatabase(String name, int productionCompanyID, String releasedate);
+
     boolean checkRole(String role);
 
     IProductionCompany addNewProductionCompanyToDatabase(String name);
