@@ -130,10 +130,10 @@ INSERT INTO contains VALUES (1, 1);
 INSERT INTO contains VALUES (1, 2);
 
 SELECT setval('movie_id_seq', max(id)) FROM movie;
-SELECT setval('broadcast_id_seq', max(id)) FROM movie;
-SELECT setval('cast_members_id_seq', max(id)) FROM movie;
-SELECT setval('production_id_seq', max(id)) FROM movie;
-SELECT setval('production_company_id_seq', max(id)) FROM movie;
+SELECT setval('broadcast_id_seq', max(id)) FROM broadcast;
+SELECT setval('cast_members_id_seq', max(id)) FROM cast_members;
+SELECT setval('production_id_seq', max(id)) FROM production;
+SELECT setval('production_company_id_seq', max(id)) FROM production_company;
 
 
 -- update single broadcast season number
