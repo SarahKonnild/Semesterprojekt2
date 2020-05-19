@@ -9,7 +9,6 @@ import java.util.Objects;
 
 public class Broadcast implements IBroadcast {
     private final IPersistence persistence = CredITSystem.getPersistence();
-    private final CredITSystem system = CredITSystem.getInstance();
     private int id;
     private String name;
     private HashMap<ICast, String> castRoleMap;
@@ -32,11 +31,6 @@ public class Broadcast implements IBroadcast {
         this.episodeNumber = episodeNumber;
         this.airDate = airDate.split("-");
         this.castRoleMap = new HashMap<>();
-    }
-
-    private void loadBroadcastRoles() {
-        HashMap<ICast, String> castMap = system.getCastRolesBroadcast(this.id);
-        this.castRoleMap = Objects.requireNonNullElseGet(castMap, HashMap::new);
     }
 
     @Override
