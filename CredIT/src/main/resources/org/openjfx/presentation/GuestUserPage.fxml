@@ -131,7 +131,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor></Label>
             <Label fx:id="goTo" alignment="CENTER" layoutX="104.0" layoutY="250.0" prefHeight="17.0" prefWidth="98.0" text="Gå til " textFill="WHITE" underline="true" visible="false" />
-            <Label fx:id="showAllCastBroadcast" alignment="CENTER" layoutX="98.0" layoutY="380.0" onMouseClicked="#handleShowCastBroadcast" prefHeight="20.0" prefWidth="112.0" text="Vis Alle Medvirkende" textFill="WHITE" underline="true" visible="false">
+            <Label fx:id="showAllCastBroadcast" alignment="CENTER" layoutX="92.0" layoutY="379.0" onMouseClicked="#handleShowCastBroadcast" prefHeight="20.0" prefWidth="125.0" text="Vis Alle Medvirkende" textFill="WHITE" underline="true" visible="false">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

@@ -173,7 +173,6 @@ public class GuestUserPageController implements Initializable {
      */
     @FXML
     private void handleSearch(MouseEvent event) {
-        resultList.getItems().clear();
         String searchText = searchField.getText();
         if (searchTopicChosen != null) {
             if (searchTopicChosen.equals("cast")) {
@@ -243,6 +242,7 @@ public class GuestUserPageController implements Initializable {
         } else {
             resultList.setDisable(false);
             if (obj instanceof ICast) {
+                roleArray.clear();
                 searchText = searchField.getText();
                 chosenCast = (ICast) obj;
                 castNameField.setText(chosenCast.getName());
