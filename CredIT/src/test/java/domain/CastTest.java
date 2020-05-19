@@ -1,10 +1,9 @@
-package org.openjfx.domain;
+package domain;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
+import org.openjfx.domain.Cast;
 
 public class CastTest {
     Cast testCast;
@@ -16,7 +15,7 @@ public class CastTest {
 
     @Test
     public void testToString() {
-        Assert.assertSame("Teis Aalbæk-Nielsen",testCast.toString());
+        Assert.assertSame("Teis Aalbæk-Nielsen", testCast.toString());
     }
 
     @Test

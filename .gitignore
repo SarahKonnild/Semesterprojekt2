@@ -51,3 +51,25 @@ CredIT/target/surefire-reports/TEST-persistence.PersistenceTest.xml
 CredIT/.idea/dataSources/b6df3cac-f5e6-46cb-9807-b82ca5d77d87.xml
 
 CredIT/target/surefire-reports/persistence.PersistenceTest.txt
+
+CredIT/target/surefire-reports/domain.BroadcastTest.txt
+
+CredIT/target/surefire-reports/domain.CastTest.txt
+
+CredIT/target/surefire-reports/domain.MovieTest.txt
+
+CredIT/target/surefire-reports/domain.ProductionCompanyTest.txt
+
+CredIT/target/surefire-reports/domain.ProductionTest.txt
+
+CredIT/target/surefire-reports/org.openjfx.domain.BroadcastTest.txt
+
+CredIT/target/surefire-reports/TEST-domain.BroadcastTest.xml
+
+CredIT/target/surefire-reports/TEST-domain.CastTest.xml
+
+CredIT/target/surefire-reports/TEST-domain.MovieTest.xml
+
+CredIT/target/surefire-reports/TEST-domain.ProductionCompanyTest.xml
+
+CredIT/target/surefire-reports/TEST-domain.ProductionTest.xml

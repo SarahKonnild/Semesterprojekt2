@@ -74,7 +74,7 @@ public class PersistenceTest {
         Assert.assertArrayEquals(broadcastList.toArray(), instance.getBroadcastFromDatabase("PILOT").toArray());
         broadcastList.add("2\tLucifer, Stay. Good Devil\t1\t2\t1-2-2016");
         broadcastList.sort(new SortComparator());
-        Assert.assertArrayEquals(broadcastList.toArray() , instance.getBroadcastsFromDatabase(1).toArray());
+        Assert.assertArrayEquals(broadcastList.toArray(), instance.getBroadcastsFromDatabase(1).toArray());
     }
 
     @Test
