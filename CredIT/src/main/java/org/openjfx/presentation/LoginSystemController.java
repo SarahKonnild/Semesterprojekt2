@@ -125,7 +125,6 @@ public class LoginSystemController implements Initializable {
         if(username.getText().equals("admin") && password.getText().equals("admin")){
             usernameString = "admin";
             adminUser = App.getSystemInstance().createNewUser(username.getText(), password.getText());
-            System.out.println("hej3");
             App.handleAdminPage();
     } else{
             errorMessage.setVisible(true);
