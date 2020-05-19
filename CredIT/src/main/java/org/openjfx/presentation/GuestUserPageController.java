@@ -173,6 +173,7 @@ public class GuestUserPageController implements Initializable {
      */
     @FXML
     private void handleSearch(MouseEvent event) {
+        resultList.getItems().clear();
         String searchText = searchField.getText();
         if (searchTopicChosen != null) {
             if (searchTopicChosen.equals("cast")) {
@@ -476,6 +477,7 @@ public class GuestUserPageController implements Initializable {
 
     @FXML
     public void handleShowCastBroadcast(MouseEvent event){
+        castRoleArray.clear();
         HashMap<ICast, String> broadcastRoles = chosenBroadcast.getCastMap();
 
         for(ICast cast : broadcastRoles.keySet()){
@@ -490,6 +492,7 @@ public class GuestUserPageController implements Initializable {
 
     @FXML
     public void handleShowCastMovie(MouseEvent event){
+        castRoleArray.clear();
         HashMap<ICast, String> movieRoles = chosenMovie.getCastMap();
 
         for(ICast cast : movieRoles.keySet()){
