@@ -13,7 +13,7 @@ public class SortComparator implements Comparator<String> {
         for (String s : stringList) {
             list1.add(s);
         }
-        String[] dateList = list1.get(4).split("-");
+        String[] dateList = list1.get(list1.size()-1).split("-");
         LocalDate date = LocalDate.of(Integer.parseInt(dateList[2]), Integer.parseInt(dateList[1]), Integer.parseInt(dateList[0]));
 
         ArrayList<String> list2 = new ArrayList<>();
@@ -21,7 +21,7 @@ public class SortComparator implements Comparator<String> {
         for (String s : stringList2) {
             list2.add(s);
         }
-        String[] dateList2 = list2.get(4).split("-");
+        String[] dateList2 = list2.get(list1.size()-1).split("-");
         LocalDate date2 = LocalDate.of(Integer.parseInt(dateList2[2]), Integer.parseInt(dateList2[1]), Integer.parseInt(dateList2[0]));
         return -date.compareTo(date2);
     }

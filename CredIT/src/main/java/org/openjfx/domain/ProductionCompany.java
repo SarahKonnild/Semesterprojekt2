@@ -6,11 +6,9 @@ import org.openjfx.interfaces.IProduction;
 import org.openjfx.interfaces.IProductionCompany;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class ProductionCompany implements IProductionCompany {
     private final IPersistence persistence = CredITSystem.getPersistence();
-    private final CredITSystem system = CredITSystem.getInstance();
     private int id;
     private String name;
     private ArrayList<IProduction> productionList;
@@ -22,21 +20,11 @@ public class ProductionCompany implements IProductionCompany {
         this.productionList = new ArrayList<>();
     }
 
-    public ProductionCompany(int id, String name) {
+    public ProductionCompany(int id, String name, ArrayList<IMovie> movies, ArrayList<IProduction> productions) {
         this.id = id;
         this.name = name;
-        loadProductionList();
-        loadMovieList();
-    }
-
-    private void loadProductionList() {
-        ArrayList<IProduction> temp = system.searchProductions(this.id);
-        this.productionList = Objects.requireNonNullElseGet(temp, ArrayList::new);
-    }
-
-    private void loadMovieList() {
-        ArrayList<IMovie> temp = system.searchMovies(this.id);
-        this.movieList = Objects.requireNonNullElseGet(temp, ArrayList::new);
+        this.productionList = productions;
+        this.movieList = movies;
     }
 
     @Override
@@ -47,7 +35,9 @@ public class ProductionCompany implements IProductionCompany {
     @Override
     public boolean save() {
         int idNumber = persistence.createNewProductionCompanyInDatabase(this);
-        if (idNumber != -1) this.id = idNumber;
+        if (idNumber != -1) {
+            this.id = idNumber;
+        }
         return idNumber != -1;
     }
 

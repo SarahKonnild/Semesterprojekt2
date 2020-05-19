@@ -5,11 +5,9 @@ import org.openjfx.interfaces.IMovie;
 import org.openjfx.interfaces.IPersistence;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 public class Movie implements IMovie {
     private final IPersistence persistence = CredITSystem.getPersistence();
-    private final CredITSystem system = CredITSystem.getInstance();
     private String title;
     private String[] releaseDate;
     private int id;
@@ -24,22 +22,19 @@ public class Movie implements IMovie {
         this.castRoleMap = new HashMap<>();
     }
 
-    public Movie(int id, String title, String releaseDate) {
+    public Movie(int id, String title, String releaseDate, HashMap<ICast, String> castRoleMap) {
         this.id = id;
         this.title = title;
         this.releaseDate = releaseDate.split("-");
-        loadCastRolesMovies();
-    }
-
-    private void loadCastRolesMovies() {
-        HashMap<ICast, String> castMap = system.getCastRolesMovies(this.id);
-        this.castRoleMap = Objects.requireNonNullElseGet(castMap, HashMap::new);
+        this.castRoleMap = castRoleMap;
     }
 
     @Override
     public boolean save(int productionCompanyId) {
         int idNumber = persistence.createNewMovieInDatabase(this, productionCompanyId);
-        if (idNumber != -1) this.id = idNumber;
+        if (idNumber != -1) {
+            this.id = idNumber;
+        }
         return idNumber != -1;
     }
 

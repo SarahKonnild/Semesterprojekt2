@@ -6,6 +6,7 @@ import org.openjfx.persistence.Persistence;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class CredITSystem implements ISystem {
     private static CredITSystem instance = null;
@@ -59,7 +60,7 @@ public class CredITSystem implements ISystem {
             for (String item : list) {
                 String[] items = item.split("\t");
                 //Creating a new Cast object for each String item in the list.
-                casts.add(new Cast((Integer.parseInt(items[0].strip())), items[1], ((items[2]))));
+                casts.add(new Cast((Integer.parseInt(items[0])), items[1], ((items[2]))));
             }
         }
         return casts;
@@ -86,7 +87,7 @@ public class CredITSystem implements ISystem {
         for (String item : list) {
             //For each item in the list, the string gets split so the ID can be used to search for cast members
             String[] tempArray = item.split("\t");
-            int tempID = Integer.parseInt(tempArray[0].strip());
+            int tempID = Integer.parseInt(tempArray[0]);
             String movieRole = tempArray[1];
             IMovie tempObj = searchMovie(tempID).get(0);
             castMap.put(tempObj, movieRole);
@@ -100,7 +101,7 @@ public class CredITSystem implements ISystem {
         for (String item : list) {
             //For each item in the list, the string gets split so the ID can be used to search for cast members
             String[] tempArray = item.split("\t");
-            int tempID = Integer.parseInt(tempArray[0].strip());
+            int tempID = Integer.parseInt(tempArray[0]);
             String tempRole = tempArray[1];
             IBroadcast tempObj = searchBroadcast(tempID).get(0);
             castMap.put(tempObj, tempRole);
@@ -125,7 +126,7 @@ public class CredITSystem implements ISystem {
             for (String item : list) {
                 //For each item in the list, the string gets split so the ID can be used to search for cast members
                 String[] tempArray = item.split("\t");
-                int tempCastID = Integer.parseInt(tempArray[0].strip());
+                int tempCastID = Integer.parseInt(tempArray[0]);
                 String castRole = tempArray[1];
                 ICast castObj = searchCast(tempCastID).get(0);
                 castMap.put(castObj, castRole);
@@ -162,13 +163,15 @@ public class CredITSystem implements ISystem {
             // Each string is formatted as id,name,seasonNumber,episodeNumber,airDate,productionID
             for (String item : list) {
                 String[] items = item.split("\t");
-
+                HashMap<ICast, String> tempCastMap = getCastRolesMovies(Integer.parseInt(items[0]));
+                HashMap<ICast, String> castMap = Objects.requireNonNullElseGet(tempCastMap, HashMap::new);
                 broadcasts.add(new Broadcast(
-                        Integer.parseInt(items[0].strip()),
+                        Integer.parseInt(items[0]),
                         items[1],
-                        Integer.parseInt(items[2].strip()),
-                        Integer.parseInt(items[3].strip()),
-                        items[4]));
+                        Integer.parseInt(items[2]),
+                        Integer.parseInt(items[3]),
+                        items[4],
+                        castMap));
             }
         }
         return broadcasts;
@@ -210,12 +213,15 @@ public class CredITSystem implements ISystem {
             //String is formatted as id,name,year,seasons,episodes
             for (String item : list) {
                 String[] items = item.split("\t");
+                ArrayList<IBroadcast> temp = searchBroadcast(Integer.parseInt(items[0]));
+                ArrayList<IBroadcast> broadcasts = Objects.requireNonNullElseGet(temp, ArrayList::new);
                 productions.add(new Production(
-                        Integer.parseInt(items[0].strip()),
+                        Integer.parseInt(items[0]),
                         items[1],
                         items[2],
-                        items[3].equals("null") ? 0 : Integer.parseInt(items[3].strip()),
-                        items[4].equals("null") ? 0 : Integer.parseInt(items[4].strip())));
+                        items[3].equals("null") ? 0 : Integer.parseInt(items[3]),
+                        items[4].equals("null") ? 0 : Integer.parseInt(items[4]),
+                        broadcasts));
             }
         }
         return productions;
@@ -246,10 +252,13 @@ public class CredITSystem implements ISystem {
             //the string is formatted as id,title,releaseDate
             for (String item : list) {
                 String[] items = item.split("\t");
+                HashMap<ICast, String> tempCastMap = getCastRolesMovies(Integer.parseInt(items[0]));
+                HashMap<ICast, String> castMap = Objects.requireNonNullElseGet(tempCastMap, HashMap::new);
                 movies.add(new Movie(
-                        Integer.parseInt(items[0].strip()),
+                        Integer.parseInt(items[0]),
                         items[1],
-                        items[2]));
+                        items[2],
+                        castMap));
             }
         }
         return movies;
@@ -293,7 +302,16 @@ public class CredITSystem implements ISystem {
             //String formatted as id,name
             for (String item : list) {
                 String[] items = item.split("\t");
-                productionCompanies.add(new ProductionCompany(Integer.parseInt(items[0].strip()), items[1].strip()));
+
+                ArrayList<IProduction> tempProductions = searchProductions(Integer.parseInt(items[0]));
+                ArrayList<IProduction> productions = Objects.requireNonNullElseGet(tempProductions, ArrayList::new);
+                ArrayList<IMovie> tempMovies = searchMovies(Integer.parseInt(items[0]));
+                ArrayList<IMovie> movies = Objects.requireNonNullElseGet(tempMovies, ArrayList::new);
+                productionCompanies.add(new ProductionCompany(
+                        Integer.parseInt(items[0]),
+                        items[1],
+                        movies,
+                        productions));
             }
         }
         return productionCompanies;

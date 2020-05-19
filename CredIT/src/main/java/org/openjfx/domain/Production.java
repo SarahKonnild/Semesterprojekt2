@@ -5,11 +5,9 @@ import org.openjfx.interfaces.IPersistence;
 import org.openjfx.interfaces.IProduction;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Production implements IProduction {
     private final IPersistence persistence = CredITSystem.getPersistence();
-    private final CredITSystem system = CredITSystem.getInstance();
     private int id;
     private String name;
     private String year;
@@ -23,28 +21,25 @@ public class Production implements IProduction {
         this.broadcasts = new ArrayList<>();
     }
 
-    public Production(int id, String name, String year, int season, int episode) {
+    public Production(int id, String name, String year, int season, int episode, ArrayList<IBroadcast> broadcasts) {
         this.id = id;
         this.name = name;
         this.year = year;
         this.numberOfSeasons = season;
         this.numberOfEpisodes = episode;
-        loadBroadcastArray();
+        this.broadcasts = broadcasts;
     }
 
     /**
      * Calls the search method in System, to get an arraylist of the broadcasts that this production have associted with it.
      */
 
-    private void loadBroadcastArray() {
-        ArrayList<IBroadcast> temp = system.searchBroadcast(this.id);
-        this.broadcasts = Objects.requireNonNullElseGet(temp, ArrayList::new);
-    }
-
     @Override
     public boolean save(int productionCompanyID) {
         int idNumber = persistence.createNewProductionInDatabase(this, productionCompanyID);
-        if (idNumber != -1) this.id = idNumber;
+        if (idNumber != -1) {
+            this.id = idNumber;
+        }
         return idNumber != -1;
     }
 

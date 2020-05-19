@@ -17,13 +17,13 @@ public class Broadcast implements IBroadcast {
     private int episodeNumber;
     private String[] airDate;
 
-    public Broadcast(int id, String name, int seasonNumber, int episodeNumber, String airDate) {
+    public Broadcast(int id, String name, int seasonNumber, int episodeNumber, String airDate, HashMap<ICast, String> castRoleMap) {
         this.id = id;
         this.name = name;
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.airDate = airDate.split("-");
-        loadBroadcastRoles();
+        this.castRoleMap = castRoleMap;
     }
 
     public Broadcast(String name, int seasonNumber, int episodeNumber, String airDate) {
