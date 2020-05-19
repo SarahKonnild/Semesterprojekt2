@@ -276,9 +276,13 @@ public class ModifyMovieController implements Initializable {
      * @author Sarah
      */
     @FXML
-    public void handleChangeCast(ActionEvent event) {
-        App.setAssignCastModifier("movie");
-        App.handleUnassignAssignStage();
+    public void handleChangeCast(MouseEvent event) {
+        if(chosenMovie != null) {
+            App.setAssignCastModifier("movie");
+            App.handleUnassignAssignStage();
+        } else{
+            errorMessage.setText("Ingen film valgt");
+        }
     }
 
     private void clearFields() {
