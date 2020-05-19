@@ -1,8 +1,6 @@
 package org.openjfx.interfaces;
 
 
-import org.openjfx.persistence.Persistence;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -92,7 +90,5 @@ public interface ISystem {
 
     IUser createNewUser(String username, String password);
 
-    IUser getUser();
-
-    Persistence getPersistenceLayer();
+    IPersistence getPersistenceLayer();
 }

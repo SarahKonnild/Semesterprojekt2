@@ -1,5 +1,7 @@
 package org.openjfx.interfaces;
 
+import org.openjfx.persistence.Persistence;
+
 import java.io.IOException;
 import java.util.List;
 

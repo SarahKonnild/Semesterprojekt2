@@ -10,8 +10,7 @@ import java.util.Objects;
 
 public class CredITSystem implements ISystem {
     private static CredITSystem instance = null;
-    private static Persistence persistenceLayer;
-    private User user;
+    private static IPersistence persistenceLayer;
 
     /**
      * To use for creating an instance of the System class that can then be used mainly in Presentation.
@@ -163,7 +162,7 @@ public class CredITSystem implements ISystem {
             // Each string is formatted as id,name,seasonNumber,episodeNumber,airDate,productionID
             for (String item : list) {
                 String[] items = item.split("\t");
-                HashMap<ICast, String> tempCastMap = getCastRolesMovies(Integer.parseInt(items[0]));
+                HashMap<ICast, String> tempCastMap = getCastRolesBroadcast(Integer.parseInt(items[0]));
                 HashMap<ICast, String> castMap = Objects.requireNonNullElseGet(tempCastMap, HashMap::new);
                 broadcasts.add(new Broadcast(
                         Integer.parseInt(items[0]),
@@ -361,13 +360,7 @@ public class CredITSystem implements ISystem {
     }
 
     @Override
-    public IUser getUser() {
-
-        return this.user;
-    }
-
-    @Override
-    public Persistence getPersistenceLayer() {
+    public IPersistence getPersistenceLayer() {
         return persistenceLayer;
     }
 }
