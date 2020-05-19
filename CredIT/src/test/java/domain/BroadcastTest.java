@@ -1,12 +1,11 @@
-package org.openjfx.domain;
+package domain;
 
-import jdk.jfr.Timespan;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openjfx.domain.Broadcast;
 import org.openjfx.interfaces.ICast;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class BroadcastTest {
