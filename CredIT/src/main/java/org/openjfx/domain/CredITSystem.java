@@ -162,7 +162,7 @@ public class CredITSystem implements ISystem {
             // Each string is formatted as id,name,seasonNumber,episodeNumber,airDate,productionID
             for (String item : list) {
                 String[] items = item.split("\t");
-                HashMap<ICast, String> tempCastMap = getCastRolesMovies(Integer.parseInt(items[0]));
+                HashMap<ICast, String> tempCastMap = getCastRolesBroadcast(Integer.parseInt(items[0]));
                 HashMap<ICast, String> castMap = Objects.requireNonNullElseGet(tempCastMap, HashMap::new);
                 broadcasts.add(new Broadcast(
                         Integer.parseInt(items[0]),
