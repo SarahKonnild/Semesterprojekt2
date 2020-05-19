@@ -47,3 +47,5 @@ CredIT/target/maven-status/maven-compiler-plugin/compile/default-compile/created
 CredIT/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
 
 CredIT/target/surefire-reports/TEST-persistence.PersistenceTest.xml
+
+CredIT/.idea/dataSources/b6df3cac-f5e6-46cb-9807-b82ca5d77d87.xml

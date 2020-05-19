@@ -129,6 +129,12 @@ INSERT INTO broadcast_employs VALUES (2, 2, 'Lucifer');
 INSERT INTO contains VALUES (1, 1);
 INSERT INTO contains VALUES (1, 2);
 
+SELECT setval('movie_id_seq', max(id)) FROM movie;
+SELECT setval('broadcast_id_seq', max(id)) FROM movie;
+SELECT setval('cast_members_id_seq', max(id)) FROM movie;
+SELECT setval('production_id_seq', max(id)) FROM movie;
+SELECT setval('production_company_id_seq', max(id)) FROM movie;
+
 
 -- update single broadcast season number
 CREATE OR REPLACE PROCEDURE update_season_number(production_id_variable integer)
