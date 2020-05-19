@@ -844,11 +844,16 @@ public class Persistence implements IPersistence {
         if (cast1.getRegDKID().equals(cast2.getRegDKID())) {
             try {
                 connection.setAutoCommit(false);
-                PreparedStatement updateStatement = connection.prepareStatement(
+                PreparedStatement updateBroadcastStmt = connection.prepareStatement(
                         "update broadcast_employs set cast_id = ? where cast_id = ?");
-                updateStatement.setInt(1, cast1.getId());
-                updateStatement.setInt(2, cast2.getId());
-                updateStatement.execute();
+                updateBroadcastStmt.setInt(1, cast1.getId());
+                updateBroadcastStmt.setInt(2, cast2.getId());
+                updateBroadcastStmt.execute();
+                PreparedStatement updateMovieStmt = connection.prepareStatement(
+                        "update movie_employs set cast_id = ? where cast_id = ?");
+                updateMovieStmt.setInt(1, cast1.getId());
+                updateMovieStmt.setInt(2, cast2.getId());
+                updateMovieStmt.execute();
 
                 PreparedStatement delStatement = connection.prepareStatement("delete from cast_members where id = ?");
                 delStatement.setInt(1, cast2.getId());
