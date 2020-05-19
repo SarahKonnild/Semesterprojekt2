@@ -172,28 +172,30 @@ public class ModifyMovieController implements Initializable {
             String companySearch = productionCompany.getText();
             ArrayList<IProductionCompany> results = new ArrayList<>();
             results.addAll(App.getSystemInstance().searchProductionCompany(companySearch));
-            if (results.get(0).getName().equalsIgnoreCase(companySearch) == true) {
-                resultList.setDisable(false);
-                IMovie movie = LoginSystemController.getAdminUser().addNewMovieToDatabase(movieName.getText(), results.get(0).getId(), releaseYear.getText());
-                clearFields();
-                if (movie != null) {
-                    errorMessage.setText(movie.getTitle() + " tilføjet");
-                    if (searchResult == null) {
-                        searchResult = new ArrayList<>();
+            if (!results.isEmpty()) {
+                if (results.get(0).getName().equalsIgnoreCase(companySearch)) {
+                    resultList.setDisable(false);
+                    IMovie movie = LoginSystemController.getAdminUser().addNewMovieToDatabase(movieName.getText(), results.get(0).getId(), releaseYear.getText());
+                    clearFields();
+                    if (movie != null) {
+                        errorMessage.setText(movie.getTitle() + " tilføjet");
+                        if (searchResult == null) {
+                            searchResult = new ArrayList<>();
+                        }
+                        searchResult.clear();
+                        searchResult.add(movie);
+                        resultList.setItems(FXCollections.observableArrayList(searchResult));
+                    } else {
+                        errorMessage.setText("Fejl opstået, " + movie.getTitle() + " blev ikke tilføjet");
                     }
                     searchResult.clear();
                     searchResult.add(movie);
                     resultList.setItems(FXCollections.observableArrayList(searchResult));
-                } else {
-                    errorMessage.setText("Fejl opstået, " + movie.getTitle() + " blev ikke tilføjet");
                 }
-                searchResult.clear();
-                searchResult.add(movie);
-                resultList.setItems(FXCollections.observableArrayList(searchResult));
-            }else {
+            } else {
                 errorMessage.setText("Fejl opstået, intet firma at tilføje til");
             }
-        }else{
+        } else {
             errorMessage.setText("Fejl, venligst udfyld alle felter");
 
         }
@@ -228,12 +230,13 @@ public class ModifyMovieController implements Initializable {
     /**
      * Takes the movie that was chosen from the ListView and updates its attributes in the database with the text that is
      * entered into the TextFields.
+     *
      * @param event
      * @author Sarah
      */
     @FXML
-    public void handleSave(MouseEvent event){
-        if(!movieName.getText().isEmpty() && !productionCompany.getText().isEmpty() && !releaseYear.getText().isEmpty()) {
+    public void handleSave(MouseEvent event) {
+        if (!movieName.getText().isEmpty() && !productionCompany.getText().isEmpty() && !releaseYear.getText().isEmpty()) {
             status = chosenMovie.update(movieName.getText(), releaseYear.getText());
             if (status) {
                 resultList.setItems(FXCollections.observableArrayList(searchResult));
@@ -243,7 +246,7 @@ public class ModifyMovieController implements Initializable {
                 errorMessage.setText("Fejl opstået, " + chosenMovie.getTitle() + " blev ikke opdateret");
             }
             resultList.refresh();
-        }else{
+        } else {
             errorMessage.setText("Fejl, udfyld venligst alle felter");
         }
     }
@@ -272,15 +275,16 @@ public class ModifyMovieController implements Initializable {
     /**
      * Sets a String variable that ensures that the assign/unassign cast methods are run correctly with the Movie-related
      * methods
+     *
      * @param event
      * @author Sarah
      */
     @FXML
     public void handleChangeCast(MouseEvent event) {
-        if(chosenMovie != null) {
+        if (chosenMovie != null) {
             App.setAssignCastModifier("movie");
             App.handleUnassignAssignStage();
-        } else{
+        } else {
             errorMessage.setText("Ingen film valgt");
         }
     }
