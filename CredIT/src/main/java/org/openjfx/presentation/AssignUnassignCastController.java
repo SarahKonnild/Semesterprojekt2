@@ -283,6 +283,8 @@ public class AssignUnassignCastController implements Initializable {
     @FXML
     public void handleUnassignCastOption(MouseEvent event){
         clearFields();
+        searchField.setVisible(false);
+        search.setVisible(false);
         resultList.setDisable(false);
         setFieldsAndLabelsVisible(true);
         unassignButton.setVisible(true);
