@@ -129,6 +129,7 @@ public class ModifyCastController implements Initializable {
      */
     @FXML
     public void handleSeeRoleList(MouseEvent event){
+        roleArray.clear();
         HashMap<IBroadcast, String> broadcastRoles = App.getSystemInstance().getCastRolesBroadcast(chosenCast);
         HashMap<IMovie, String> movieRoles = App.getSystemInstance().getCastRolesMovies(chosenCast);
 
