@@ -2,6 +2,7 @@ package persistence;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.openjfx.interfaces.IPersistence;
 import org.openjfx.persistence.Persistence;
 import org.openjfx.persistence.SortComparator;
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PersistenceTest {
-    private Persistence instance;
+    private IPersistence instance;
     private Object SortComparator;
 
     @org.junit.Before
@@ -81,7 +82,7 @@ public class PersistenceTest {
         List<String> movieList = new ArrayList<>();
         movieList.add("1\tHarry Potter and the Sorcerer's Stone\t1-1-2001");
         Assert.assertArrayEquals(movieList.toArray(), instance.getMovieFromDatabase(1).toArray());
-        Assert.assertArrayEquals(movieList.toArray(), instance.getMovieFromDatabase("potter").toArray());
+        Assert.assertArrayEquals(movieList.toArray(), instance.getMovieFromDatabase("Harry Potter and the sorcerer's stone").toArray());
         Assert.assertArrayEquals(movieList.toArray(), instance.getMoviesFromDatabase(1).toArray());
     }
 }

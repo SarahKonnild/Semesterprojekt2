@@ -10,8 +10,7 @@ import java.util.Objects;
 
 public class CredITSystem implements ISystem {
     private static CredITSystem instance = null;
-    private static Persistence persistenceLayer;
-    private User user;
+    private static IPersistence persistenceLayer;
 
     /**
      * To use for creating an instance of the System class that can then be used mainly in Presentation.
@@ -361,13 +360,7 @@ public class CredITSystem implements ISystem {
     }
 
     @Override
-    public IUser getUser() {
-
-        return this.user;
-    }
-
-    @Override
-    public Persistence getPersistenceLayer() {
+    public IPersistence getPersistenceLayer() {
         return persistenceLayer;
     }
 }

@@ -3,7 +3,7 @@ package org.openjfx.domain;
 import org.openjfx.interfaces.*;
 
 public class User implements IUser {
-    private final CredITSystem system = CredITSystem.getInstance();
+    private final ISystem system = CredITSystem.getInstance();
     private int id;
     private String name;
     private final String password;
