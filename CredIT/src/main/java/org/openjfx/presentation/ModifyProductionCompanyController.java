@@ -15,6 +15,7 @@ import org.openjfx.interfaces.IMovie;
 import org.openjfx.interfaces.IProduction;
 import org.openjfx.interfaces.IProductionCompany;
 
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;

@@ -86,14 +86,8 @@ public class ModifyMovieController implements Initializable {
         App.handleMoveWindow(basePane);
 
         if (ModifyProductionCompanyController.getChosenMovie() != null) {
-            givenMovie = ModifyProductionCompanyController.getChosenMovie();
-            movieName.setText(givenMovie.getTitle());
-
-            IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForMovie(givenMovie);
-            productionCompany.setText(retrievedProductionCompany.getName());
-            String[] release = givenMovie.getReleaseDate();
-            releaseYear.setText(release[2]);
-
+            chosenMovie = ModifyProductionCompanyController.getChosenMovie();
+            setFieldsText(chosenMovie);
             changeCast.setDisable(false);
             delete.setDisable(false);
             save.setDisable(false);
@@ -118,7 +112,7 @@ public class ModifyMovieController implements Initializable {
         String searchText = searchField.getText();
         resultList.getItems().clear();
         searchResult = new ArrayList<>(App.getSystemInstance().searchMovie(searchText));
-        if (searchResult != null && !searchField.getText().isEmpty()) {
+        if (!searchResult.isEmpty() && !searchField.getText().isEmpty()) {
             resultList.setDisable(false);
             resultList.setItems(FXCollections.observableArrayList(searchResult));
             searchField.clear();
@@ -143,13 +137,7 @@ public class ModifyMovieController implements Initializable {
     public void handleResultChosen(MouseEvent event) {
         resultList.setDisable(false);
         chosenMovie = (IMovie) resultList.getSelectionModel().getSelectedItem();
-        movieName.setText(chosenMovie.getTitle());
-        String[] airDate = chosenMovie.getReleaseDate();
-        releaseYear.setText(String.valueOf(airDate[2]));
-
-        IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForMovie(chosenMovie);
-        productionCompany.setText(retrievedProductionCompany.getName());
-
+        setFieldsText(chosenMovie);
         changeCast.setDisable(false);
         delete.setDisable(false);
         save.setDisable(false);
@@ -274,6 +262,24 @@ public class ModifyMovieController implements Initializable {
             ModifyProductionCompanyController.setChosenMovie(null);
         }
         App.handleAdminPage();
+    }
+    //endregion
+
+    //region
+
+    /**
+     * A method which can be called to standardise the output of movie-objects' information to textfields.
+     * @author Sarah
+     * @param movie
+     */
+    private void setFieldsText(IMovie movie){
+        movie = ModifyProductionCompanyController.getChosenMovie();
+        movieName.setText(movie.getTitle());
+
+        IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForMovie(movie);
+        productionCompany.setText(retrievedProductionCompany.getName());
+        String[] release = movie.getReleaseDate();
+        releaseYear.setText(release[2]);
     }
     //endregion
 

@@ -88,17 +88,8 @@ public class ModifyBroadcastController implements Initializable {
         App.handleMoveWindow(basePane);
 
         if (ModifyProductionController.getChosenBroadcast() != null) {
-            givenBroadcast = ModifyProductionController.getChosenBroadcast();
-            chosenBroadcast = givenBroadcast;
-            broadcastName.setText(givenBroadcast.getName());
-            IProduction retrievedProduction = App.retrieveProduction(givenBroadcast);
-            production.setText(retrievedProduction.getName());
-            String[] airDate = givenBroadcast.getAirDate();
-            day.setText(airDate[0]);
-            month.setText(airDate[1]);
-            year.setText(airDate[2]);
-            season.setText(String.valueOf(givenBroadcast.getSeasonNumber()));
-            episode.setText(String.valueOf(givenBroadcast.getEpisodeNumber()));
+            chosenBroadcast = ModifyProductionController.getChosenBroadcast();
+            setFieldsText(chosenBroadcast);
             modifyCast.setDisable(false);
             delete.setDisable(false);
             save.setDisable(false);
@@ -122,10 +113,13 @@ public class ModifyBroadcastController implements Initializable {
         String searchText = searchField.getText();
         resultList.getItems().clear();
         searchList = new ArrayList<>(App.getSystemInstance().searchBroadcast(searchText));
+<<<<<<< HEAD
         if (searchList != null && !searchField.getText().isEmpty()) {
+=======
+        if (!searchList.isEmpty() && !searchField.getText().isEmpty()) {
+>>>>>>> InterfaceChangeBranch
             resultList.setDisable(false);
-            observableList = FXCollections.observableArrayList(searchList);
-            resultList.setItems(observableList);
+            resultList.setItems(FXCollections.observableArrayList(searchList));
             clearFields();
         } else {
             errorMessageSearch.setVisible(true);
@@ -143,16 +137,7 @@ public class ModifyBroadcastController implements Initializable {
     @FXML
     public void handleSearchResultChosen(MouseEvent event) {
         chosenBroadcast = (IBroadcast) resultList.getSelectionModel().getSelectedItem();
-        broadcastName.setText(chosenBroadcast.getName());
-        IProduction retrievedProduction = App.retrieveProduction(chosenBroadcast);
-        production.setText(retrievedProduction.getName());
-        String[] airDate = chosenBroadcast.getAirDate();
-        day.setText(airDate[0]);
-        month.setText(airDate[1]);
-        year.setText(airDate[2]);
-        season.setText(String.valueOf(chosenBroadcast.getSeasonNumber()));
-        episode.setText(String.valueOf(chosenBroadcast.getEpisodeNumber()));
-
+        setFieldsText(chosenBroadcast);
         modifyCast.setDisable(false);
         delete.setDisable(false);
         save.setDisable(false);
@@ -221,9 +206,6 @@ public class ModifyBroadcastController implements Initializable {
      */
     @FXML
     public void handleDeleteBroadcast(MouseEvent event) {
-        if (givenBroadcast != null) {
-            chosenBroadcast = givenBroadcast;
-        }
         if (!observableList.isEmpty()) {
             chosenBroadcast = (IBroadcast) resultList.getSelectionModel().getSelectedItem();
             status = chosenBroadcast.delete();
@@ -258,9 +240,6 @@ public class ModifyBroadcastController implements Initializable {
      */
     @FXML
     public void handleSaveBroadcast(MouseEvent event) {
-        if (givenBroadcast != null) {
-            chosenBroadcast = givenBroadcast;
-        }
         if (!broadcastName.getText().isEmpty() && !production.getText().isEmpty() && !season.getText().isEmpty() & !episode.getText().isEmpty()) {
             status = chosenBroadcast.update(broadcastName.getText(), Integer.parseInt(season.getText()), Integer.parseInt(episode.getText()), day.getText() + "-" + month.getText() + "-" + year.getText());
             if (status) {
@@ -326,6 +305,20 @@ public class ModifyBroadcastController implements Initializable {
         month.clear();
         season.clear();
         episode.clear();
+    }
+    //endregion
+
+    //region
+    private void setFieldsText(IBroadcast broadcast){
+        broadcastName.setText(broadcast.getName());
+        IProduction retrievedProduction = App.retrieveProduction(broadcast);
+        production.setText(retrievedProduction.getName());
+        String[] airDate = broadcast.getAirDate();
+        day.setText(airDate[0]);
+        month.setText(airDate[1]);
+        year.setText(airDate[2]);
+        season.setText(String.valueOf(broadcast.getSeasonNumber()));
+        episode.setText(String.valueOf(broadcast.getEpisodeNumber()));
     }
     //endregion
 

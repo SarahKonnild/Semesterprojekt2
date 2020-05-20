@@ -2,24 +2,21 @@ package org.openjfx.presentation;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
+
 import org.openjfx.interfaces.IBroadcast;
 import org.openjfx.interfaces.ICast;
 import org.openjfx.interfaces.IMovie;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class AssignUnassignCastController implements Initializable {
@@ -62,7 +59,10 @@ public class AssignUnassignCastController implements Initializable {
     private TextField regDKField;
     @FXML
     private TextField rolenameField;
+    //endregion
 
+    //Local variables
+    //region
     private IMovie movie;
     private IBroadcast broadcast;
     private ArrayList<ICast> castSearchResult;
@@ -110,7 +110,7 @@ public class AssignUnassignCastController implements Initializable {
         String searchText = searchField.getText();
         resultList.getItems().clear();
         castSearchResult = new ArrayList<>(App.getSystemInstance().searchCast(searchText));
-        if (castSearchResult != null && !searchField.getText().isEmpty()) {
+        if (!castSearchResult.isEmpty() && !searchField.getText().isEmpty()) {
             resultList.setDisable(false);
             resultList.setItems(FXCollections.observableArrayList(castSearchResult));
             searchField.clear();
