@@ -221,10 +221,10 @@ public class ModifyBroadcastController implements Initializable {
      */
     @FXML
     public void handleDeleteBroadcast(MouseEvent event) {
-        if(givenBroadcast != null) {
+        if (givenBroadcast != null) {
             chosenBroadcast = givenBroadcast;
         }
-        if(!observableList.isEmpty()){
+        if (!observableList.isEmpty()) {
             chosenBroadcast = (IBroadcast) resultList.getSelectionModel().getSelectedItem();
             status = chosenBroadcast.delete();
             if (status) {
@@ -232,16 +232,16 @@ public class ModifyBroadcastController implements Initializable {
                 errorMessage.setText(chosenBroadcast.getName() + " slettet");
                 if (searchList.isEmpty()) {
                     resultList.getItems().clear();
-                } else if(givenBroadcast == null){
+                } else if (givenBroadcast == null) {
                     resultList.setItems(FXCollections.observableArrayList(searchList));
                 }
                 clearFields();
             } else {
                 errorMessage.setText("Fejl, " + chosenBroadcast.getName() + " blev ikke slettet");
             }
-        }else{
-        errorMessage.setText("Ingen udsendelse valgt");
-    }
+        } else {
+            errorMessage.setText("Ingen udsendelse valgt");
+        }
         resultList.refresh();
     }
     //endregion
@@ -252,26 +252,27 @@ public class ModifyBroadcastController implements Initializable {
     /**
      * Takes the broadcast that has been chosen from the ListView by the user, and overwrites the information that is stored
      * about that broadcast in the database with the information that is entered into the TextFields.
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
-    public void handleSaveBroadcast(MouseEvent event){
-        if(givenBroadcast != null){
+    public void handleSaveBroadcast(MouseEvent event) {
+        if (givenBroadcast != null) {
             chosenBroadcast = givenBroadcast;
         }
-            if(!broadcastName.getText().isEmpty() && !production.getText().isEmpty() && !season.getText().isEmpty() & !episode.getText().isEmpty()) {
-                status = chosenBroadcast.update(broadcastName.getText(), Integer.parseInt(season.getText()), Integer.parseInt(episode.getText()), day.getText() + "-" + month.getText() + "-" + year.getText());
-                if (status) {
-                    errorMessage.setText(chosenBroadcast.getName() + " opdateret");
-                    clearFields();
-                } else {
-                    errorMessage.setText("Fejl, " + chosenBroadcast.getName() + " blev ikke opdateret");
-                }
-            }else{
-                errorMessage.setText("Fejl, udfyld venligst alle felter");
+        if (!broadcastName.getText().isEmpty() && !production.getText().isEmpty() && !season.getText().isEmpty() & !episode.getText().isEmpty()) {
+            status = chosenBroadcast.update(broadcastName.getText(), Integer.parseInt(season.getText()), Integer.parseInt(episode.getText()), day.getText() + "-" + month.getText() + "-" + year.getText());
+            if (status) {
+                errorMessage.setText(chosenBroadcast.getName() + " opdateret");
+                clearFields();
+            } else {
+                errorMessage.setText("Fejl, " + chosenBroadcast.getName() + " blev ikke opdateret");
             }
-            resultList.getItems().clear();
+        } else {
+            errorMessage.setText("Fejl, udfyld venligst alle felter");
+        }
+        resultList.getItems().clear();
     }
 
     //endregion
@@ -279,8 +280,8 @@ public class ModifyBroadcastController implements Initializable {
     //Changes the scene of the primary stage, opens the new Help-stage and closes the entire program.
     //region
     @FXML
-    public void handleBack(MouseEvent event){
-        if(ModifyProductionController.getChosenBroadcast() != null){
+    public void handleBack(MouseEvent event) {
+        if (ModifyProductionController.getChosenBroadcast() != null) {
             ModifyProductionController.setChosenBroadcast(null);
             chosenBroadcast = null;
         }
@@ -288,19 +289,21 @@ public class ModifyBroadcastController implements Initializable {
     }
 
     @FXML
-    public void handleHelp(MouseEvent event){
+    public void handleHelp(MouseEvent event) {
         App.handleHelpStage();
     }
 
     @FXML
-    public void handleClose(MouseEvent event){App.closeWindow();}
+    public void handleClose(MouseEvent event) {
+        App.closeWindow();
+    }
 
     @FXML
-    public void handleChangeCast(MouseEvent event){
-        if(chosenBroadcast != null) {
+    public void handleChangeCast(MouseEvent event) {
+        if (chosenBroadcast != null) {
             App.setAssignCastModifier("broadcast");
             App.handleUnassignAssignStage();
-        } else{
+        } else {
             errorMessage.setText("Ingen udsendelse valgt");
         }
 
@@ -312,9 +315,10 @@ public class ModifyBroadcastController implements Initializable {
 
     /**
      * A simple method that clears all the TextFields when run.
+     *
      * @author Sarah
      */
-    private void clearFields(){
+    private void clearFields() {
         broadcastName.clear();
         production.clear();
         year.clear();
@@ -327,7 +331,7 @@ public class ModifyBroadcastController implements Initializable {
 
     //Retrieve the chosen broadcast for scene changes
     //region
-    public static IBroadcast getChosenBroadcast(){
+    public static IBroadcast getChosenBroadcast() {
         return chosenBroadcast;
     }
 

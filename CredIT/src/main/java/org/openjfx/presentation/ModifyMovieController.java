@@ -59,7 +59,6 @@ public class ModifyMovieController implements Initializable {
     //Class Attributes
     //region
     private ArrayList<IMovie> searchResult;
-    private ObservableList<IMovie> observableList;
     private boolean status;
     //endregion
 
@@ -121,8 +120,7 @@ public class ModifyMovieController implements Initializable {
         searchResult = App.getSystemInstance().searchMovie(searchText);
         if (searchResult != null && !searchField.getText().isEmpty()) {
             resultList.setDisable(false);
-            observableList = FXCollections.observableArrayList(searchResult);
-            resultList.setItems(observableList);
+            resultList.setItems(FXCollections.observableArrayList(searchResult));
             searchField.clear();
         } else {
             errorMessageSearch.setVisible(true);
@@ -216,16 +214,16 @@ public class ModifyMovieController implements Initializable {
      */
     @FXML
     public void handleDelete(MouseEvent event) {
-        if(givenMovie != null){
+        if (givenMovie != null) {
             chosenMovie = givenMovie;
         }
         status = chosenMovie.delete();
         if (status) {
-            if(givenMovie == null) {
+            if (givenMovie == null) {
                 searchResult.remove(chosenMovie);
             }
             errorMessage.setText(chosenMovie.getTitle() + " slettet");
-            if(givenMovie == null){
+            if (givenMovie == null) {
                 resultList.setItems(FXCollections.observableArrayList(searchResult));
             }
             clearFields();
@@ -243,13 +241,13 @@ public class ModifyMovieController implements Initializable {
      */
     @FXML
     public void handleSave(MouseEvent event) {
-        if(givenMovie != null){
+        if (givenMovie != null) {
             chosenMovie = givenMovie;
         }
         if (!movieName.getText().isEmpty() && !productionCompany.getText().isEmpty() && !releaseYear.getText().isEmpty()) {
             status = chosenMovie.update(movieName.getText(), releaseYear.getText());
             if (status) {
-                if(givenMovie == null) {
+                if (givenMovie == null) {
                     resultList.setItems(FXCollections.observableArrayList(searchResult));
                 }
                 errorMessage.setText(chosenMovie.getTitle() + " opdateret");

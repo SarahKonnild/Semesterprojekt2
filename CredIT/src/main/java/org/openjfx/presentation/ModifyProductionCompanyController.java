@@ -59,7 +59,6 @@ public class ModifyProductionCompanyController implements Initializable {
 
     //Class Attributes
     //region
-    private ObservableList<IProductionCompany> observableList;
     private ArrayList<IProductionCompany> searchList;
     private ArrayList<IMovie> movieList;
     private ArrayList<IProduction> productionList;
@@ -87,22 +86,22 @@ public class ModifyProductionCompanyController implements Initializable {
      * method in the domain layer's System class. If the list has items, and the searchfield isn't empty,
      * the items returned from the persistence layer will be written to a list which can be printed into
      * the ListView.
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
-    private void handleSearch(MouseEvent event){
+    private void handleSearch(MouseEvent event) {
         String searchText = searchField.getText();
         resultList.getItems().clear();
         searchList = App.getSystemInstance().searchProductionCompany(searchText);
-        if(searchList != null && !searchField.getText().isEmpty()){
+        if (searchList != null && !searchField.getText().isEmpty()) {
             resultList.setDisable(false);
-            observableList = FXCollections.observableArrayList(searchList);
-            resultList.setItems(observableList);
+            resultList.setItems(FXCollections.observableArrayList(searchList));
             searchField.clear();
-        }else{
+        } else {
             errorMessageSearch.setVisible(true);
-            if(resultList.getItems().isEmpty()){
+            if (resultList.getItems().isEmpty()) {
                 resultList.setDisable(true);
             }
         }
@@ -114,13 +113,14 @@ public class ModifyProductionCompanyController implements Initializable {
      * into a static variable.
      * If the objects are instances of either IProduction or IMovie, the GoTo-label becomes visible
      * with the appropriate text, enabling them to be clicked.
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
-    private void handleSearchResultChosen(MouseEvent event){
+    private void handleSearchResultChosen(MouseEvent event) {
         obj = resultList.getSelectionModel().getSelectedItem();
-        if(obj instanceof IProductionCompany) {
+        if (obj instanceof IProductionCompany) {
             goTo.setVisible(false);
             chosenProductionCompany = (IProductionCompany) obj;
             nameField.setText(chosenProductionCompany.getName());
@@ -131,13 +131,13 @@ public class ModifyProductionCompanyController implements Initializable {
             productionList = chosenProductionCompany.getProductionList();
             delete.setDisable(false);
             saveChanges.setDisable(false);
-        } else if(obj instanceof IProduction){
+        } else if (obj instanceof IProduction) {
             chosenProduction = (IProduction) obj;
             goTo.setVisible(true);
             goTo.setText("Gå til Produktion");
             toggleButtons(true);
             chosenItem = "production";
-        } else if(obj instanceof IMovie){
+        } else if (obj instanceof IMovie) {
             chosenMovie = (IMovie) obj;
             goTo.setVisible(true);
             goTo.setText("Gå til Film");
@@ -154,19 +154,21 @@ public class ModifyProductionCompanyController implements Initializable {
      * Checks if the Name-Field is empty, and if not, a search is conducted on the Company-name. If there is a company in the
      * Database with that name already, it cannot be created, as only one company with the same name is permitted. If the company
      * does not exist, it can be created.
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
-    private void handleCreateNew(MouseEvent event){
+    private void handleCreateNew(MouseEvent event) {
         resultList.setDisable(false);
-        if(!nameField.getText().isEmpty()) {
+        if (!nameField.getText().isEmpty()) {
             ArrayList<IProductionCompany> search = App.getSystemInstance().searchProductionCompany(nameField.getText());
             if (search.isEmpty()) {
                 IProductionCompany productionCompany = LoginSystemController.getAdminUser().addNewProductionCompanyToDatabase(nameField.getText());
                 if (productionCompany != null) {
-                    if(searchList == null){
-                        searchList = new ArrayList<>();}
+                    if (searchList == null) {
+                        searchList = new ArrayList<>();
+                    }
                     errorMessage.setText(productionCompany.getName() + " oprettet");
                     searchList.clear();
                     searchList.add(productionCompany);
@@ -180,7 +182,7 @@ public class ModifyProductionCompanyController implements Initializable {
                 errorMessage.setText("Fejl, " + nameField.getText() + " eksisterer allerede");
                 nameField.clear();
             }
-        }else{
+        } else {
             errorMessage.setText("Fejl, navnefelt er tomt");
         }
     }
@@ -193,26 +195,27 @@ public class ModifyProductionCompanyController implements Initializable {
      * Takes the productionCompany that was chosen from the ListView and deletes it first in the instance of the application,
      * and if that was succesfully deleted, it is also removed from the database, along with all of the movies and productions
      * that are associated with it.
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
-    private void handleDelete(MouseEvent event){
-        if(chosenProductionCompany != null){
+    private void handleDelete(MouseEvent event) {
+        if (chosenProductionCompany != null) {
             status = chosenProductionCompany.delete();
-            if(status){
+            if (status) {
                 searchList.remove(chosenProductionCompany);
                 errorMessage.setText(chosenProductionCompany.getName() + " slettet");
-                if(searchList.isEmpty()){
+                if (searchList.isEmpty()) {
                     resultList.getItems().clear();
-                }else{
+                } else {
                     resultList.setItems(FXCollections.observableArrayList(searchList));
                 }
                 nameField.clear();
-            }else{
+            } else {
                 errorMessage.setText("Fejl, " + chosenProductionCompany.getName() + " blev ikke slettet");
             }
-        }else{
+        } else {
             errorMessage.setText("Intet produktionsfirma valgt");
         }
         resultList.refresh();
@@ -225,20 +228,21 @@ public class ModifyProductionCompanyController implements Initializable {
     /**
      * Provided that a productionCompany has been chosen, the name of the ProductionCompany can be updated,
      * by registering the new name written in the NameField into the database.
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
-    private void handleSaveChanges(MouseEvent event){
-        if(chosenProductionCompany != null && !nameField.getText().isEmpty()){
+    private void handleSaveChanges(MouseEvent event) {
+        if (chosenProductionCompany != null && !nameField.getText().isEmpty()) {
             status = chosenProductionCompany.update(nameField.getText());
-            if(status){
+            if (status) {
                 errorMessage.setText(chosenProductionCompany.getName() + " opdateret");
                 nameField.clear();
-            }else{
+            } else {
                 errorMessage.setText("Fejl, " + chosenProductionCompany.getName() + " blev ikke opdateret");
             }
-        }else{
+        } else {
             errorMessage.setText("Intet produktionsfirma valgt");
         }
         resultList.refresh();
@@ -247,24 +251,26 @@ public class ModifyProductionCompanyController implements Initializable {
 
     //Methods to change the contents that are displayed in the ListView
     //region
+
     /**
      * If a ProductionCompany has been chosen, the user can press this, and it will show the list of movies
      * that are associated with that Company in the ListView. If the company has no registered movies, an error
      * message is written to the user.
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
-    private void handleChangeToMovies(MouseEvent event){
-        if(chosenProductionCompany != null){
-             if(movieList != null) {
-                 resultList.setItems(FXCollections.observableArrayList(movieList));
-                 changeToMovie.setVisible(false);
-                 changeToProduction.setVisible(true);
-             }else{
-                 errorMessage.setText(chosenProductionCompany.getName() + " laver ikke film");
-             }
-        }else{
+    private void handleChangeToMovies(MouseEvent event) {
+        if (chosenProductionCompany != null) {
+            if (movieList != null) {
+                resultList.setItems(FXCollections.observableArrayList(movieList));
+                changeToMovie.setVisible(false);
+                changeToProduction.setVisible(true);
+            } else {
+                errorMessage.setText(chosenProductionCompany.getName() + " laver ikke film");
+            }
+        } else {
             errorMessage.setText("Fejl opstået, intet produktionsfirma valgt");
         }
     }
@@ -273,20 +279,21 @@ public class ModifyProductionCompanyController implements Initializable {
      * If a ProductionCompany has been chosen, the user can press this, and it will show the list of Productions
      * that are associated with that Company in the ListView. If the company has no registered Productions, an error
      * message is written to the user.
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
-    private void handleChangeToProductions(MouseEvent event){
-        if(chosenProductionCompany != null){
-            if(productionList != null){
+    private void handleChangeToProductions(MouseEvent event) {
+        if (chosenProductionCompany != null) {
+            if (productionList != null) {
                 resultList.setItems(FXCollections.observableArrayList(productionList));
                 changeToMovie.setVisible(true);
                 changeToProduction.setVisible(false);
-            }else{
+            } else {
                 errorMessage.setText(chosenProductionCompany.getName() + " laver ikke produktioner");
             }
-        }else{
+        } else {
             errorMessage.setText("Fejl opstået, intet produktionsfirma valgt");
         }
     }
@@ -299,39 +306,40 @@ public class ModifyProductionCompanyController implements Initializable {
      * Checks if the element from the ListView that is checked is either a Movie or a Production, and based on that,
      * it will specify which scene to go to, showing that chosen movie/production's information first thing in the
      * scene's fields.
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
-    private void handleGoTo(MouseEvent event){
-        if(chosenItem.equals("movie") && chosenMovie != null){
+    private void handleGoTo(MouseEvent event) {
+        if (chosenItem.equals("movie") && chosenMovie != null) {
             App.handleModifyMoviePage();
             ModifyMovieController.setChosenMovie(chosenMovie);
-        } else if(chosenItem.equals("production") && chosenProduction != null){
+        } else if (chosenItem.equals("production") && chosenProduction != null) {
             App.handleModifyProductionPage();
             ModifyProductionController.setChosenProduction(chosenProduction);
         }
     }
 
     @FXML
-    private void handleHelp(MouseEvent event){
-       App.handleHelpStage();
+    private void handleHelp(MouseEvent event) {
+        App.handleHelpStage();
     }
 
     @FXML
-    private void handleBack(MouseEvent event){
+    private void handleBack(MouseEvent event) {
         App.handleAdminPage();
     }
 
     @FXML
-    private void handleClose(MouseEvent event){
+    private void handleClose(MouseEvent event) {
         App.closeWindow();
     }
     //endregion
 
     //Toggle methods
     //region
-    private void toggleButtons(boolean value){
+    private void toggleButtons(boolean value) {
         createNew.setDisable(value);
         delete.setDisable(value);
         saveChanges.setDisable(value);
@@ -340,19 +348,19 @@ public class ModifyProductionCompanyController implements Initializable {
 
     //Getters for the static variables
     //region
-    public static IMovie getChosenMovie(){
+    public static IMovie getChosenMovie() {
         return chosenMovie;
     }
 
-    public static void setChosenMovie(IMovie newValue){
+    public static void setChosenMovie(IMovie newValue) {
         chosenMovie = newValue;
     }
 
-    public static IProduction getChosenProduction(){
+    public static IProduction getChosenProduction() {
         return chosenProduction;
     }
 
-    public static void setChosenProduction(IProduction newValue){
+    public static void setChosenProduction(IProduction newValue) {
         chosenProduction = newValue;
     }
 

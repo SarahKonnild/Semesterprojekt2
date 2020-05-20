@@ -68,9 +68,7 @@ public class ModifyProductionController implements Initializable {
 
     //Class Attributes
     //region
-    private static Stage helpStage;
     private ArrayList<IProduction> searchResult;
-    private ObservableList<IProduction> observableList;
 
     private static IProduction chosenProduction;
     private static IProduction givenProduction;
@@ -82,15 +80,16 @@ public class ModifyProductionController implements Initializable {
     /**
      * Checks if a production has been given from the previous scene. If so, the fields will be set to show
      * the given production's information.
-     * @author Sarah
+     *
      * @param location
      * @param resources
+     * @author Sarah
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
 
-        if(ModifyProductionCompanyController.getChosenProduction() != null) {
+        if (ModifyProductionCompanyController.getChosenProduction() != null) {
             givenProduction = ModifyProductionCompanyController.getChosenProduction();
             productionName.setText(givenProduction.getName());
             releaseYear.setText(givenProduction.getYear());
@@ -107,21 +106,22 @@ public class ModifyProductionController implements Initializable {
 
     //Everything to do with the ListView (search, choose)
     //region
+
     /**
      * Searches the database for entries that match the search field's information in the database.
      * Writes all results into the list, which can then be chosen by the user.
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
-    private void handleSearch(MouseEvent event){
+    private void handleSearch(MouseEvent event) {
         String searchText = searchField.getText();
         resultList.getItems().clear();
         searchResult = App.getSystemInstance().searchProduction(searchText);
         if (searchResult != null && !searchField.getText().isEmpty()) {
             resultList.setDisable(false);
-            observableList = FXCollections.observableArrayList(searchResult);
-            resultList.setItems(observableList);
+            resultList.setItems(FXCollections.observableArrayList(searchResult));
             searchField.clear();
         } else {
             errorMessageSearch.setVisible(true);
@@ -131,13 +131,14 @@ public class ModifyProductionController implements Initializable {
     /**
      * When the user chooses an object from the search list, this method is run. It will always write the
      * data associated with the LAST object chosen to the fields.
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
-    private void handleSearchResultChosen(MouseEvent event){
+    private void handleSearchResultChosen(MouseEvent event) {
         obj = resultList.getSelectionModel().getSelectedItem();
-        if(obj instanceof IProduction) {
+        if (obj instanceof IProduction) {
             chosenProduction = (IProduction) obj;
             productionName.setText(chosenProduction.getName());
 
@@ -150,7 +151,7 @@ public class ModifyProductionController implements Initializable {
             save.setDisable(false);
             delete.setDisable(false);
             seeBroadcasts.setVisible(true);
-        }else if(obj instanceof IBroadcast){
+        } else if (obj instanceof IBroadcast) {
             chosenBroadcast = (IBroadcast) obj;
             goToBroadcast.setVisible(true);
         }
@@ -160,41 +161,43 @@ public class ModifyProductionController implements Initializable {
 
     //Create Production
     //region
+
     /**
      * Takes the information written in the fields and uses those as the parameters for the createProduction method
      * in the domain layer. Thus creates a new entry into the database, and assigns it to the Production Company that has
      * been entered into the company-name field, if it exists.
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
-    private void handleCreateNew(MouseEvent event){
-        if(givenProduction != null){
+    private void handleCreateNew(MouseEvent event) {
+        if (givenProduction != null) {
             chosenProduction = givenProduction;
         }
         resultList.setDisable(false);
-        if(!productionName.getText().isEmpty() && !releaseYear.getText().isEmpty() && !productionCompany.getText().isEmpty()) {
+        if (!productionName.getText().isEmpty() && !releaseYear.getText().isEmpty() && !productionCompany.getText().isEmpty()) {
             String companySearch = productionCompany.getText();
             ArrayList<IProductionCompany> results = new ArrayList<>();
             results.addAll(App.getSystemInstance().searchProductionCompany(companySearch));
-            if(!results.isEmpty()){
+            if (!results.isEmpty()) {
                 IProduction production = LoginSystemController.getAdminUser().addNewProductionToDatabase(productionName.getText(), releaseYear.getText(), results.get(0).getId());
-                    if (production != null) {
-                        resultList.setDisable(false);
-                        errorMessage.setText(production.getName() + " oprettet");
-                        if (searchResult == null) {
-                            searchResult = new ArrayList<>();
-                        }
-                        searchResult.clear();
-                        searchResult.add(production);
-                        resultList.setItems(FXCollections.observableArrayList(searchResult));
-                        clearFields();
+                if (production != null) {
+                    resultList.setDisable(false);
+                    errorMessage.setText(production.getName() + " oprettet");
+                    if (searchResult == null) {
+                        searchResult = new ArrayList<>();
                     }
-            } else{
+                    searchResult.clear();
+                    searchResult.add(production);
+                    resultList.setItems(FXCollections.observableArrayList(searchResult));
+                    clearFields();
+                }
+            } else {
                 errorMessage.setText("Fejl opstået, " + productionName.getText() + " blev ikke oprettet");
             }
             resultList.refresh();
-        }else{
+        } else {
             errorMessage.setText("Fejl, venligst udfyld alle felter");
         }
     }
@@ -202,48 +205,52 @@ public class ModifyProductionController implements Initializable {
 
     //Delete Production
     //region
+
     /**
      * Takes the production that has been chosen from the ListView and deletes it from the application instance.
      * If that is successful, it will be removed from the database and unassigned from the Production.
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
-    private void handleDelete(MouseEvent event){
-        if(givenProduction != null){
+    private void handleDelete(MouseEvent event) {
+        if (givenProduction != null) {
             chosenProduction = givenProduction;
         }
-       status = chosenProduction.delete();
-            if(status){
-                searchResult.remove(chosenProduction);
-                errorMessage.setText(chosenProduction.getName() + " slettet");
-                if(searchResult.isEmpty()){
-                    resultList.getItems().clear();
-                }else if(givenProduction == null){
-                    resultList.setItems(FXCollections.observableArrayList(searchResult));
-                }
-                clearFields();
-            } else{
-                errorMessage.setText("Fejl opstået, " + chosenProduction.getName() + " blev ikke slettet");
+        status = chosenProduction.delete();
+        if (status) {
+            searchResult.remove(chosenProduction);
+            errorMessage.setText(chosenProduction.getName() + " slettet");
+            if (searchResult.isEmpty()) {
+                resultList.getItems().clear();
+            } else if (givenProduction == null) {
+                resultList.setItems(FXCollections.observableArrayList(searchResult));
             }
+            clearFields();
+        } else {
+            errorMessage.setText("Fejl opstået, " + chosenProduction.getName() + " blev ikke slettet");
+        }
         resultList.refresh();
     }
     //endregion
 
     //Save Production
     //region
+
     /**
      * Takes the production that has been chosen from the ListView and updates its information with the text
      * that has been entered into the relevant Fields.
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
-    private void handleSave(MouseEvent event){
-        if(givenProduction != null){
+    private void handleSave(MouseEvent event) {
+        if (givenProduction != null) {
             chosenProduction = givenProduction;
         }
-        if(!productionName.getText().isEmpty() && !releaseYear.getText().isEmpty()) {
+        if (!productionName.getText().isEmpty() && !releaseYear.getText().isEmpty()) {
             status = chosenProduction.update(productionName.getText(), releaseYear.getText());
             if (status) {
                 errorMessage.setText(chosenProduction.getName() + " opdateret");
@@ -252,7 +259,7 @@ public class ModifyProductionController implements Initializable {
                 errorMessage.setText("Fejl opstået, " + chosenProduction.getName() + " blev ikke opdateret");
             }
             resultList.refresh();
-        }else{
+        } else {
             errorMessage.setText("Fejl, udfyld venligst alle felter");
         }
     }
@@ -261,7 +268,7 @@ public class ModifyProductionController implements Initializable {
     //Changes to view broadcasts for chosenProduction
     //region
     @FXML
-    private void handleShowBroadcasts(MouseEvent event){
+    private void handleShowBroadcasts(MouseEvent event) {
         ArrayList<IBroadcast> broadcastList = chosenProduction.getBroadcasts();
         System.out.println(broadcastList);
         System.out.println(chosenProduction.getBroadcasts());
@@ -271,7 +278,7 @@ public class ModifyProductionController implements Initializable {
 
     //Clears the fields
     //region
-    private void clearFields(){
+    private void clearFields() {
         productionName.clear();
         productionCompany.clear();
         releaseYear.clear();
@@ -283,40 +290,42 @@ public class ModifyProductionController implements Initializable {
     //Changes the scene of the primary stage, opens the new Help-stage and closes the entire program.
     //region
     @FXML
-    private void handleHelp(MouseEvent event){
+    private void handleHelp(MouseEvent event) {
         App.handleHelpStage();
     }
 
     @FXML
-    private void handleBack(MouseEvent event){
-        if(ModifyProductionCompanyController.getChosenProduction() != null){
+    private void handleBack(MouseEvent event) {
+        if (ModifyProductionCompanyController.getChosenProduction() != null) {
             ModifyProductionCompanyController.setChosenProduction(null);
         }
         App.handleAdminPage();
     }
 
     @FXML
-    private void handleClose(MouseEvent event){App.closeWindow();}
+    private void handleClose(MouseEvent event) {
+        App.closeWindow();
+    }
 
     @FXML
-    private void goToBroadcast(MouseEvent event){
-        if(chosenBroadcast != null){
+    private void goToBroadcast(MouseEvent event) {
+        if (chosenBroadcast != null) {
             App.handleModifyBroadcastPage();
-        }else{
+        } else {
             errorMessage.setText("Fejl, ingen udsendelse valgt");
         }
     }
     //endregion
 
-    public static IBroadcast getChosenBroadcast(){
+    public static IBroadcast getChosenBroadcast() {
         return chosenBroadcast;
     }
 
-    public static void setChosenBroadcast(IBroadcast newValue){
+    public static void setChosenBroadcast(IBroadcast newValue) {
         chosenBroadcast = newValue;
     }
 
-    public static void setChosenProduction(IProduction chosenProduction){
+    public static void setChosenProduction(IProduction chosenProduction) {
         givenProduction = chosenProduction;
     }
 }

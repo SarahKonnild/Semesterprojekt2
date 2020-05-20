@@ -59,8 +59,6 @@ public class LoginSystemController implements Initializable {
     //region
     private static IUser adminUser;
     private static String usernameString;
-    private double dragX;
-    private double dragY;
     //endregion
 
     @Override
@@ -70,11 +68,12 @@ public class LoginSystemController implements Initializable {
 
     /**
      * Allows for bypassing the login system to speed shit up
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
-    public void handleBypassLogin(MouseEvent event){
+    public void handleBypassLogin(MouseEvent event) {
         usernameString = "admin";
         adminUser = App.getSystemInstance().createNewUser(username.getText(), password.getText());
         try {
@@ -89,8 +88,9 @@ public class LoginSystemController implements Initializable {
 
     /**
      * Changes the stage for guest users when pressing the "Continue as Guest User" label
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
     public void handleGuestUserLogin(MouseEvent event) {
@@ -106,8 +106,9 @@ public class LoginSystemController implements Initializable {
 
     /**
      * Changes the visibility of the labels/textfields when pressing to continue as an admin.
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
     public void handleAdminLoginClicked(MouseEvent event) {
@@ -117,44 +118,46 @@ public class LoginSystemController implements Initializable {
 
     /**
      * Checks if the pseudo-login criteria are met, and if so, the scene will change to the admin-page.
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     @FXML
     public void handleLoginButton(ActionEvent event) {
-        if(username.getText().equals("admin") && password.getText().equals("admin")){
+        if (username.getText().equals("admin") && password.getText().equals("admin")) {
             usernameString = "admin";
             adminUser = App.getSystemInstance().createNewUser(username.getText(), password.getText());
             App.handleAdminPage();
-    } else{
+        } else {
             errorMessage.setVisible(true);
-       }
+        }
     }
 
     @FXML
-    public void handleCancel(MouseEvent event){
+    public void handleCancel(MouseEvent event) {
         changeChooseSystemVisible(true);
         changeLoginFieldsVisible(false);
     }
 
     /**
      * Permits closing of the borderless window.
+     *
      * @author Sarah
      */
     @FXML
-    public void handleClose(MouseEvent event){
+    public void handleClose(MouseEvent event) {
         App.closeWindow();
     }
 
-    public static String getUsernameString(){
+    public static String getUsernameString() {
         return usernameString;
     }
 
-    public static IUser getAdminUser(){
+    public static IUser getAdminUser() {
         return adminUser;
     }
 
-    private void changeLoginFieldsVisible(boolean value){
+    private void changeLoginFieldsVisible(boolean value) {
         usernameLabel.setVisible(value);
         username.setVisible(value);
         passwordLabel.setVisible(value);
@@ -163,7 +166,7 @@ public class LoginSystemController implements Initializable {
         cancel.setVisible(value);
     }
 
-    private void changeChooseSystemVisible(boolean value){
+    private void changeChooseSystemVisible(boolean value) {
         guestUserLogin.setVisible(value);
         adminUserLogin.setVisible(value);
     }

@@ -17,21 +17,27 @@ import org.openjfx.domain.CredITSystem;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * JavaFX App
  */
 public class App extends Application {
 
+    //Local variables
+    //region
     private static Scene scene;
     private static Stage stage;
     private static ISystem sys;
     private static Stage helpStage;
     private static String assignCastModifier;
 
-    private static IProduction retrievedProduction;
     private static IProductionCompany retrievedProductionCompany;
 
+    private static ArrayList<PCast> roleArray = new ArrayList<>();
+    private static ArrayList<String> castRoles = new ArrayList<>();
+    //endregion
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -69,6 +75,7 @@ public class App extends Application {
     /**
      * These methods are used to be called in other controllers. They are used to change the scene of the primary stage
      * (or open the help-stage) in any given controller.
+     * @author Sarah
      */
     //region
     public static void handleAdminPage(){
@@ -175,37 +182,11 @@ public class App extends Application {
     }
     //endregion
 
-    //Set- and get-methods
-    //region
-    public static Scene getScene(){
-        return scene;
-    }
-
-    public static Stage getStage(){
-        return stage;
-    }
-
-    public static ISystem getSystemInstance(){
-        return sys;
-    }
-
-    public static Stage getHelpStage(){
-        return helpStage;
-    }
-
-    public static String getAssignCastModifier(){
-        return assignCastModifier;
-    }
-
-    public static void setAssignCastModifier(String newAssignCastModifier){
-        assignCastModifier = newAssignCastModifier;
-    }
-    //endregion
-
     //Movement of the window
     //region
     /**
      * This method can be called upon in all the other controllers. It allows for moving the borderless application window.
+     * @author Sarah
      * @param basePane refers to the AnchorPane that is clickable and movable in the Stage (usually the darker blue panel at
      *                 the top of the stage.
      */
@@ -236,7 +217,7 @@ public class App extends Application {
     //Standardised retrieval of production/production company methods
     //region
     public static IProduction retrieveProduction(IBroadcast broadcast){
-        retrievedProduction = getSystemInstance().searchProductionOnBroadcast(broadcast.getId());
+        IProduction retrievedProduction = getSystemInstance().searchProductionOnBroadcast(broadcast.getId());
         return retrievedProduction;
     }
 
@@ -248,6 +229,99 @@ public class App extends Application {
     public static IProductionCompany retrieveProductionCompanyForProduction(IProduction production){
         retrievedProductionCompany = getSystemInstance().searchProductionCompanyOnProduction(production.getId());
         return retrievedProductionCompany;
+    }
+    //endregion
+
+    //Methods for fetching the arraylist with PCasts for the relevant controllers
+    //region
+
+    /**
+     * Iterates through the HashMap that is received of Cast-members and their roles on the movie that has been
+     * chosen, adding them to the static roleArray-ArrayList. This can be fetched by the different controllers.
+     * @author Sarah
+     * @return returns the roleArray to be used for setting items in the ListView displaying all movie roles
+     */
+    public static ArrayList<PCast> getMovieRoleArray(){
+        if(!roleArray.isEmpty()) {
+            roleArray.clear();
+        }else{
+            HashMap<ICast, String> movieRoles = ModifyMovieController.getChosenMovie().getCastMap();
+
+            for (ICast cast : movieRoles.keySet()) {
+                PCast newCast = new PCast(cast, movieRoles.get(cast));
+                roleArray.add(newCast);
+            }
+        }
+            return roleArray;
+    }
+
+    /**
+     * Iterates through the HashMap that is received of Cast-members and their roles on the broadcast that has been
+     * chosen, adding them to the static roleArray-ArrayList. This can be fetched by the different controllers.
+     * @author Sarah
+     * @return returns the roleArray to be used for setting items in the ListView displaying all broadcast roles
+     */
+    public static ArrayList<PCast> getBroadcastRoleArray(){
+        if(!roleArray.isEmpty()) {
+            roleArray.clear();
+        }else {
+            HashMap<ICast, String> broadcastRoles = ModifyBroadcastController.getChosenBroadcast().getCastMap();
+
+            for (ICast cast : broadcastRoles.keySet()) {
+                PCast newCast = new PCast(cast, broadcastRoles.get(cast));
+                roleArray.add(newCast);
+            }
+        }
+        return roleArray;
+    }
+
+    public static ArrayList<String> getAllCastRoles(ICast chosenCast){
+        if(!castRoles.isEmpty()){
+            castRoles.clear();
+        }
+        //Creates local hashmap that is iterated through and then added values to the castRoles-ArrayList
+        HashMap<IBroadcast, String> broadcastRoles = App.getSystemInstance().getCastRolesBroadcast(chosenCast);
+        if(!broadcastRoles.isEmpty()) {
+            for (IBroadcast broadcast : broadcastRoles.keySet()) {
+                String temp = broadcast.getName() + " : " + broadcastRoles.get(broadcast);
+                castRoles.add(temp);
+            }
+        }
+        HashMap<IMovie, String> movieRoles = App.getSystemInstance().getCastRolesMovies(chosenCast);
+        if(!movieRoles.isEmpty()){
+            for(IMovie movie : movieRoles.keySet()){
+                String temp = movie.getTitle() + " : " + movieRoles.get(movie);
+                castRoles.add(temp);
+            }
+        }
+        return castRoles;
+    }
+    //endregion
+
+    //Set- and get-methods
+    //region
+    public static Scene getScene(){
+        return scene;
+    }
+
+    public static Stage getStage(){
+        return stage;
+    }
+
+    public static ISystem getSystemInstance(){
+        return sys;
+    }
+
+    public static Stage getHelpStage(){
+        return helpStage;
+    }
+
+    public static String getAssignCastModifier(){
+        return assignCastModifier;
+    }
+
+    public static void setAssignCastModifier(String newAssignCastModifier){
+        assignCastModifier = newAssignCastModifier;
     }
     //endregion
 

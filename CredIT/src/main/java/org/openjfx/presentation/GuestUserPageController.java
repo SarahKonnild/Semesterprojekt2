@@ -130,13 +130,6 @@ public class GuestUserPageController implements Initializable {
     //region
     private String searchTopicChosen;
 
-    private ArrayList<IProduction> productionSearchResult;
-    private ArrayList<ICast> castSearchResult;
-    private ArrayList<IBroadcast> broadcastSearchResult;
-    private ArrayList<IMovie> movieSearchResult;
-    private ArrayList<IProductionCompany> companySearchResult;
-    private ArrayList<String> roleArray;
-    private ArrayList<PCast> castRoleArray;
     private ArrayList<IProduction> productionList;
     private ArrayList<IMovie> movieList;
 
@@ -153,8 +146,6 @@ public class GuestUserPageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.handleMoveWindow(basePane);
-        roleArray = new ArrayList<>();
-        castRoleArray = new ArrayList<>();
     }
 
     //Everything do do with manipulating the ListView (search,choose)
@@ -177,7 +168,7 @@ public class GuestUserPageController implements Initializable {
         if (searchTopicChosen != null) {
             if (searchTopicChosen.equals("cast")) {
                 resultList.getItems().clear();
-                castSearchResult = App.getSystemInstance().searchCast(searchText);
+                ArrayList<ICast> castSearchResult = App.getSystemInstance().searchCast(searchText);
                 if (castSearchResult != null && !searchField.getText().isEmpty()) {
                     resultList.setItems(FXCollections.observableArrayList(castSearchResult));
                     searchField.clear();
@@ -186,7 +177,7 @@ public class GuestUserPageController implements Initializable {
                 }
             } else if (searchTopicChosen.equals("production")) {
                 resultList.getItems().clear();
-                productionSearchResult = App.getSystemInstance().searchProduction(searchText);
+                ArrayList<IProduction> productionSearchResult = App.getSystemInstance().searchProduction(searchText);
                 if (productionSearchResult != null && !searchField.getText().isEmpty()) {
                     resultList.setItems(FXCollections.observableArrayList(productionSearchResult));
                     searchField.clear();
@@ -195,7 +186,7 @@ public class GuestUserPageController implements Initializable {
                 }
             } else if (searchTopicChosen.equals("broadcast")) {
                 resultList.getItems().clear();
-                broadcastSearchResult = App.getSystemInstance().searchBroadcast(searchText);
+                ArrayList<IBroadcast> broadcastSearchResult = App.getSystemInstance().searchBroadcast(searchText);
                 if (broadcastSearchResult != null && !searchField.getText().isEmpty()) {
                     resultList.setItems(FXCollections.observableArrayList(broadcastSearchResult));
                     searchField.clear();
@@ -204,7 +195,7 @@ public class GuestUserPageController implements Initializable {
                 }
             } else if (searchTopicChosen.equals("movie")) {
                 resultList.getItems().clear();
-                movieSearchResult = App.getSystemInstance().searchMovie(searchText);
+                ArrayList<IMovie> movieSearchResult = App.getSystemInstance().searchMovie(searchText);
                 if (movieSearchResult != null && !searchField.getText().isEmpty()) {
                     resultList.setItems(FXCollections.observableArrayList(movieSearchResult));
                     searchField.clear();
@@ -213,7 +204,7 @@ public class GuestUserPageController implements Initializable {
                 }
             } else if (searchTopicChosen.equals("productioncompany")) {
                 resultList.getItems().clear();
-                companySearchResult = App.getSystemInstance().searchProductionCompany(searchText);
+                ArrayList<IProductionCompany> companySearchResult = App.getSystemInstance().searchProductionCompany(searchText);
                 if (companySearchResult != null && !searchField.getText().isEmpty()) {
                     resultList.setItems(FXCollections.observableArrayList(companySearchResult));
                     searchField.clear();
@@ -231,6 +222,7 @@ public class GuestUserPageController implements Initializable {
     /**
      * Writes the chosen result to an Object variable and performs a check on the Object-variable's nature, to see
      * which fields that should be made available/visible and then written to with the object's attributes
+     *
      * @param event
      * @author Sarah
      */
@@ -242,30 +234,13 @@ public class GuestUserPageController implements Initializable {
         } else {
             resultList.setDisable(false);
             if (obj instanceof ICast) {
-                roleArray.clear();
                 searchText = searchField.getText();
                 chosenCast = (ICast) obj;
                 castNameField.setText(chosenCast.getName());
-
-                HashMap<IBroadcast, String> broadcastRoles = App.getSystemInstance().getCastRolesBroadcast(chosenCast);
-                HashMap<IMovie, String> movieRoles = App.getSystemInstance().getCastRolesMovies(chosenCast);
-
-                for(IMovie movie : movieRoles.keySet()){
-                    String temp = movie.getTitle() + " : " + movieRoles.get(movie);
-                    roleArray.add(temp);
+                if (App.getAllCastRoles(chosenCast).isEmpty()) {
+                    App.getAllCastRoles(chosenCast).add("Listen er tom");
                 }
-                for(IBroadcast broadcast : broadcastRoles.keySet()){
-                    IProduction retrievedProduction = App.retrieveProduction(broadcast);
-                    String temp = retrievedProduction.getName() + " : '" + broadcast.getName() + "' som: " + broadcastRoles.get(broadcast);
-                    roleArray.add(temp);
-                }
-
-                if(!roleArray.isEmpty()) {
-                    castRoleList.setItems(FXCollections.observableArrayList(roleArray));
-                }else{
-                    roleArray.add("Listen er tom");
-                    castRoleList.setItems(FXCollections.observableArrayList(roleArray));
-                }
+                castRoleList.setItems(FXCollections.observableArrayList(App.getAllCastRoles(chosenCast)));
 
                 changeFieldsVisible("cast");
 
@@ -313,9 +288,9 @@ public class GuestUserPageController implements Initializable {
                 productionCompanyNameField.setText(chosenCompany.getName());
 
                 changeFieldsVisible("productioncompany");
-                }
             }
         }
+    }
 
     //endregion
 
@@ -444,7 +419,7 @@ public class GuestUserPageController implements Initializable {
             changeMovieFields(true);
             changeProductionFields(false);
             changeProductionCompanyFields(false);
-        } else if(searchTopicChosen.equals("productioncompany")){
+        } else if (searchTopicChosen.equals("productioncompany")) {
             changeCastFields(false);
             changeBroadcastFields(false);
             changeMovieFields(false);
@@ -453,55 +428,72 @@ public class GuestUserPageController implements Initializable {
         }
     }
 
+    /**
+     * Adds the list of productions to the resultList, and changes the visible fields
+     * so that the production that may be chosen's information can be written to them.
+     *
+     * @param event
+     * @author Sarah
+     */
     @FXML
     public void handleShowProductions(MouseEvent event) {
         resultList.setItems(FXCollections.observableArrayList(productionList));
         changeFieldsVisible("production");
-        chosenProduction = null;
-
+        chosenCompany = null;
     }
 
+    /**
+     * Adds the list of movies to the resultList, and changes the visible fields so that
+     * the movie that may be chosen's information can be written to them.
+     *
+     * @param event
+     * @author Sarah
+     */
     @FXML
     public void handleShowMovies(MouseEvent event) {
         resultList.setItems(FXCollections.observableArrayList(movieList));
         changeFieldsVisible("movie");
-        chosenProduction = null;
+        chosenCompany = null;
     }
 
+    /**
+     * Creates a local ArrayList containing the list of broadcasts that are assigned to the
+     * production that has been chosen. From this, the Arraylist's elements are added to the
+     * resultList, and can then be chosen to show information in fields.
+     *
+     * @param event
+     * @author Sarah
+     */
     @FXML
-    public void handleShowEpisodes(MouseEvent event){
+    public void handleShowEpisodes(MouseEvent event) {
         ArrayList<IBroadcast> broadcastList = chosenProduction.getBroadcasts();
         resultList.setItems(FXCollections.observableArrayList(broadcastList));
         chosenProduction = null;
     }
 
+    /**
+     * Calls the App-class to fetch the method for iterating through the hashmap of roles
+     * that are assigned to the broadcast, and then adds the resulting arrayList to the ListView.
+     *
+     * @param event
+     * @author Sarah
+     */
     @FXML
-    public void handleShowCastBroadcast(MouseEvent event){
-        castRoleArray.clear();
-        HashMap<ICast, String> broadcastRoles = chosenBroadcast.getCastMap();
-
-        for(ICast cast : broadcastRoles.keySet()){
-            PCast newCast = new PCast(cast, broadcastRoles.get(cast));
-            castRoleArray.add(newCast);
-        }
-
-        resultList.setItems(FXCollections.observableArrayList(castRoleArray));
-
+    public void handleShowCastBroadcast(MouseEvent event) {
+        resultList.setItems(FXCollections.observableArrayList(App.getBroadcastRoleArray()));
         chosenBroadcast = null;
     }
 
+    /**
+     * Calls the App-class to fetch the method for iterating through the hashmap of roles
+     * that are assigned to the movie, and then adds the resulting arrayList to the ListView.
+     *
+     * @param event
+     * @author Sarah
+     */
     @FXML
-    public void handleShowCastMovie(MouseEvent event){
-        castRoleArray.clear();
-        HashMap<ICast, String> movieRoles = chosenMovie.getCastMap();
-
-        for(ICast cast : movieRoles.keySet()){
-            PCast newCast = new PCast(cast, movieRoles.get(cast));
-            castRoleArray.add(newCast);
-        }
-
-        resultList.setItems(FXCollections.observableArrayList(castRoleArray));
-
+    public void handleShowCastMovie(MouseEvent event) {
+        resultList.setItems(FXCollections.observableArrayList(App.getMovieRoleArray()));
         chosenMovie = null;
     }
 
@@ -510,7 +502,9 @@ public class GuestUserPageController implements Initializable {
      * associated with one of the classes/searchtopic that has been chosen.
      *
      * @param value a boolean value that allows for toggling the fields/labels
+     * @author Sarah
      */
+    //region
     private void changeCastFields(boolean value) {
         castName.setVisible(value);
         castNameField.setVisible(value);
@@ -556,7 +550,7 @@ public class GuestUserPageController implements Initializable {
         showAllCastMovie.setVisible(value);
     }
 
-    private void changeProductionCompanyFields(boolean value){
+    private void changeProductionCompanyFields(boolean value) {
         productionCompanyName.setVisible(value);
         productionCompanyNameField.setVisible(value);
         showMovies.setVisible(value);

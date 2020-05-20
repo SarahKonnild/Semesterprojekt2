@@ -45,40 +45,45 @@ public class AdministratorPageController implements Initializable {
 
     /**
      * All these handlers work to change the scene of the primary stage based on the label that is being clicked on
-     * @author Sarah
+     *
      * @param event
+     * @author Sarah
      */
     //region
     @FXML
-    public void handleAdministrateProductionCompanies(MouseEvent event){
+    public void handleAdministrateProductionCompanies(MouseEvent event) {
         App.handleModifyProductionCompanyStage();
     }
 
     @FXML
-    private void handleAdministrateCast(MouseEvent event){
+    private void handleAdministrateCast(MouseEvent event) {
         App.handleModifyCastPage();
     }
 
     @FXML
-    private void handleAdministrateProduction(MouseEvent event){
+    private void handleAdministrateProduction(MouseEvent event) {
         App.handleModifyProductionPage();
     }
 
     @FXML
-    private void handleAdministrateBroadcast(MouseEvent event){
+    private void handleAdministrateBroadcast(MouseEvent event) {
         App.handleModifyBroadcastPage();
     }
 
     @FXML
-    private void handleAdministrateMovie(MouseEvent event){
+    private void handleAdministrateMovie(MouseEvent event) {
         App.handleModifyMoviePage();
     }
 
     @FXML
-    public void handleHelp(MouseEvent event){ App.handleHelpStage();}
+    public void handleHelp(MouseEvent event) {
+        App.handleHelpStage();
+    }
 
     @FXML
-    public void handleClose(MouseEvent event){ App.closeWindow();}
+    public void handleClose(MouseEvent event) {
+        App.closeWindow();
+    }
 
     //endregion
 }
