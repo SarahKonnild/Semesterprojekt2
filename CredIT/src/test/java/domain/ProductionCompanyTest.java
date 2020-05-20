@@ -3,6 +3,8 @@ package domain;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openjfx.domain.Movie;
+import org.openjfx.domain.Production;
 import org.openjfx.domain.ProductionCompany;
 import org.openjfx.interfaces.IMovie;
 import org.openjfx.interfaces.IProduction;
@@ -14,8 +16,8 @@ public class ProductionCompanyTest {
 
     @Before
     public void setUp() {
-        ArrayList<IMovie> movieArraylist = new ArrayList<>();
-        ArrayList<IProduction> productionArrayList = new ArrayList<>();
+        ArrayList<Movie> movieArraylist = new ArrayList<>();
+        ArrayList<Production> productionArrayList = new ArrayList<>();
         productionCompany = new ProductionCompany(1, "Teis Productions", movieArraylist, productionArrayList);
     }
 

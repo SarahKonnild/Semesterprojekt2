@@ -90,14 +90,8 @@ public class ModifyProductionController implements Initializable {
         App.handleMoveWindow(basePane);
 
         if (ModifyProductionCompanyController.getChosenProduction() != null) {
-            givenProduction = ModifyProductionCompanyController.getChosenProduction();
-            productionName.setText(givenProduction.getName());
-            releaseYear.setText(givenProduction.getYear());
-
-            IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForProduction(givenProduction);
-            productionCompany.setText(retrievedProductionCompany.getName());
-            amountOfEpisodes.setText(String.valueOf(givenProduction.getNumberOfEpisodes()));
-            amountOfSeasons.setText(String.valueOf(givenProduction.getNumberOfSeasons()));
+            chosenProduction = ModifyProductionCompanyController.getChosenProduction();
+            setFieldsText(chosenProduction);
 
             save.setDisable(false);
             delete.setDisable(false);
@@ -118,7 +112,7 @@ public class ModifyProductionController implements Initializable {
     private void handleSearch(MouseEvent event) {
         String searchText = searchField.getText();
         resultList.getItems().clear();
-        searchResult = App.getSystemInstance().searchProduction(searchText);
+        searchResult = new ArrayList<>(App.getSystemInstance().searchProduction(searchText));
         if (searchResult != null && !searchField.getText().isEmpty()) {
             resultList.setDisable(false);
             resultList.setItems(FXCollections.observableArrayList(searchResult));
@@ -140,14 +134,7 @@ public class ModifyProductionController implements Initializable {
         obj = resultList.getSelectionModel().getSelectedItem();
         if (obj instanceof IProduction) {
             chosenProduction = (IProduction) obj;
-            productionName.setText(chosenProduction.getName());
-
-            IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForProduction(chosenProduction);
-            productionCompany.setText(String.valueOf(retrievedProductionCompany.getName()));
-            amountOfSeasons.setText(String.valueOf(chosenProduction.getNumberOfSeasons()));
-            amountOfEpisodes.setText(String.valueOf(chosenProduction.getNumberOfEpisodes()));
-            releaseYear.setText(chosenProduction.getYear());
-
+            setFieldsText(chosenProduction);
             save.setDisable(false);
             delete.setDisable(false);
             seeBroadcasts.setVisible(true);
@@ -269,7 +256,7 @@ public class ModifyProductionController implements Initializable {
     //region
     @FXML
     private void handleShowBroadcasts(MouseEvent event) {
-        ArrayList<IBroadcast> broadcastList = chosenProduction.getBroadcasts();
+        ArrayList<IBroadcast> broadcastList = new ArrayList<>(chosenProduction.getBroadcasts());
         System.out.println(broadcastList);
         System.out.println(chosenProduction.getBroadcasts());
         resultList.setItems(FXCollections.observableArrayList(broadcastList));
@@ -284,6 +271,25 @@ public class ModifyProductionController implements Initializable {
         releaseYear.clear();
         amountOfEpisodes.clear();
         amountOfSeasons.clear();
+    }
+    //endregion
+
+    //region
+
+    /**
+     * Method to standardise the retrieval of a production company for the production, and then setting the production's
+     * values/attribute values to the textfields that they are related to.
+     * @author Sarah
+     * @param production
+     */
+    private void setFieldsText(IProduction production){
+        productionName.setText(production.getName());
+        releaseYear.setText(production.getYear());
+
+        IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForProduction(production);
+        productionCompany.setText(retrievedProductionCompany.getName());
+        amountOfEpisodes.setText(String.valueOf(production.getNumberOfEpisodes()));
+        amountOfSeasons.setText(String.valueOf(production.getNumberOfSeasons()));
     }
     //endregion
 

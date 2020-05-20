@@ -41,7 +41,7 @@ public interface IBroadcast {
      * @param cast the {@code Cast} object that is to be assigned.
      * @param role the role of the given cast member, as a {@code String}.
      */
-    boolean assignCast(Cast cast, String role);
+    boolean assignCast(ICast cast, String role);
 
     /**
      * Removes a {@code Cast} object from the Broadcast object's HashMap.
@@ -49,7 +49,7 @@ public interface IBroadcast {
      * @param cast the {@code Cast} object that is to be removed.
      * @param role the role of the given cast member, as a {@code String}.
      */
-    boolean unassignCast(Cast cast, String role);
+    boolean unassignCast(ICast cast, String role);
 
     /**
      * Returns the ID of the broadcast. This ID is given by the persistence layer.

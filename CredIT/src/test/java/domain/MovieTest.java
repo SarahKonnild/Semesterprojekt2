@@ -3,6 +3,7 @@ package domain;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openjfx.domain.Cast;
 import org.openjfx.domain.Movie;
 import org.openjfx.interfaces.ICast;
 
@@ -13,7 +14,7 @@ public class MovieTest {
 
     @Before
     public void setUp() throws Exception {
-        HashMap<ICast, String> castMap = new HashMap<>();
+        HashMap<Cast, String> castMap = new HashMap<>();
         movie = new Movie(1, "Teis På Is", "11-09-2020", castMap);
     }
 

@@ -3,6 +3,7 @@ package domain;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openjfx.domain.Broadcast;
 import org.openjfx.domain.Production;
 import org.openjfx.interfaces.IBroadcast;
 
@@ -13,7 +14,7 @@ public class ProductionTest {
 
     @Before
     public void setUp() throws Exception {
-        ArrayList<IBroadcast> broadcastList = new ArrayList<>();
+        ArrayList<Broadcast> broadcastList = new ArrayList<>();
         production = new Production(1, "Teis til lands, til vands og i luften", "2020", 2, 3, broadcastList);
     }
 
