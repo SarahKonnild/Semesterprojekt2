@@ -273,6 +273,9 @@ public class AssignUnassignCastController implements Initializable {
         assignButton.setVisible(true);
         unassignButton.setVisible(false);
         save.setVisible(false);
+
+        search.setVisible(true);
+        searchField.setVisible(true);
     }
 
     /**
