@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openjfx.domain.Broadcast;
+import org.openjfx.domain.Cast;
 import org.openjfx.interfaces.ICast;
 
 import java.util.HashMap;
@@ -13,7 +14,7 @@ public class BroadcastTest {
 
     @Before
     public void setUp() throws Exception {
-        HashMap<ICast, String> castMap = new HashMap<>();
+        HashMap<Cast, String> castMap = new HashMap<>();
         broadcastTest = new Broadcast(1, "Teis's Verden", 2, 3, "2020-19-05", castMap);
     }
 

@@ -33,7 +33,7 @@ public interface IMovie {
      * @param role
      * @return True if succed save in database and false if it fails
      */
-    boolean assignCast(Cast cast, String role);
+    boolean assignCast(ICast cast, String role);
 
     /**
      * Removes the cast and their role from the castRole map if they are in the map. Also calls the method
@@ -42,7 +42,7 @@ public interface IMovie {
      * @param role
      * @return True if it succeded to remove the connection in the database and false if not.
      */
-    boolean unassignCast(Cast cast, String role);
+    boolean unassignCast(ICast cast, String role);
 
     int getId();
 
