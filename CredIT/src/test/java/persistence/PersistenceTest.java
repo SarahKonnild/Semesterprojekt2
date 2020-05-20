@@ -4,9 +4,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openjfx.interfaces.IPersistence;
 import org.openjfx.persistence.Persistence;
-import org.openjfx.persistence.SortComparator;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class PersistenceTest {
@@ -68,12 +68,11 @@ public class PersistenceTest {
 
     @Test
     public void getBroadcast() {
-        List<String> broadcastList = new ArrayList<>();
+        LinkedList<String> broadcastList = new LinkedList<>();
         broadcastList.add("1\tPilot\t1\t1\t25-1-2016");
         Assert.assertArrayEquals(broadcastList.toArray(), instance.getBroadcastFromDatabase(1).toArray());
         Assert.assertArrayEquals(broadcastList.toArray(), instance.getBroadcastFromDatabase("PILOT").toArray());
-        broadcastList.add("2\tLucifer, Stay. Good Devil\t1\t2\t1-2-2016");
-        broadcastList.sort(new SortComparator());
+        broadcastList.addFirst("2\tLucifer, Stay. Good Devil\t1\t2\t1-2-2016");
         Assert.assertArrayEquals(broadcastList.toArray(), instance.getBroadcastsFromDatabase(1).toArray());
     }
 
