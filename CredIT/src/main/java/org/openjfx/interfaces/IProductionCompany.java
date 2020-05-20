@@ -1,5 +1,8 @@
 package org.openjfx.interfaces;
 
+import org.openjfx.domain.Movie;
+import org.openjfx.domain.Production;
+
 import java.util.ArrayList;
 
 public interface IProductionCompany {
@@ -28,34 +31,34 @@ public interface IProductionCompany {
      * @param movie
      * @return true or false
      */
-    boolean assignMovie(IMovie movie);
+    boolean assignMovie(Movie movie);
 
     /**
      * Add a connection between the production and this production company in domain and database
      * @param production
      * @return true or false
      */
-    boolean assignProduction(IProduction production);
+    boolean assignProduction(Production production);
 
     /**
      * Removes the connection between production and productioncompany in domain and the database
      * @param movie
      * @return true or false
      */
-    boolean unassignMovie(IMovie movie);
+    boolean unassignMovie(Movie movie);
 
     /**
      * Removes the connection between production and productioncompany in domain and the database
      * @param production
      * @return true or false
      */
-    boolean unassignProduction(IProduction production);
+    boolean unassignProduction(Production production);
 
     String getName();
 
     int getId();
 
-    ArrayList<IProduction> getProductionList();
+    ArrayList<Production> getProductionList();
 
-    ArrayList<IMovie> getMovieList();
+    ArrayList<Movie> getMovieList();
 }

@@ -1,5 +1,7 @@
 package org.openjfx.interfaces;
 
+import org.openjfx.domain.Cast;
+
 public interface ICast {
 
     /**
@@ -9,7 +11,7 @@ public interface ICast {
      * @return {@code True}: if the cast successfully merges in the persistence.
      * {@code false}: it wasn't possible to merge.
      */
-    boolean mergeCastMembers(ICast cast);
+    boolean mergeCastMembers(Cast cast);
 
     /**
      * Updates a {@code Cast} object to a specified regDKID value in the persistence layer.

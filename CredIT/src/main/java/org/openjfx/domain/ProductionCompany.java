@@ -11,16 +11,16 @@ public class ProductionCompany implements IProductionCompany {
     private final IPersistence persistence = CredITSystem.getPersistence();
     private int id;
     private String name;
-    private ArrayList<IProduction> productionList;
-    private ArrayList<IMovie> movieList;
+    private ArrayList<Production> productionList;
+    private ArrayList<Movie> movieList;
 
     public ProductionCompany(String name) {
         this.name = name;
-        this.movieList = new ArrayList<>();
-        this.productionList = new ArrayList<>();
+        this.movieList = new ArrayList<Movie>();
+        this.productionList = new ArrayList<Production>();
     }
 
-    public ProductionCompany(int id, String name, ArrayList<IMovie> movies, ArrayList<IProduction> productions) {
+    public ProductionCompany(int id, String name, ArrayList<Movie> movies, ArrayList<Production> productions) {
         this.id = id;
         this.name = name;
         this.productionList = productions;
@@ -59,9 +59,9 @@ public class ProductionCompany implements IProductionCompany {
     }
 
     @Override
-    public boolean assignMovie(IMovie movie) {
+    public boolean assignMovie(Movie movie) {
         if (!movieList.contains(movie)) {
-            ArrayList<IMovie> tempList = this.movieList;
+            ArrayList<Movie> tempList = this.movieList;
             this.movieList.add(movie);
             if (persistence.updateProductionCompanyInDatabase(this))
                 return true;
@@ -74,9 +74,9 @@ public class ProductionCompany implements IProductionCompany {
     }
 
     @Override
-    public boolean assignProduction(IProduction production) {
+    public boolean assignProduction(Production production) {
         if (!productionList.contains(production)) {
-            ArrayList<IProduction> tempList = this.productionList;
+            ArrayList<Production> tempList = this.productionList;
             this.productionList.add(production);
             if (persistence.updateProductionCompanyInDatabase(this))
                 return true;
@@ -90,9 +90,9 @@ public class ProductionCompany implements IProductionCompany {
     }
 
     @Override
-    public boolean unassignMovie(IMovie movie) {
+    public boolean unassignMovie(Movie movie) {
         if (this.movieList.contains(movie)) {
-            ArrayList<IMovie> tempList = this.movieList;
+            ArrayList<Movie> tempList = this.movieList;
             this.movieList.remove(movie);
             if (persistence.updateProductionCompanyInDatabase(this))
                 return true;
@@ -106,10 +106,10 @@ public class ProductionCompany implements IProductionCompany {
     }
 
     @Override
-    public boolean unassignProduction(IProduction production) {
+    public boolean unassignProduction(Production production) {
         if (this.productionList.contains(production)) {
             //Saves the list so it can revert back if anything goes wrong.
-            ArrayList<IProduction> tempList = this.productionList;
+            ArrayList<Production> tempList = this.productionList;
             this.movieList.remove(production);
             if (persistence.updateProductionCompanyInDatabase(this))
                 return true;
@@ -133,12 +133,12 @@ public class ProductionCompany implements IProductionCompany {
     }
 
     @Override
-    public ArrayList<IProduction> getProductionList() {
+    public ArrayList<Production> getProductionList() {
         return this.productionList;
     }
 
     @Override
-    public ArrayList<IMovie> getMovieList() {
+    public ArrayList<Movie> getMovieList() {
         return this.movieList;
     }
 }

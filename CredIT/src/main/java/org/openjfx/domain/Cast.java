@@ -38,9 +38,9 @@ public class Cast implements ICast {
     }
 
     @Override
-    public boolean mergeCastMembers(ICast cast) {
+    public boolean mergeCastMembers(Cast cast) {
         if (persistence.mergeCastInDatabase(this, cast)) {
-            ArrayList<ICast> listCast = system.searchCast(this.id);
+            ArrayList<Cast> listCast = system.searchCast(this.id);
             if (listCast != null && !listCast.isEmpty()) {
                 ICast newCast = listCast.get(0);
                 this.name = newCast.getName();

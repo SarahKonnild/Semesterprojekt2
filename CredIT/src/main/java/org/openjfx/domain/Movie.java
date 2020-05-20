@@ -11,7 +11,7 @@ public class Movie implements IMovie {
     private String title;
     private String[] releaseDate;
     private int id;
-    private HashMap<ICast, String> castRoleMap;
+    private HashMap<Cast, String> castRoleMap;
 
     public Movie(String title, String releaseDate) {
         this.title = title;
@@ -19,10 +19,10 @@ public class Movie implements IMovie {
         this.releaseDate[0] = "01";
         this.releaseDate[1] = "01";
         this.releaseDate[2] = releaseDate;
-        this.castRoleMap = new HashMap<>();
+        this.castRoleMap = new HashMap<Cast, String>();
     }
 
-    public Movie(int id, String title, String releaseDate, HashMap<ICast, String> castRoleMap) {
+    public Movie(int id, String title, String releaseDate, HashMap<Cast, String> castRoleMap) {
         this.id = id;
         this.title = title;
         this.releaseDate = releaseDate.split("-");
@@ -61,9 +61,9 @@ public class Movie implements IMovie {
     }
 
     @Override
-    public boolean unassignCast(ICast cast, String role) {
+    public boolean unassignCast(Cast cast, String role) {
         if (castRoleMap.containsKey(cast)) {
-            HashMap<ICast, String> tempRoleMap = this.castRoleMap;
+            HashMap<Cast, String> tempRoleMap = this.castRoleMap;
             castRoleMap.remove(cast);
             if (persistence.updateMovieInDatabase(this))
                 return true;
@@ -78,8 +78,8 @@ public class Movie implements IMovie {
     }
 
     @Override
-    public boolean assignCast(ICast cast, String role) {
-        HashMap<ICast, String> tempRoleMap = this.castRoleMap;
+    public boolean assignCast(Cast cast, String role) {
+        HashMap<Cast, String> tempRoleMap = this.castRoleMap;
         castRoleMap.put(cast, role);
         if (persistence.updateMovieInDatabase(this)) {
             return true;
@@ -107,7 +107,7 @@ public class Movie implements IMovie {
     }
 
     @Override
-    public HashMap<ICast, String> getCastMap() {
+    public HashMap<Cast, String> getCastMap() {
         return this.castRoleMap;
     }
 

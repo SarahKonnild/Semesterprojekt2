@@ -39,32 +39,32 @@ public class User implements IUser {
     }
 
     @Override
-    public ICast addNewCastToDatabase(String name, String regDKID) {
+    public Cast addNewCastToDatabase(String name, String regDKID) {
         return system.addNewCastToDatabase(name, regDKID);
     }
 
     @Override
-    public IBroadcast addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate, int productionID) {
+    public Broadcast addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate, int productionID) {
         return system.addNewBroadcastToDatabase(name, seasonNumber, episodeNumber, airDate, productionID);
     }
 
     @Override
-    public IProduction addNewProductionToDatabase(String name, String year, int productionCompanyID) {
+    public Production addNewProductionToDatabase(String name, String year, int productionCompanyID) {
         return system.addNewProductionToDatabase(name, year, productionCompanyID);
     }
 
     @Override
-    public IMovie addNewMovieToDatabase(String name, int productionCompanyID, String releasedate) {
+    public Movie addNewMovieToDatabase(String name, int productionCompanyID, String releasedate) {
         return system.addNewMovieToDatabase(name, productionCompanyID, releasedate);
     }
 
     @Override
-    public IProductionCompany addNewProductionCompanyToDatabase(String name) {
+    public ProductionCompany addNewProductionCompanyToDatabase(String name) {
         return system.addNewProductionCompanyToDatabase(name);
     }
 
     @Override
-    public IProductionCompany getProductionCompanyFromDatabase(String name) {
+    public ProductionCompany getProductionCompanyFromDatabase(String name) {
         return CredITSystem.getInstance().searchProductionCompany(name).get(0);
     }
     @Override

@@ -1,5 +1,7 @@
 package org.openjfx.interfaces;
 
+import org.openjfx.domain.Cast;
+
 import java.util.HashMap;
 
 public interface IMovie {
@@ -31,7 +33,7 @@ public interface IMovie {
      * @param role
      * @return True if succed save in database and false if it fails
      */
-    boolean assignCast(ICast cast, String role);
+    boolean assignCast(Cast cast, String role);
 
     /**
      * Removes the cast and their role from the castRole map if they are in the map. Also calls the method
@@ -40,13 +42,13 @@ public interface IMovie {
      * @param role
      * @return True if it succeded to remove the connection in the database and false if not.
      */
-    boolean unassignCast(ICast cast, String role);
+    boolean unassignCast(Cast cast, String role);
 
     int getId();
 
     String getTitle();
 
-    HashMap<ICast, String> getCastMap();
+    HashMap<Cast, String> getCastMap();
 
     String[] getReleaseDate();
 

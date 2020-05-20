@@ -1,5 +1,7 @@
 package org.openjfx.interfaces;
 
+import org.openjfx.domain.Broadcast;
+
 import java.util.ArrayList;
 
 public interface IProduction {
@@ -24,9 +26,9 @@ public interface IProduction {
      */
     boolean update(String name, String year);
 
-    boolean assignBroadcast(IBroadcast broadcast);
+    boolean assignBroadcast(Broadcast broadcast);
 
-    boolean unassignBroadcast(IBroadcast broadcast);
+    boolean unassignBroadcast(Broadcast broadcast);
 
     int getId();
 
@@ -34,7 +36,7 @@ public interface IProduction {
 
     String getYear();
 
-    ArrayList<IBroadcast> getBroadcasts();
+    ArrayList<Broadcast> getBroadcasts();
 
     int getNumberOfSeasons();
 

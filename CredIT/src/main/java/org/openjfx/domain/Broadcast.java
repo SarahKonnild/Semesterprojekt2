@@ -11,12 +11,12 @@ public class Broadcast implements IBroadcast {
     private final IPersistence persistence = CredITSystem.getPersistence();
     private int id;
     private String name;
-    private HashMap<ICast, String> castRoleMap;
+    private HashMap<Cast, String> castRoleMap;
     private int seasonNumber;
     private int episodeNumber;
     private String[] airDate;
 
-    public Broadcast(int id, String name, int seasonNumber, int episodeNumber, String airDate, HashMap<ICast, String> castRoleMap) {
+    public Broadcast(int id, String name, int seasonNumber, int episodeNumber, String airDate, HashMap<Cast, String> castRoleMap) {
         this.id = id;
         this.name = name;
         this.seasonNumber = seasonNumber;
@@ -30,7 +30,7 @@ public class Broadcast implements IBroadcast {
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.airDate = airDate.split("-");
-        this.castRoleMap = new HashMap<>();
+        this.castRoleMap = new HashMap<Cast, String>();
     }
 
     @Override
@@ -71,7 +71,7 @@ public class Broadcast implements IBroadcast {
     @Override
     public boolean unassignCast(ICast cast, String role) {
         if (castRoleMap.containsKey(cast)) {
-            HashMap<ICast, String> tempRoleMap = this.castRoleMap;
+            HashMap<Cast, String> tempRoleMap = this.castRoleMap;
             castRoleMap.remove(cast);
             if (persistence.updateBroadcastInDatabase(this))
                 return true;
@@ -86,8 +86,8 @@ public class Broadcast implements IBroadcast {
     }
 
     @Override
-    public boolean assignCast(ICast cast, String role) {
-        HashMap<ICast, String> tempRoleMap = this.castRoleMap;
+    public boolean assignCast(Cast cast, String role) {
+        HashMap<Cast, String> tempRoleMap = this.castRoleMap;
         castRoleMap.put(cast, role);
         if (persistence.updateBroadcastInDatabase(this)) {
             return true;
@@ -113,7 +113,7 @@ public class Broadcast implements IBroadcast {
         return name;
     }
 
-    public HashMap<ICast, String> getCastMap() {
+    public HashMap<Cast, String> getCastMap() {
         return castRoleMap;
     }
 

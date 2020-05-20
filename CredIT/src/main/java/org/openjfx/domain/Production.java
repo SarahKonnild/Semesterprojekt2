@@ -11,17 +11,17 @@ public class Production implements IProduction {
     private int id;
     private String name;
     private String year;
-    private ArrayList<IBroadcast> broadcasts;
+    private ArrayList<Broadcast> broadcasts;
     private int numberOfSeasons;
     private int numberOfEpisodes;
 
     public Production(String name, String year) {
         this.name = name;
         this.year = year;
-        this.broadcasts = new ArrayList<>();
+        this.broadcasts = new ArrayList<Broadcast>();
     }
 
-    public Production(int id, String name, String year, int season, int episode, ArrayList<IBroadcast> broadcasts) {
+    public Production(int id, String name, String year, int season, int episode, ArrayList<Broadcast> broadcasts) {
         this.id = id;
         this.name = name;
         this.year = year;
@@ -65,8 +65,8 @@ public class Production implements IProduction {
     }
 
     @Override
-    public boolean assignBroadcast(IBroadcast broadcast) {
-        ArrayList<IBroadcast> tempList = this.broadcasts;
+    public boolean assignBroadcast(Broadcast broadcast) {
+        ArrayList<Broadcast> tempList = this.broadcasts;
         if (this.broadcasts.contains(broadcast)) {
             return true;
 
@@ -82,10 +82,10 @@ public class Production implements IProduction {
     }
 
     @Override
-    public boolean unassignBroadcast(IBroadcast broadcast) {
+    public boolean unassignBroadcast(Broadcast broadcast) {
         if (this.broadcasts.contains(broadcast)) {
             //Saves the list so it can revert back if anything goes wrong.
-            ArrayList<IBroadcast> tempList = this.broadcasts;
+            ArrayList<Broadcast> tempList = this.broadcasts;
             this.broadcasts.remove(broadcast);
             if (persistence.updateProduction(this))
                 return true;
@@ -120,7 +120,7 @@ public class Production implements IProduction {
     }
 
     @Override
-    public ArrayList<IBroadcast> getBroadcasts() {
+    public ArrayList<Broadcast> getBroadcasts() {
         return this.broadcasts;
     }
 
