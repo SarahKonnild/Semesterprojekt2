@@ -86,11 +86,10 @@ public class ModifyCastController implements Initializable {
     public void handleSearch(ActionEvent event) {
         String searchText = searchField.getText();
         resultList.getItems().clear();
-        castSearchResult = App.getSystemInstance().searchCast(searchText);
-        if (castSearchResult != null && !searchField.getText().isEmpty()) {
+        castSearchResult = new ArrayList<>(App.getSystemInstance().searchCast(searchText));
+        if (!castSearchResult.isEmpty() && !searchField.getText().isEmpty()) {
             resultList.setDisable(false);
-            castObservableList = FXCollections.observableArrayList(castSearchResult);
-            resultList.setItems(castObservableList);
+            resultList.setItems(FXCollections.observableArrayList(castSearchResult));
             searchField.clear();
         } else {
             errorMessageSearch.setVisible(true);
@@ -231,7 +230,7 @@ public class ModifyCastController implements Initializable {
         if (creationState) {
             errorMessage.setText(chosenCast.getName() + " slettet");
             castObservableList.remove(chosenCast);
-            resultList.setItems(FXCollections.observableArrayList(castObservableList));
+            resultList.setItems(castObservableList);
             clearFields();
         } else {
             errorMessage.setText("Fejl, " + chosenCast.getName() + " blev ikke slettet");

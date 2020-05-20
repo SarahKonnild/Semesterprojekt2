@@ -245,7 +245,7 @@ public class App extends Application {
         if(!roleArray.isEmpty()) {
             roleArray.clear();
         }else{
-            HashMap<ICast, String> movieRoles = ModifyMovieController.getChosenMovie().getCastMap();
+            HashMap<ICast, String> movieRoles = new HashMap<>(ModifyMovieController.getChosenMovie().getCastMap());
 
             for (ICast cast : movieRoles.keySet()) {
                 PCast newCast = new PCast(cast, movieRoles.get(cast));
@@ -265,7 +265,7 @@ public class App extends Application {
         if(!roleArray.isEmpty()) {
             roleArray.clear();
         }else {
-            HashMap<ICast, String> broadcastRoles = ModifyBroadcastController.getChosenBroadcast().getCastMap();
+            HashMap<ICast, String> broadcastRoles = new HashMap<>(ModifyBroadcastController.getChosenBroadcast().getCastMap());
 
             for (ICast cast : broadcastRoles.keySet()) {
                 PCast newCast = new PCast(cast, broadcastRoles.get(cast));
@@ -280,14 +280,14 @@ public class App extends Application {
             castRoles.clear();
         }
         //Creates local hashmap that is iterated through and then added values to the castRoles-ArrayList
-        HashMap<IBroadcast, String> broadcastRoles = App.getSystemInstance().getCastRolesBroadcast(chosenCast);
+        HashMap<IBroadcast, String> broadcastRoles = new HashMap<>(App.getSystemInstance().getCastRolesBroadcast(chosenCast));
         if(!broadcastRoles.isEmpty()) {
             for (IBroadcast broadcast : broadcastRoles.keySet()) {
                 String temp = broadcast.getName() + " : " + broadcastRoles.get(broadcast);
                 castRoles.add(temp);
             }
         }
-        HashMap<IMovie, String> movieRoles = App.getSystemInstance().getCastRolesMovies(chosenCast);
+        HashMap<IMovie, String> movieRoles = new HashMap<>(App.getSystemInstance().getCastRolesMovies(chosenCast));
         if(!movieRoles.isEmpty()){
             for(IMovie movie : movieRoles.keySet()){
                 String temp = movie.getTitle() + " : " + movieRoles.get(movie);
