@@ -117,7 +117,7 @@ public class ModifyMovieController implements Initializable {
     public void handleSearch(MouseEvent event) {
         String searchText = searchField.getText();
         resultList.getItems().clear();
-        searchResult = App.getSystemInstance().searchMovie(searchText);
+        searchResult = new ArrayList<>(App.getSystemInstance().searchMovie(searchText));
         if (searchResult != null && !searchField.getText().isEmpty()) {
             resultList.setDisable(false);
             resultList.setItems(FXCollections.observableArrayList(searchResult));

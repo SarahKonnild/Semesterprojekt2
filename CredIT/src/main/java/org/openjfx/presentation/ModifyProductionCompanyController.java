@@ -94,7 +94,7 @@ public class ModifyProductionCompanyController implements Initializable {
     private void handleSearch(MouseEvent event) {
         String searchText = searchField.getText();
         resultList.getItems().clear();
-        searchList = App.getSystemInstance().searchProductionCompany(searchText);
+        searchList = new ArrayList<>(App.getSystemInstance().searchProductionCompany(searchText));
         if (searchList != null && !searchField.getText().isEmpty()) {
             resultList.setDisable(false);
             resultList.setItems(FXCollections.observableArrayList(searchList));
@@ -127,8 +127,8 @@ public class ModifyProductionCompanyController implements Initializable {
             changeToMovie.setVisible(true);
             changeToProduction.setVisible(true);
             toggleButtons(false);
-            movieList = chosenProductionCompany.getMovieList();
-            productionList = chosenProductionCompany.getProductionList();
+            movieList = new ArrayList<>(chosenProductionCompany.getMovieList());
+            productionList = new ArrayList<>(chosenProductionCompany.getProductionList());
             delete.setDisable(false);
             saveChanges.setDisable(false);
         } else if (obj instanceof IProduction) {
@@ -162,7 +162,7 @@ public class ModifyProductionCompanyController implements Initializable {
     private void handleCreateNew(MouseEvent event) {
         resultList.setDisable(false);
         if (!nameField.getText().isEmpty()) {
-            ArrayList<IProductionCompany> search = App.getSystemInstance().searchProductionCompany(nameField.getText());
+            ArrayList<IProductionCompany> search = new ArrayList<>(App.getSystemInstance().searchProductionCompany(nameField.getText()));
             if (search.isEmpty()) {
                 IProductionCompany productionCompany = LoginSystemController.getAdminUser().addNewProductionCompanyToDatabase(nameField.getText());
                 if (productionCompany != null) {

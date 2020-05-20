@@ -121,7 +121,7 @@ public class ModifyBroadcastController implements Initializable {
     public void handleSearch(MouseEvent event) {
         String searchText = searchField.getText();
         resultList.getItems().clear();
-        searchList = App.getSystemInstance().searchBroadcast(searchText);
+        searchList = new ArrayList<>(App.getSystemInstance().searchBroadcast(searchText));
         if (searchList != null && !searchField.getText().isEmpty()) {
             resultList.setDisable(false);
             observableList = FXCollections.observableArrayList(searchList);
@@ -175,7 +175,7 @@ public class ModifyBroadcastController implements Initializable {
         resultList.setDisable(false);
         if (!production.getText().isEmpty() && !broadcastName.getText().isEmpty() && !season.getText().isEmpty() && !episode.getText().isEmpty()) {
             String productionSearch = production.getText();
-            ArrayList<IProduction> results = App.getSystemInstance().searchProduction(productionSearch);
+            ArrayList<IProduction> results = new ArrayList<>(App.getSystemInstance().searchProduction(productionSearch));
             if (results.get(0).getName().equalsIgnoreCase(productionSearch)) {
                 String dateVariable = day.getText() + "-" + month.getText() + "-" + year.getText();
                 if (day.getText().length() != 2 && month.getText().length() != 2 && year.getText().length() != 4) {

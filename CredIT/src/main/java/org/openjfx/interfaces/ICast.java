@@ -11,7 +11,7 @@ public interface ICast {
      * @return {@code True}: if the cast successfully merges in the persistence.
      * {@code false}: it wasn't possible to merge.
      */
-    boolean mergeCastMembers(Cast cast);
+    boolean mergeCastMembers(ICast cast);
 
     /**
      * Updates a {@code Cast} object to a specified regDKID value in the persistence layer.

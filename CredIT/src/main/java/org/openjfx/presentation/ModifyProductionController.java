@@ -118,7 +118,7 @@ public class ModifyProductionController implements Initializable {
     private void handleSearch(MouseEvent event) {
         String searchText = searchField.getText();
         resultList.getItems().clear();
-        searchResult = App.getSystemInstance().searchProduction(searchText);
+        searchResult = new ArrayList<>(App.getSystemInstance().searchProduction(searchText));
         if (searchResult != null && !searchField.getText().isEmpty()) {
             resultList.setDisable(false);
             resultList.setItems(FXCollections.observableArrayList(searchResult));
@@ -269,7 +269,7 @@ public class ModifyProductionController implements Initializable {
     //region
     @FXML
     private void handleShowBroadcasts(MouseEvent event) {
-        ArrayList<IBroadcast> broadcastList = chosenProduction.getBroadcasts();
+        ArrayList<IBroadcast> broadcastList = new ArrayList<>(chosenProduction.getBroadcasts());
         System.out.println(broadcastList);
         System.out.println(chosenProduction.getBroadcasts());
         resultList.setItems(FXCollections.observableArrayList(broadcastList));

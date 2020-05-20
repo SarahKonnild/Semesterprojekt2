@@ -168,7 +168,7 @@ public class GuestUserPageController implements Initializable {
         if (searchTopicChosen != null) {
             if (searchTopicChosen.equals("cast")) {
                 resultList.getItems().clear();
-                ArrayList<ICast> castSearchResult = App.getSystemInstance().searchCast(searchText);
+                ArrayList<ICast> castSearchResult = new ArrayList<>(App.getSystemInstance().searchCast(searchText));
                 if (castSearchResult != null && !searchField.getText().isEmpty()) {
                     resultList.setItems(FXCollections.observableArrayList(castSearchResult));
                     searchField.clear();
@@ -177,7 +177,7 @@ public class GuestUserPageController implements Initializable {
                 }
             } else if (searchTopicChosen.equals("production")) {
                 resultList.getItems().clear();
-                ArrayList<IProduction> productionSearchResult = App.getSystemInstance().searchProduction(searchText);
+                ArrayList<IProduction> productionSearchResult = new ArrayList<>(App.getSystemInstance().searchProduction(searchText));
                 if (productionSearchResult != null && !searchField.getText().isEmpty()) {
                     resultList.setItems(FXCollections.observableArrayList(productionSearchResult));
                     searchField.clear();
@@ -186,7 +186,7 @@ public class GuestUserPageController implements Initializable {
                 }
             } else if (searchTopicChosen.equals("broadcast")) {
                 resultList.getItems().clear();
-                ArrayList<IBroadcast> broadcastSearchResult = App.getSystemInstance().searchBroadcast(searchText);
+                ArrayList<IBroadcast> broadcastSearchResult = new ArrayList<>(App.getSystemInstance().searchBroadcast(searchText));
                 if (broadcastSearchResult != null && !searchField.getText().isEmpty()) {
                     resultList.setItems(FXCollections.observableArrayList(broadcastSearchResult));
                     searchField.clear();
@@ -195,7 +195,7 @@ public class GuestUserPageController implements Initializable {
                 }
             } else if (searchTopicChosen.equals("movie")) {
                 resultList.getItems().clear();
-                ArrayList<IMovie> movieSearchResult = App.getSystemInstance().searchMovie(searchText);
+                ArrayList<IMovie> movieSearchResult = new ArrayList<>(App.getSystemInstance().searchMovie(searchText));
                 if (movieSearchResult != null && !searchField.getText().isEmpty()) {
                     resultList.setItems(FXCollections.observableArrayList(movieSearchResult));
                     searchField.clear();
@@ -204,7 +204,7 @@ public class GuestUserPageController implements Initializable {
                 }
             } else if (searchTopicChosen.equals("productioncompany")) {
                 resultList.getItems().clear();
-                ArrayList<IProductionCompany> companySearchResult = App.getSystemInstance().searchProductionCompany(searchText);
+                ArrayList<IProductionCompany> companySearchResult = new ArrayList<>(App.getSystemInstance().searchProductionCompany(searchText));
                 if (companySearchResult != null && !searchField.getText().isEmpty()) {
                     resultList.setItems(FXCollections.observableArrayList(companySearchResult));
                     searchField.clear();
@@ -283,8 +283,8 @@ public class GuestUserPageController implements Initializable {
             } else if (obj instanceof IProductionCompany) {
                 searchField.setText(searchText);
                 chosenCompany = (IProductionCompany) obj;
-                movieList = chosenCompany.getMovieList();
-                productionList = chosenCompany.getProductionList();
+                movieList = new ArrayList<>(chosenCompany.getMovieList());
+                productionList = new ArrayList<>(chosenCompany.getProductionList());
                 productionCompanyNameField.setText(chosenCompany.getName());
 
                 changeFieldsVisible("productioncompany");
@@ -466,7 +466,7 @@ public class GuestUserPageController implements Initializable {
      */
     @FXML
     public void handleShowEpisodes(MouseEvent event) {
-        ArrayList<IBroadcast> broadcastList = chosenProduction.getBroadcasts();
+        ArrayList<IBroadcast> broadcastList = new ArrayList<>(chosenProduction.getBroadcasts());
         resultList.setItems(FXCollections.observableArrayList(broadcastList));
         chosenProduction = null;
     }

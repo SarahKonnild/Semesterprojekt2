@@ -86,7 +86,7 @@ public class ModifyCastController implements Initializable {
     public void handleSearch(ActionEvent event) {
         String searchText = searchField.getText();
         resultList.getItems().clear();
-        castSearchResult = App.getSystemInstance().searchCast(searchText);
+        castSearchResult = new ArrayList<>(App.getSystemInstance().searchCast(searchText));
         if (castSearchResult != null && !searchField.getText().isEmpty()) {
             resultList.setDisable(false);
             castObservableList = FXCollections.observableArrayList(castSearchResult);

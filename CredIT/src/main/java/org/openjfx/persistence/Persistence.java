@@ -74,15 +74,15 @@ public class Persistence implements IPersistence {
             resultSet.next();
             id = resultSet.getInt(1);
 
-            HashMap<ICast, String> map = broadcast.getCastMap();
+            HashMap<ICast, String> map = new HashMap<>(broadcast.getCastMap());
             // for each cast inserts the cast into the broadcast employs table.
-            for (ICast cast : map.keySet()) {
+            for (Map.Entry<ICast, String> entry : map.entrySet()) {
                 PreparedStatement stmt2 = connection.prepareStatement(
                         "insert into broadcast_employs(broadcast_id, cast_id, role)" +
                                 "values(?,?,?)");
                 stmt2.setInt(1, id);
-                stmt2.setInt(2, cast.getId());
-                stmt2.setString(3, map.get(cast));
+                stmt2.setInt(2, entry.getKey().getId());
+                stmt2.setString(3, entry.getValue());
                 stmt2.execute();
             }
 
@@ -374,8 +374,8 @@ public class Persistence implements IPersistence {
     public boolean removeProductionCompanyFromDatabase(IProductionCompany company) {
         try {
             connection.setAutoCommit(false);
-            ArrayList<IMovie> movies = company.getMovieList();
-            ArrayList<IProduction> productions = company.getProductionList();
+            ArrayList<IMovie> movies = new ArrayList<>(company.getMovieList());
+            ArrayList<IProduction> productions = (ArrayList<IProduction>)(ArrayList<?>)company.getProductionList();
 
             if (!movies.isEmpty()) {
                 for (IMovie movie : movies) {
@@ -923,8 +923,9 @@ public class Persistence implements IPersistence {
             removeCastStatement.execute();
 
             int id = movie.getId();
+            HashMap<ICast, String> map = new HashMap<>(movie.getCastMap());
             //foreach loop that runs through the entire map and inserts it all into the table.
-            for (Map.Entry<ICast, String> entry : movie.getCastMap().entrySet()) {
+            for (Map.Entry<ICast, String> entry : map.entrySet()) {
                 PreparedStatement insertCastStatement = connection.prepareStatement(
                         "INSERT INTO movie_employs (movie_id, cast_id, role) VALUES (?,?,?)");
                 insertCastStatement.setInt(1, id);
@@ -1009,8 +1010,9 @@ public class Persistence implements IPersistence {
 
             //inserts the new version of the cast member Map.
             int id = broadcast.getId();
+            HashMap<ICast, String> map = new HashMap<>(broadcast.getCastMap());
             //foreach loop that runs through the entire map and inserts it all into the table.
-            for (Map.Entry<ICast, String> entry : broadcast.getCastMap().entrySet()) {
+            for (Map.Entry<ICast, String> entry : map.entrySet()) {
                 PreparedStatement insertCastStatement = connection.prepareStatement(
                         "INSERT INTO broadcast_employs (broadcast_id, cast_id, role) VALUES (?,?,?)");
                 insertCastStatement.setInt(1, id);
