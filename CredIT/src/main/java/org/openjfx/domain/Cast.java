@@ -41,7 +41,7 @@ public class Cast implements ICast {
         if (persistence.mergeCastInDatabase(this, cast)) {
             ArrayList<Cast> listCast = system.searchCast(this.id);
             if (listCast != null && !listCast.isEmpty()) {
-                ICast newCast = listCast.get(0);
+                Cast newCast = listCast.get(0);
                 this.name = newCast.getName();
                 this.regDKID = newCast.getRegDKID();
                 return true;

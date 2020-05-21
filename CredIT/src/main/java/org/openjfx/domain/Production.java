@@ -1,6 +1,5 @@
 package org.openjfx.domain;
 
-import org.openjfx.interfaces.IBroadcast;
 import org.openjfx.interfaces.IPersistence;
 import org.openjfx.interfaces.IProduction;
 
@@ -18,7 +17,7 @@ public class Production implements IProduction {
     public Production(String name, String year) {
         this.name = name;
         this.year = year;
-        this.broadcasts = new ArrayList<Broadcast>();
+        this.broadcasts = new ArrayList<>();
     }
 
     public Production(int id, String name, String year, int season, int episode, ArrayList<Broadcast> broadcasts) {
@@ -62,41 +61,6 @@ public class Production implements IProduction {
             this.year = tempYear;
             return false;
         }
-    }
-
-    @Override
-    public boolean assignBroadcast(Broadcast broadcast) {
-        ArrayList<Broadcast> tempList = this.broadcasts;
-        if (this.broadcasts.contains(broadcast)) {
-            return true;
-
-        } else {
-            this.broadcasts.add(broadcast);
-            if (persistence.updateProduction(this))
-                return true;
-            else {
-                this.broadcasts = tempList;
-                return false;
-            }
-        }
-    }
-
-    @Override
-    public boolean unassignBroadcast(Broadcast broadcast) {
-        if (this.broadcasts.contains(broadcast)) {
-            //Saves the list so it can revert back if anything goes wrong.
-            ArrayList<Broadcast> tempList = this.broadcasts;
-            this.broadcasts.remove(broadcast);
-            if (persistence.updateProduction(this))
-                return true;
-            else {
-                //Reverts the changes because something went wrong
-                this.broadcasts = tempList;
-                return false;
-            }
-
-        } else
-            return false;
     }
 
     @Override

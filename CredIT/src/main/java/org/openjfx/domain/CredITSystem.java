@@ -357,9 +357,4 @@ public class CredITSystem implements ISystem {
     public User createNewUser(String username, String password) {
         return new User(username, password);
     }
-
-    @Override
-    public IPersistence getPersistenceLayer() {
-        return persistenceLayer;
-    }
 }

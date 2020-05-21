@@ -26,10 +26,6 @@ public interface IProduction {
      */
     boolean update(String name, String year);
 
-    boolean assignBroadcast(Broadcast broadcast);
-
-    boolean unassignBroadcast(Broadcast broadcast);
-
     int getId();
 
     String getName();
