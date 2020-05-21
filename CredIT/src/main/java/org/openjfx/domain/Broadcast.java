@@ -5,7 +5,6 @@ import org.openjfx.interfaces.ICast;
 import org.openjfx.interfaces.IPersistence;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 public class Broadcast implements IBroadcast {
     private final IPersistence persistence = CredITSystem.getPersistence();

@@ -59,9 +59,17 @@ public class Cast implements ICast {
         //Saving the current data in case of a failure to save to database, so the object can revert back.
         String tempName = this.name;
         String tempReg = this.regDKID;
+        //assigning the new values
         this.name = name;
         this.regDKID = regDKID;
-        return persistence.updateCastInDatabase(this);
+        if(persistence.updateCastInDatabase(this)){
+            return true;
+        }else{
+            //reverting back to the original value because it didnt save in the database
+            this.regDKID = tempReg;
+            this.name = tempName;
+            return false;
+        }
     }
 
     @Override
