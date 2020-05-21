@@ -280,8 +280,10 @@ public class AssignUnassignCastController implements Initializable {
     @FXML
     public void handleAssignCastOption(MouseEvent event) {
         resultList.getItems().clear();
+
         clearFields();
         setFieldsAndLabelsVisible(true);
+
         assignButton.setVisible(true);
         unassignButton.setVisible(false);
         save.setVisible(false);
@@ -299,20 +301,22 @@ public class AssignUnassignCastController implements Initializable {
      */
     @FXML
     public void handleUnassignCastOption(MouseEvent event) {
-        clearFields();
-        searchField.setVisible(false);
-        search.setVisible(false);
-        resultList.setDisable(false);
-        setFieldsAndLabelsVisible(true);
-        unassignButton.setVisible(true);
-        save.setVisible(true);
-        assignButton.setVisible(false);
+        resultList.getItems().clear();
+
         if (App.getAssignCastModifier().equals("movie")) {
+            resultList.getItems().clear();
             resultList.setItems(FXCollections.observableArrayList(App.getMovieRoleArray()));
         } else if (App.getAssignCastModifier().equals("broadcast")) {
+            resultList.getItems().clear();
             resultList.setItems(FXCollections.observableArrayList(App.getBroadcastRoleArray()));
         }
 
+        clearFields();
+        searchField.setVisible(false);
+        search.setVisible(false);
+        unassignButton.setVisible(true);
+        save.setVisible(true);
+        assignButton.setVisible(false);
     }
     //endregion
 

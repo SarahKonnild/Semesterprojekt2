@@ -84,6 +84,6 @@
             <Label fx:id="errorMessage" alignment="CENTER" layoutX="15.0" layoutY="307.0" prefHeight="17.0" prefWidth="298.0" textFill="RED" />
          </children>
       </AnchorPane>
-      <ListView fx:id="resultList" disable="true" layoutY="27.0" onMouseClicked="#handleResultChosen" prefHeight="382.0" prefWidth="302.0" style="-fx-background-color: FFFFFF;" />
+      <ListView fx:id="resultList" layoutY="27.0" onMouseClicked="#handleResultChosen" prefHeight="382.0" prefWidth="302.0" style="-fx-background-color: FFFFFF;" />
    </children>
 </AnchorPane>

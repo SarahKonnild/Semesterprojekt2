@@ -275,6 +275,12 @@ public class App extends Application {
         return roleArray;
     }
 
+    /**
+     * Method to iterate through both the movie and broadcast hashmaps, adding the items to the castRoles arrayList.
+     * @author Sarah
+     * @param chosenCast
+     * @return
+     */
     public static ArrayList<String> getAllCastRoles(ICast chosenCast){
         if(!castRoles.isEmpty()){
             castRoles.clear();

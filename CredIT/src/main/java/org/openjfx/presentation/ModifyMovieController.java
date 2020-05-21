@@ -137,6 +137,7 @@ public class ModifyMovieController implements Initializable {
     public void handleResultChosen(MouseEvent event) {
         resultList.setDisable(false);
         chosenMovie = (IMovie) resultList.getSelectionModel().getSelectedItem();
+        System.out.println(chosenMovie);
         setFieldsText(chosenMovie);
         changeCast.setDisable(false);
         delete.setDisable(false);
@@ -273,7 +274,6 @@ public class ModifyMovieController implements Initializable {
      * @param movie
      */
     private void setFieldsText(IMovie movie){
-        movie = ModifyProductionCompanyController.getChosenMovie();
         movieName.setText(movie.getTitle());
 
         IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForMovie(movie);
