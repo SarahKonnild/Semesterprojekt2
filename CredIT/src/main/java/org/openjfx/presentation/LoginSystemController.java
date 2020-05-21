@@ -69,7 +69,6 @@ public class LoginSystemController implements Initializable {
     /**
      * Allows for bypassing the login system to speed shit up
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -89,7 +88,6 @@ public class LoginSystemController implements Initializable {
     /**
      * Changes the stage for guest users when pressing the "Continue as Guest User" label
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -107,7 +105,6 @@ public class LoginSystemController implements Initializable {
     /**
      * Changes the visibility of the labels/textfields when pressing to continue as an admin.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -119,7 +116,6 @@ public class LoginSystemController implements Initializable {
     /**
      * Checks if the pseudo-login criteria are met, and if so, the scene will change to the admin-page.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -133,20 +129,30 @@ public class LoginSystemController implements Initializable {
         }
     }
 
-    @FXML
-    public void handleCancel(MouseEvent event) {
-        changeChooseSystemVisible(true);
-        changeLoginFieldsVisible(false);
+    /**
+     * Allows for toggling the fields and Labels in the scene
+     *
+     * @param value which specifies the boolean visibility-modifier for the fields/labels/buttons
+     * @author Sarah
+     */
+    private void changeLoginFieldsVisible(boolean value) {
+        usernameLabel.setVisible(value);
+        username.setVisible(value);
+        passwordLabel.setVisible(value);
+        password.setVisible(value);
+        login.setVisible(value);
+        cancel.setVisible(value);
     }
 
     /**
-     * Permits closing of the borderless window.
+     * Allows for toggling the fields and Labels in the scene, if they are logging in or not
      *
+     * @param value which specifies the boolean visibility-modifier for the fields/labels/buttons
      * @author Sarah
      */
-    @FXML
-    public void handleClose(MouseEvent event) {
-        App.closeWindow();
+    private void changeChooseSystemVisible(boolean value) {
+        guestUserLogin.setVisible(value);
+        adminUserLogin.setVisible(value);
     }
 
     public static String getUsernameString() {
@@ -157,17 +163,23 @@ public class LoginSystemController implements Initializable {
         return adminUser;
     }
 
-    private void changeLoginFieldsVisible(boolean value) {
-        usernameLabel.setVisible(value);
-        username.setVisible(value);
-        passwordLabel.setVisible(value);
-        password.setVisible(value);
-        login.setVisible(value);
-        cancel.setVisible(value);
+    /**
+     * Methods which handle the changing of the FXMLs. Includes:
+     * - Close the window (and thus the main process)
+     * - Cancelling the login action
+     *
+     * @author Sarah
+     */
+    //region
+    @FXML
+    public void handleClose(MouseEvent event) {
+        App.closeWindow();
     }
 
-    private void changeChooseSystemVisible(boolean value) {
-        guestUserLogin.setVisible(value);
-        adminUserLogin.setVisible(value);
+    @FXML
+    public void handleCancel(MouseEvent event) {
+        changeChooseSystemVisible(true);
+        changeLoginFieldsVisible(false);
     }
+    //endregion
 }

@@ -68,7 +68,6 @@ public class ModifyBroadcastController implements Initializable {
 
     //Class Attributes
     //region
-    private ObservableList<IBroadcast> observableList;
     private ArrayList<IBroadcast> searchList;
     private static IBroadcast chosenBroadcast;
     private boolean status;
@@ -78,8 +77,6 @@ public class ModifyBroadcastController implements Initializable {
      * Checks if the scene has been given an IBroadcast-object from the previous scene, and if so, it will write this
      * object's information to the relevant fields.
      *
-     * @param location
-     * @param resources
      * @author Sarah
      */
     @Override
@@ -97,14 +94,12 @@ public class ModifyBroadcastController implements Initializable {
 
     //Everything do do with manipulating the ListView (search,choose)
     //region
-
     /**
      * Takes the text that is written in the searchfield and uses that to run the searchBroadcast
      * method in the domain layer's System class. If the list has items, and the searchfield isn't empty,
      * the items returned from the persistence layer will be written to a list which can be printed into
      * the ListView.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -126,7 +121,6 @@ public class ModifyBroadcastController implements Initializable {
      * When the user chooses an object from the search list, this method is run. It will always write the
      * data associated with the LAST object chosen to the fields.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -141,13 +135,11 @@ public class ModifyBroadcastController implements Initializable {
 
     //Create Broadcast
     //region
-
     /**
      * First, a check on the Production that the user has entered as the "parent" for the Broadcast exists. If it exists,
      * it will take the first element in the ArrayList that is returned with Productions and add the Broadcast that is being
      * created to that Production's list of Broadcasts. If the Production doesn't exist, an error message is printed to the user.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -190,18 +182,16 @@ public class ModifyBroadcastController implements Initializable {
 
     //Delete Broadcast
     //region
-
     /**
      * When the user chooses an object from the search list, and they press the "delete"-button, this method
      * is run. It will delete the object that is chosen from the database, as well as unassigning it from the Production
      * that it was given upon creation.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
     public void handleDeleteBroadcast(MouseEvent event) {
-        if (!observableList.isEmpty()) {
+        if(chosenBroadcast == null){
             chosenBroadcast = (IBroadcast) resultList.getSelectionModel().getSelectedItem();
             status = chosenBroadcast.delete();
             if (status) {
@@ -217,19 +207,17 @@ public class ModifyBroadcastController implements Initializable {
             }
         } else {
             errorMessage.setText("Ingen udsendelse valgt");
+            resultList.refresh();
         }
-        resultList.refresh();
     }
     //endregion
 
     //Save Broadcast
     //region
-
     /**
      * Takes the broadcast that has been chosen from the ListView by the user, and overwrites the information that is stored
      * about that broadcast in the database with the information that is entered into the TextFields.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -250,7 +238,79 @@ public class ModifyBroadcastController implements Initializable {
 
     //endregion
 
-    //Changes the scene of the primary stage, opens the new Help-stage and closes the entire program.
+    /**
+     * Method for handling the opening of the assign/unassign cast-page, provided that a broadcast has been chosen
+     *
+     * @author Sarah
+     */
+    //region
+    @FXML
+    public void handleChangeCast(MouseEvent event) {
+        if (chosenBroadcast != null) {
+            App.setAssignCastModifier("broadcast");
+            App.handleUnassignAssignStage();
+        } else {
+            errorMessage.setText("Ingen udsendelse valgt");
+        }
+
+    }
+    //endregion
+
+    //Clears the fields
+    //region
+    /**
+     * Empties the contents of all the TextFields
+     *
+     * @author Sarah
+     */
+    private void clearFields() {
+        broadcastName.clear();
+        production.clear();
+        year.clear();
+        day.clear();
+        month.clear();
+        season.clear();
+        episode.clear();
+    }
+    //endregion
+
+    //region
+
+    /**
+     * Method to standardise the retrieval of a production company for the production, and then setting the production's
+     * values/attribute values to the textfields that they are related to.
+     *
+     * @author Sarah
+     * @param broadcast specifies which broadcast that should have its information written to the fields
+     */
+    private void setFieldsText(IBroadcast broadcast){
+        broadcastName.setText(broadcast.getName());
+        IProduction retrievedProduction = App.retrieveProduction(broadcast);
+        production.setText(retrievedProduction.getName());
+        String[] airDate = broadcast.getAirDate();
+        day.setText(airDate[0]);
+        month.setText(airDate[1]);
+        year.setText(airDate[2]);
+        season.setText(String.valueOf(broadcast.getSeasonNumber()));
+        episode.setText(String.valueOf(broadcast.getEpisodeNumber()));
+    }
+    //endregion
+
+    //Retrieve the chosen broadcast for scene changes
+    //region
+    public static IBroadcast getChosenBroadcast() {
+        return chosenBroadcast;
+    }
+    //endregion
+
+    /**
+     * Methods which handle the changing of the FXMLs. Includes:
+     * - Close the window (and thus the main process)
+     * - Open the help-window
+     * - Return to the past scene
+     *
+     * @author Sarah
+     */
     //region
     @FXML
     public void handleBack(MouseEvent event) {
@@ -270,57 +330,5 @@ public class ModifyBroadcastController implements Initializable {
     public void handleClose(MouseEvent event) {
         App.closeWindow();
     }
-
-    @FXML
-    public void handleChangeCast(MouseEvent event) {
-        if (chosenBroadcast != null) {
-            App.setAssignCastModifier("broadcast");
-            App.handleUnassignAssignStage();
-        } else {
-            errorMessage.setText("Ingen udsendelse valgt");
-        }
-
-    }
-    //endregion
-
-    //Clears the fields
-    //region
-
-    /**
-     * A simple method that clears all the TextFields when run.
-     *
-     * @author Sarah
-     */
-    private void clearFields() {
-        broadcastName.clear();
-        production.clear();
-        year.clear();
-        day.clear();
-        month.clear();
-        season.clear();
-        episode.clear();
-    }
-    //endregion
-
-    //region
-    private void setFieldsText(IBroadcast broadcast){
-        broadcastName.setText(broadcast.getName());
-        IProduction retrievedProduction = App.retrieveProduction(broadcast);
-        production.setText(retrievedProduction.getName());
-        String[] airDate = broadcast.getAirDate();
-        day.setText(airDate[0]);
-        month.setText(airDate[1]);
-        year.setText(airDate[2]);
-        season.setText(String.valueOf(broadcast.getSeasonNumber()));
-        episode.setText(String.valueOf(broadcast.getEpisodeNumber()));
-    }
-    //endregion
-
-    //Retrieve the chosen broadcast for scene changes
-    //region
-    public static IBroadcast getChosenBroadcast() {
-        return chosenBroadcast;
-    }
-
     //endregion
 }

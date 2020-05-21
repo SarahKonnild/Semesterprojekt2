@@ -159,7 +159,6 @@ public class GuestUserPageController implements Initializable {
      * the items returned from the persistence layer will be written to a list which can be printed into
      * the ListView.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -223,7 +222,6 @@ public class GuestUserPageController implements Initializable {
      * Writes the chosen result to an Object variable and performs a check on the Object-variable's nature, to see
      * which fields that should be made available/visible and then written to with the object's attributes
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -296,12 +294,10 @@ public class GuestUserPageController implements Initializable {
 
     //Choose searchtopic
     //region
-
     /**
      * When the user chooses a searchTopic, a String variable is written to, which specifies in the Search-handler, which
      * method that should be run on the input from the user.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -351,34 +347,6 @@ public class GuestUserPageController implements Initializable {
                 changeFieldsVisible(searchTopicChosen);
             }
         });
-    }
-    //endregion
-
-    //All the methods which change the scene, open the help stage or close the program.
-    //region
-
-    /**
-     * Methods which handle the changing of the FXMLs. Includes:
-     * - Close the window (and thus the main process)
-     * - Open the help-window
-     * - Return to the past scene
-     *
-     * @param event
-     * @author Sarah
-     */
-    @FXML
-    public void handleClose(MouseEvent event) {
-        App.closeWindow();
-    }
-
-    @FXML
-    public void handleHelp(MouseEvent event) {
-        App.handleHelpStage();
-    }
-
-    @FXML
-    public void handleBack(MouseEvent event) {
-        App.handleLoginSystemPage();
     }
     //endregion
 
@@ -432,7 +400,6 @@ public class GuestUserPageController implements Initializable {
      * Adds the list of productions to the resultList, and changes the visible fields
      * so that the production that may be chosen's information can be written to them.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -446,7 +413,6 @@ public class GuestUserPageController implements Initializable {
      * Adds the list of movies to the resultList, and changes the visible fields so that
      * the movie that may be chosen's information can be written to them.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -461,7 +427,6 @@ public class GuestUserPageController implements Initializable {
      * production that has been chosen. From this, the Arraylist's elements are added to the
      * resultList, and can then be chosen to show information in fields.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -475,7 +440,6 @@ public class GuestUserPageController implements Initializable {
      * Calls the App-class to fetch the method for iterating through the hashmap of roles
      * that are assigned to the broadcast, and then adds the resulting arrayList to the ListView.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -487,8 +451,7 @@ public class GuestUserPageController implements Initializable {
     /**
      * Calls the App-class to fetch the method for iterating through the hashmap of roles
      * that are assigned to the movie, and then adds the resulting arrayList to the ListView.
-     *
-     * @param event
+     *s
      * @author Sarah
      */
     @FXML
@@ -556,6 +519,30 @@ public class GuestUserPageController implements Initializable {
         showMovies.setVisible(value);
         showProductions.setVisible(value);
     }
+    //endregion
 
+    /**
+     * Methods which handle the changing of the FXMLs. Includes:
+     * - Close the window (and thus the main process)
+     * - Open the help-window
+     * - Return to the past scene
+     *
+     * @author Sarah
+     */
+    //region
+    @FXML
+    public void handleClose(MouseEvent event) {
+        App.closeWindow();
+    }
+
+    @FXML
+    public void handleHelp(MouseEvent event) {
+        App.handleHelpStage();
+    }
+
+    @FXML
+    public void handleBack(MouseEvent event) {
+        App.handleLoginSystemPage();
+    }
     //endregion
 }

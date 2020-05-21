@@ -55,8 +55,6 @@ public class ModifyCastController implements Initializable {
     //Attributes for the class
     //region
     private boolean creationState;
-
-    private ObservableList<ICast> castObservableList;
     private ObservableList<ICast> chosenCastObservable;
     private ICast chosenCast;
     private ArrayList<ICast> castSearchResult;
@@ -69,14 +67,12 @@ public class ModifyCastController implements Initializable {
 
     //Everything do do with manipulating the ListView
     //region
-
     /**
      * Takes the text that is written in the searchfield and uses that to run the searchCast
      * method in the domain layer's System class. If the list has items, and the searchfield isn't empty,
      * the items returned from the persistence layer will be written to a list which can be printed into
      * the ListView.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -98,7 +94,6 @@ public class ModifyCastController implements Initializable {
      * to it. From this list of multiple choices, the first chosen object will have its information
      * written to the related fields.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -118,7 +113,6 @@ public class ModifyCastController implements Initializable {
     /**
      * Displays the rolelist for each cast member in the resultList view.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -140,7 +134,6 @@ public class ModifyCastController implements Initializable {
      * Takes the information written in the fields and uses those as the parameters for the createCast method
      * in the domain layer. Thus creates a new entry into the database.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -178,7 +171,6 @@ public class ModifyCastController implements Initializable {
      * first cast member that was chosen. If successful, the cast members will be merged; if unsuccessful, an
      * error message is printed.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -218,7 +210,6 @@ public class ModifyCastController implements Initializable {
      * If unsuccessful, the user is given an error message.
      * If no objects are chosen and the button is pressed, an error message is written.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -226,8 +217,7 @@ public class ModifyCastController implements Initializable {
         creationState = chosenCast.delete();
         if (creationState) {
             errorMessage.setText(chosenCast.getName() + " slettet");
-            castObservableList.remove(chosenCast);
-            resultList.setItems(castObservableList);
+            resultList.getItems().remove(chosenCast);
             clearFields();
         } else {
             errorMessage.setText("Fejl, " + chosenCast.getName() + " blev ikke slettet");
@@ -243,7 +233,6 @@ public class ModifyCastController implements Initializable {
      * Saves the changes that are made to a cast object into the databases. Reads the values of all the fields
      * and saves the changes to the object that was originally chosen.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -263,8 +252,27 @@ public class ModifyCastController implements Initializable {
     }
     //endregion
 
+    //Clears the fields that are available for this specific object
+    //region
+    /**
+     * Empties the contents of all the TextFields
+     *
+     * @author Sarah
+     */
+    private void clearFields() {
+        castName.clear();
+        regDKID.clear();
+    }
+    //endregion
 
-    //Methods that are responsible for changing the scene, closing the stage or opening the help stage.
+    /**
+     * Methods which handle the changing of the FXMLs. Includes:
+     * - Close the window (and thus the main process)
+     * - Open the help-window
+     * - Return to the past scene
+     *
+     * @author Sarah
+     */
     //region
     @FXML
     public void handleHelp(MouseEvent event) {
@@ -272,25 +280,13 @@ public class ModifyCastController implements Initializable {
     }
 
     @FXML
-    public void handleBack(MouseEvent event) {
-        App.handleAdminPage();
-
-    }
+    public void handleBack(MouseEvent event) { App.handleAdminPage(); }
 
     @FXML
     public void handleClose(MouseEvent event) {
         App.closeWindow();
     }
 
-    //endregion
-
-
-    //Clears the fields that are available for this specific object
-    //region
-    private void clearFields() {
-        castName.clear();
-        regDKID.clear();
-    }
     //endregion
 
 }

@@ -69,7 +69,6 @@ public class ModifyProductionController implements Initializable {
     //Class Attributes
     //region
     private ArrayList<IProduction> searchResult;
-
     private static IProduction chosenProduction;
     private static IProduction givenProduction;
     private static IBroadcast chosenBroadcast;
@@ -81,8 +80,6 @@ public class ModifyProductionController implements Initializable {
      * Checks if a production has been given from the previous scene. If so, the fields will be set to show
      * the given production's information.
      *
-     * @param location
-     * @param resources
      * @author Sarah
      */
     @Override
@@ -100,12 +97,10 @@ public class ModifyProductionController implements Initializable {
 
     //Everything to do with the ListView (search, choose)
     //region
-
     /**
      * Searches the database for entries that match the search field's information in the database.
      * Writes all results into the list, which can then be chosen by the user.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -126,7 +121,6 @@ public class ModifyProductionController implements Initializable {
      * When the user chooses an object from the search list, this method is run. It will always write the
      * data associated with the LAST object chosen to the fields.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -148,13 +142,11 @@ public class ModifyProductionController implements Initializable {
 
     //Create Production
     //region
-
     /**
      * Takes the information written in the fields and uses those as the parameters for the createProduction method
      * in the domain layer. Thus creates a new entry into the database, and assigns it to the Production Company that has
      * been entered into the company-name field, if it exists.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -192,12 +184,10 @@ public class ModifyProductionController implements Initializable {
 
     //Delete Production
     //region
-
     /**
      * Takes the production that has been chosen from the ListView and deletes it from the application instance.
      * If that is successful, it will be removed from the database and unassigned from the Production.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -224,12 +214,10 @@ public class ModifyProductionController implements Initializable {
 
     //Save Production
     //region
-
     /**
      * Takes the production that has been chosen from the ListView and updates its information with the text
      * that has been entered into the relevant Fields.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -254,17 +242,25 @@ public class ModifyProductionController implements Initializable {
 
     //Changes to view broadcasts for chosenProduction
     //region
+    /**
+     * Shows broadcasts that are registered to the Production in the ListView
+     *
+     * @author Sarah
+     */
     @FXML
     private void handleShowBroadcasts(MouseEvent event) {
         ArrayList<IBroadcast> broadcastList = new ArrayList<>(chosenProduction.getBroadcasts());
-        System.out.println(broadcastList);
-        System.out.println(chosenProduction.getBroadcasts());
         resultList.setItems(FXCollections.observableArrayList(broadcastList));
     }
     //endregion
 
     //Clears the fields
     //region
+    /**
+     * Empties the contents of all the TextFields
+     *
+     * @author Sarah
+     */
     private void clearFields() {
         productionName.clear();
         productionCompany.clear();
@@ -275,12 +271,12 @@ public class ModifyProductionController implements Initializable {
     //endregion
 
     //region
-
     /**
      * Method to standardise the retrieval of a production company for the production, and then setting the production's
      * values/attribute values to the textfields that they are related to.
+     *
      * @author Sarah
-     * @param production
+     * @param production specifies which production that should have its information written to the fields
      */
     private void setFieldsText(IProduction production){
         productionName.setText(production.getName());
@@ -293,7 +289,42 @@ public class ModifyProductionController implements Initializable {
     }
     //endregion
 
-    //Changes the scene of the primary stage, opens the new Help-stage and closes the entire program.
+    //Handler for navigating to the chosen broadcast
+    //region
+    @FXML
+    private void goToBroadcast(MouseEvent event) {
+        if (chosenBroadcast != null) {
+            App.handleModifyBroadcastPage();
+        } else {
+            errorMessage.setText("Fejl, ingen udsendelse valgt");
+        }
+    }
+    //endregion
+
+    //Getters and Setters for the static variables
+    //region
+    public static IBroadcast getChosenBroadcast() {
+        return chosenBroadcast;
+    }
+
+    public static void setChosenBroadcast(IBroadcast newValue) {
+        chosenBroadcast = newValue;
+    }
+
+    public static void setChosenProduction(IProduction chosenProduction) {
+        givenProduction = chosenProduction;
+    }
+
+    //endregion
+
+    /**
+     * Methods which handle the changing of the FXMLs. Includes:
+     * - Close the window (and thus the main process)
+     * - Open the help-window
+     * - Return to the past scene
+     *
+     * @author Sarah
+     */
     //region
     @FXML
     private void handleHelp(MouseEvent event) {
@@ -312,27 +343,6 @@ public class ModifyProductionController implements Initializable {
     private void handleClose(MouseEvent event) {
         App.closeWindow();
     }
-
-    @FXML
-    private void goToBroadcast(MouseEvent event) {
-        if (chosenBroadcast != null) {
-            App.handleModifyBroadcastPage();
-        } else {
-            errorMessage.setText("Fejl, ingen udsendelse valgt");
-        }
-    }
     //endregion
-
-    public static IBroadcast getChosenBroadcast() {
-        return chosenBroadcast;
-    }
-
-    public static void setChosenBroadcast(IBroadcast newValue) {
-        chosenBroadcast = newValue;
-    }
-
-    public static void setChosenProduction(IProduction chosenProduction) {
-        givenProduction = chosenProduction;
-    }
 }
 

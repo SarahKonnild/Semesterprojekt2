@@ -1,7 +1,6 @@
 package org.openjfx.presentation;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -10,12 +9,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import org.openjfx.interfaces.IBroadcast;
 import org.openjfx.interfaces.IMovie;
 import org.openjfx.interfaces.IProduction;
 import org.openjfx.interfaces.IProductionCompany;
-
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -81,14 +77,12 @@ public class ModifyProductionCompanyController implements Initializable {
 
     //Methods to handle the search (searching using a string and picking an option from list
     //region
-
     /**
      * Takes the text that is written in the searchfield and uses that to run the searchProductionCompany
      * method in the domain layer's System class. If the list has items, and the searchfield isn't empty,
      * the items returned from the persistence layer will be written to a list which can be printed into
      * the ListView.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -115,7 +109,6 @@ public class ModifyProductionCompanyController implements Initializable {
      * If the objects are instances of either IProduction or IMovie, the GoTo-label becomes visible
      * with the appropriate text, enabling them to be clicked.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -150,13 +143,11 @@ public class ModifyProductionCompanyController implements Initializable {
 
     //Method to handle the creation of a ProductionCompany
     //region
-
     /**
      * Checks if the Name-Field is empty, and if not, a search is conducted on the Company-name. If there is a company in the
      * Database with that name already, it cannot be created, as only one company with the same name is permitted. If the company
      * does not exist, it can be created.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -191,13 +182,11 @@ public class ModifyProductionCompanyController implements Initializable {
 
     //Method to handle the deletion of a ProductionCompany
     //region
-
     /**
      * Takes the productionCompany that was chosen from the ListView and deletes it first in the instance of the application,
      * and if that was succesfully deleted, it is also removed from the database, along with all of the movies and productions
      * that are associated with it.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -225,12 +214,10 @@ public class ModifyProductionCompanyController implements Initializable {
 
     //Method to handle the update of a ProductionCompany
     //region
-
     /**
      * Provided that a productionCompany has been chosen, the name of the ProductionCompany can be updated,
      * by registering the new name written in the NameField into the database.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -252,13 +239,11 @@ public class ModifyProductionCompanyController implements Initializable {
 
     //Methods to change the contents that are displayed in the ListView
     //region
-
     /**
      * If a ProductionCompany has been chosen, the user can press this, and it will show the list of movies
      * that are associated with that Company in the ListView. If the company has no registered movies, an error
      * message is written to the user.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -281,7 +266,6 @@ public class ModifyProductionCompanyController implements Initializable {
      * that are associated with that Company in the ListView. If the company has no registered Productions, an error
      * message is written to the user.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -302,13 +286,11 @@ public class ModifyProductionCompanyController implements Initializable {
 
     //Methods to change the stage
     //region
-
     /**
      * Checks if the element from the ListView that is checked is either a Movie or a Production, and based on that,
      * it will specify which scene to go to, showing that chosen movie/production's information first thing in the
      * scene's fields.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -320,21 +302,6 @@ public class ModifyProductionCompanyController implements Initializable {
             App.handleModifyProductionPage();
             ModifyProductionController.setChosenProduction(chosenProduction);
         }
-    }
-
-    @FXML
-    private void handleHelp(MouseEvent event) {
-        App.handleHelpStage();
-    }
-
-    @FXML
-    private void handleBack(MouseEvent event) {
-        App.handleAdminPage();
-    }
-
-    @FXML
-    private void handleClose(MouseEvent event) {
-        App.closeWindow();
     }
     //endregion
 
@@ -364,6 +331,30 @@ public class ModifyProductionCompanyController implements Initializable {
     public static void setChosenProduction(IProduction newValue) {
         chosenProduction = newValue;
     }
+    //endregion
 
+    /**
+     * Methods which handle the changing of the FXMLs. Includes:
+     * - Close the window (and thus the main process)
+     * - Open the help-window
+     * - Return to the past scene
+     *
+     * @author Sarah
+     */
+    //region
+    @FXML
+    private void handleHelp(MouseEvent event) {
+        App.handleHelpStage();
+    }
+
+    @FXML
+    private void handleBack(MouseEvent event) {
+        App.handleAdminPage();
+    }
+
+    @FXML
+    private void handleClose(MouseEvent event) {
+        App.closeWindow();
+    }
     //endregion
 }

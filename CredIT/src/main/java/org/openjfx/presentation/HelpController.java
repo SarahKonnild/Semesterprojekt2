@@ -29,9 +29,7 @@ public class HelpController implements Initializable {
     /**
      * Creates a list of items in the TreeView that can be chosen. Upon choosing, they will
      * produce a fitting help-screen that can help the user use the system.
-     * @param location
      * @author Sarah
-     * @param resources
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {

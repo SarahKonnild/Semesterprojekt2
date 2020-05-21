@@ -39,6 +39,8 @@ public class App extends Application {
     private static ArrayList<String> castRoles = new ArrayList<>();
     //endregion
 
+    //The standard App-methods for starting the Application Window
+    //region
     @Override
     public void start(Stage stage) throws IOException {
         this.stage = stage;
@@ -71,10 +73,12 @@ public class App extends Application {
         sys = new CredITSystem(); //creates a new object of system
         launch();
     }
+    //endregion
 
     /**
      * These methods are used to be called in other controllers. They are used to change the scene of the primary stage
      * (or open the help-stage) in any given controller.
+     *
      * @author Sarah
      */
     //region
@@ -182,10 +186,11 @@ public class App extends Application {
     }
     //endregion
 
-    //Movement of the window
+    //Movement of the borderless window
     //region
     /**
      * This method can be called upon in all the other controllers. It allows for moving the borderless application window.
+     *
      * @author Sarah
      * @param basePane refers to the AnchorPane that is clickable and movable in the Stage (usually the darker blue panel at
      *                 the top of the stage.
@@ -216,16 +221,35 @@ public class App extends Application {
 
     //Standardised retrieval of production/production company methods
     //region
+    /**
+     * Retrieves the IProduction for the IBroadcast so its information can be retrieved
+     *
+     * @author Sarah
+     * @param broadcast which is given by the controller, to choose which broadcast to retrieve the production for
+     * @return returns the IProduction that the broadcast is found to belong to
+     */
     public static IProduction retrieveProduction(IBroadcast broadcast){
         IProduction retrievedProduction = getSystemInstance().searchProductionOnBroadcast(broadcast.getId());
         return retrievedProduction;
     }
 
+    /**
+     * Retrieves the IProductionCompany for the IMovie so its information can be retrieved
+     *
+     * @param movie which is given by the controller, to choose which ProductionCompany to retrieve the movie from
+     * @return returns the IProductionCompany that the movie is found to belong to
+     */
     public static IProductionCompany retrieveProductionCompanyForMovie(IMovie movie){
         retrievedProductionCompany = getSystemInstance().searchProductionCompanyOnMovie(movie.getId());
         return retrievedProductionCompany;
     }
 
+    /**
+     * Retrieves the IProductionCompany for the IProduction so its informaion can be retrieved
+     *
+     * @param production which is given by the controller, to choose which ProductionCompany to retrieve the Production from
+     * @return returns the IProductionCompany that the production is found to belong to
+     */
     public static IProductionCompany retrieveProductionCompanyForProduction(IProduction production){
         retrievedProductionCompany = getSystemInstance().searchProductionCompanyOnProduction(production.getId());
         return retrievedProductionCompany;
@@ -234,10 +258,10 @@ public class App extends Application {
 
     //Methods for fetching the arraylist with PCasts for the relevant controllers
     //region
-
     /**
      * Iterates through the HashMap that is received of Cast-members and their roles on the movie that has been
      * chosen, adding them to the static roleArray-ArrayList. This can be fetched by the different controllers.
+     *
      * @author Sarah
      * @return returns the roleArray to be used for setting items in the ListView displaying all movie roles
      */
@@ -258,6 +282,7 @@ public class App extends Application {
     /**
      * Iterates through the HashMap that is received of Cast-members and their roles on the broadcast that has been
      * chosen, adding them to the static roleArray-ArrayList. This can be fetched by the different controllers.
+     *
      * @author Sarah
      * @return returns the roleArray to be used for setting items in the ListView displaying all broadcast roles
      */
@@ -277,15 +302,16 @@ public class App extends Application {
 
     /**
      * Method to iterate through both the movie and broadcast hashmaps, adding the items to the castRoles arrayList.
+     *
      * @author Sarah
-     * @param chosenCast
-     * @return
+     * @param chosenCast takes an ICast-variable from the controller calling this method
+     * @return returns the static castRoles-array, so this method can be used to be set the result into a list.
      */
     public static ArrayList<String> getAllCastRoles(ICast chosenCast){
         if(!castRoles.isEmpty()){
             castRoles.clear();
         }
-        //Creates local hashmap that is iterated through and then added values to the castRoles-ArrayList
+        //Creates local hashmap that is iterated through and then added broadcast-roles to the castRoles-ArrayList
         HashMap<IBroadcast, String> broadcastRoles = new HashMap<>(App.getSystemInstance().getCastRolesBroadcast(chosenCast));
         if(!broadcastRoles.isEmpty()) {
             for (IBroadcast broadcast : broadcastRoles.keySet()) {
@@ -293,6 +319,7 @@ public class App extends Application {
                 castRoles.add(temp);
             }
         }
+        //Creates local HashMap that is iterated through and then added movie-roles to the castRoles-ArrayList
         HashMap<IMovie, String> movieRoles = new HashMap<>(App.getSystemInstance().getCastRolesMovies(chosenCast));
         if(!movieRoles.isEmpty()){
             for(IMovie movie : movieRoles.keySet()){

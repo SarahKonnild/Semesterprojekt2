@@ -1,8 +1,6 @@
 package org.openjfx.presentation;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -13,14 +11,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import org.openjfx.interfaces.IMovie;
 import org.openjfx.interfaces.IProductionCompany;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ModifyMovieController implements Initializable {
-    private static IMovie chosenMovie;
-    private static IMovie givenMovie;
+
     //FXML Attributes
     //region
     @FXML
@@ -51,34 +47,27 @@ public class ModifyMovieController implements Initializable {
     private TextField searchField;
     @FXML
     private TextField movieName;
-    //endregion
     @FXML
     private TextField productionCompany;
     @FXML
     private TextField releaseYear;
+    //endregion
+
     //Class Attributes
     //region
     private ArrayList<IMovie> searchResult;
     private boolean status;
+    private static IMovie chosenMovie;
+    private static IMovie givenMovie;
     //endregion
-
-    public static IMovie getChosenMovie() {
-        return chosenMovie;
-    }
 
     //Everything to do with the ListView (search, choose)
     //region
-
-    public static void setChosenMovie(IMovie chosenMovie) {
-        givenMovie = chosenMovie;
-    }
-
     /**
      * Checks if the scene has been given a movie from the previous scene. If so, it will write that Movie's information
      * to the fields.
      *
-     * @param location
-     * @param resources
+
      * @author Sarah
      */
     @Override
@@ -97,14 +86,12 @@ public class ModifyMovieController implements Initializable {
     //endregion
 
 
-    //Create Movie
+    //Everything do do with manipulating the ListView (search,choose)
     //region
-
     /**
      * Searches the database for entries that match the search field's information in the database.
      * Writes all results into the list, which can then be chosen by the user.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -121,16 +108,11 @@ public class ModifyMovieController implements Initializable {
         }
 
     }
-    //endregion
-
-    //Delete Movie
-    //region
 
     /**
      * When the user chooses an object from the search list, this method is run. It will always write the
      * data associated with the LAST object chosen to the fields.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -147,13 +129,11 @@ public class ModifyMovieController implements Initializable {
 
     //Save Movie
     //region
-
     /**
      * Takes the entered ProductionCompany's name and performs a search in the database for that company. If it exists,
      * the Movie can be created, adding it to that Company's list of created movies. If the Company does not exist,
      * an error message is written to the user.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -193,12 +173,13 @@ public class ModifyMovieController implements Initializable {
     }
     //endregion
 
+    //Delete Movie
+    //region
     /**
      * Takes the movie that has been chosen from the ListView and deletes the object that is chosen. Provided that the
      * Movie is deleted in the instance of the program, it is also removed from the database, and unassigned from the
      * company's page.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -220,12 +201,12 @@ public class ModifyMovieController implements Initializable {
         clearFields();
         resultList.refresh();
     }
+    //endregion
 
     /**
      * Takes the movie that was chosen from the ListView and updates its attributes in the database with the text that is
      * entered into the TextFields.
      *
-     * @param event
      * @author Sarah
      */
     @FXML
@@ -250,7 +231,70 @@ public class ModifyMovieController implements Initializable {
         }
     }
 
-    //All the methods which change the scene, open the help stage or close the program.
+    //region
+
+    /**
+     * Method to standardise the retrieval of a production company for the production, and then setting the production's
+     * values/attribute values to the textfields that they are related to.
+     *
+     * @author Sarah
+     * @param movie specifies which movie that should have its information written to the fields
+     */
+    private void setFieldsText(IMovie movie){
+        movieName.setText(movie.getTitle());
+
+        IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForMovie(movie);
+        productionCompany.setText(retrievedProductionCompany.getName());
+        String[] release = movie.getReleaseDate();
+        releaseYear.setText(release[2]);
+    }
+    //endregion
+
+    /**
+     * Method for handling the opening of the assign/unassign cast-page, provided that a movie has been chosen
+     *
+     * @author Sarah
+     */
+    @FXML
+    public void handleChangeCast(MouseEvent event) {
+        if (chosenMovie != null) {
+            App.setAssignCastModifier("movie");
+            App.handleUnassignAssignStage();
+        } else {
+            errorMessage.setText("Ingen film valgt");
+        }
+    }
+
+    /**
+     * Empties the contents of all the TextFields
+     *
+     * @author Sarah
+     */
+    private void clearFields() {
+        movieName.clear();
+        releaseYear.clear();
+        productionCompany.clear();
+    }
+
+    //Getters and Setters
+    //region
+    public static IMovie getChosenMovie() {
+        return chosenMovie;
+    }
+
+    public static void setChosenMovie(IMovie chosenMovie) {
+        givenMovie = chosenMovie;
+    }
+    //endregion
+
+    /**
+     * Methods which handle the changing of the FXMLs. Includes:
+     * - Close the window (and thus the main process)
+     * - Open the help-window
+     * - Return to the past scene
+     *
+     * @author Sarah
+     */
     //region
     @FXML
     public void handleHelp(MouseEvent event) {
@@ -264,51 +308,11 @@ public class ModifyMovieController implements Initializable {
         }
         App.handleAdminPage();
     }
-    //endregion
-
-    //region
-
-    /**
-     * A method which can be called to standardise the output of movie-objects' information to textfields.
-     * @author Sarah
-     * @param movie
-     */
-    private void setFieldsText(IMovie movie){
-        movieName.setText(movie.getTitle());
-
-        IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForMovie(movie);
-        productionCompany.setText(retrievedProductionCompany.getName());
-        String[] release = movie.getReleaseDate();
-        releaseYear.setText(release[2]);
-    }
-    //endregion
 
     @FXML
     public void handleClose(MouseEvent event) {
         App.closeWindow();
     }
-
-    /**
-     * Sets a String variable that ensures that the assign/unassign cast methods are run correctly with the Movie-related
-     * methods
-     *
-     * @param event
-     * @author Sarah
-     */
-    @FXML
-    public void handleChangeCast(MouseEvent event) {
-        if (chosenMovie != null) {
-            App.setAssignCastModifier("movie");
-            App.handleUnassignAssignStage();
-        } else {
-            errorMessage.setText("Ingen film valgt");
-        }
-    }
-
-    private void clearFields() {
-        movieName.clear();
-        releaseYear.clear();
-        productionCompany.clear();
-    }
+    //endregion
 
 }
