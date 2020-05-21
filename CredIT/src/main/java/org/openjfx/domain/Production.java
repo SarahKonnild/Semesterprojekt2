@@ -54,9 +54,9 @@ public class Production implements IProduction {
 
         this.name = name;
         this.year = year;
-        if (persistence.updateProduction(this))
+        if (persistence.updateProduction(this)) {
             return true;
-        else {
+        } else {
             this.name = tempName;
             this.year = tempYear;
             return false;

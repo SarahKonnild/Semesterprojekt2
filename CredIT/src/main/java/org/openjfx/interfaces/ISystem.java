@@ -11,6 +11,7 @@ public interface ISystem {
     HashMap<Movie, String> getCastRolesMovies(ICast cast);
 
     HashMap<Broadcast, String> getCastRolesBroadcast(ICast cast);
+
     /**
      * The method makes a call to the persistence layer and gives it a keyword to be used in the search in the database.
      *
@@ -55,6 +56,7 @@ public interface ISystem {
 
     /**
      * The method returns the production that a broadcast is connected to
+     *
      * @param broadcastId The id of the Production that is searched for
      * @return The Production that have the broadcast in it.
      */
@@ -68,6 +70,7 @@ public interface ISystem {
 
     /**
      * Searches the database for a ProductionCompany that produced the Production
+     *
      * @param productionId the id of the Production you want the productionCompany of
      * @return returns the productionComapany object.
      */
@@ -75,6 +78,7 @@ public interface ISystem {
 
     /**
      * Searches the database for a ProductionCompany that produced the movie
+     *
      * @param movieId the id of the movie you want the productionComapany of
      * @return returns the productionCompany object
      */
