@@ -29,7 +29,6 @@ public interface IProductionCompany {
      */
     boolean update(String name);
 
-
     String getName();
 
     int getId();
