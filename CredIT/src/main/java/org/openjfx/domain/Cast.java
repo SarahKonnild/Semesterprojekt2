@@ -11,7 +11,6 @@ public class Cast implements ICast {
     private int id;
     private String name;
     private String regDKID;
-    private String role;
 
     /**
      * Constructor used for first time creation of a new cast member that needs to be saved to the database
@@ -67,7 +66,9 @@ public class Cast implements ICast {
     @Override
     public boolean save() {
         int idNumber = persistence.createNewCastInDatabase(this);
-        if (idNumber != -1) this.id = idNumber;
+        if (idNumber != -1) {
+            this.id = idNumber;
+        }
         return idNumber != -1;
     }
 
@@ -79,11 +80,6 @@ public class Cast implements ICast {
     @Override
     public String toString() {
         return name;
-    }
-
-    @Override
-    public String getRole() {
-        return this.role;
     }
 
     public int getId() {

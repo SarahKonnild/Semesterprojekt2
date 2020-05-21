@@ -1,8 +1,5 @@
 package org.openjfx.interfaces;
 
-import org.openjfx.persistence.Persistence;
-
-import java.io.IOException;
 import java.util.List;
 
 public interface IPersistence {
@@ -16,13 +13,6 @@ public interface IPersistence {
     int createNewBroadcastInDatabase(IBroadcast broadcast, int productionId);
 
     int createNewMovieInDatabase(IMovie movie, int productionCompanyId);
-
-    /**
-     * Deletes a broadcast from the persistence/layer(Database).
-     *
-     * @param id The ID on the broadcast you want to delete in the persistence layer.
-     * @return returns the boolean value of the delete run.
-     */
 
     /**
      * Saves a new production to the persistence layer.
@@ -65,13 +55,6 @@ public interface IPersistence {
     int createNewCastInDatabase(ICast cast);
 
     /**
-     * Deletes a cast from the persistence/layer(Database).
-     *
-     * @param id The ID on the cast you want to delete in the persistence layer.
-     * @return returns the boolean value of the delete run.
-     */
-
-    /**
      * Finds the broadcasts that matches the keyword and returns them in a list
      *
      * @param keyword The keyword that the broadcasts are selected on
@@ -105,6 +88,7 @@ public interface IPersistence {
 
     /**
      * Searches the database for the id of the production that the broadcast is produced by
+     *
      * @param broadcastId the id of the broadcast you want to search based on
      * @return returns the id of the production
      */
@@ -136,6 +120,7 @@ public interface IPersistence {
 
     /**
      * Searches the database for the id of the productionCompany that the Production is produced by
+     *
      * @param productionId the id of the production you want to search based on
      * @return returns the id of the productionCompany
      */
@@ -143,6 +128,7 @@ public interface IPersistence {
 
     /**
      * Searches the database for the id of the productionCompany that the movie is produced by
+     *
      * @param movieId the id of the movie you want to search based on
      * @return returns the id of the productionCompany
      */
@@ -150,26 +136,13 @@ public interface IPersistence {
 
     /**
      * Search for the id of movie or broadcast, returns a list of castID and a string with their role in this format CastID, role
+     *
      * @param id
      * @return
      */
     List<String> getCastRolesMoviesFromDatabase(int id);
 
     List<String> getCastRolesBroadcastFromDatabase(int id);
-
-    /**
-     * Finds the production that matches the keyword and returns them in a list
-     *
-     * @param id The keyword that the production are selected on
-     * @return The list of production that matched the keyword
-     */
-
-    /**
-     * Gets an id for broadcast and movies and returns the name of the production name
-     * @param id
-     * @return
-     */
-    String getProductionName(int id);
 
     /**
      * Merges the two casts in the persistence layer, going through and finding all the references and making sure that the merge is completed correctly
@@ -186,7 +159,6 @@ public interface IPersistence {
 
     /**
      * Update a cast members values to new name and regDKID
-     *
      */
     boolean updateCastInDatabase(ICast cast);
 
@@ -197,7 +169,6 @@ public interface IPersistence {
     boolean updateBroadcastInDatabase(IBroadcast broadcast);
 
     boolean updateProduction(IProduction production);
-
 
 
 }

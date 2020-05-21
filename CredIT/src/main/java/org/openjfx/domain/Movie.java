@@ -19,7 +19,7 @@ public class Movie implements IMovie {
         this.releaseDate[0] = "01";
         this.releaseDate[1] = "01";
         this.releaseDate[2] = releaseDate;
-        this.castRoleMap = new HashMap<Cast, String>();
+        this.castRoleMap = new HashMap<>();
     }
 
     public Movie(int id, String title, String releaseDate, HashMap<Cast, String> castRoleMap) {
@@ -65,9 +65,9 @@ public class Movie implements IMovie {
         if (castRoleMap.containsKey(cast)) {
             HashMap<Cast, String> tempRoleMap = this.castRoleMap;
             castRoleMap.remove(cast);
-            if (persistence.updateMovieInDatabase(this))
+            if (persistence.updateMovieInDatabase(this)) {
                 return true;
-            else {
+            } else {
                 castRoleMap.clear();
                 castRoleMap = tempRoleMap;
                 return false;

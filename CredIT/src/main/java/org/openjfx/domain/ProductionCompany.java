@@ -1,8 +1,6 @@
 package org.openjfx.domain;
 
-import org.openjfx.interfaces.IMovie;
 import org.openjfx.interfaces.IPersistence;
-import org.openjfx.interfaces.IProduction;
 import org.openjfx.interfaces.IProductionCompany;
 
 import java.util.ArrayList;
@@ -16,8 +14,8 @@ public class ProductionCompany implements IProductionCompany {
 
     public ProductionCompany(String name) {
         this.name = name;
-        this.movieList = new ArrayList<Movie>();
-        this.productionList = new ArrayList<Production>();
+        this.movieList = new ArrayList<>();
+        this.productionList = new ArrayList<>();
     }
 
     public ProductionCompany(int id, String name, ArrayList<Movie> movies, ArrayList<Production> productions) {
@@ -63,14 +61,15 @@ public class ProductionCompany implements IProductionCompany {
         if (!movieList.contains(movie)) {
             ArrayList<Movie> tempList = this.movieList;
             this.movieList.add(movie);
-            if (persistence.updateProductionCompanyInDatabase(this))
+            if (persistence.updateProductionCompanyInDatabase(this)) {
                 return true;
-            else {
+            } else {
                 this.movieList = tempList;
                 return false;
             }
-        } else
+        } else {
             return true;
+        }
     }
 
     @Override
@@ -78,9 +77,9 @@ public class ProductionCompany implements IProductionCompany {
         if (!productionList.contains(production)) {
             ArrayList<Production> tempList = this.productionList;
             this.productionList.add(production);
-            if (persistence.updateProductionCompanyInDatabase(this))
+            if (persistence.updateProductionCompanyInDatabase(this)) {
                 return true;
-            else {
+            } else {
                 this.productionList = tempList;
                 return false;
             }
@@ -94,15 +93,16 @@ public class ProductionCompany implements IProductionCompany {
         if (this.movieList.contains(movie)) {
             ArrayList<Movie> tempList = this.movieList;
             this.movieList.remove(movie);
-            if (persistence.updateProductionCompanyInDatabase(this))
+            if (persistence.updateProductionCompanyInDatabase(this)) {
                 return true;
-            else {
+            } else {
                 this.movieList = tempList;
                 return false;
             }
 
-        } else
+        } else {
             return false;
+        }
     }
 
     @Override
@@ -110,17 +110,18 @@ public class ProductionCompany implements IProductionCompany {
         if (this.productionList.contains(production)) {
             //Saves the list so it can revert back if anything goes wrong.
             ArrayList<Production> tempList = this.productionList;
-            this.movieList.remove(production);
-            if (persistence.updateProductionCompanyInDatabase(this))
+            this.productionList.remove(production);
+            if (persistence.updateProductionCompanyInDatabase(this)) {
                 return true;
-            else {
+            } else {
                 //Reverts the changes because something went wrong
                 this.productionList = tempList;
                 return false;
             }
 
-        } else
+        } else {
             return false;
+        }
     }
 
     @Override

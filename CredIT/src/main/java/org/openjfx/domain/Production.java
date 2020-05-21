@@ -1,6 +1,5 @@
 package org.openjfx.domain;
 
-import org.openjfx.interfaces.IBroadcast;
 import org.openjfx.interfaces.IPersistence;
 import org.openjfx.interfaces.IProduction;
 
@@ -18,7 +17,7 @@ public class Production implements IProduction {
     public Production(String name, String year) {
         this.name = name;
         this.year = year;
-        this.broadcasts = new ArrayList<Broadcast>();
+        this.broadcasts = new ArrayList<>();
     }
 
     public Production(int id, String name, String year, int season, int episode, ArrayList<Broadcast> broadcasts) {
@@ -55,9 +54,9 @@ public class Production implements IProduction {
 
         this.name = name;
         this.year = year;
-        if (persistence.updateProduction(this))
+        if (persistence.updateProduction(this)) {
             return true;
-        else {
+        } else {
             this.name = tempName;
             this.year = tempYear;
             return false;
@@ -72,9 +71,9 @@ public class Production implements IProduction {
 
         } else {
             this.broadcasts.add(broadcast);
-            if (persistence.updateProduction(this))
+            if (persistence.updateProduction(this)) {
                 return true;
-            else {
+            } else {
                 this.broadcasts = tempList;
                 return false;
             }
@@ -87,16 +86,17 @@ public class Production implements IProduction {
             //Saves the list so it can revert back if anything goes wrong.
             ArrayList<Broadcast> tempList = this.broadcasts;
             this.broadcasts.remove(broadcast);
-            if (persistence.updateProduction(this))
+            if (persistence.updateProduction(this)) {
                 return true;
-            else {
+            } else {
                 //Reverts the changes because something went wrong
                 this.broadcasts = tempList;
                 return false;
             }
 
-        } else
+        } else {
             return false;
+        }
     }
 
     @Override
