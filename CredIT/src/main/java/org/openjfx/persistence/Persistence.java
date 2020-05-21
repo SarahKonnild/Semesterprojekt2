@@ -1004,7 +1004,6 @@ public class Persistence implements IPersistence {
             throwables.printStackTrace();
             try {
                 connection.rollback();
-                connection.setAutoCommit(true);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
