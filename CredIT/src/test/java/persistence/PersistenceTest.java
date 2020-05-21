@@ -57,11 +57,6 @@ public class PersistenceTest {
     }
 
     @Test
-    public void getProductionName() {
-        Assert.assertEquals("Lucifer", instance.getProductionName(1));
-    }
-
-    @Test
     public void getProductionCompanyIdOnProduction() {
         Assert.assertEquals(1, instance.getProductionCompanyIdOnProduction(1));
     }

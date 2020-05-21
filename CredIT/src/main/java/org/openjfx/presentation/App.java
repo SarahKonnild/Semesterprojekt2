@@ -68,7 +68,7 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        sys = new CredITSystem(); //creates a new object of system
+        sys = CredITSystem.getInstance(); //creates a new object of system
         launch();
     }
 
