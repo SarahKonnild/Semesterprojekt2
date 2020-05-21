@@ -8,13 +8,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import org.openjfx.interfaces.IBroadcast;
 import org.openjfx.interfaces.ICast;
-import org.openjfx.interfaces.IMovie;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class ModifyCastController implements Initializable {

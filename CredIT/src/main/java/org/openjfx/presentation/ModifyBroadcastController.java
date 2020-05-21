@@ -71,7 +71,6 @@ public class ModifyBroadcastController implements Initializable {
     private ObservableList<IBroadcast> observableList;
     private ArrayList<IBroadcast> searchList;
     private static IBroadcast chosenBroadcast;
-    private static IBroadcast givenBroadcast;
     private boolean status;
     //endregion
 
@@ -210,9 +209,8 @@ public class ModifyBroadcastController implements Initializable {
                 errorMessage.setText(chosenBroadcast.getName() + " slettet");
                 if (searchList.isEmpty()) {
                     resultList.getItems().clear();
-                } else if (givenBroadcast == null) {
-                    resultList.setItems(FXCollections.observableArrayList(searchList));
                 }
+                resultList.setItems(FXCollections.observableArrayList(searchList));
                 clearFields();
             } else {
                 errorMessage.setText("Fejl, " + chosenBroadcast.getName() + " blev ikke slettet");
