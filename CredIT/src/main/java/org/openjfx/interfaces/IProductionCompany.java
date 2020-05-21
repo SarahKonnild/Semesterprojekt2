@@ -26,33 +26,6 @@ public interface IProductionCompany {
      */
     boolean update(String name);
 
-    /**
-     * Add a connection between the movie and this production company in domain and database
-     * @param movie
-     * @return true or false
-     */
-    boolean assignMovie(Movie movie);
-
-    /**
-     * Add a connection between the production and this production company in domain and database
-     * @param production
-     * @return true or false
-     */
-    boolean assignProduction(Production production);
-
-    /**
-     * Removes the connection between production and productioncompany in domain and the database
-     * @param movie
-     * @return true or false
-     */
-    boolean unassignMovie(Movie movie);
-
-    /**
-     * Removes the connection between production and productioncompany in domain and the database
-     * @param production
-     * @return true or false
-     */
-    boolean unassignProduction(Production production);
 
     String getName();
 

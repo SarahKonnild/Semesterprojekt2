@@ -1,8 +1,6 @@
 package org.openjfx.domain;
 
-import org.openjfx.interfaces.IMovie;
 import org.openjfx.interfaces.IPersistence;
-import org.openjfx.interfaces.IProduction;
 import org.openjfx.interfaces.IProductionCompany;
 
 import java.util.ArrayList;
@@ -16,8 +14,8 @@ public class ProductionCompany implements IProductionCompany {
 
     public ProductionCompany(String name) {
         this.name = name;
-        this.movieList = new ArrayList<Movie>();
-        this.productionList = new ArrayList<Production>();
+        this.movieList = new ArrayList<>();
+        this.productionList = new ArrayList<>();
     }
 
     public ProductionCompany(int id, String name, ArrayList<Movie> movies, ArrayList<Production> productions) {
@@ -25,11 +23,6 @@ public class ProductionCompany implements IProductionCompany {
         this.name = name;
         this.productionList = productions;
         this.movieList = movies;
-    }
-
-    @Override
-    public String toString() {
-        return this.name;
     }
 
     @Override
@@ -59,68 +52,8 @@ public class ProductionCompany implements IProductionCompany {
     }
 
     @Override
-    public boolean assignMovie(Movie movie) {
-        if (!movieList.contains(movie)) {
-            ArrayList<Movie> tempList = this.movieList;
-            this.movieList.add(movie);
-            if (persistence.updateProductionCompanyInDatabase(this))
-                return true;
-            else {
-                this.movieList = tempList;
-                return false;
-            }
-        } else
-            return true;
-    }
-
-    @Override
-    public boolean assignProduction(Production production) {
-        if (!productionList.contains(production)) {
-            ArrayList<Production> tempList = this.productionList;
-            this.productionList.add(production);
-            if (persistence.updateProductionCompanyInDatabase(this))
-                return true;
-            else {
-                this.productionList = tempList;
-                return false;
-            }
-        } else {
-            return true;
-        }
-    }
-
-    @Override
-    public boolean unassignMovie(Movie movie) {
-        if (this.movieList.contains(movie)) {
-            ArrayList<Movie> tempList = this.movieList;
-            this.movieList.remove(movie);
-            if (persistence.updateProductionCompanyInDatabase(this))
-                return true;
-            else {
-                this.movieList = tempList;
-                return false;
-            }
-
-        } else
-            return false;
-    }
-
-    @Override
-    public boolean unassignProduction(Production production) {
-        if (this.productionList.contains(production)) {
-            //Saves the list so it can revert back if anything goes wrong.
-            ArrayList<Production> tempList = this.productionList;
-            this.movieList.remove(production);
-            if (persistence.updateProductionCompanyInDatabase(this))
-                return true;
-            else {
-                //Reverts the changes because something went wrong
-                this.productionList = tempList;
-                return false;
-            }
-
-        } else
-            return false;
+    public String toString() {
+        return this.name;
     }
 
     @Override

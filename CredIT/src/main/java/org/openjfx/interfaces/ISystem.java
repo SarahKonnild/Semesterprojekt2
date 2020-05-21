@@ -91,6 +91,4 @@ public interface ISystem {
     Production addNewProductionToDatabase(String name, String year, int productionCompanyID);
 
     User createNewUser(String username, String password);
-
-    IPersistence getPersistenceLayer();
 }

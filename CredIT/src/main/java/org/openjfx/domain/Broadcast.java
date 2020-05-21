@@ -29,7 +29,7 @@ public class Broadcast implements IBroadcast {
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.airDate = airDate.split("-");
-        this.castRoleMap = new HashMap<Cast, String>();
+        this.castRoleMap = new HashMap<>();
     }
 
     @Override
