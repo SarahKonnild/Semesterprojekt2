@@ -74,7 +74,9 @@ public class Cast implements ICast {
     @Override
     public boolean save() {
         int idNumber = persistence.createNewCastInDatabase(this);
-        if (idNumber != -1) this.id = idNumber;
+        if (idNumber != -1) {
+            this.id = idNumber;
+        }
         return idNumber != -1;
     }
 

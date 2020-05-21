@@ -375,7 +375,7 @@ public class Persistence implements IPersistence {
         try {
             connection.setAutoCommit(false);
             ArrayList<IMovie> movies = new ArrayList<>(company.getMovieList());
-            ArrayList<IProduction> productions = (ArrayList<IProduction>)(ArrayList<?>)company.getProductionList();
+            ArrayList<IProduction> productions = (ArrayList<IProduction>) (ArrayList<?>) company.getProductionList();
 
             if (!movies.isEmpty()) {
                 for (IMovie movie : movies) {
@@ -794,29 +794,6 @@ public class Persistence implements IPersistence {
             throwables.printStackTrace();
         }
         return productionList;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param id the ID of the production to search for
-     * @return a {@code String} containing the production's name. Returns null if no match was found.
-     */
-    @Override
-    public String getProductionName(int id) {
-        try (PreparedStatement stmt = connection.prepareStatement("SELECT name FROM production WHERE id = ?")) {
-            stmt.setInt(1, id);
-            try (ResultSet resultSet = stmt.executeQuery()) {
-                if (!resultSet.next()) {
-                    return null;
-                }
-                return resultSet.getString(1);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
-        }
-
     }
 
     @Override

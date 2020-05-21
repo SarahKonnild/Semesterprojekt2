@@ -1,6 +1,8 @@
 package org.openjfx.domain;
 
-import org.openjfx.interfaces.*;
+import org.openjfx.interfaces.ISystem;
+import org.openjfx.interfaces.IUser;
+import org.openjfx.interfaces.Role;
 
 public class User implements IUser {
     private final ISystem system = CredITSystem.getInstance();
@@ -67,6 +69,7 @@ public class User implements IUser {
     public ProductionCompany getProductionCompanyFromDatabase(String name) {
         return CredITSystem.getInstance().searchProductionCompany(name).get(0);
     }
+
     @Override
     public boolean checkRole(String roleKey) {
         //valueOf checks if the inputted role is equal to the role of this user. Is case senitive.
