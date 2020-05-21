@@ -180,7 +180,7 @@ public class ModifyCastController implements Initializable {
             creationState = chosenCastObservable.get(0).mergeCastMembers(chosenCastObservable.get(1));
             if (creationState) {
                 errorMessage.setText(chosenCastObservable.get(1).getName() + " sammenflettet med " + chosenCastObservable.get(0).getName());
-                ArrayList newCast = App.getSystemInstance().searchCast(tempCastId);
+                ArrayList<ICast> newCast = new ArrayList<>(App.getSystemInstance().searchCast(tempCastId));
                 if (newCast != null) {
                     castSearchResult.clear();
                     castSearchResult.add((ICast) newCast.get(0));

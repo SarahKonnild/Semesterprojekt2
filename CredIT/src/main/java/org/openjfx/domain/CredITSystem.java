@@ -15,9 +15,7 @@ public class CredITSystem implements ISystem {
     /**
      * To use for creating an instance of the System class that can then be used mainly in Presentation.
      */
-    public CredITSystem() {
-        persistenceLayer = Persistence.getInstance();
-        instance = this;
+    private CredITSystem() {
     }
 
     /*
@@ -28,10 +26,17 @@ public class CredITSystem implements ISystem {
      */
 
     public static IPersistence getPersistence() {
+        if (persistenceLayer == null) {
+            getInstance();
+        }
         return persistenceLayer;
     }
 
     public static CredITSystem getInstance() {
+        if (instance == null) {
+            instance = new CredITSystem();
+            persistenceLayer = Persistence.getInstance();
+        }
         return instance;
     }
 
@@ -53,13 +58,13 @@ public class CredITSystem implements ISystem {
      * @return an arraylist of Cast object
      */
     private ArrayList<Cast> makeCastObjects(List<String> list) {
-        ArrayList<Cast> casts = new ArrayList();
+        ArrayList<Cast> casts = new ArrayList<>();
         if (list != null && !list.isEmpty()) {
             //The list is formatted as castID,castRegID,castName
             for (String item : list) {
                 String[] items = item.split("\t");
                 //Creating a new Cast object for each String item in the list.
-                casts.add(new Cast((Integer.parseInt(items[0])), items[1], ((items[2]))));
+                casts.add(new Cast((Integer.parseInt(items[0])), items[1], (items[2])));
             }
         }
         return casts;
@@ -158,7 +163,7 @@ public class CredITSystem implements ISystem {
      */
     private ArrayList<Broadcast> makeBroadcastObjects(List<String> list) {
         ArrayList<Broadcast> broadcasts = new ArrayList<>();
-        if (list != null && list.size() > 0) {
+        if (list != null && !list.isEmpty()) {
             // Each string is formatted as id,name,seasonNumber,episodeNumber,airDate,productionID
             for (String item : list) {
                 String[] items = item.split("\t");
@@ -208,7 +213,7 @@ public class CredITSystem implements ISystem {
 
     private ArrayList<Production> makeProductionObjects(List<String> list) {
         ArrayList<Production> productions = new ArrayList<>();
-        if (list != null && list.size() > 0) {
+        if (list != null && !list.isEmpty()) {
             //String is formatted as id,name,year,seasons,episodes
             for (String item : list) {
                 String[] items = item.split("\t");
@@ -247,7 +252,7 @@ public class CredITSystem implements ISystem {
 
     private ArrayList<Movie> makeMovieObjects(List<String> list) {
         ArrayList<Movie> movies = new ArrayList<>();
-        if (list != null && list.size() > 0) {
+        if (list != null && !list.isEmpty()) {
             //the string is formatted as id,title,releaseDate
             for (String item : list) {
                 String[] items = item.split("\t");
@@ -297,7 +302,7 @@ public class CredITSystem implements ISystem {
 
     private ArrayList<ProductionCompany> makeProductionCompanyObjects(List<String> list) {
         ArrayList<ProductionCompany> productionCompanies = new ArrayList<>();
-        if (list != null && list.size() > 0) {
+        if (list != null && list.isEmpty()) {
             //String formatted as id,name
             for (String item : list) {
                 String[] items = item.split("\t");

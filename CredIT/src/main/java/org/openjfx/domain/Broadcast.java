@@ -35,7 +35,9 @@ public class Broadcast implements IBroadcast {
     @Override
     public boolean save(int productionId) {
         int idNumber = persistence.createNewBroadcastInDatabase(this, productionId);
-        if (idNumber != -1) this.id = idNumber;
+        if (idNumber != -1) {
+            this.id = idNumber;
+        }
         return idNumber != -1;
     }
 
@@ -56,9 +58,9 @@ public class Broadcast implements IBroadcast {
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
 
-        if (persistence.updateBroadcastInDatabase(this))
+        if (persistence.updateBroadcastInDatabase(this)) {
             return true;
-        else {
+        } else {
             this.name = tempName;
             this.airDate = tempDate;
             this.seasonNumber = tempSeason;
@@ -72,9 +74,9 @@ public class Broadcast implements IBroadcast {
         if (castRoleMap.containsKey(cast)) {
             HashMap<Cast, String> tempRoleMap = this.castRoleMap;
             castRoleMap.remove(cast);
-            if (persistence.updateBroadcastInDatabase(this))
+            if (persistence.updateBroadcastInDatabase(this)) {
                 return true;
-            else {
+            } else {
                 castRoleMap.clear();
                 castRoleMap = tempRoleMap;
                 return false;

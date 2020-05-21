@@ -2,8 +2,6 @@ package org.openjfx.interfaces;
 
 import org.openjfx.domain.*;
 
-import java.util.ArrayList;
-
 public interface IUser {
     /**
      * Gets parameters from the presentation layer to then create a new cast member in the database.
@@ -14,6 +12,7 @@ public interface IUser {
      * @return if it succeed creating and saving a new cast returns <code>true</code> else <code>false</code>
      */
     Cast addNewCastToDatabase(String name, String regDKID);
+
     /**
      * Gets parameters from the presentation layer to then create a new broadcast in the database.
      * Creates a new object of the <code>Broadcast</code> class and calls <code>saveBroadcast()</code> on the object
@@ -25,12 +24,13 @@ public interface IUser {
      * @return if it succeed creating and saving a new broadcast returns <code>true</code> else <code>false</code>
      */
     Broadcast addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate, int productionID);
+
     /**
      * Gets parameters from the presentation layer to then create a new cast member in the database.
      * Creates a new object of the <code>Cast</code> class and calls <code>saveCast()</code> on the object
      *
-     * @param name              name of the production
-     * @param year              the year the production was created/first aired
+     * @param name                name of the production
+     * @param year                the year the production was created/first aired
      * @param productionCompanyID the id of the company that produces this production
      * @return if it succeed creating and saving a new cast returns <code>true</code> else <code>false</code>
      */
