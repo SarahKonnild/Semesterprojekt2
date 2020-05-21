@@ -87,8 +87,7 @@ public class Broadcast implements IBroadcast {
     @Override
     public boolean assignCast(ICast cast, String role) {
         HashMap<Cast, String> tempRoleMap = this.castRoleMap;
-        Cast realCast = (Cast) cast;
-        castRoleMap.put(realCast, role);
+        castRoleMap.put((Cast) cast, role);
         if (persistence.updateBroadcastInDatabase(this)) {
             return true;
         } else {

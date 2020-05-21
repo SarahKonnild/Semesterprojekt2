@@ -11,7 +11,6 @@ public class Cast implements ICast {
     private int id;
     private String name;
     private String regDKID;
-    private String role;
 
     /**
      * Constructor used for first time creation of a new cast member that needs to be saved to the database
@@ -87,11 +86,6 @@ public class Cast implements ICast {
     @Override
     public String toString() {
         return name;
-    }
-
-    @Override
-    public String getRole() {
-        return this.role;
     }
 
     public int getId() {

@@ -67,8 +67,6 @@ public interface ICast {
      */
     String getRegDKID();
 
-    String getRole();
-
     @Override
     String toString();
 }
