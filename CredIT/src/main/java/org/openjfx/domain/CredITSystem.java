@@ -273,9 +273,9 @@ public class CredITSystem implements ISystem {
     //region productionCompany methods
     public ProductionCompany searchProductionCompany(int productionCompanyID) {
         List<String> tempList = persistenceLayer.getProductionCompany(productionCompanyID);
-        return makeProductionCompanyObjects(tempList).get(0);
+        ArrayList<ProductionCompany> company = makeProductionCompanyObjects(tempList);
+        return company.isEmpty() ? null : company.get(0);
     }
-
     @Override
     public ArrayList<ProductionCompany> searchProductionCompany(String keyword) {
         List<String> tempList = persistenceLayer.getProductionCompany(keyword);
