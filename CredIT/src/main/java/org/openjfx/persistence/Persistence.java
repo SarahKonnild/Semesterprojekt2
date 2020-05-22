@@ -1055,7 +1055,9 @@ public class Persistence implements IPersistence {
                 "SELECT production_company_id FROM produces WHERE production_id = ?")) {
             stmt.setInt(1, productionId);
             try (ResultSet resultSet = stmt.executeQuery()) {
-                resultSet.next();
+                if (!resultSet.next()) {
+                    return -1;
+                }
                 return resultSet.getInt(1);
             }
         } catch (SQLException throwables) {

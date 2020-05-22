@@ -244,10 +244,10 @@ public class AssignUnassignCastController implements Initializable {
 
         if (App.getAssignCastModifier().equals("movie")) {
             resultList.getItems().clear();
-            resultList.setItems(FXCollections.observableArrayList(App.getMovieRoleArray()));
+            resultList.setItems(FXCollections.observableArrayList(App.getMovieRoleArray(ModifyMovieController.getChosenMovie())));
         } else if (App.getAssignCastModifier().equals("broadcast")) {
             resultList.getItems().clear();
-            resultList.setItems(FXCollections.observableArrayList(App.getBroadcastRoleArray()));
+            resultList.setItems(FXCollections.observableArrayList(App.getBroadcastRoleArray(ModifyBroadcastController.getChosenBroadcast())));
         }
 
         clearFields();
