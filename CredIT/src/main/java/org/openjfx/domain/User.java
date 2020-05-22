@@ -1,11 +1,11 @@
 package org.openjfx.domain;
 
-import org.openjfx.interfaces.ISystem;
+
 import org.openjfx.interfaces.IUser;
 import org.openjfx.interfaces.Role;
 
 public class User implements IUser {
-    private final ISystem system = CredITSystem.getInstance();
+    private final CredITSystem system = CredITSystem.getInstance();
     private int id;
     private String name;
     private final String password;
