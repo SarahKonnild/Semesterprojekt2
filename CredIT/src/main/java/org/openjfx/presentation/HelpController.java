@@ -29,6 +29,7 @@ public class HelpController implements Initializable {
     /**
      * Creates a list of items in the TreeView that can be chosen. Upon choosing, they will
      * produce a fitting help-screen that can help the user use the system.
+     *
      * @author Sarah
      */
     @Override
@@ -47,30 +48,30 @@ public class HelpController implements Initializable {
 
         //Setting the children of the different roots
         rootItem.getChildren().add(search);
-            final double[] dragX = new double[1];
-            final double[] dragY = new double[1];
-            basePane.setOnMousePressed(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    if(mouseEvent.getButton() == MouseButton.PRIMARY){
-                        dragX[0] = mouseEvent.getSceneX();
-                        dragY[0] = mouseEvent.getSceneY();
-                    }
+        final double[] dragX = new double[1];
+        final double[] dragY = new double[1];
+        basePane.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                    dragX[0] = mouseEvent.getSceneX();
+                    dragY[0] = mouseEvent.getSceneY();
                 }
-            });
-            basePane.setOnMouseDragged(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    if(mouseEvent.getButton() == MouseButton.PRIMARY){
-                        App.getHelpStage().getScene().getWindow().setX(mouseEvent.getScreenX() - dragX[0]);
-                        App.getHelpStage().getScene().getWindow().setY(mouseEvent.getScreenY() - dragY[0]);
-                    }
+            }
+        });
+        basePane.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                    App.getHelpStage().getScene().getWindow().setX(mouseEvent.getScreenX() - dragX[0]);
+                    App.getHelpStage().getScene().getWindow().setY(mouseEvent.getScreenY() - dragY[0]);
                 }
-            });
+            }
+        });
     }
 
     @FXML
-    public void handleClose(MouseEvent event){
+    public void handleClose(MouseEvent event) {
         App.getHelpStage().close();
     }
 

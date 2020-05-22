@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import org.openjfx.interfaces.IMovie;
 import org.openjfx.interfaces.IProductionCompany;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -63,11 +64,11 @@ public class ModifyMovieController implements Initializable {
 
     //Everything to do with the ListView (search, choose)
     //region
+
     /**
      * Checks if the scene has been given a movie from the previous scene. If so, it will write that Movie's information
      * to the fields.
      *
-
      * @author Sarah
      */
     @Override
@@ -88,6 +89,7 @@ public class ModifyMovieController implements Initializable {
 
     //Everything do do with manipulating the ListView (search,choose)
     //region
+
     /**
      * Searches the database for entries that match the search field's information in the database.
      * Writes all results into the list, which can then be chosen by the user.
@@ -128,6 +130,7 @@ public class ModifyMovieController implements Initializable {
 
     //Save Movie
     //region
+
     /**
      * Takes the entered ProductionCompany's name and performs a search in the database for that company. If it exists,
      * the Movie can be created, adding it to that Company's list of created movies. If the Company does not exist,
@@ -174,6 +177,7 @@ public class ModifyMovieController implements Initializable {
 
     //Delete Movie
     //region
+
     /**
      * Takes the movie that has been chosen from the ListView and deletes the object that is chosen. Provided that the
      * Movie is deleted in the instance of the program, it is also removed from the database, and unassigned from the
@@ -236,10 +240,10 @@ public class ModifyMovieController implements Initializable {
      * Method to standardise the retrieval of a production company for the production, and then setting the production's
      * values/attribute values to the textfields that they are related to.
      *
-     * @author Sarah
      * @param movie specifies which movie that should have its information written to the fields
+     * @author Sarah
      */
-    private void setFieldsText(IMovie movie){
+    private void setFieldsText(IMovie movie) {
         movieName.setText(movie.getTitle());
 
         IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForMovie(movie);

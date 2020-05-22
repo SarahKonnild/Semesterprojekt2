@@ -1,23 +1,19 @@
 package org.openjfx.presentation;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import org.openjfx.interfaces.IBroadcast;
-import org.openjfx.interfaces.ICast;
 import org.openjfx.interfaces.IProduction;
-import org.openjfx.interfaces.IProductionCompany;
-
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class ModifyBroadcastController implements Initializable {
@@ -94,6 +90,7 @@ public class ModifyBroadcastController implements Initializable {
 
     //Everything do do with manipulating the ListView (search,choose)
     //region
+
     /**
      * Takes the text that is written in the searchfield and uses that to run the searchBroadcast
      * method in the domain layer's System class. If the list has items, and the searchfield isn't empty,
@@ -135,6 +132,7 @@ public class ModifyBroadcastController implements Initializable {
 
     //Create Broadcast
     //region
+
     /**
      * First, a check on the Production that the user has entered as the "parent" for the Broadcast exists. If it exists,
      * it will take the first element in the ArrayList that is returned with Productions and add the Broadcast that is being
@@ -182,6 +180,7 @@ public class ModifyBroadcastController implements Initializable {
 
     //Delete Broadcast
     //region
+
     /**
      * When the user chooses an object from the search list, and they press the "delete"-button, this method
      * is run. It will delete the object that is chosen from the database, as well as unassigning it from the Production
@@ -191,7 +190,7 @@ public class ModifyBroadcastController implements Initializable {
      */
     @FXML
     public void handleDeleteBroadcast(MouseEvent event) {
-        if(chosenBroadcast == null){
+        if (chosenBroadcast == null) {
             chosenBroadcast = (IBroadcast) resultList.getSelectionModel().getSelectedItem();
             status = chosenBroadcast.delete();
             if (status) {
@@ -214,6 +213,7 @@ public class ModifyBroadcastController implements Initializable {
 
     //Save Broadcast
     //region
+
     /**
      * Takes the broadcast that has been chosen from the ListView by the user, and overwrites the information that is stored
      * about that broadcast in the database with the information that is entered into the TextFields.
@@ -258,6 +258,7 @@ public class ModifyBroadcastController implements Initializable {
 
     //Clears the fields
     //region
+
     /**
      * Empties the contents of all the TextFields
      *
@@ -280,10 +281,10 @@ public class ModifyBroadcastController implements Initializable {
      * Method to standardise the retrieval of a production company for the production, and then setting the production's
      * values/attribute values to the textfields that they are related to.
      *
-     * @author Sarah
      * @param broadcast specifies which broadcast that should have its information written to the fields
+     * @author Sarah
      */
-    private void setFieldsText(IBroadcast broadcast){
+    private void setFieldsText(IBroadcast broadcast) {
         broadcastName.setText(broadcast.getName());
         IProduction retrievedProduction = App.retrieveProduction(broadcast);
         production.setText(retrievedProduction.getName());
