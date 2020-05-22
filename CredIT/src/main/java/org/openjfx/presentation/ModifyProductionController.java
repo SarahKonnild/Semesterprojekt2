@@ -281,7 +281,6 @@ public class ModifyProductionController implements Initializable {
     private void setFieldsText(IProduction production){
         productionName.setText(production.getName());
         releaseYear.setText(production.getYear());
-
         IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForProduction(production);
         productionCompany.setText(retrievedProductionCompany.getName());
         amountOfEpisodes.setText(String.valueOf(production.getNumberOfEpisodes()));

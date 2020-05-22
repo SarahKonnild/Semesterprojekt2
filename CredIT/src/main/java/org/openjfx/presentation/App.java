@@ -265,11 +265,11 @@ public class App extends Application {
      * @author Sarah
      * @return returns the roleArray to be used for setting items in the ListView displaying all movie roles
      */
-    public static ArrayList<PCast> getMovieRoleArray(){
+    public static ArrayList<PCast> getMovieRoleArray(IMovie chosenMovie){
         if(!roleArray.isEmpty()) {
             roleArray.clear();
         }else{
-            HashMap<ICast, String> movieRoles = new HashMap<>(ModifyMovieController.getChosenMovie().getCastMap());
+            HashMap<ICast, String> movieRoles = new HashMap<>(chosenMovie.getCastMap());
 
             for (ICast cast : movieRoles.keySet()) {
                 PCast newCast = new PCast(cast, movieRoles.get(cast));
@@ -286,11 +286,11 @@ public class App extends Application {
      * @author Sarah
      * @return returns the roleArray to be used for setting items in the ListView displaying all broadcast roles
      */
-    public static ArrayList<PCast> getBroadcastRoleArray(){
+    public static ArrayList<PCast> getBroadcastRoleArray(IBroadcast chosenBroadcast){
         if(!roleArray.isEmpty()) {
             roleArray.clear();
         }else {
-            HashMap<ICast, String> broadcastRoles = new HashMap<>(ModifyBroadcastController.getChosenBroadcast().getCastMap());
+            HashMap<ICast, String> broadcastRoles = new HashMap<>(chosenBroadcast.getCastMap());
 
             for (ICast cast : broadcastRoles.keySet()) {
                 PCast newCast = new PCast(cast, broadcastRoles.get(cast));

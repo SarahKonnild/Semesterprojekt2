@@ -444,7 +444,7 @@ public class GuestUserPageController implements Initializable {
      */
     @FXML
     public void handleShowCastBroadcast(MouseEvent event) {
-        resultList.setItems(FXCollections.observableArrayList(App.getBroadcastRoleArray()));
+        resultList.setItems(FXCollections.observableArrayList(App.getBroadcastRoleArray(chosenBroadcast)));
         chosenBroadcast = null;
     }
 
@@ -456,7 +456,7 @@ public class GuestUserPageController implements Initializable {
      */
     @FXML
     public void handleShowCastMovie(MouseEvent event) {
-        resultList.setItems(FXCollections.observableArrayList(App.getMovieRoleArray()));
+        resultList.setItems(FXCollections.observableArrayList(App.getMovieRoleArray(chosenMovie)));
         chosenMovie = null;
     }
 
