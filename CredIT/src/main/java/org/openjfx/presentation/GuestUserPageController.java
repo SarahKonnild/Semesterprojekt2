@@ -129,10 +129,8 @@ public class GuestUserPageController implements Initializable {
     //Variables/attributes used in this controller
     //region
     private String searchTopicChosen;
-
     private ArrayList<IProduction> productionList;
     private ArrayList<IMovie> movieList;
-
     private Object obj;
     private String searchText;
     private ICast chosenCast;
