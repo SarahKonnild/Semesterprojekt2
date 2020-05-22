@@ -129,10 +129,8 @@ public class GuestUserPageController implements Initializable {
     //Variables/attributes used in this controller
     //region
     private String searchTopicChosen;
-
     private ArrayList<IProduction> productionList;
     private ArrayList<IMovie> movieList;
-
     private Object obj;
     private String searchText;
     private ICast chosenCast;
@@ -444,7 +442,7 @@ public class GuestUserPageController implements Initializable {
      */
     @FXML
     public void handleShowCastBroadcast(MouseEvent event) {
-        resultList.setItems(FXCollections.observableArrayList(App.getBroadcastRoleArray()));
+        resultList.setItems(FXCollections.observableArrayList(App.getBroadcastRoleArray(chosenBroadcast)));
         chosenBroadcast = null;
     }
 
@@ -456,7 +454,7 @@ public class GuestUserPageController implements Initializable {
      */
     @FXML
     public void handleShowCastMovie(MouseEvent event) {
-        resultList.setItems(FXCollections.observableArrayList(App.getMovieRoleArray()));
+        resultList.setItems(FXCollections.observableArrayList(App.getMovieRoleArray(chosenMovie)));
         chosenMovie = null;
     }
 

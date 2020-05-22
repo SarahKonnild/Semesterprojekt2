@@ -119,7 +119,6 @@ public class ModifyMovieController implements Initializable {
     public void handleResultChosen(MouseEvent event) {
         resultList.setDisable(false);
         chosenMovie = (IMovie) resultList.getSelectionModel().getSelectedItem();
-        System.out.println(chosenMovie);
         setFieldsText(chosenMovie);
         changeCast.setDisable(false);
         delete.setDisable(false);
