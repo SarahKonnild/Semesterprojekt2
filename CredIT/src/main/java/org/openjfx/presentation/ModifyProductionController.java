@@ -1,23 +1,18 @@
 package org.openjfx.presentation;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import org.openjfx.interfaces.IBroadcast;
-import org.openjfx.interfaces.ICast;
 import org.openjfx.interfaces.IProduction;
 import org.openjfx.interfaces.IProductionCompany;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -97,6 +92,7 @@ public class ModifyProductionController implements Initializable {
 
     //Everything to do with the ListView (search, choose)
     //region
+
     /**
      * Searches the database for entries that match the search field's information in the database.
      * Writes all results into the list, which can then be chosen by the user.
@@ -108,7 +104,7 @@ public class ModifyProductionController implements Initializable {
         String searchText = searchField.getText();
         resultList.getItems().clear();
         searchResult = new ArrayList<>(App.getSystemInstance().searchProduction(searchText));
-        if (searchResult != null && !searchField.getText().isEmpty()) {
+        if (!searchResult.isEmpty() && !searchField.getText().isEmpty()) {
             resultList.setDisable(false);
             resultList.setItems(FXCollections.observableArrayList(searchResult));
             searchField.clear();
@@ -142,6 +138,7 @@ public class ModifyProductionController implements Initializable {
 
     //Create Production
     //region
+
     /**
      * Takes the information written in the fields and uses those as the parameters for the createProduction method
      * in the domain layer. Thus creates a new entry into the database, and assigns it to the Production Company that has
@@ -184,6 +181,7 @@ public class ModifyProductionController implements Initializable {
 
     //Delete Production
     //region
+
     /**
      * Takes the production that has been chosen from the ListView and deletes it from the application instance.
      * If that is successful, it will be removed from the database and unassigned from the Production.
@@ -214,6 +212,7 @@ public class ModifyProductionController implements Initializable {
 
     //Save Production
     //region
+
     /**
      * Takes the production that has been chosen from the ListView and updates its information with the text
      * that has been entered into the relevant Fields.
@@ -242,6 +241,7 @@ public class ModifyProductionController implements Initializable {
 
     //Changes to view broadcasts for chosenProduction
     //region
+
     /**
      * Shows broadcasts that are registered to the Production in the ListView
      *
@@ -256,6 +256,7 @@ public class ModifyProductionController implements Initializable {
 
     //Clears the fields
     //region
+
     /**
      * Empties the contents of all the TextFields
      *
@@ -271,14 +272,15 @@ public class ModifyProductionController implements Initializable {
     //endregion
 
     //region
+
     /**
      * Method to standardise the retrieval of a production company for the production, and then setting the production's
      * values/attribute values to the textfields that they are related to.
      *
-     * @author Sarah
      * @param production specifies which production that should have its information written to the fields
+     * @author Sarah
      */
-    private void setFieldsText(IProduction production){
+    private void setFieldsText(IProduction production) {
         productionName.setText(production.getName());
         releaseYear.setText(production.getYear());
         IProductionCompany retrievedProductionCompany = App.retrieveProductionCompanyForProduction(production);

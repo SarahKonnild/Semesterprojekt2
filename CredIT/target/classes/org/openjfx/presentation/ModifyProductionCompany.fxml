@@ -34,7 +34,7 @@
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor></TextField>
-            <Button fx:id="search" layoutX="251.0" layoutY="25.0" mnemonicParsing="false" onMouseClicked="#handleSearch" style="-fx-background-color: FFFFFF;" text="Søg">
+            <Button fx:id="searchButton" layoutX="251.0" layoutY="25.0" mnemonicParsing="false" onMouseClicked="#handleSearch" style="-fx-background-color: FFFFFF;" text="Søg">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

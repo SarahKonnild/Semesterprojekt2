@@ -67,6 +67,7 @@ public class ModifyCastController implements Initializable {
 
     //Everything do do with manipulating the ListView
     //region
+
     /**
      * Takes the text that is written in the searchfield and uses that to run the searchCast
      * method in the domain layer's System class. If the list has items, and the searchfield isn't empty,
@@ -181,9 +182,9 @@ public class ModifyCastController implements Initializable {
             if (creationState) {
                 errorMessage.setText(chosenCastObservable.get(1).getName() + " sammenflettet med " + chosenCastObservable.get(0).getName());
                 ArrayList<ICast> newCast = new ArrayList<>(App.getSystemInstance().searchCast(tempCastId));
-                if (newCast != null) {
+                if (!newCast.isEmpty()) {
                     castSearchResult.clear();
-                    castSearchResult.add((ICast) newCast.get(0));
+                    castSearchResult.add(newCast.get(0));
                     resultList.setItems(FXCollections.observableArrayList(castSearchResult));
                 }
                 clearFields();
@@ -254,6 +255,7 @@ public class ModifyCastController implements Initializable {
 
     //Clears the fields that are available for this specific object
     //region
+
     /**
      * Empties the contents of all the TextFields
      *
@@ -280,7 +282,9 @@ public class ModifyCastController implements Initializable {
     }
 
     @FXML
-    public void handleBack(MouseEvent event) { App.handleAdminPage(); }
+    public void handleBack(MouseEvent event) {
+        App.handleAdminPage();
+    }
 
     @FXML
     public void handleClose(MouseEvent event) {

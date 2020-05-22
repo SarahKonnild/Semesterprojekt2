@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import org.openjfx.interfaces.IMovie;
 import org.openjfx.interfaces.IProduction;
 import org.openjfx.interfaces.IProductionCompany;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -23,7 +24,7 @@ public class ModifyProductionCompanyController implements Initializable {
     @FXML
     private AnchorPane basePane;
     @FXML
-    private Button search;
+    private Button searchButton;
     @FXML
     private Button createNew;
     @FXML
@@ -77,6 +78,7 @@ public class ModifyProductionCompanyController implements Initializable {
 
     //Methods to handle the search (searching using a string and picking an option from list
     //region
+
     /**
      * Takes the text that is written in the searchfield and uses that to run the searchProductionCompany
      * method in the domain layer's System class. If the list has items, and the searchfield isn't empty,
@@ -90,7 +92,7 @@ public class ModifyProductionCompanyController implements Initializable {
         String searchText = searchField.getText();
         resultList.getItems().clear();
         searchList = new ArrayList<>(App.getSystemInstance().searchProductionCompany(searchText));
-        if (searchList != null && !searchField.getText().isEmpty()) {
+        if (!searchList.isEmpty() && !searchField.getText().isEmpty()) {
             resultList.setDisable(false);
             resultList.setItems(FXCollections.observableArrayList(searchList));
             searchField.clear();
@@ -143,6 +145,7 @@ public class ModifyProductionCompanyController implements Initializable {
 
     //Method to handle the creation of a ProductionCompany
     //region
+
     /**
      * Checks if the Name-Field is empty, and if not, a search is conducted on the Company-name. If there is a company in the
      * Database with that name already, it cannot be created, as only one company with the same name is permitted. If the company
@@ -182,6 +185,7 @@ public class ModifyProductionCompanyController implements Initializable {
 
     //Method to handle the deletion of a ProductionCompany
     //region
+
     /**
      * Takes the productionCompany that was chosen from the ListView and deletes it first in the instance of the application,
      * and if that was succesfully deleted, it is also removed from the database, along with all of the movies and productions
@@ -214,6 +218,7 @@ public class ModifyProductionCompanyController implements Initializable {
 
     //Method to handle the update of a ProductionCompany
     //region
+
     /**
      * Provided that a productionCompany has been chosen, the name of the ProductionCompany can be updated,
      * by registering the new name written in the NameField into the database.
@@ -239,6 +244,7 @@ public class ModifyProductionCompanyController implements Initializable {
 
     //Methods to change the contents that are displayed in the ListView
     //region
+
     /**
      * If a ProductionCompany has been chosen, the user can press this, and it will show the list of movies
      * that are associated with that Company in the ListView. If the company has no registered movies, an error
@@ -286,6 +292,7 @@ public class ModifyProductionCompanyController implements Initializable {
 
     //Methods to change the stage
     //region
+
     /**
      * Checks if the element from the ListView that is checked is either a Movie or a Production, and based on that,
      * it will specify which scene to go to, showing that chosen movie/production's information first thing in the
