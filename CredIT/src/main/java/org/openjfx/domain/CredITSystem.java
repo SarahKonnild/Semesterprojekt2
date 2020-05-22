@@ -198,7 +198,8 @@ public class CredITSystem implements ISystem {
 
     public Production searchProduction(int productionID) {
         List<String> list = persistenceLayer.getProductionFromDatabase(productionID);
-        return makeProductionObjects(list).get(0);
+        ArrayList<Production> production = makeProductionObjects(list);
+        return production.isEmpty() ? null : production.get(0);
     }
 
     public ArrayList<Production> searchProductions(int productionCopmpanyID) {
