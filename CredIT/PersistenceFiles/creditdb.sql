@@ -169,6 +169,13 @@ CREATE TRIGGER update_size_of_broadcast_trigger
     AFTER INSERT OR DELETE OR UPDATE ON contains
 EXECUTE PROCEDURE update_all_broadcast_sizes_trigger();
 
+-- Indexing most common search collumns.
+CREATE INDEX ON movie(name);
+CREATE INDEX ON broadcast(name);
+CREATE INDEX ON production(name);
+CREATE INDEX ON production_company(name);
+CREATE INDEX ON cast_members(name);
+
 
 -- Inserts to have baseline data. Is used for the tests.
 -- Insert order is important.
