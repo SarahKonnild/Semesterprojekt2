@@ -37,8 +37,9 @@ public class Persistence implements IPersistence {
     private void initializePostgresqlDatabase() {
         try {
             DriverManager.registerDriver(new org.postgresql.Driver());
-            String password = Password.PASS;
+            //Change these according to your local PostgreSQL configuration.
             String username = "postgres";
+            String password = "postgres";
             String databaseName = "credit_db";
             int port = 5432;
             String url = "localhost";
