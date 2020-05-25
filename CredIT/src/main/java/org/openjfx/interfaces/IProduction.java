@@ -1,5 +1,7 @@
 package org.openjfx.interfaces;
 
+import org.openjfx.domain.Broadcast;
+
 import java.util.ArrayList;
 
 public interface IProduction {
@@ -8,22 +10,36 @@ public interface IProduction {
      *
      * @return <code>true</code> if it manged to save the production to the database else <code>false</code>
      */
-    public boolean save();
+    boolean save(int productionCompanyId);
 
-    public int getId();
+    /**
+     * Method calls methods in persitence to delete the data in the database
+     *
+     * @return
+     */
+    boolean delete();
 
-    public String getName();
+    /**
+     * Takes the new values as arguemnts and updates it on the object, call methods to save the update to the database
+     *
+     * @param name
+     * @param year
+     * @return
+     */
+    boolean update(String name, String year);
 
-    public String getYear();
+    int getId();
 
-    public ArrayList<IBroadcast> getBroadcasts();
+    String getName();
 
-    public String getProductionCompany();
+    String getYear();
 
-    public int getNumberOfSeasons();
+    ArrayList<Broadcast> getBroadcasts();
 
-    public int getNumberOfEpisodes();
+    int getNumberOfSeasons();
+
+    int getNumberOfEpisodes();
 
     @Override
-    public String toString();
+    String toString();
 }

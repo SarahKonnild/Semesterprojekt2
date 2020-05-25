@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="607.0" style="-fx-background-color: FFFFFF;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.presentation.GuestUserPageController">
+   <children>
+      <AnchorPane layoutY="26.0" prefHeight="450.0" prefWidth="303.0" style="-fx-background-color: #84a9ac #84a9ac;">
+         <children>
+            <Button fx:id="search" layoutX="233.0" layoutY="72.0" mnemonicParsing="false" onMouseClicked="#handleSearch" style="-fx-background-color: #FFFFFF;" text="Søg">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <MenuButton fx:id="searchTopic" layoutX="30.0" layoutY="72.0" mnemonicParsing="false" onMouseClicked="#handleSearchTopicChosen" style="-fx-background-color: FFFFFF;" text="Søgeemne">
+              <items>
+                <MenuItem fx:id="cast" mnemonicParsing="false" text="Medvirkende" />
+                <MenuItem fx:id="production" mnemonicParsing="false" text="Produktion" />
+                  <MenuItem fx:id="broadcast" mnemonicParsing="false" text="Udsendelse" />
+                  <MenuItem fx:id="movie" mnemonicParsing="false" text="Film" />
+                  <MenuItem fx:id="productionCompany" mnemonicParsing="false" text="Producentfirma" />
+              </items>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MenuButton>
+            <Label fx:id="castName" layoutX="31.0" layoutY="155.0" text="Medvirkende Navn" textFill="WHITE" visible="false" />
+            <TextField fx:id="searchField" layoutX="30.0" layoutY="29.0" prefHeight="27.0" prefWidth="242.0" promptText="Indtast Søgetekst" style="-fx-background-color: FFFFFF;">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor></TextField>
+            <Label fx:id="castName1" layoutX="28.0" layoutY="228.0" text="Medvirkendes Rolleliste" textFill="WHITE" visible="false" />
+            <ListView fx:id="castRoleList" layoutX="29.0" layoutY="247.0" prefHeight="184.0" prefWidth="242.0" style="-fx-background-color: FFFFFF;" visible="false" />
+            <TextField fx:id="castNameField" editable="false" layoutX="30.0" layoutY="173.0" prefHeight="27.0" prefWidth="242.0" style="-fx-background-color: FFFFFF;" visible="false">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor></TextField>
+            <Label fx:id="broadcastName" layoutX="31.0" layoutY="153.0" text="Udsendelsesnavn" textFill="WHITE" visible="false" />
+            <TextField fx:id="broadcastNameField" editable="false" layoutX="31.0" layoutY="173.0" prefHeight="18.0" prefWidth="242.0" style="-fx-background-color: FFFFFF;" visible="false">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor></TextField>
+            <Label fx:id="broadcastProducerName" layoutX="31.0" layoutY="219.0" text="Producentnavn" textFill="WHITE" visible="false" />
+            <TextField fx:id="broadcastProducerNameField" editable="false" layoutX="30.0" layoutY="237.0" prefHeight="27.0" prefWidth="242.0" style="-fx-background-color: FFFFFF;" visible="false">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor></TextField>
+            <Label fx:id="dateHeadline" layoutX="78.0" layoutY="287.0" text="Dato for Første Udsendelse" textFill="WHITE" visible="false" />
+            <Label fx:id="broadcastDay" layoutX="48.0" layoutY="310.0" text="Dag" textFill="WHITE" visible="false" />
+            <TextField fx:id="broadcastDayField" editable="false" layoutX="30.0" layoutY="328.0" prefHeight="27.0" prefWidth="61.0" style="-fx-background-color: FFFFFF;" visible="false">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor></TextField>
+            <Label fx:id="broadcastMonth" layoutX="131.0" layoutY="310.0" text="Måned" textFill="WHITE" visible="false" />
+            <TextField fx:id="broadcastMonthField" editable="false" layoutX="122.0" layoutY="328.0" prefHeight="27.0" prefWidth="61.0" style="-fx-background-color: FFFFFF;" visible="false">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor></TextField>
+            <Label fx:id="broadcastYear" layoutX="235.0" layoutY="310.0" text="År" textFill="WHITE" visible="false" />
+            <TextField fx:id="broadcastYearField" editable="false" layoutX="211.0" layoutY="328.0" prefHeight="27.0" prefWidth="61.0" style="-fx-background-color: FFFFFF;" visible="false">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor></TextField>
+            <Label fx:id="productionName" layoutX="32.0" layoutY="147.0" text="Produktionsnavn" textFill="WHITE" visible="false" />
+            <TextField fx:id="productionNameField" editable="false" layoutX="32.0" layoutY="169.0" prefHeight="27.0" prefWidth="242.0" style="-fx-background-color: FFFFFF;" visible="false">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor></TextField>
+            <Label fx:id="productionProducer" layoutX="32.0" layoutY="203.0" text="Produktionsfirma" textFill="WHITE" visible="false" />
+            <TextField fx:id="productionProducerField" editable="false" layoutX="32.0" layoutY="223.0" prefHeight="27.0" prefWidth="242.0" style="-fx-background-color: FFFFFF;" visible="false">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor></TextField>
+            <Label fx:id="amountOfSeasons" layoutX="31.0" layoutY="258.0" text="Antal Sæsoner" textFill="WHITE" visible="false" />
+            <TextField fx:id="productionSeasonsField" editable="false" layoutX="31.0" layoutY="279.0" prefHeight="27.0" prefWidth="106.0" style="-fx-background-color: FFFFFF;" visible="false">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor></TextField>
+            <Label fx:id="amountOfEpisodes" layoutX="166.0" layoutY="258.0" text="Antal Episoder" textFill="WHITE" visible="false" />
+            <TextField fx:id="productionEpisodesField" editable="false" layoutX="166.0" layoutY="279.0" prefHeight="27.0" prefWidth="106.0" style="-fx-background-color: FFFFFF;" visible="false">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor></TextField>
+            <Label fx:id="releaseYearProduction" layoutX="31.0" layoutY="317.0" text="Årstal for Udgivelse" textFill="WHITE" visible="false" />
+            <TextField fx:id="productionReleaseYearField" editable="false" layoutX="30.0" layoutY="338.0" prefHeight="27.0" prefWidth="109.0" style="-fx-background-color: FFFFFF;" visible="false">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor></TextField>
+            <Label fx:id="showEpisodes" alignment="CENTER" layoutX="188.0" layoutY="342.0" onMouseClicked="#handleShowEpisodes" prefHeight="20.0" prefWidth="62.0" text="Se Episoder" textFill="WHITE" underline="true" visible="false">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Label fx:id="movieName" layoutX="29.0" layoutY="155.0" text="Filmnavn" textFill="WHITE" visible="false" />
+            <TextField fx:id="movieNameField" editable="false" layoutX="29.0" layoutY="173.0" prefHeight="27.0" prefWidth="242.0" style="-fx-background-color: FFFFFF;" visible="false">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor></TextField>
+            <Label fx:id="movieProducerName" layoutX="30.0" layoutY="219.0" text="Produktionsfirma" textFill="WHITE" visible="false" />
+            <TextField fx:id="movieProductionCompanyField" editable="false" layoutX="29.0" layoutY="237.0" prefHeight="27.0" prefWidth="242.0" style="-fx-background-color: FFFFFF;" visible="false">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor></TextField>
+            <Label fx:id="releaseYearMovie" layoutX="30.0" layoutY="287.0" text="Årstal for Udgivelse" textFill="WHITE" visible="false" />
+            <TextField fx:id="movieReleaseYearField" editable="false" layoutX="30.0" layoutY="304.0" prefHeight="27.0" prefWidth="106.0" style="-fx-background-color: FFFFFF;" visible="false">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor></TextField>
+            <Label fx:id="showAllCastMovie" alignment="CENTER" layoutX="92.0" layoutY="352.0" onMouseClicked="#handleShowCastMovie" prefHeight="20.0" prefWidth="125.0" text="Vis Alle Medvirkende" textFill="WHITE" underline="true" visible="false">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Label fx:id="errorMessage" alignment="CENTER" layoutX="30.0" layoutY="109.0" prefHeight="17.0" prefWidth="248.0" textFill="#fc0000" />
+            <Label fx:id="productionCompanyName" layoutX="28.0" layoutY="139.0" text="Produktionfirmas Navn" textFill="WHITE" visible="false" />
+            <TextField fx:id="productionCompanyNameField" editable="false" layoutX="28.0" layoutY="157.0" prefHeight="25.0" prefWidth="248.0" style="-fx-background-color: FFFFFF;" visible="false" />
+            <Label fx:id="showMovies" alignment="CENTER" layoutX="46.0" layoutY="203.0" onMouseClicked="#handleShowMovies" prefHeight="17.0" prefWidth="61.0" text="Vis film" textFill="WHITE" underline="true" visible="false">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Label>
+            <Label fx:id="showProductions" alignment="CENTER" layoutX="175.0" layoutY="203.0" onMouseClicked="#handleShowProductions" prefHeight="17.0" prefWidth="103.0" text="Vis Produktioner" textFill="WHITE" underline="true" visible="false">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Label>
+            <Label fx:id="goTo" alignment="CENTER" layoutX="104.0" layoutY="250.0" prefHeight="17.0" prefWidth="98.0" text="Gå til " textFill="WHITE" underline="true" visible="false" />
+            <Label fx:id="showAllCastBroadcast" alignment="CENTER" layoutX="92.0" layoutY="379.0" onMouseClicked="#handleShowCastBroadcast" prefHeight="20.0" prefWidth="125.0" text="Vis Alle Medvirkende" textFill="WHITE" underline="true" visible="false">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+         </children>
+      </AnchorPane>
+      <ListView fx:id="resultList" disable="true" layoutX="303.0" layoutY="53.0" onMouseClicked="#handleSearchResultChosen" prefHeight="423.0" prefWidth="304.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></ListView>
+      <AnchorPane fx:id="basePane" layoutY="-1.0" prefHeight="27.0" prefWidth="607.0" style="-fx-background-color: #3b6978 #3b6978;">
+         <children>
+            <ImageView fitHeight="17.0" fitWidth="35.0" layoutX="12.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../img/Danish_TV_2_logo.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="help" layoutX="425.0" layoutY="5.0" onMouseClicked="#handleHelp" text="Hjælp" textFill="#f8f8f8">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Label layoutX="285.0" layoutY="5.0" text="CredIT" textFill="WHITE" />
+            <Label fx:id="back" layoutX="495.0" layoutY="5.0" onMouseClicked="#handleBack" text="Tilbage" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Label fx:id="close" layoutX="568.0" layoutY="5.0" onMouseClicked="#handleClose" text="Luk" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+         </children>
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor>
+      </AnchorPane>
+      <Label fx:id="searchTextInfo" alignment="CENTER" layoutX="311.0" layoutY="32.0" prefHeight="20.0" prefWidth="285.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

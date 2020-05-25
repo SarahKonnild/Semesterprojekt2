@@ -1,12 +1,15 @@
 package org.openjfx.domain;
 
-import org.openjfx.interfaces.*;
+
+import org.openjfx.interfaces.IUser;
+import org.openjfx.interfaces.Role;
 
 public class User implements IUser {
+    private final CredITSystem system = CredITSystem.getInstance();
     private int id;
     private String name;
-    private String password;
-    private String username;
+    private final String password;
+    private final String username;
     private Role role;
 
     /**
@@ -38,32 +41,39 @@ public class User implements IUser {
     }
 
     @Override
-    public ICast addNewCastToDatabase(String name, int regDKID) {
-        ICast cast = new Cast(name, regDKID);
-        cast.save();
-        return cast;
+    public Cast addNewCastToDatabase(String name, String regDKID) {
+        return system.addNewCastToDatabase(name, regDKID);
     }
 
     @Override
-    public IBroadcast addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate) {
-        IBroadcast broadcast = new Broadcast(name, seasonNumber, episodeNumber, airDate);
-        broadcast.save();
-        return broadcast;
+    public Broadcast addNewBroadcastToDatabase(String name, int seasonNumber, int episodeNumber, String airDate, int productionID) {
+        return system.addNewBroadcastToDatabase(name, seasonNumber, episodeNumber, airDate, productionID);
     }
 
     @Override
-    public IProduction addNewProductionToDatabase(String name, String year, String productionCompany) {
-        IProduction production = new Production(name, year, productionCompany);
-        production.save();
-        return production;
+    public Production addNewProductionToDatabase(String name, String year, int productionCompanyID) {
+        return system.addNewProductionToDatabase(name, year, productionCompanyID);
+    }
+
+    @Override
+    public Movie addNewMovieToDatabase(String name, int productionCompanyID, String releasedate) {
+        return system.addNewMovieToDatabase(name, productionCompanyID, releasedate);
+    }
+
+    @Override
+    public ProductionCompany addNewProductionCompanyToDatabase(String name) {
+        return system.addNewProductionCompanyToDatabase(name);
+    }
+
+    @Override
+    public ProductionCompany getProductionCompanyFromDatabase(String name) {
+        return CredITSystem.getInstance().searchProductionCompany(name).get(0);
     }
 
     @Override
     public boolean checkRole(String roleKey) {
         //valueOf checks if the inputted role is equal to the role of this user. Is case senitive.
-        if (Role.valueOf(roleKey) == this.role) {
-            return true;
-        } else return false;
+        return Role.valueOf(roleKey) == this.role;
     }
 
     @Override
